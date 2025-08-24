@@ -1,0 +1,4 @@
+body { font-family: system-ui, Arial; margin: 24px; }
+input { padding: 6px 8px; }
+button { padding: 6px 10px; margin-left: 6px; cursor: pointer; }
+#msg { margin-left: 10px; font-weight: 700; }
