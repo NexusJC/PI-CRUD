@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perfil · La Parrilla Azteca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Modificación aquí: Cambié el nombre del archivo CSS a perfil.css -->
+  <link rel="stylesheet" href="perfil.css" />
+</head>
+<body>
+
+  <main class="wrap">
+    <section class="card-azteca">
+      <!-- 1) TOPBAR -->
+      <!-- 1) TOPBAR (barra amarilla) -->
+      <div class="topbar">
+        <!-- Izquierda: botón menú -->
+        <button id="btnMenu" class="hamb" aria-expanded="false" aria-controls="navPanel" aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24" class="ico"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+        </button>
+
+        <!-- Centro: LOGO + NOMBRE (centrado) -->
+        <div class="brand-azteca topbar-brand">
+          <div class="logo-circle">
+            <img src="images/ChatGPT Image 25 ago 2025, 09_26_43 p.m..png" alt="Logo La Parrilla Azteca" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-1">LA PARRILLA</span>
+            <span class="brand-2">AZTECA</span>
+          </div>
+        </div>
+
+        <!-- Derecha: iconos -->
+        <div class="topbar__right">
+          <button class="iconbtn" title="Notificaciones">
+            <svg viewBox="0 0 24 24" class="ico"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/></svg>
+          </button>
+          <!-- 👇 ID agregado para enganchar el click -->
+          <button class="avatar" id="btnPerfil" title="Perfil" aria-controls="view-perfil">
+            <svg viewBox="0 0 24 24" class="ico"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2) CONTENIDO PRINCIPAL -->
+      <div class="panel">
+        <!-- ===== Vista: PERFIL ===== -->
+        <section id="view-perfil">
+          <div class="perfil-card">
+            <!-- Imagen de perfil -->
+            <div class="avatar">
+              <img src="images/ChatGPT Image 25 ago 2025, 09_26_43 p.m..png" alt="Imagen de Perfil" />
+            </div>
+            <h2>Mi perfil</h2>
+            <p>Gestiona tu cuenta para La Parrilla Azteca.</p>
+
+            <form class="perfil-form" autocomplete="on">
+              <div class="field">
+                <label for="perfilNombre">Nombre</label>
+                <input id="perfilNombre" type="text" placeholder="Tu nombre" value="Juan Pérez" />
+              </div>
+              <div class="field">
+                <label for="perfilCorreo">Correo</label>
+                <input id="perfilCorreo" type="email" placeholder="tucorreo@ejemplo.com" value="juanperez@ejemplo.com" />
+              </div>
+              <div class="field">
+                <label for="perfilPass">Contraseña</label>
+                <input id="perfilPass" type="password" placeholder="••••••••" />
+              </div>
+
+              <!-- Reservas y comida -->
+              <div class="field">
+                <label for="perfilMesa">Mesa reservada</label>
+                <input id="perfilMesa" type="text" placeholder="Mesa 10" value="Mesa 10" readonly />
+              </div>
+              <div class="field">
+                <label for="perfilComida">Último pedido</label>
+                <input id="perfilComida" type="text" placeholder="Tacos al pastor" value="Tacos al pastor" readonly />
+              </div>
+
+              <div class="actions">
+                <button type="button" class="btn-cta" id="btnGuardarPerfil">Guardar cambios</button>
+                <button type="button" class="btn-sec" id="btnVolverHome">Volver</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+              <div class="actions">
+                <button type="button" class="btn-cta" id="btnGuardarPerfil">Guardar cambios</button>
+                <button type="button" class="btn-sec" id="btnVolverHome">Volver</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
