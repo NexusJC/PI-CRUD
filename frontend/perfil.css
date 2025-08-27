@@ -99,17 +99,54 @@ body{
   z-index: 20;
 }
 
-.topbar .logo-circle {
-  width: 40px;
-  height: 40px;
+.topbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.topbar-brand .logo-circle {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2e3ce;
   overflow: hidden;
 }
 
-.topbar .logo-circle img {
+.topbar-brand .logo-circle img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  display: block;
+}
+
+.topbar-brand .brand-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+}
+
+.topbar-brand .brand-1 {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.9px;
+  color: var(--choco);
+}
+
+.topbar-brand .brand-2 {
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: var(--choco);
 }
 
 
