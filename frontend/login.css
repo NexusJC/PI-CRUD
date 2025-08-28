@@ -1,0 +1,55 @@
+*{ margin: 0; padding: 0; background-color: #ffedd8;}
+
+.img {background-color: transparent;}
+h2 { color:#442719; background-color: transparent;font-size: 30px;}
+.regitro{ margin: 30px; background-color: transparent;}
+.datos {margin-top: 10px;}
+
+.contenedor{ margin: 28px auto; margin-top: 10px;
+  width: min(1100px, 94%);
+  border-radius: 10px;
+  padding: 20px 18px; padding-bottom: 0px;
+  display: grid;
+  place-items: center;
+}
+
+.login{
+  width: min(420px);
+  height: min(520px);
+  background: #fffcef;
+  border-radius: 12px;
+  border: 4px solid rgba(74,43,22,.45);
+  padding: 24px 20px 22px;
+  text-align: center;
+}
+
+.logo{display:block; width:210px; height: auto; margin: 4px auto 8px; object-fit: contain; background: transparent;
+}
+
+
+.form{ margin-bottom:10px; display: grid; gap: 10px; background: transparent;}
+
+.datos{background: #fffcef;}
+
+.datos input{ width: 80%; padding: 12px 14px; border-radius: 10px; border: 2px solid #e6d8b9; background: #fff; font-size: 14.5px; outline: none;
+}
+
+.boton_ingresar{
+  margin-top: 6px;
+  margin-left: 16.4%;
+  width: 70%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #442719;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .06s ease, filter .2s ease;
+}
+
+.ayuda:hover{text-decoration: underline;}
+.ayuda {background: transparent}
+
+.yaregistrado{ color: black; background: transparent;}
+.yaregistrado p1{ text-decoration: underline; background: transparent;}
