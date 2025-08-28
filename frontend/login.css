@@ -29,9 +29,18 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
 
 .form{ margin-bottom:10px; display: grid; gap: 10px; background: transparent;}
 
-.datos{background: #fffcef;}
+.datos{background: #fffcef; position: relative; display: block; margin: 10px ;}
 
-.datos input{ width: 80%; padding: 12px 14px; border-radius: 10px; border: 2px solid #e6d8b9; background: #fff; font-size: 14.5px; outline: none;
+.datos input{width: 80%; box-sizing: border-box; padding: 12px 14px; padding-left: 40px; border-radius: 10px; border: 2px solid #e6d8b9; background: #fff; font-size: 14.5px; outline: none;
+}
+
+.datos i{color: #967f74; background: transparent; position: absolute; padding-left: 45px;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
 }
 
 .boton_ingresar{
@@ -45,7 +54,6 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
   color: #fff;
   font-weight: 800;
   cursor: pointer;
-  transition: transform .06s ease, filter .2s ease;
 }
 
 .ayuda:hover{text-decoration: underline;}

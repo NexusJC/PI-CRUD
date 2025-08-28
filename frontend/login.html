@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Sesion</title>
     <link rel="stylesheet" href="./login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="contenedor">
@@ -13,13 +14,16 @@
     <h2>Iniciar sesión</h2>
 
     <form class="form">
-      <label class="datos">
-        <input type="text" placeholder="Correo electrónico" autocomplete="email">
-      </label>
 
-      <label class="datos">
+      <div class="datos">
+        <input type="text" placeholder="Correo electrónico" autocomplete="email">
+        <i class="fas fa-envelope"></i>
+      </div>
+
+      <div class="datos">
         <input type="password" placeholder="Contraseña" autocomplete="current-password">
-      </label>
+        <i class="fas fa-lock input-icon"></i>
+      </div>
 
       <button class="boton_ingresar" type="submit">Iniciar sesión</button>
       <p class="ayuda" href="#" >¿Olvidaste tu contraseña?</p>
@@ -27,9 +31,5 @@
     </form>
   </section>
 </div>
-
-
-</div>
-
 </body>
 </html>
