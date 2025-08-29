@@ -9,7 +9,7 @@
 </head>
 <body>
   <!-- Ingresar usuario ya existente -->
-<div class="contenedor">
+   <div class="contenedor" id="loginForm">
   <section class="login">
     <img class="logo" src="/PI-CRUD/LogoPI/2 sin título_20250826090323.png" alt="La Parrilla Azteca">
     <h2>Iniciar sesión</h2>
@@ -27,14 +27,14 @@
       </div>
 
       <button class="boton_ingresar" type="submit">Iniciar sesión</button>
-      <p class="ayuda" href="#" >¿Olvidaste tu contraseña?</p>
-      <p class="yaregistrado" href="#" >¿Aun no tienes una cuenta? <p1>Ingresa aquí</p1></p>
+      <p class="ayuda" href="#">¿Olvidaste tu contraseña?</p>
+      <p class="sinregistrar" href="#" id="goToRegister">¿Aún no tienes una cuenta? <p1>Ingresa aquí</p1></p>
     </form>
   </section>
 </div>
 
   <!-- Registrar nuevo usuario -->
-<div class="contenedor-registro">
+<div class="contenedor-registro" id="registerForm" style="display:none;">
   <section class="login">
     <img class="logo" src="/PI-CRUD/LogoPI/2 sin título_20250826090323.png" alt="La Parrilla Azteca">
     <h2>Registrarse</h2>
@@ -60,11 +60,11 @@
         <input type="checkbox" class="checkbox-aceptar" required> Acepta nuestras <a href="../frontend/politycond.html" target="_blank">Políticas y Condiciones</a>
       </div> 
       <button class="boton_ingresar" type="submit">Registrarme</button>
-</form>
+    </form>
   </section>
-  
 </div>
 </body>
+
 <script>
 // Para el formulario de inicio de sesión
 document.getElementById("togglePassword-login").addEventListener("click", function() {
@@ -86,5 +86,12 @@ document.getElementById("togglePassword-register").addEventListener("click", fun
     this.classList.toggle("fa-eye-slash");
 });
 
+// Cambio entre formularios
+document.getElementById("goToRegister").addEventListener("click", function() {
+    // Ocultar el formulario de login
+    document.getElementById("loginForm").style.display = "none";
+    // Mostrar el formulario de registro
+    document.getElementById("registerForm").style.display = "block";
+});
 </script>
 </html>

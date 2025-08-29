@@ -1,5 +1,7 @@
 *{ margin: 0; padding: 0; background-color: #ffedd8;}
 
+.flecha-regreso{ display: flex; margin: 6px; padding-left: 4px;}
+.flecha-regreso i{ width: 20%; height: 20%; color:gray}
 .img {background-color: transparent;}
 h2 { color:#442719; background-color: transparent;font-size: 30px;}
 
@@ -74,11 +76,14 @@ ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100
   cursor: pointer;
 }
 
+
+
 .ayuda:hover{text-decoration: underline;}
 .ayuda {background: transparent}
 
-.yaregistrado{ color: black; background: transparent;}
-.yaregistrado p1{ text-decoration: underline; background: transparent;}
+.sinregistrar{ color: black; background: transparent;}
+.sinregistrar p1{background: transparent;}
+.sinregistrar p1:hover{text-decoration: underline; background: transparent;}
 
 .aceptar-condiciones{ color: black; background: transparent;}
 .aceptar-condiciones a{ color: black; background-color: transparent; }
