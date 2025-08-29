@@ -2,10 +2,18 @@
 
 .img {background-color: transparent;}
 h2 { color:#442719; background-color: transparent;font-size: 30px;}
-.regitro{ margin: 30px; background-color: transparent;}
-.datos {margin-top: 10px;}
+
+.datos {margin-top: 10px; background: #fffcef; position: relative; display: block;}
 
 .contenedor{ margin: 28px auto; margin-top: 10px;
+  width: min(1100px, 94%);
+  border-radius: 10px;
+  padding: 20px 18px; padding-bottom: 0px;
+  display: grid;
+  place-items: center;
+}
+
+.contenedor-registro{ margin: 28px auto; margin-top: 10px;
   width: min(1100px, 94%);
   border-radius: 10px;
   padding: 20px 18px; padding-bottom: 0px;
@@ -29,8 +37,6 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
 
 .form{ margin-bottom:10px; display: grid; gap: 10px; background: transparent;}
 
-.datos{background: #fffcef; position: relative; display: block; margin: 10px ;}
-
 .datos input{width: 80%; box-sizing: border-box; padding: 12px 14px; padding-left: 40px; border-radius: 10px; border: 2px solid #e6d8b9; background: #fff; font-size: 14.5px; outline: none;
 }
 
@@ -41,6 +47,18 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
     width: 18px;
     height: 18px;
     pointer-events: none;
+}
+
+.datos input:invalid { border: 2px solid red;  /* Resalta en rojo cuando el correo no es válido */
+}
+
+ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100;
+    position: absolute;
+    right: 10px; /* Alinea el ícono a la derecha */
+    top: 50%; /* Centra el ícono verticalmente */
+    transform: translateY(-50%); /* Ajusta el ícono para centrarlo perfectamente */
+    cursor: pointer;
+    font-size: 18px;
 }
 
 .boton_ingresar{
@@ -61,3 +79,7 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
 
 .yaregistrado{ color: black; background: transparent;}
 .yaregistrado p1{ text-decoration: underline; background: transparent;}
+
+.aceptar-condiciones{ color: black; background: transparent;}
+.aceptar-condiciones a{ color: black; background-color: transparent; }
+.aceptar-condiciones a:hover{color: #967f74;}
