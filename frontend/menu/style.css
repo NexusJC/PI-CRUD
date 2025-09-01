@@ -1,382 +1,45 @@
-/* ===== Paleta estilo mockup ===== */
 :root{
-  --page:#f1f2f4;
   --topbar:#f4d34a;     /* amarillo */
-  --panel:#ead2b8;      /* crema/beige */
-  --choco:#4b2d22;      /* marrón logotipo/texto */
-  --ink:#151515;
-  --muted:#7a6a60;
-
-  --cta:#d54f28;
-  --cta-dark:#b23d1e;
-
-  --r-xl:22px;
-  --r-lg:18px;
-  --shadow:0 18px 40px rgba(0,0,0,.15);
+  --panel:#fff7ea;      /* crema */
+  --text:#2b2b2b;       /* texto */
+  --card:#ffffff;       /* tarjetas */
+  --border:#e5e5e5;
 }
 
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-body{
-  margin:0;
-  background:var(--page);
-  font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color:var(--ink);
-  min-height:100vh;   /* ocupa todo el alto de la pantalla */
-  display:flex;
-  flex-direction:column;
-}
-
-.wrap{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-.card-azteca{
-  flex:1;              /* ocupa todo el espacio disponible */
-  width:100%;
-  height:100%;
-  border-radius:0;     /* opcional: quita esquinas redondeadas para ocupar todo */
-  box-shadow:none;     /* opcional: quita sombra al ser pantalla completa */
-  background: var(--panel);
-  display:flex;
-  flex-direction:column;
-}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:Poppins,system-ui,Arial,sans-serif;color:var(--text);background:var(--panel)}
 
 .topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background: var(--topbar);
-  padding: 6px 16px;     /* más espacio interno */
-  min-height: 60px;      /* en lugar de 44px */
-  border-radius:0;
-  position:sticky;
-  top:0;
-  z-index:20;
-  position:relative;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; background:var(--topbar); border-bottom:1px solid rgba(0,0,0,.05);
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.5px}
+.logo{width:40px; height:40px; object-fit:cover; border-radius:50%; border:2px solid rgba(0,0,0,.08)}
+.brand-text{font-size:1.05rem}
+
+.actions{display:flex; align-items:center; gap:6px}
+.iconbtn{
+  display:inline-grid; place-items:center;
+  width:36px; height:36px; border-radius:999px; text-decoration:none;
+  border:1px solid rgba(0,0,0,.08); background:#fff;
+}
+.iconbtn:hover{filter:brightness(0.98)}
+.ico{width:22px;height:22px;fill:#333}
+
+.panel{max-width:980px; margin:24px auto; padding:0 16px}
+.cta{text-align:center; margin:24px 0}
+.btn{
+  display:inline-block; margin-top:8px; padding:10px 16px; border-radius:10px;
+  background:#111; color:#fff; text-decoration:none; font-weight:600;
 }
 
-
-.topbar__left{ display:flex; align-items:center; gap:10px; }
-.topbar__right{ display:flex; align-items:center; gap:10px; }
-
-.iconbtn, .avatar{
-  appearance:none; border:0; background:#0000; cursor:pointer;
-  display:grid; place-items:center; width:38px; height:38px;
-  border-radius: 50%;
+.grid{
+  display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 }
-.avatar{ background: rgba(0,0,0,.1); }
-.ico{ width:24px; height:24px; fill:#111; }
-
-/* ===== Panel crema ===== */
-.panel{
-  padding: 26px 22px 24px;
-  background: var(--panel);
-  border-bottom-left-radius: var(--r-xl);
-  border-bottom-right-radius: var(--r-xl);
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:16px;
 }
-
-.topbar-brand{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  pointer-events:none;
-}
-.topbar-brand *{ pointer-events:auto; }
-
-.topbar-brand .logo-circle{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  display:flex;               /* Activa flexbox */
-  align-items:center;         /* Centrado vertical */
-  justify-content:center;     /* Centrado horizontal */
-  background:#f2e3ce;
-  overflow:hidden;
-}
-
-.topbar-brand .logo-circle img{
-  width:100%;                 /* O ajusta al tamaño que necesites */
-  height:100%;
-  object-fit:cover;         /* Ajusta dentro sin deformarse */
-  display:block;
-}
-
-
-.topbar-brand .brand-text{
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  gap:6px;
-  line-height:1;
-  white-space:nowrap;
-}
-.topbar-brand .brand-1{
-  font-weight:700;
-  font-size:13px;
-  letter-spacing:.9px;
-  color:var(--choco);
-}
-.topbar-brand .brand-2{
-  font-weight:900;
-  font-size:16px;
-  letter-spacing:1px;
-  color:var(--choco);
-}
-
-.brand-text{
-  display:flex;
-  flex-direction:row;   /* texto a la derecha del logo */
-  gap:6px;              /* espacio entre palabras */
-  align-items:center;   /* centrado vertical */
-  line-height:1.1;
-}
-
-/* ===== CTA + Métricas (reusa IDs del simulador) ===== */
-.cta-metrics{
-  display:grid;
-  grid-template-columns: 1.1fr .9fr;
-  gap:18px;
-}
-.cta{
-  background: #f5e2c9;
-  border-radius: var(--r-lg);
-  padding: 22px;
-  display:flex; flex-direction:column; align-items:flex-start; gap:14px;
-}
-.cta h1{ margin:0; font-size:32px; color:var(--choco); }
-.btn-cta{
-  border:0; background:var(--cta); color:#fff; font-weight:800;
-  padding:12px 20px; border-radius:12px; box-shadow:0 6px 0 var(--cta-dark);
-  cursor:pointer; transition:transform .05s ease, box-shadow .05s ease, filter .2s ease;
-}
-.btn-cta:active{ transform: translateY(3px); box-shadow:0 3px 0 var(--cta-dark); }
-.btn-cta:hover{ filter:brightness(1.05); }
-
-.metrics{
-  display:grid; grid-template-columns: repeat(2,1fr); gap:18px;
-}
-.mcard{
-  min-height: 100px;
-  background: #f7e8d3;
-  border-radius: var(--r-lg);
-  padding: 16px;
-  box-shadow: inset 0 -6px 0 rgba(0,0,0,.04);
-}
-.mcard header{ font-size:13px; color:var(--muted); font-weight:700; }
-.val{ display:flex; align-items:baseline; gap:8px; margin-top:6px; }
-.big{ font-size:40px; font-weight:900; color:var(--choco); }
-.unit{ font-weight:700; color:#6f5c50; }
-
-/* Admin card */
-.mcard.admin{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  cursor:pointer;
-  min-height:100px; /* mismo alto que las otras */
-}
-
-.mcard.admin .lock{ font-size:26px; }
-.mcard.admin .txt{ line-height:1.1; }
-
-/* ===== Responsive ===== */
-@media (max-width: 860px){
-  .cta-metrics{ grid-template-columns: 1fr; }
-  .metrics{ grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 560px){
-  .metrics{ grid-template-columns: 1fr; }
-  .logo-circle{ width:64px; height:64px; font-size:30px; }
-  .brand-2{ font-size:28px; }
-}
-
-/* STEP 4: Botón hamburguesa y separador */
-.hamb{
-  appearance:none;border:0;background:#0000;cursor:pointer;
-  display:grid;place-items:center;width:40px;height:40px;border-radius:8px;
-}
-.topbar__spacer{ flex:1; } /* empuja los iconos a la derecha */
-
-/* STEP 5: Panel desplegable (oculto por defecto) */
-.nav-panel{
-  background: #fffdf7;
-  border-bottom: 1px solid rgba(0,0,0,.06);
-  box-shadow: 0 8px 24px rgba(0,0,0,.12);
-  transform-origin: top;
-  transform: scaleY(0);
-  max-height: 0;
-  opacity: 0;
-  transition: transform .18s ease, opacity .18s ease, max-height .18s ease;
-  overflow: hidden;
-}
-
-/* Visible cuando se abre */
-.nav-panel.open{
-  transform: scaleY(1);
-  opacity: 1;
-  max-height: 320px;           /* ajusta si tu menú es más alto */
-}
-
-/* Items del menú */
-.nav-item{
-  display:block; padding: 14px 18px; text-decoration:none;
-  color: var(--ink); font-weight:600;
-}
-.nav-item:hover{ background: #fff3cf; }
-.nav-sep{ border:0; height:1px; background: rgba(0,0,0,.06); margin: 6px 0; }
-.nav-item.danger{ color:#b02a1d; }
-
-/* =========================
-   VISTAS: Home / Perfil
-   ========================= */
-#view-home[hidden],
-#view-perfil[hidden]{
-  display:none;
-}
-
-/* Panel con scroll suave si el contenido crece */
-.panel{
-  overflow:auto;
-  scroll-behavior:smooth;
-}
-
-/* =========================
-   Apariencia de PERFIL
-   ========================= */
-#view-perfil{
-  padding: 8px 0;
-}
-
-.perfil-card{
-  background:#f5e2c9;
-  border-radius: var(--r-lg);
-  padding: 22px;
-  box-shadow: var(--shadow);
-  max-width: 720px;
-  margin: 0 auto;                    /* centra el bloque */
-}
-
-.perfil-card h2{
-  margin:0 0 12px 0;
-  color:var(--choco);
-  font-size:28px;
-  line-height:1.1;
-}
-
-.perfil-card p{
-  margin:0 0 16px 0;
-  color:#3b2a20;
-}
-
-.perfil-form{
-  display:grid;
-  gap:14px;
-}
-
-.field{
-  display:grid;
-  gap:6px;
-}
-
-.field label{
-  font-weight:700;
-  color:var(--muted);
-  font-size:14px;
-}
-
-.field input{
-  border:1px solid rgba(0,0,0,.12);
-  border-radius:12px;
-  padding:12px 14px;
-  font:inherit;
-  background:#fffdf7;
-  outline:none;
-  transition:border-color .15s ease, box-shadow .15s ease;
-}
-
-.field input:focus{
-  border-color:#d1b992;
-  box-shadow:0 0 0 3px rgba(209,185,146,.35);
-}
-
-/* Acciones del formulario */
-.actions{
-  display:flex;
-  gap:10px;
-  margin-top:6px;
-  flex-wrap:wrap;
-}
-
-.btn-sec{
-  border:0; 
-  background:#e6d7bf; 
-  color:#3b2a20; 
-  font-weight:800;
-  padding:12px 20px; 
-  border-radius:12px; 
-  box-shadow:0 6px 0 #d2c2a7;
-  cursor:pointer; 
-  transition:transform .05s ease, box-shadow .05s ease, filter .2s ease;
-}
-
-.btn-sec:active{ 
-  transform: translateY(3px); 
-  box-shadow:0 3px 0 #d2c2a7; 
-}
-.btn-sec:hover{ 
-  filter:brightness(1.03); 
-}
-
-/* =========================
-   Accesibilidad y estados
-   ========================= */
-.avatar, .iconbtn, .btn-cta, .btn-sec, .nav-item{
-  outline:none;
-}
-
-.avatar:focus-visible,
-.iconbtn:focus-visible,
-.btn-cta:focus-visible,
-.btn-sec:focus-visible,
-.nav-item:focus-visible{
-  box-shadow:0 0 0 3px rgba(0,0,0,.18), 0 0 0 5px rgba(244,211,74,.65);
-  border-radius:12px;
-}
-
-/* Marca de item activo del menú (opcional si usas clase .active) */
-.nav-item.active{
-  background:#fff3cf;
-}
-
-/* =========================
-   Ajustes visuales menores
-   ========================= */
-/* Avatar más “clickable” */
-.avatar{
-  transition: filter .15s ease, transform .05s ease;
-}
-.avatar:hover{ filter:brightness(1.05); }
-.avatar:active{ transform: translateY(1px); }
-
-/* Mantén consistencia de altura en cards */
-.mcard{ min-height: 110px; } /* sube un poco para respiración visual */
-
-/* =========================
-   Responsive Perfil
-   ========================= */
-@media (max-width: 720px){
-  .perfil-card{
-    padding:18px;
-    margin: 0 8px;
-  }
-  .perfil-card h2{
-    font-size:24px;
-  }
-}
+.card h2{font-size:1rem; margin:0 0 6px}
+.card p{margin:0; font-size:1.1rem}
+.card strong{font-size:1.6rem}

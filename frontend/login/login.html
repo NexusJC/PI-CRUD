@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>La Parrilla Azteca</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Sesion</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="../img/favicon.png" type="image/png">
+
 </head>
 <body>
-  <!-- Ingresar usuario ya existente -->
+  <a href="../menu/index.html">Regresar al menu</a>
    <div class="contenedor" id="loginForm">
   <section class="login">
-    <img class="logo" src="/PI-CRUD/LogoPI/2 sin título_20250826090323.png" alt="La Parrilla Azteca">
+    <img class="logo" src="../img/la_parrilla_azteca_logo.png" alt="La Parrilla Azteca">
     <h2>Iniciar sesión</h2>
-
+        <!-- inicio de sesion -->
     <form class="form">
       <div class="datos">
         <input type="email" placeholder="Correo electrónico" autocomplete="email" required>
@@ -27,16 +30,16 @@
       </div>
 
       <button class="boton_ingresar" type="submit">Iniciar sesión</button>
-      <p class="ayuda" href="#">¿Olvidaste tu contraseña?</p>
+      <p class="ayuda" href="../login/olvide_contraseña.html">¿Olvidaste tu contraseña?</p>
       <p class="sinregistrar" href="#" id="goToRegister">¿Aún no tienes una cuenta? <p1>Ingresa aquí</p1></p>
     </form>
   </section>
 </div>
 
-  <!-- Registrar nuevo usuario -->
+  <!-- registros de usuarios -->
 <div class="contenedor-registro" id="registerForm" style="display:none;">
   <section class="login">
-    <img class="logo" src="/PI-CRUD/LogoPI/2 sin título_20250826090323.png" alt="La Parrilla Azteca">
+    <img class="logo" src="../img/la_parrilla_azteca_logo.png" alt="La Parrilla Azteca">
     <h2>Registrarse</h2>
 
     <form class="form">
@@ -57,7 +60,8 @@
       </div>
       
       <div class="aceptar-condiciones">
-        <input type="checkbox" class="checkbox-aceptar" required> Acepta nuestras <a href="/PI-CRUD/frontend/login/politycond.html" target="_blank">Políticas y Condiciones</a>
+        <input type="checkbox" class="checkbox-aceptar" required> Acepta nuestras <a href="politicas.html">Políticas y Condiciones</a>
+
       </div> 
       <button class="boton_ingresar" type="submit">Registrarme</button>
     </form>
@@ -65,33 +69,7 @@
 </div>
 </body>
 
-<script>
-// Para el formulario de inicio de sesión
-document.getElementById("togglePassword-login").addEventListener("click", function() {
-    const passwordField = document.getElementById("password-login");
-    const type = passwordField.type === "password" ? "text" : "password";
-    passwordField.type = type;
 
-    this.classList.toggle("fa-eye");
-    this.classList.toggle("fa-eye-slash");
-});
+<script src="./js/login.js"></script>
 
-// Para el formulario de registro
-document.getElementById("togglePassword-register").addEventListener("click", function() {
-    const passwordField = document.getElementById("password-register");
-    const type = passwordField.type === "password" ? "text" : "password";
-    passwordField.type = type;
-
-    this.classList.toggle("fa-eye");
-    this.classList.toggle("fa-eye-slash");
-});
-
-// Cambio entre formularios
-document.getElementById("goToRegister").addEventListener("click", function() {
-    // Ocultar el formulario de login
-    document.getElementById("loginForm").style.display = "none";
-    // Mostrar el formulario de registro
-    document.getElementById("registerForm").style.display = "block";
-});
-</script>
 </html>
