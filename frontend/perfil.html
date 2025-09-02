@@ -8,17 +8,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="perfil.css" />
+  <style>
+    /* mini style por si el CSS no carga */
+    .edit-btn{cursor:pointer}
+  </style>
 </head>
 <body>
 
   <main class="wrap">
     <section class="card-azteca">
-      <!-- TOPBAR -->
+      <!-- TOPBAR (simple) -->
       <div class="topbar">
-        <button id="btnMenu" class="hamb" aria-expanded="false" aria-controls="navPanel" aria-label="Abrir menú">
-          <svg viewBox="0 0 24 24" class="ico"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-        </button>
-
         <div class="brand-azteca topbar-brand">
           <div class="logo-circle">
             <img src="images/logo.png" alt="Logo La Parrilla Azteca" />
@@ -28,18 +28,9 @@
             <span class="brand-2">AZTECA</span>
           </div>
         </div>
-
-        <div class="topbar__right">
-          <button class="iconbtn" title="Notificaciones">
-            <svg viewBox="0 0 24 24" class="ico"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/></svg>
-          </button>
-          <button class="avatar" id="btnPerfil" title="Perfil" aria-controls="view-perfil">
-            <svg viewBox="0 0 24 24" class="ico"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/></svg>
-          </button>
-        </div>
       </div>
 
-      <!-- PANEL PERFIL -->
+      <!-- PERFIL -->
       <div class="panel">
         <section id="view-perfil">
           <div class="perfil-card">
@@ -71,47 +62,7 @@
     </section>
   </main>
 
-  <script>
-    // ===== Imagen de perfil =====
-    const btnEditarImg = document.getElementById("btnEditarImg");
-    const inputImg = document.getElementById("inputImg");
-    const perfilImg = document.getElementById("perfilImg");
-
-    btnEditarImg.addEventListener("click", () => inputImg.click());
-
-    inputImg.addEventListener("change", e => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = ev => { perfilImg.src = ev.target.result; };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // ===== Nombre editable =====
-    const btnEditarNombre = document.getElementById("btnEditarNombre");
-    const spanNombre = document.getElementById("perfilNombreText");
-
-    btnEditarNombre.addEventListener("click", () => {
-      const valorActual = spanNombre.textContent;
-      const input = document.createElement("input");
-      input.type = "text";
-      input.value = valorActual;
-      input.className = "input-dinamico";
-
-      spanNombre.replaceWith(input);
-      input.focus();
-
-      input.addEventListener("keydown", e => {
-        if (e.key === "Enter") {
-          const nuevoValor = input.value.trim() || "Sin nombre";
-          const nuevoSpan = document.createElement("span");
-          nuevoSpan.id = "perfilNombreText";
-          nuevoSpan.textContent = nuevoValor;
-          input.replaceWith(nuevoSpan);
-        }
-      });
-    });
-  </script>
+<script src="js/perfil.js" defer></script>
 </body>
 </html>
+
