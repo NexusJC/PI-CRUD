@@ -1,7 +1,7 @@
 :root {
   --page: #f1f2f4;
-  --topbar: #e36842;
-  --panel: #ead2b8;
+  --topbar:#f4d34a; 
+  --panel:#fff7ea;
   --choco: #4b2d22;
   --ink: #151515;
   --muted: #7a6a60;
@@ -10,12 +10,55 @@
   --r-xl: 22px;
   --r-lg: 18px;
   --shadow: 0 18px 40px rgba(0, 0, 0, .15);
+  --text:#2b2b2b; 
+  --card:#ffffff;  
+  --border:#e5e5e5;
 }
 
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; font-family: "Poppins", sans-serif; color: var(--ink); }
 body { background: var(--page); display: flex; flex-direction: column; min-height: 100vh; }
 .wrap { flex: 1; display: flex; flex-direction: column; }
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:Poppins,system-ui,Arial,sans-serif;color:var(--text);background:var(--panel)}
+
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; background:var(--topbar); border-bottom:1px solid rgba(0,0,0,.05);
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.5px}
+.logo{width:40px; height:40px; object-fit:cover; border-radius:50%; border:2px solid rgba(0,0,0,.08)}
+.brand-text{font-size:1.05rem}
+
+.actions{display:flex; align-items:center; gap:6px}
+.iconbtn{
+  display:inline-grid; place-items:center;
+  width:36px; height:36px; border-radius:999px; text-decoration:none;
+  border:1px solid rgba(0,0,0,.08); background:#fff;
+}
+.iconbtn:hover{filter:brightness(0.98)}
+.ico{width:22px;height:22px;fill:#333}
+
+.panel{max-width:980px; margin:24px auto; padding:0 16px}
+.cta{text-align:center; margin:24px 0}
+.btn{
+  display:inline-block; margin-top:8px; padding:10px 16px; border-radius:10px;
+  background:#111; color:#fff; text-decoration:none; font-weight:600;
+}
+
+.grid{
+  display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:16px;
+}
+.card h2{font-size:1rem; margin:0 0 6px}
+.card p{margin:0; font-size:1.1rem}
+.card strong{font-size:1.6rem}
+
+
 
 .card-azteca { flex: 1; width: 100%; height: 100%; background: var(--panel); display: flex; flex-direction: column; }
 
@@ -49,3 +92,8 @@ body { background: var(--page); display: flex; flex-direction: column; min-heigh
 .actions { display: flex; justify-content: center; margin-top: 20px; gap: 10px; }
 .btn-sec { background: #e6d7bf; color: var(--choco); padding: 12px 20px; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; }
 .btn-sec:hover { filter: brightness(1.05); }
+
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; background:var(--topbar); border-bottom:1px solid rgba(0,0,0,.05);
+}
