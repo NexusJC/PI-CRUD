@@ -1,5 +1,5 @@
 :root{
-  --topbar:#f4d34a;     /* amarillo */
+  --topbar:#e36842;     /* naranja */
   --panel:#fff7ea;      /* crema */
   --text:#2b2b2b;       /* texto */
   --card:#ffffff;       /* tarjetas */
@@ -13,7 +13,7 @@ html,body{margin:0;padding:0;font-family:Poppins,system-ui,Arial,sans-serif;colo
   display:flex; align-items:center; justify-content:space-between;
   padding:10px 16px; background:var(--topbar); border-bottom:1px solid rgba(0,0,0,.05);
 }
-.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.5px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.5px; margin: 0 auto;}
 .logo{width:40px; height:40px; object-fit:cover; border-radius:50%; border:2px solid rgba(0,0,0,.08)}
 .brand-text{font-size:1.05rem}
 
