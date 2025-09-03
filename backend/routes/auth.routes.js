@@ -1,7 +1,11 @@
-const router = require('express').Router();
-const { login, register } = require('../controllers/auth.controller');
+const express = require('express');
+const router = express.Router();
 
-router.post('/login', login);         // si ya lo tienes
-router.post('/register', register);   // <-- NUEVO
+// NO destructures. Importa el objeto completo:
+const authCtrl = require('../controllers/auth.controller');
+
+// Rutas
+router.post('/register', authCtrl.register);
+router.post('/login', authCtrl.login);
 
 module.exports = router;
