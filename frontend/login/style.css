@@ -1,7 +1,10 @@
 *{ margin: 0; padding: 0; background-color: #ffedd8;}
 
-.flecha-regreso{ display: flex; margin: 6px; padding-left: 4px;}
-.flecha-regreso i{ width: 20%; height: 20%; color:gray}
+.barra { height: 60px; width:auto; background: #e36842; }
+
+.flecha-regreso{ display: flex;  background-color: transparent; padding-left: 20px; padding-top: 15.5px; text-decoration: none;}
+.flecha-regreso button{width: 12.5%; height: 30px; background-color: #ff9e80;  border-style: none; border-radius: 15px; color: #ca502a; font-weight: bold; }
+
 .img {background-color: transparent;}
 h2 { color:#442719; background-color: transparent;font-size: 30px;}
 
