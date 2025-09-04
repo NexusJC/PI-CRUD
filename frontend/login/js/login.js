@@ -27,9 +27,9 @@ document.getElementById("goToRegister").addEventListener("click", function() {
 document.getElementById("registerFormElement").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password-register").value;
+    const nombre = document.getElementById("nombre").value;
+    const correo = document.getElementById("correo").value;
+    const contraseña = document.getElementById("contraseña").value;
 
     const response = await fetch("http://localhost:3001/api/auth/register", {
         method: "POST",
@@ -37,10 +37,10 @@ document.getElementById("registerFormElement").addEventListener("submit", async 
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            name,
-            email,
-            password,
-            role: "normal" // Asignamos "normal" por defecto, pero puedes cambiarlo
+            nombre,
+            correo,
+            contraseña,
+            rol: "normal" // Puedes asignar un valor predeterminado o permitir que el usuario lo elija
         })
     });
 
@@ -52,3 +52,4 @@ document.getElementById("registerFormElement").addEventListener("submit", async 
         alert(data.msg || "Hubo un error al registrar el usuario");
     }
 });
+
