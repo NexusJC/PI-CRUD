@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="perfil.css" />
   <style>
     /* mini style por si el CSS no carga */
-    .edit-btn{cursor:pointer}
+    .edit-btn { cursor: pointer; }
   </style>
 </head>
 <body>
@@ -37,7 +37,13 @@
             <!-- Imagen editable -->
             <div class="avatar-edit">
               <img id="perfilImg" src="images/miguel.jpg" alt="Imagen de Perfil" />
-              <button type="button" class="edit-btn" id="btnEditarImg" title="Cambiar imagen">✏️</button>
+              <!-- Botón de lápiz SVG -->
+              <button type="button" class="edit-btn" id="btnEditarImg" title="Cambiar imagen">
+                <!-- SVG del lápiz -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+                </svg>
+              </button>
               <input type="file" id="inputImg" accept="image/*" hidden />
             </div>
 
@@ -49,7 +55,13 @@
               <label>Nombre</label>
               <div class="input-edit">
                 <span id="perfilNombreText">Juan Pérez</span>
-                <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">✏️</button>
+                <!-- Botón de lápiz SVG para editar nombre -->
+                <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">
+                  <!-- SVG del lápiz -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -62,7 +74,9 @@
     </section>
   </main>
 
-<script src="js/perfil.js" defer></script>
+  <!-- JS Externo -->
+  <script src="js/perfil.js" defer></script>
 </body>
 </html>
+
 
