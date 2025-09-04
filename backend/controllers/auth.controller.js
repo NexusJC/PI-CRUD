@@ -1,49 +1,62 @@
-const bcrypt = require('bcrypt');
-const pool = require('../db');
+import bcrypt from "bcryptjs";
+import { pool } from "../db.js"; // Conexión a la base de datos
 
-// POST /api/auth/register
-async function register(req, res) {
-  try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password)
-      return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+// Registro de usuario
+export const register = async (req, res) => {
+    const { name, email, password, role } = req.body;
 
-    const [exists] = await pool.query('SELECT id FROM users WHERE email=?', [email]);
-    if (exists.length) return res.status(409).json({ error: 'El correo ya está registrado' });
+    if (!name || !email || !password || !role) {
+        return res.status(400).json({ msg: "Faltan datos" });
+    }
 
-    const hash = await bcrypt.hash(password, 10);
-    await pool.query(
-      'INSERT INTO users (name, email, password) VALUES (?,?,?)',
-      [name, email, hash]
-    );
+    try {
+        // Verificamos si el correo ya está registrado
+        const [exists] = await pool.query("SELECT id FROM users WHERE email = ?", [email]);
+        if (exists.length > 0) {
+            return res.status(409).json({ msg: "Correo ya registrado" });
+        }
 
-    res.status(201).json({ message: 'Usuario registrado con éxito' });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: 'Error en el servidor' });
-  }
-}
+        // Hasheamos la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-// POST /api/auth/login
-async function login(req, res) {
-  try {
+        // Insertamos el usuario en la base de datos
+        await pool.query(
+            "INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)",
+            [name, email, hashedPassword, role]
+        );
+
+        res.status(201).json({ msg: "Usuario registrado con éxito" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error en el servidor" });
+    }
+};
+
+// Login de usuario
+export const login = async (req, res) => {
     const { email, password } = req.body;
-    const [rows] = await pool.query('SELECT * FROM users WHERE email=?', [email]);
-    if (rows.length === 0) return res.status(401).json({ error: 'Usuario no encontrado' });
 
-    const user = rows[0];
-    const ok = await bcrypt.compare(password, user.password);
-    if (!ok) return res.status(401).json({ error: 'Contraseña incorrecta' });
+    if (!email || !password) {
+        return res.status(400).json({ msg: "Faltan credenciales" });
+    }
 
-    res.json({
-      message: 'Login correcto',
-      user: { id: user.id, name: user.name, email: user.email, role: user.role }
-    });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: 'Error en el servidor' });
-  }
-}
+    try {
+        const [rows] = await pool.query("SELECT * FROM users WHERE email=?", [email]);
+        if (rows.length === 0) {
+            return res.status(401).json({ msg: "Credenciales incorrectas" });
+        }
 
-// 👇 Exporta explícitamente ambas
-module.exports = { register, login };
+        const user = rows[0];
+        const validPassword = await bcrypt.compare(password, user.password_hash);
+
+        if (!validPassword) {
+            return res.status(401).json({ msg: "Credenciales incorrectas" });
+        }
+
+        // Aquí podrías generar un JWT y enviarlo al cliente si lo deseas
+        res.status(200).json({ msg: "Login exitoso", user: { id: user.id, name: user.name, role: user.role } });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error en el servidor" });
+    }
+};

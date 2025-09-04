@@ -24,3 +24,31 @@ document.getElementById("goToRegister").addEventListener("click", function() {
     // Mostrar el formulario de registro
     document.getElementById("registerForm").style.display = "block";
 });
+document.getElementById("registerFormElement").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password-register").value;
+
+    const response = await fetch("http://localhost:3001/api/auth/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            email,
+            password,
+            role: "normal" // Asignamos "normal" por defecto, pero puedes cambiarlo
+        })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        alert("Usuario registrado con éxito");
+        // Redirigir a login o dashboard
+    } else {
+        alert(data.msg || "Hubo un error al registrar el usuario");
+    }
+});
