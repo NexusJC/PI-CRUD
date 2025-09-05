@@ -79,28 +79,20 @@ ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100
   cursor: pointer;
 }
 
-
-
 .ayuda:hover{text-decoration: underline;}
-.ayuda {background: transparent}
+.ayuda {background: transparent; text-decoration: none; color: black;}
 
-.sinregistrar{ color: black; background: transparent;}
-.sinregistrar p1{background: transparent;}
-.sinregistrar p1:hover{text-decoration: underline; background: transparent;}
+.sinregistrar{background: transparent; color: black; text-decoration: none;}
+.sinregistrar p1{background: transparent; text-decoration: underline;}
 
 .aceptar-condiciones{ color: black; background: transparent;}
 .aceptar-condiciones a{ color: black; background-color: transparent; }
 .aceptar-condiciones a:hover{color: #967f74;}
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #ffedd8;
-}
+.con-cuenta{ background: transparent; color:black; text-decoration: none;}
+.con-cuenta:hover{text-decoration: underline;}
 
-body {
-    font-family: Arial, sans-serif;}
+/*politicas de privacidad y condiciones*/
 
 .policies-container {
     width: 90%;
@@ -110,20 +102,20 @@ body {
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 14px;
-    border-radius: 8px; /* Esquinas redondeadas */
+    border-radius: 8px; 
 }
 
 .policies-container h1 {
     text-align: center;
     margin-bottom: 15px;
-    color: #e74c3c; /* Rojo-anaranjado */
+    color: #e74c3c; /
     font-size: 20px;
     background-color: transparent;
 }
 
 .policies-container h2 {
     margin-top: 10px;
-    color: #d35400; /* Naranja oscuro */
+    color: #d35400; 
     font-size: 16px;
     background-color: transparent;
 
