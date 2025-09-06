@@ -12,15 +12,24 @@
   <link rel="icon" href="../img/logo_1.png" type="image/png">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <!-- Topbar -->
   <header class="topbar">
+    <!-- Botón hamburguesa -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+      ☰
+    </button>
+
     <div class="brand">
-      <img class="logo  " src="../img/logo_1.png" alt="La Parrilla Azteca" />
-      <span class="brand-text">LA PARRILLA AZTECA</span>
-    </div>
+  <a href="index.html" class="logo-link">
+    <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+  </a>
+  <span class="brand-text">LA PARRILLA AZTECA</span>
+</div>
+
 
     <nav class="actions">
-      <!-- boton de iniciar sesion -->
       <a class="iconbtn" href="../login/login.html" title="Iniciar sesión" aria-label="Iniciar sesión">
         <svg viewBox="0 0 24 24" class="ico" aria-hidden="true">
           <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/>
@@ -29,26 +38,65 @@
     </nav>
   </header>
 
+  <!-- Sidebar oculto -->
+  <nav class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Menú</a></li>
+      <li><a href="#">Promociones</a></li>
+      <li><a href="#">Reservaciones</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenido principal -->
   <main class="panel">
     <section class="cta">
       <h1>Tomar turno</h1>
       <a id="btnTomar" class="btn" href="#">Tomar turno</a>
     </section>
 
-    <section class="grid">
-      <article class="card">
-        <h2>Tiempo de espera</h2>
-        <p><strong>8</strong> min</p>
-      </article>
-      <article class="card">
-        <h2>Turno actual</h2>
-        <p><strong>A37</strong></p>
-      </article>
-      <article class="card">
-        <h2>En espera</h2>
-        <p><strong>4</strong> personas</p>
-      </article>
+    <section id="promociones">
+      <h2>Lo más Vendido</h2>
+      <div class="promociones-grid">
+        <div class="promocion-card">
+          <img src="" alt="">
+          <h3>Bucket Clásico 12 piezas</h3>
+          <p class="precio">$384</p>
+          <p class="descripcion">12 Piezas de Pollo + 2 Complementos Familiares + 4 Bisquets Tradicionales.</p>
+          <button>Ver detalles</button>
+        </div>
+        <div class="promocion-card">
+          <img src="" alt="">
+          <h3>Mega Combo Big Crunch + KE Tira</h3>
+          <p class="precio">$500</p>
+          <p class="descripcion">Deléitate con 1 Big Krunch® y 1 Ke-Tira® más complementos.</p>
+          <button>Ver detalles</button>
+        </div>
+        <div class="promocion-card">
+          <img src="" alt="">
+          <h3>Bucket Clásico 8 piezas</h3>
+          <p class="precio">$369</p>
+          <p class="descripcion">Bucket de 8 piezas acompañado de puré, ensalada y bísquets.</p>
+          <button>Ver detalles</button>
+        </div>
+        <div class="promocion-card">
+          <img src="" alt="">
+          <h3>Bucket Clásico 16 piezas</h3>
+          <p class="precio">$600</p>
+          <p class="descripcion">Bucket de 16 piezas acompañado de puré, ensalada y bísquets.</p>
+          <button>Ver detalles</button>
+        </div>
+      </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Todos los derechos reservados</p>
+  </footer>
+
+  <!-- Script externo -->
+  <script src="../menu/js/sidebar.js"></script>
 </body>
 </html>
