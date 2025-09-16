@@ -1,0 +1,146 @@
+*{ margin: 0; padding: 0; background-color: #ffedd8;}
+
+.flecha-regreso{ display: flex; margin: 6px; padding-left: 4px;}
+.flecha-regreso i{ width: 20%; height: 20%; color:gray}
+.img {background-color: transparent;}
+h2 { color:#442719; background-color: transparent;font-size: 30px;}
+
+.datos {margin-top: 10px; background: #fffcef; position: relative; display: block;}
+
+.contenedor{ margin: 28px auto; margin-top: 10px;
+  width: min(1100px, 94%);
+  border-radius: 10px;
+  padding: 20px 18px; padding-bottom: 0px;
+  display: grid;
+  place-items: center;
+}
+
+.contenedor-registro{ margin: 28px auto; margin-top: 10px;
+  width: min(1100px, 94%);
+  border-radius: 10px;
+  padding: 20px 18px; padding-bottom: 0px;
+  display: grid;
+  place-items: center;
+}
+
+.login{
+  width: min(420px);
+  height: min(520px);
+  background: #fffcef;
+  border-radius: 12px;
+  border: 4px solid rgba(74,43,22,.45);
+  padding: 24px 20px 22px;
+  text-align: center;
+}
+
+.logo{display:block; width:210px; height: auto; margin: 4px auto 8px; object-fit: contain; background: transparent;
+}
+
+
+.form{ margin-bottom:10px; display: grid; gap: 10px; background: transparent;}
+
+.datos input{width: 80%; box-sizing: border-box; padding: 12px 14px; padding-left: 40px; border-radius: 10px; border: 2px solid #e6d8b9; background: #fff; font-size: 14.5px; outline: none;
+}
+
+.datos i{color: #967f74; background: transparent; position: absolute; padding-left: 45px;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+}
+
+.datos input:invalid { border: 2px solid red;  /* Resalta en rojo cuando el correo no es válido */
+}
+
+ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100;
+    position: absolute;
+    right: 10px; /* Alinea el ícono a la derecha */
+    top: 50%; /* Centra el ícono verticalmente */
+    transform: translateY(-50%); /* Ajusta el ícono para centrarlo perfectamente */
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.boton_ingresar{
+  margin-top: 6px;
+  margin-left: 16.4%;
+  width: 70%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #442719;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+
+
+.ayuda:hover{text-decoration: underline;}
+.ayuda {background: transparent}
+
+.sinregistrar{ color: black; background: transparent;}
+.sinregistrar p1{background: transparent;}
+.sinregistrar p1:hover{text-decoration: underline; background: transparent;}
+
+.aceptar-condiciones{ color: black; background: transparent;}
+.aceptar-condiciones a{ color: black; background-color: transparent; }
+.aceptar-condiciones a:hover{color: #967f74;}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ffedd8;
+}
+
+body {
+    font-family: Arial, sans-serif;}
+
+.policies-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    border-radius: 8px; /* Esquinas redondeadas */
+}
+
+.policies-container h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #e74c3c; /* Rojo-anaranjado */
+    font-size: 20px;
+    background-color: transparent;
+}
+
+.policies-container h2 {
+    margin-top: 10px;
+    color: #d35400; /* Naranja oscuro */
+    font-size: 16px;
+    background-color: transparent;
+
+}
+
+.policies-container p {
+    margin: 5px 0;
+    text-align: justify;
+    background-color: transparent;
+}
+
+footer {
+    justify-items: center;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #888;
+    background-color: transparent;
+}
+
+footer p {
+    margin: 10px 0;
+}
