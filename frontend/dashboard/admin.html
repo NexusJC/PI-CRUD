@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - La Parrilla Azteca</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+  <!-- Tu script (después de Chart.js y Datalabels) -->
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar (IZQUIERDA) -->
+    <div class="sidebar" id="sidebar" aria-hidden="true" aria-label="Barra lateral de navegación">
+      <div id="close-btn" aria-label="Cerrar menú" role="button" tabindex="0">
+        <i class="fas fa-times"></i>
+      </div>
+
+      <div class="logo-details">
+        <img src="../../frontend/img/la_parrilla_azteca_logo.png" alt="Logo" class="logo-img">
+      </div>
+
+      <ul class="nav-links">
+        <li data-no-translate="true">
+          <a href="" data-no-translate>
+            <i class="fas fa-home" data-no-translate></i>
+            <span class="link_name">Inicio</span>
+          </a>
+        </li>
+        <li data-no-translate="true">
+          <a href="" data-no-translate>
+            <i class="fas fa-users" data-no-translate></i>
+            <span class="link_name">Editores</span>
+          </a>
+        </li>
+        <li data-no-translate="true">
+          <a href="" data-no-translate>
+            <i class="fas fa-user-plus" data-no-translate></i>
+            <span class="link_name">Registrar Editor</span>
+          </a>
+        </li>
+        <li data-no-translate="true">
+          <a href="" data-no-translate>
+            <i class="fas fa-chart-bar" data-no-translate></i>
+            <span class="link_name">Estadísticas</span>
+          </a>
+        </li>
+        <li data-no-translate="true">
+          <a href="" data-no-translate>
+            <i class="fas fa-key" data-no-translate></i>
+            <span class="link_name">Configuración</span>
+          </a>
+        </li>
+        <li class="log_out" data-no-translate="true">
+          <a href="" data-no-translate>
+            <i class="fas fa-sign-out-alt" data-no-translate></i>
+            <span class="link_name">Cerrar Sesión</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Overlay (móvil) -->
+    <div id="overlay" class="sidebar-overlay hidden"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <header class="topbar">
+        <!-- Botón ☰ -->
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-controls="sidebar" aria-expanded="false">☰</button>
+        <h1>Dashboard</h1>
+        <div class="topbar-right">
+          <div class="user-profile">
+            <img src="/PI-CRUD/frontend/img/la_parrilla_azteca.png" alt="Perfil" />
+          </div>
+        </div>
+      </header>
+
+      <section class="dashboard">
+        <div class="charts">
+          <div class="chart-card">
+            <canvas id="chart1"></canvas>
+          </div>
+          <div class="chart-card">
+            <canvas id="chart2"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="activity">
+        <h2>Actividad Reciente</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Turno</th>
+              <th>Cliente</th>
+              <th>Correo</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody id="activity-table">
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+/* ====== Base ====== */
+:root {
+  --sidebar-w: 280px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ====== Sidebar (izquierda) ====== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;                 /* izquierda */
+  right: auto;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: rgb(243, 231, 221);
+  box-shadow: 2px 0 10px rgba(36, 122, 129, 0.2);
+  transform: translateX(-100%);  /* oculto hacia la izquierda */
+  transition: transform 0.3s ease;
+  z-index: 999;
+  font-size: 18px;
+  overflow: hidden;
+}
+
+.sidebar.is-open {
+  transform: translateX(0);
+}
+
+/* Mueve el contenido solo cuando el sidebar está abierto (desktop o móvil landscape) */
+body.sidebar-open .main-content{
+  margin-left: calc(var(--sidebar-w) + 20px);
+}
+
+#overlay.hidden { display: none; }
+#overlay {display: none;}
+
+/* Botón cerrar dentro del sidebar */
+#close-btn {
+  text-align: left;
+  padding: 16px 20px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+
+/* Perfil y logo */
+.sidebar .profile-details {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0 0 12px 0;
+  padding: 12px 16px;
+  border-top: 1px solid #0000;
+  border-bottom: 1px solid #0000;
+}
+.sidebar .name-job { display: flex; flex-direction: column; }
+.sidebar .job { font-size: 13px; color: #555; }
+
+.sidebar .logo-details {
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+.sidebar .logo-img {
+  height: 120px;
+  min-width: 45px;
+  margin: 32px auto;
+  display: block;
+}
+
+/* Links */
+.sidebar .nav-links {
+  margin-top: 10px;
+  height: calc(100% - 220px);
+  padding: 0 10px 16px;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.sidebar .nav-links li { margin: 8px 0; }
+.sidebar .nav-links li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 12px 14px;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+  color: #333;
+  background: #ffffffc9;
+}
+.sidebar .nav-links li a:hover,
+.sidebar .nav-links li a.active {
+  background: rgb(159, 217, 132);
+}
+.sidebar .nav-links i {
+  min-width: 28px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  margin-right: 10px;
+}
+.sidebar .link_name { font-size: 15px; }
+
+/* ====== Topbar y contenido ====== */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 0; /* móvil: sin margen porque el sidebar está oculto */
+  transition: margin-left 0.3s ease;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: white;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.sidebar-toggle {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 20px;
+  line-height: 1;
+  padding: 6px 10px;
+  color: #333;
+  cursor: pointer;
+}
+.topbar h1 {
+  font-size: 22px;
+  margin: 0;
+  flex: 1;
+}
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.user-profile img {
+  width: 36px; height: 36px; border-radius: 50%;
+}
+
+/* ====== Dashboard ====== */
+.dashboard { margin-top: 20px; }
+
+.charts{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding-top: 20px;
+}
+
+.chart-card{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:12px;
+  padding:16px;
+  max-width: 420px;  /* evita gigantismo en pantallas anchas */
+  height: 320px;     /* altura de la gráfica */
+  margin-inline: auto;
+}
+.chart-card canvas{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ====== Tabla ====== */
+.activity { margin-top: 40px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+table, th, td { border: 1px solid #ddd; }
+th, td { padding: 12px; text-align: center; }
+th { background-color: #f5f5f5; }
+
+
