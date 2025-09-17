@@ -25,7 +25,7 @@ body {
   right: auto;
   width: var(--sidebar-w);
   height: 100vh;
-  background: rgb(243, 231, 221);
+  background: #ba6a44;
   box-shadow: 2px 0 10px rgba(36, 122, 129, 0.2);
   transform: translateX(-100%);  /* oculto hacia la izquierda */
   transition: transform 0.3s ease;
@@ -105,7 +105,7 @@ body.sidebar-open .main-content{
 }
 .sidebar .nav-links li a:hover,
 .sidebar .nav-links li a.active {
-  background: rgb(159, 217, 132);
+  background: rgb(0, 255, 89);
 }
 .sidebar .nav-links i {
   min-width: 28px;
@@ -179,7 +179,30 @@ body.sidebar-open .main-content{
 }
 
 /* ====== Tabla ====== */
-.activity { margin-top: 40px; }
+.activity { 
+  margin-top: 40px; 
+  display: grid;
+  grid-template-columns: auto 1fr; /* icono | título */
+  align-items: center;
+  column-gap: .5rem;
+}
+
+.activity > i{
+  color:#fbbf24;         /* opcional */
+  font-size: 1.55em;     /* opcional */
+}
+
+.activity > h2{
+  margin: 0;             /* quita margen que empuja */
+}
+
+.activity > table{
+  grid-column: 1 / -1;   /* la tabla va debajo ocupando todo el ancho */
+  margin-top: .5rem;
+}
+
+
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -187,8 +210,18 @@ table {
   border-radius: 8px;
   overflow: hidden;
 }
-table, th, td { border: 1px solid #ddd; }
-th, td { padding: 12px; text-align: center; }
-th { background-color: #f5f5f5; }
+table, th, td { 
+  border: 1px solid #ddd; 
+}
+
+th, td { 
+  padding: 12px; 
+  text-align: center; 
+  border: 2px solid #000000
+}
+
+th { 
+  background-color: #d66666; 
+}
 
 
