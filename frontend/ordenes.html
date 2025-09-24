@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Órdenes Anteriores — La Parrilla Azteca</title>
+  <link rel="stylesheet" href="ordenes.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <button class="hamburger" id="openSidebar" aria-label="Abrir menú">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="brand">
+      <img src="./images/la_parrilla_azteca_logo2.png" alt="Logo" class="logo"/>
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </div>
+    <nav class="top-actions">
+      <a href="./dashboard.html" class="top-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+      <a href="./perfil.html" class="top-link"><i class="fas fa-user"></i><span>Perfil</span></a>
+      <a href="./metodopago.html" class="top-link"><i class="fas fa-credit-card"></i><span>Pagos</span></a>
+    </nav>
+  </header>
+
+  <aside class="sidebar" id="sidebar" aria-hidden="true">
+    <button class="close" id="closeSidebar" aria-label="Cerrar menú"><i class="fas fa-times"></i></button>
+    <div class="sidebar-header">
+      <img src="./images/la_parrilla_azteca_logo2.png" alt="Logo" class="logo sm"/>
+      <h2>Panel</h2>
+    </div>
+    <ul class="menu">
+      <li><a href="./dashboard.html"><i class="fas fa-gauge"></i>Inicio</a></li>
+      <li><a href="./agendar_turno.html"><i class="fas fa-calendar-plus"></i>Agendar turno</a></li>
+      <li class="active"><a href="./ordenes.html"><i class="fas fa-receipt"></i>Órdenes anteriores</a></li>
+      <li><a href="./metodopago.html"><i class="fas fa-credit-card"></i>Métodos de pago</a></li>
+      <li><a href="./ayuda.html"><i class="fas fa-circle-question"></i>Ayuda</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <div class="page-head">
+      <h1>Órdenes anteriores</h1>
+      <p>Consulta, filtra y descarga tus comprobantes.</p>
+    </div>
+
+    <section class="toolbar card">
+      <div class="inputs">
+        <label class="search">
+          <i class="fas fa-magnifying-glass"></i>
+          <input id="q" type="search" placeholder="Buscar por folio, cliente o total…">
+        </label>
+        <label>Rango de fechas
+          <input id="dateFrom" type="date"> — <input id="dateTo" type="date">
+        </label>
+        <label>Estatus
+          <select id="status">
+            <option value="">Todos</option>
+            <option value="Pagada">Pagada</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Cancelada">Cancelada</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button class="btn" id="btnClear"><i class="fas fa-rotate"></i> Limpiar</button>
+        <button class="btn primary" id="btnApply"><i class="fas fa-filter"></i> Aplicar filtros</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Folio</th><th>Fecha</th><th>Cliente</th><th>Método</th>
+              <th>Total</th><th>Estatus</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="orders-body"><!-- se llena por JS --></tbody>
+        </table>
+      </div>
+      <div class="table-foot">
+        <span id="count"></span>
+        <div class="pager">
+          <button class="btn" id="prev">«</button>
+          <span id="pageInfo"></span>
+          <button class="btn" id="next">»</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© <span id="year"></span> La Parrilla Azteca</span>
+      <nav class="footer-links">
+        <a href="./terminos.html">Términos</a>
+        <a href="./privacidad.html">Privacidad</a>
+        <a href="./contacto.html">Contacto</a>
+      </nav>
+      <div class="social">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-x-twitter"></i>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal simple -->
+  <dialog id="orderModal">
+    <form method="dialog" class="modal-card">
+      <h3 id="mTitle">Detalle de orden</h3>
+      <pre id="mBody" class="code"></pre>
+      <div class="modal-actions">
+        <button class="btn" value="cancel">Cerrar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="ordenes.js"></script>
+</body>
+</html>

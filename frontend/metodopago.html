@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Métodos de Pago — La Parrilla Azteca</title>
+  <link rel="stylesheet" href="metodopago.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <button class="hamburger" id="openSidebar" aria-label="Abrir menú">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="brand">
+      <img src="./images/la_parrilla_azteca_logo2.png" alt="Logo" class="logo"/>
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </div>
+    <nav class="top-actions">
+      <a href="./dashboard.html" class="top-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+      <a href="./perfil.html" class="top-link"><i class="fas fa-user"></i><span>Perfil</span></a>
+      <a href="./ordenes.html" class="top-link"><i class="fas fa-receipt"></i><span>Órdenes</span></a>
+    </nav>
+  </header>
+
+  <aside class="sidebar" id="sidebar" aria-hidden="true">
+    <button class="close" id="closeSidebar" aria-label="Cerrar menú"><i class="fas fa-times"></i></button>
+    <div class="sidebar-header">
+      <img src="./images/la_parrilla_azteca_logo2.png" alt="Logo" class="logo sm"/>
+      <h2>Panel</h2>
+    </div>
+    <ul class="menu">
+      <li><a href="./dashboard.html"><i class="fas fa-gauge"></i>Inicio</a></li>
+      <li><a href="./agendar_turno.html"><i class="fas fa-calendar-plus"></i>Agendar turno</a></li>
+      <li><a href="./ordenes.html"><i class="fas fa-receipt"></i>Órdenes anteriores</a></li>
+      <li class="active"><a href="./metodopago.html"><i class="fas fa-credit-card"></i>Métodos de pago</a></li>
+      <li><a href="./ayuda.html"><i class="fas fa-circle-question"></i>Ayuda</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <div class="page-head">
+      <h1>Métodos de pago</h1>
+      <p>Administra tarjetas, efectivo y billeteras digitales.</p>
+    </div>
+
+    <section class="grid">
+      <!-- Tarjetas -->
+      <article class="card">
+        <header class="card-head">
+          <h2><i class="fas fa-credit-card"></i> Tarjetas guardadas</h2>
+          <button class="btn primary" id="btnAddCard"><i class="fas fa-plus"></i> Agregar tarjeta</button>
+        </header>
+        <ul class="list" id="cardsList"><!-- se llena por JS --></ul>
+        <template id="cardItemTpl">
+          <li class="item">
+            <div class="item-main">
+              <strong class="mask"></strong><br>
+              <small class="meta"></small>
+            </div>
+            <div class="item-actions">
+              <span class="pill" data-default></span>
+              <button class="btn ghost" data-make-default>Marcar como predeterminada</button>
+              <button class="icon" title="Editar" data-edit><i class="fas fa-pen"></i></button>
+              <button class="icon danger" title="Eliminar" data-delete><i class="fas fa-trash"></i></button>
+            </div>
+          </li>
+        </template>
+      </article>
+
+      <!-- Otras formas -->
+      <article class="card">
+        <header class="card-head">
+          <h2><i class="fas fa-wallet"></i> Otras formas de pago</h2>
+        </header>
+        <div class="methods" id="otherMethods">
+          <label class="method">
+            <input type="radio" name="default-method" value="efectivo">
+            <div class="method-body">
+              <i class="fas fa-store"></i>
+              <div><strong>Efectivo en caja</strong><small>Paga al recoger en mostrador.</small></div>
+            </div>
+          </label>
+          <label class="method">
+            <input type="radio" name="default-method" value="paypal">
+            <div class="method-body">
+              <i class="fab fa-cc-paypal"></i>
+              <div><strong>PayPal</strong><small>Con tu cuenta PayPal.</small></div>
+            </div>
+          </label>
+          <label class="method">
+            <input type="radio" name="default-method" value="qr">
+            <div class="method-body">
+              <i class="fas fa-qrcode"></i>
+              <div><strong>Transferencia/QR</strong><small>Recibirás instrucciones al confirmar.</small></div>
+            </div>
+          </label>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="btnSaveDefault"><i class="fas fa-floppy-disk"></i> Guardar método predeterminado</button>
+        </div>
+      </article>
+
+      <!-- Facturación -->
+      <article class="card">
+        <header class="card-head">
+          <h2><i class="fas fa-file-invoice"></i> Datos de facturación</h2>
+        </header>
+        <form class="form" id="billingForm">
+          <div class="row">
+            <label>RFC
+              <input name="rfc" type="text" placeholder="XAXX010101000" required>
+            </label>
+            <label>Razón social
+              <input name="razon" type="text" placeholder="La Parrilla Azteca S.A. de C.V." required>
+            </label>
+          </div>
+          <div class="row">
+            <label>Uso CFDI
+              <select name="cfdi">
+                <option value="G03">G03 - Gastos en general</option>
+                <option value="P01">P01 - Por definir</option>
+              </select>
+            </label>
+            <label>Código Postal
+              <input name="cp" type="text" placeholder="28000" required>
+            </label>
+          </div>
+          <div class="actions">
+            <button type="reset" class="btn"><i class="fas fa-rotate"></i> Restablecer</button>
+            <button type="submit" class="btn primary"><i class="fas fa-check"></i> Guardar</button>
+          </div>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© <span id="year"></span> La Parrilla Azteca</span>
+      <nav class="footer-links">
+        <a href="./terminos.html">Términos</a>
+        <a href="./privacidad.html">Privacidad</a>
+        <a href="./contacto.html">Contacto</a>
+      </nav>
+      <div class="social">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-x-twitter"></i>
+      </div>
+    </div>
+  </footer>
+
+  <script src="metodopago.js"></script>
+</body>
+</html>
