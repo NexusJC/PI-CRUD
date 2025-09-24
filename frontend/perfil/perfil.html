@@ -7,92 +7,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Modificación aquí: Cambié el nombre del archivo CSS a perfil.css -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="perfil.css" />
+  <style>
+    /* mini style por si el CSS no carga */
+    .edit-btn { cursor: pointer; }
+  </style>
 </head>
 <body>
 
   <main class="wrap">
     <section class="card-azteca">
-      <!-- 1) TOPBAR -->
-      <!-- 1) TOPBAR (barra amarilla) -->
-     <div class="topbar">
-    <!-- Izquierda: botón menú -->
-    <button id="btnMenu" class="hamb" aria-expanded="false" aria-controls="navPanel" aria-label="Abrir menú">
-      <svg viewBox="0 0 24 24" class="ico"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-    </button>
-
-    <!-- Centro: LOGO + NOMBRE (centrado) -->
-    <div class="brand-azteca topbar-brand">
+      
+    
+      <!-- TOPBAR -->
+         <div class="topbar">
+     <button class="dash-toggle" id="btnDash" aria-label="Abrir panel" aria-controls="dash" aria-expanded="false">
+       <svg viewBox="0 0 24 24" class="ico"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+     </button>
+      <div class="brand-azteca topbar-brand">
       <div class="logo-circle">
-        <img src="images/logo.png" alt="Logo La Parrilla Azteca" />
+            <img src="images/logo.png" alt="Logo La Parrilla Azteca" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-1">LA PARRILLA</span>
+            <span class="brand-2">AZTECA</span>
+          </div>
+        </div>
       </div>
-      <div class="brand-text">
-        <span class="brand-1">LA PARRILLA</span>
-        <span class="brand-2">AZTECA</span>
-      </div>
-    </div>
+      <div class="site" id="site">
 
-    <!-- Derecha: iconos -->
-    <div class="topbar__right">
-      <button class="iconbtn" title="Notificaciones">
-        <svg viewBox="0 0 24 24" class="ico"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/></svg>
-      </button>
-      <!-- 👇 ID agregado para enganchar el click -->
-      <button class="avatar" id="btnPerfil" title="Perfil" aria-controls="view-perfil">
-        <svg viewBox="0 0 24 24" class="ico"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/></svg>
-      </button>
+    <div class="panel">
+  <div class="perfil-layout">
+    <!-- DASHBOARD LATERAL -->
+    <aside id="dash" class="dash" aria-hidden="true">
+      <div class="dash-header">HOLA, Juan Pérez</div>
+      <nav class="dash-nav">
+       <a class="dash-item active" href="#">Ajustes de la cuenta</a>
+       <a class="dash-item" href="ordenes.html">Órdenes anteriores</a>
+       <a class="dash-item" href="metodopago.html">Métodos de pago</a>
+
+
+        <hr class="dash-sep" />
+
+        <!-- Ítem Index al fondo con flecha -->
+        <a class="dash-item dash-index" href="index.html" title="Volver al Index">
+          <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          <span>Menu</span>
+        </a>
+      </nav>
+    </aside>
+    <!-- Overlay para difuminar el fondo -->
+     <div id="overlay" class="overlay"></div>
+    <!-- CONTENIDO -->
+    <div class="perfil-content" id="perfilContent">
+      <section id="view-perfil">
+        <div class="perfil-card">
+          <div class="avatar-edit">
+            <img id="perfilImg" src="images/miguel.jpg" alt="Imagen de Perfil" />
+            <button type="button" class="edit-btn" id="btnEditarImg" title="Cambiar imagen">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+              </svg>
+            </button>
+            <input type="file" id="inputImg" accept="image/*" hidden />
+          </div>
+
+          <h2>Mi perfil</h2>
+          <p>Gestiona tu cuenta para La Parrilla Azteca.</p>
+
+          <div class="field">
+            <label>Nombre</label>
+            <div class="input-edit">
+              <span id="perfilNombreText">Juan Pérez</span>
+              <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
-
-      <!-- 2) CONTENIDO PRINCIPAL -->
-      <div class="panel">
-        <!-- ===== Vista: PERFIL ===== -->
-        <section id="view-perfil">
-          <div class="perfil-card">
-            <!-- Imagen de perfil -->
-            <div class="avatar">
-              <img src="images/miguel.jpg" alt="Imagen de Perfil" />
-            </div>n
-            <h2>Mi perfil</h2>
-            <p>Gestiona tu cuenta para La Parrilla Azteca.</p>
-
-            <form class="perfil-form" autocomplete="on">
-              <div class="field">
-                <label for="perfilNombre">Nombre</label>
-                <input id="perfilNombre" type="text" placeholder="Tu nombre" value="Juan Pérez" />
-              </div>
-              <div class="field">
-                <label for="perfilCorreo">Correo</label>
-                <input id="perfilCorreo" type="email" placeholder="tucorreo@ejemplo.com" value="juanperez@ejemplo.com" />
-              </div>
-              <div class="field">
-                <label for="perfilPass">Contraseña</label>
-                <input id="perfilPass" type="password" placeholder="••••••••" />
-              </div>
-
-              <!-- Reservas y comida -->
-              <div class="field">
-                <label for="perfilMesa">Mesa reservada</label>
-                <input id="perfilMesa" type="text" placeholder="Mesa 10" value="Mesa 10" readonly />
-              </div>
-              <div class="field">
-                <label for="perfilComida">Último pedido</label>
-                <input id="perfilComida" type="text" placeholder="Tacos al pastor" value="Tacos al pastor" readonly />
-              </div>
-
-              <div class="actions">
-                <button type="button" class="btn-cta" id="btnGuardarPerfil">Guardar cambios</button>
-                <button type="button" class="btn-sec" id="btnVolverHome">Volver</button>
-              </div>
-            </form>
+</div>
+            </div>
           </div>
         </section>
-
       </div>
     </section>
   </main>
+   <!-- FOOTER -->
+      <footer>
+        <div class="footer-container">
+          <!-- Contacto -->
+          <div class="contact-section">
+            <h3>Contacto</h3>
+            <div class="social-icons">
+              <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank"><img src="images/facebook.png" alt="Facebook"></a>
+              <a href="https://x.com/LaParrillazteca" target="_blank"><img src="images/twitter.png" alt="Twitter"></a>
+              <a href="https://www.tiktok.com/@laparrillazteca" target="_blank"><img src="images/tik-tok.png" alt="TikTok"></a>
+              <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank"><img src="images/instagram.png" alt="Instagram"></a>
+            </div>
+          </div>
+          
+          <!-- Sección de Derechos de Autor -->
+          <div class="copyright-section">
+            <p>&copy; 2025 Sahidware | Versión 0.0.1</p>
+          </div>
+          
+          <!-- Sección Legal -->
+          <div class="legal-section">
+            <a href="privacy-policy.html">Política de Privacidad</a>
+            <a href="terms-conditions.html">Términos y Condiciones</a>
+          </div>
+        </div>
+      </footer>
+    </section>
+  </main>
 
-  <script src="script.js"></script>
+  <!-- JS Externo -->
+  <script src="js/perfil.js" defer></script>
 </body>
-
+</html>
