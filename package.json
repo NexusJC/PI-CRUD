@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Backend para la app web PI-CRUD con registro y login de usuarios usando Node.js, Express y MySQL (XAMPP)",
   "main": "backend/server.js",
+  "type": "module",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js"
@@ -18,13 +19,16 @@
   "author": "Tu Nombre",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "express": "^4.19.2",
+    "dotenv": "^17.2.2",
+    "express": "^4.21.2",
     "helmet": "^7.1.0",
-    "mysql2": "^3.9.7"
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.10"
   }
 }
