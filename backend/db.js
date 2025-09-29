@@ -1,11 +1,20 @@
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'mysql.railway.internal',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'PjZwDOAFlBsPiqNGRCWomEYIictlbRkA',
-  database: process.env.DB_NAME || 'LA_PARRILLA_AZTECA',
-  port: process.env.DB_PORT || 27475,
+const connection = mysql.createConnection({
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE
 });
 
-module.exports = pool;
+connection.connect((err) => {
+  if (err) {
+    console.error('Error al conectarse a la base de datos:', err);
+    return;
+  }
+  console.log('Connectado a la base de datos. ');
+});
+
+module.exports = connection;

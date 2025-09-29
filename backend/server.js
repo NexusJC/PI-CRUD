@@ -1,17 +1,25 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import authRoutes from './routes/auth.routes.js'; // Correcta importación de ES Modules
-
-dotenv.config();
+// server.js
+const express = require('express');
+const dotenv = require('dotenv');
 const app = express();
-const PORT = process.env.PORT || 3306;
 
-app.use(cors());
+// Cargar las variables de entorno
+dotenv.config();
+
+// Middleware para manejar solicitudes JSON
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
+// Rutas de autenticación
+const authRoutes = require('./routes/auth.routes.js');
+app.use('/auth', authRoutes);
 
+// Ruta básica de prueba
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
+// Configuración del puerto
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
