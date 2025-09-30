@@ -1,124 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Órdenes Anteriores — La Parrilla Azteca</title>
-  <link rel="stylesheet" href="ordenes.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Órdenes Pasadas · La Parrilla Azteca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Reutilizamos la paleta/estilos base del perfil -->
+  <link rel="stylesheet" href="perfil.css" />
+  <link rel="stylesheet" href="ordenes.css" />
 </head>
 <body>
-  <header class="topbar">
-    <button class="hamburger" id="openSidebar" aria-label="Abrir menú">
-      <i class="fas fa-bars"></i>
+    <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="dash-toggle" id="btnDash" aria-label="Abrir panel" aria-controls="dash" aria-expanded="false">
+      <svg viewBox="0 0 24 24" class="ico"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </button>
-    <div class="brand">
-      <img src="./images/la_parrilla_azteca_logo2.png" alt="Logo" class="logo"/>
-      <span class="brand-text">LA PARRILLA AZTECA</span>
-    </div>
-    <nav class="top-actions">
-      <a href="./dashboard.html" class="top-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
-      <a href="./perfil.html" class="top-link"><i class="fas fa-user"></i><span>Perfil</span></a>
-      <a href="./metodopago.html" class="top-link"><i class="fas fa-credit-card"></i><span>Pagos</span></a>
-    </nav>
-  </header>
-
-  <aside class="sidebar" id="sidebar" aria-hidden="true">
-    <button class="close" id="closeSidebar" aria-label="Cerrar menú"><i class="fas fa-times"></i></button>
-    <div class="sidebar-header">
-      <img src="./images/la_parrilla_azteca_logo2.png" alt="Logo" class="logo sm"/>
-      <h2>Panel</h2>
-    </div>
-    <ul class="menu">
-      <li><a href="./dashboard.html"><i class="fas fa-gauge"></i>Inicio</a></li>
-      <li><a href="./agendar_turno.html"><i class="fas fa-calendar-plus"></i>Agendar turno</a></li>
-      <li class="active"><a href="./ordenes.html"><i class="fas fa-receipt"></i>Órdenes anteriores</a></li>
-      <li><a href="./metodopago.html"><i class="fas fa-credit-card"></i>Métodos de pago</a></li>
-      <li><a href="./ayuda.html"><i class="fas fa-circle-question"></i>Ayuda</a></li>
-    </ul>
-  </aside>
-
-  <main class="content">
-    <div class="page-head">
-      <h1>Órdenes anteriores</h1>
-      <p>Consulta, filtra y descarga tus comprobantes.</p>
-    </div>
-
-    <section class="toolbar card">
-      <div class="inputs">
-        <label class="search">
-          <i class="fas fa-magnifying-glass"></i>
-          <input id="q" type="search" placeholder="Buscar por folio, cliente o total…">
-        </label>
-        <label>Rango de fechas
-          <input id="dateFrom" type="date"> — <input id="dateTo" type="date">
-        </label>
-        <label>Estatus
-          <select id="status">
-            <option value="">Todos</option>
-            <option value="Pagada">Pagada</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Cancelada">Cancelada</option>
-          </select>
-        </label>
+    <div class="brand-azteca topbar-brand">
+      <div class="logo-circle">
+        <img src="images/logo.png" alt="Logo La Parrilla Azteca" />
       </div>
-      <div class="actions">
-        <button class="btn" id="btnClear"><i class="fas fa-rotate"></i> Limpiar</button>
-        <button class="btn primary" id="btnApply"><i class="fas fa-filter"></i> Aplicar filtros</button>
+      <div class="brand-text">
+        <span class="brand-1">LA PARRILLA</span>
+        <span class="brand-2">AZTECA</span>
       </div>
-    </section>
+    </div>
+  </div>
+  <!-- DASHBOARD LATERAL -->
+    <aside id="dash" class="dash" aria-hidden="true">
+      <div class="dash-header">HOLA, Juan Pérez</div>
+      <nav class="dash-nav">
+       <a class="dash-item active" href="#">Órdenes anteriores</a>
+       <a class="dash-item" href="perfil.html">Ajustes de la cuenta</a>
 
-    <section class="card">
-      <div class="table-wrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Folio</th><th>Fecha</th><th>Cliente</th><th>Método</th>
-              <th>Total</th><th>Estatus</th><th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="orders-body"><!-- se llena por JS --></tbody>
-        </table>
+
+        <hr class="dash-sep" />
+
+        <!-- Ítem Index al fondo con flecha -->
+        <a class="dash-item dash-index" href="index.html" title="Volver al Index">
+          <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          <span>Menu</span>
+        </a>
+      </nav>
+    </aside>
+    <!-- Overlay para difuminar el fondo -->
+     <div id="overlay" class="overlay"></div>
+  <!-- Contenedor principal, para que el footer se quede al fondo -->
+  <div class="site" id="site">
+    <div class="panel">
+      <div class="perfil-layout">
+        <!-- Aquí está tu contenido -->
+        <section class="perfil-content" id="view-ordenes">
+          <div class="perfil-card">
+            <header class="perfil-card__header">
+              <h2>Órdenes pasadas</h2>
+              
+            </header>
+
+            <!-- Contenido de la tabla y búsqueda -->
+            <div class="tools-row">
+              <div class="tool">
+                <label for="busqueda" class="tool-label">Buscar</label>
+                <input id="busqueda" class="input" type="search" placeholder="N.º de orden, cliente o notas…" />
+              </div>
+              <div class="tool">
+                <label for="filtroEstado" class="tool-label">Estado</label>
+                <select id="filtroEstado" class="input">
+                  <option value="">Todos</option>
+                  <option value="Entregado">Entregado</option>
+                  <option value="Cancelado">Cancelado</option>
+                  <option value="Reembolsado">Reembolsado</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tabla de órdenes -->
+            <div class="tabla-wrap">
+              <table class="tabla-ordenes" id="tablaOrdenes" aria-describedby="descOrden">
+                <caption id="descOrden" class="sr-only">Tabla de órdenes ordenada por fecha descendente</caption>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Orden</th>
+                    <th>Cliente</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Pago</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyOrdenes">
+                  <!-- Render dinámico -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       </div>
-      <div class="table-foot">
-        <span id="count"></span>
-        <div class="pager">
-          <button class="btn" id="prev">«</button>
-          <span id="pageInfo"></span>
-          <button class="btn" id="next">»</button>
+    </div>
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-container">
+        <!-- Sección de Contacto -->
+        <div class="contact-section">
+          <h3>Contacto</h3>
+          <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank"><img src="images/facebook.png" alt="Facebook"></a>
+            <a href="https://x.com/LaParrillazteca" target="_blank"><img src="images/twitter.png" alt="Twitter"></a>
+            <a href="https://www.tiktok.com/@laparrillazteca" target="_blank"><img src="images/tik-tok.png" alt="TikTok"></a>
+            <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank"><img src="images/instagram.png" alt="Instagram"></a>
+          </div>
+        </div>
+
+        <!-- Sección de Derechos de Autor -->
+        <div class="copyright-section">
+          <p>&copy; 2025 Sahidware | Versión 0.0.1</p>
+        </div>
+
+        <!-- Sección Legal -->
+        <div class="legal-section">
+          <a href="privacy-policy.html">Política de Privacidad</a>
+          <a href="terms-conditions.html">Términos y Condiciones</a>
         </div>
       </div>
-    </section>
-  </main>
+    </footer>
+  </div>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <span>© <span id="year"></span> La Parrilla Azteca</span>
-      <nav class="footer-links">
-        <a href="./terminos.html">Términos</a>
-        <a href="./privacidad.html">Privacidad</a>
-        <a href="./contacto.html">Contacto</a>
-      </nav>
-      <div class="social">
-        <i class="fab fa-facebook"></i>
-        <i class="fab fa-instagram"></i>
-        <i class="fab fa-x-twitter"></i>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Modal simple -->
-  <dialog id="orderModal">
-    <form method="dialog" class="modal-card">
-      <h3 id="mTitle">Detalle de orden</h3>
-      <pre id="mBody" class="code"></pre>
-      <div class="modal-actions">
-        <button class="btn" value="cancel">Cerrar</button>
-      </div>
-    </form>
-  </dialog>
-
-  <script src="ordenes.js"></script>
+  <!-- JS Externo -->
+  <script src="js/perfil.js" defer></script>
 </body>
 </html>
