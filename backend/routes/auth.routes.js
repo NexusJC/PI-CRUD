@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const authController = require('../controllers/auth.controller.js'); 
+// PI-CRUD/backend/routes/auth.routes.js
+import { Router } from "express";
+import { getUsers, login, register } from "../controllers/auth.controller.js";
 
-router.get('/users', authController.getUsers);
+const router = Router();
 
-router.post('/login', authController.login);
+router.get("/users", getUsers);
+router.post("/login", login);
+router.post("/register", register);
 
-router.post('/register', authController.register);
-
-module.exports = router;
+export default router;

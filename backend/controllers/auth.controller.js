@@ -1,59 +1,70 @@
-const db = require('../db'); 
+// PI-CRUD/backend/controllers/auth.controller.js
+import { pool } from "../db.js";
 
-const getUsers = (req, res) => {
-  db.query('SELECT * FROM users', (err, results) => {
-    if (err) {
-      console.error('Error retrieving users:', err);
-      return res.status(500).send('Error retrieving users');
-    }
-    res.json(results);
-  });
+/**
+ * GET /api/auth/users
+ * Devuelve todos los usuarios (tabla: users)
+ */
+export const getUsers = async (_req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM users");
+    res.json(rows);
+  } catch (err) {
+    console.error("Error retrieving users:", err);
+    res.status(500).send("Error retrieving users");
+  }
 };
 
-// Controlador para iniciar sesión
-const login = (req, res) => {
+/**
+ * POST /api/auth/login
+ * Body: { email, password }
+ * Nota: por ahora compara en texto plano para no romper tu BD actual.
+ * (Luego podemos migrar a bcryptjs sin tocar tu esquema todavía.)
+ */
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
-  db.query(
-    'SELECT * FROM users WHERE email = ? AND password = ?',
-    [email, password],
-    (err, results) => {
-      if (err) {
-        console.error('Error logging in:', err);
-        return res.status(500).send('Error logging in');
-      }
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM users WHERE email = ? AND password = ?",
+      [email, password]
+    );
 
-      if (results.length > 0) {
-        // Aquí podrías generar un token JWT si es necesario
-        res.status(200).json({ message: 'Login successful' });
-      } else {
-        res.status(401).json({ message: 'Invalid credentials' });
-      }
+    if (rows.length > 0) {
+      // Aquí podrías generar un JWT si ya tienes JWT_SECRET configurado
+      // import jwt from "jsonwebtoken";
+      // const token = jwt.sign({ id: rows[0].id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+      // return res.json({ message: "Login successful", token });
+
+      return res.status(200).json({ message: "Login successful" });
     }
-  );
+
+    res.status(401).json({ message: "Invalid credentials" });
+  } catch (err) {
+    console.error("Error logging in:", err);
+    res.status(500).send("Error logging in");
+  }
 };
 
-// Controlador para registrar un nuevo usuario
-const register = (req, res) => {
+/**
+ * POST /api/auth/register
+ * Body: { name, email, password }
+ * Nota: inserta en texto plano para no romper tu BD actual.
+ * (Luego migramos a hash con bcryptjs si quieres.)
+ */
+export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Aquí podrías agregar una validación de datos antes de insertar en la base de datos
-  db.query(
-    'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-    [name, email, password],
-    (err, results) => {
-      if (err) {
-        console.error('Error al registrar usuario:', err);
-        return res.status(500).send('Error registering user');
-      }
-      res.status(201).json({ message: 'Usuario registrado correctamente' });
-    }
-  );
+  try {
+    await pool.query(
+      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+      [name, email, password]
+    );
+    res.status(201).json({ message: "Usuario registrado correctamente" });
+  } catch (err) {
+    console.error("Error registering user:", err);
+    res.status(500).send("Error registering user");
+  }
 };
 
-// Exportar los controladores
-module.exports = {
-  getUsers,
-  login,
-  register
-};
+export default { getUsers, login, register };
