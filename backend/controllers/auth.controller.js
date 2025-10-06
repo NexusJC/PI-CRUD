@@ -43,10 +43,10 @@ const register = (req, res) => {
     [name, email, password],
     (err, results) => {
       if (err) {
-        console.error('Error registering user:', err);
+        console.error('Error al registrar usuario:', err);
         return res.status(500).send('Error registering user');
       }
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).json({ message: 'Usuario registrado correctamente' });
     }
   );
 };
