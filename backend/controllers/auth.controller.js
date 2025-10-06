@@ -1,10 +1,5 @@
-// PI-CRUD/backend/controllers/auth.controller.js
 import { pool } from "../db.js";
 
-/**
- * GET /api/auth/users
- * Devuelve todos los usuarios (tabla: users)
- */
 export const getUsers = async (_req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM users");
@@ -15,12 +10,6 @@ export const getUsers = async (_req, res) => {
   }
 };
 
-/**
- * POST /api/auth/login
- * Body: { email, password }
- * Nota: por ahora compara en texto plano para no romper tu BD actual.
- * (Luego podemos migrar a bcryptjs sin tocar tu esquema todavía.)
- */
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -31,11 +20,7 @@ export const login = async (req, res) => {
     );
 
     if (rows.length > 0) {
-      // Aquí podrías generar un JWT si ya tienes JWT_SECRET configurado
-      // import jwt from "jsonwebtoken";
-      // const token = jwt.sign({ id: rows[0].id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-      // return res.json({ message: "Login successful", token });
-
+     
       return res.status(200).json({ message: "Login successful" });
     }
 
@@ -46,12 +31,6 @@ export const login = async (req, res) => {
   }
 };
 
-/**
- * POST /api/auth/register
- * Body: { name, email, password }
- * Nota: inserta en texto plano para no romper tu BD actual.
- * (Luego migramos a hash con bcryptjs si quieres.)
- */
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
