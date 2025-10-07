@@ -7,7 +7,7 @@ form.addEventListener("submit", async (e) => {
     password: form.password.value
   };
   try {
-    const resp = await fetch("/api/register", {
+    const resp = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
