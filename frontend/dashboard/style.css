@@ -1,160 +1,171 @@
-/* ====== Base ====== */
-:root {
-  --sidebar-w: 280px;
+/* ===== Variables de tema (primer diseño) ===== */
+:root{
+  --topbar:#e36842;     /* naranja */
+  --panel:#fff7ea;      /* crema */
+  --text:#2b2b2b;       /* texto */
+  --border:#e5e5e5;
 }
 
+/* ===== Reset y base ===== */
 * { box-sizing: border-box; }
-html, body { height: 100%; }
+html, body { height: 100%; margin: 0; padding: 0; }
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Poppins, system-ui, Arial, sans-serif;
+  color: var(--text);
   background: #f7f7f7;
+  padding-top: 60px; /* evita que la topbar fija tape el contenido */
 }
-
 .container {
   display: flex;
   min-height: 100vh;
   width: 100%;
 }
 
-/* ====== Sidebar (izquierda) ====== */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;                 /* izquierda */
-  right: auto;
-  width: var(--sidebar-w);
-  height: 100vh;
-  background: #ba6a44;
-  box-shadow: 2px 0 10px rgba(36, 122, 129, 0.2);
-  transform: translateX(-100%);  /* oculto hacia la izquierda */
-  transition: transform 0.3s ease;
-  z-index: 999;
-  font-size: 18px;
-  overflow: hidden;
-}
-
-.sidebar.is-open {
-  transform: translateX(0);
-}
-
-/* Mueve el contenido solo cuando el sidebar está abierto (desktop o móvil landscape) */
-body.sidebar-open .main-content{
-  margin-left: calc(var(--sidebar-w) + 20px);
-}
-
-#overlay.hidden { display: none; }
-#overlay {display: none;}
-
-/* Botón cerrar dentro del sidebar */
-#close-btn {
-  text-align: left;
-  padding: 16px 20px;
-  cursor: pointer;
-  font-size: 20px;
-  color: #333;
-}
-
-/* Perfil y logo */
-.sidebar .profile-details {
+/* ===== TOPBAR (copiada del primer código; no transparente) ===== */
+.topbar{
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--topbar) !important; /* fuerza color sólido */
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+  position: fixed;
+  top: 0; left: 0;
   width: 100%;
-  margin: 0 0 12px 0;
-  padding: 12px 16px;
-  border-top: 1px solid #0000;
-  border-bottom: 1px solid #0000;
+  z-index: 1000;
 }
-.sidebar .name-job { display: flex; flex-direction: column; }
-.sidebar .job { font-size: 13px; color: #555; }
+.menu-toggle{
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #fff;
+  margin-right: 10px;
+}
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+.logo{
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,.08);
+}
+.brand-text{
+  font-size: 1.2rem;
+  color: #fff;
+  position: relative;
+  top: -2px;
+}
+.actions{display:flex; align-items:center; gap:6px}
+.iconbtn{
+  display:inline-grid; place-items:center;
+  width:36px; height:36px; border-radius:999px; text-decoration:none;
+  border:1px solid rgba(0,0,0,.08); background:#fff;
+}
+.iconbtn:hover{ filter:brightness(0.98); }
+.ico{ width:22px; height:22px; fill:#333; }
+.logo-link{ text-decoration:none; color:inherit; }
+.logo-link:hover{ cursor:pointer; }
+
+/* ===== SIDEBAR (look & feel del primer código) ===== */
+.sidebar {
+  position: fixed !important;
+  top: 0;
+  left: -250px;               /* oculto inicialmente (slide) */
+  width: 250px !important;
+  height: 100%;
+  background: var(--panel);   /* crema */
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  transition: left 0.3s ease;
+  z-index: 999 !important;
+  overflow: hidden;
+  padding-top: 60px;          /* para no quedar bajo la topbar fija */
+}
+.sidebar.active { left: 0; }
+
+#close-btn { display: none; } /* se oculta para copiar el estilo minimal del 1er código */
 
 .sidebar .logo-details {
-  height: 60px;
+  height: auto;
   width: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
   padding: 0 10px;
+  margin: 16px 0 12px;
 }
 .sidebar .logo-img {
   height: 120px;
   min-width: 45px;
-  margin: 32px auto;
+  margin: 16px auto 8px;
   display: block;
 }
 
-/* Links */
+/* Lista como el <ul> del primer código */
 .sidebar .nav-links {
-  margin-top: 10px;
-  height: calc(100% - 220px);
-  padding: 0 10px 16px;
   list-style: none;
+  padding: 0;
+  margin: 0;
+  height: auto;
   overflow-y: auto;
 }
-
-.sidebar .nav-links li { margin: 8px 0; }
+.sidebar .nav-links li {
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+}
 .sidebar .nav-links li a {
   display: flex;
   align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  color: var(--text);
   text-decoration: none;
-  padding: 12px 14px;
-  border-radius: 10px;
-  transition: background 0.2s ease;
-  color: #333;
-  background: #ffffffc9;
+  font-weight: 600;
+  background: transparent;
+  border-radius: 0;
+  transition: background .2s ease, color .2s ease;
 }
 .sidebar .nav-links li a:hover,
-.sidebar .nav-links li a.active {
-  background: rgb(0, 255, 89);
+.sidebar .nav-links li a:focus {
+  background: var(--topbar);
+  color: #fff;
 }
-.sidebar .nav-links i {
-  min-width: 28px;
+.sidebar .nav-links li a i {
+  width: 22px;
   text-align: center;
   font-size: 18px;
-  color: #333;
-  margin-right: 10px;
+  color: inherit;
 }
-.sidebar .link_name { font-size: 15px; }
 
-/* ====== Topbar y contenido ====== */
+/* Overlay para móvil */
+#overlay.hidden { display: none; }
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent !important;
+  z-index: 998;
+  pointer-events: none !important;
+  display: none !important;
+}
+.sidebar.active ~ #overlay { display: block; }
+
+/* Si algún estilo previo empujaba el main cuando abría el sidebar, lo anulamos */
+body.sidebar-open .main-content{ margin-left: 0 !important; }
+
+/* ===== Main ===== */
 .main-content {
   flex: 1;
   padding: 20px;
-  margin-left: 0; /* móvil: sin margen porque el sidebar está oculto */
+  margin-left: 0;
   transition: margin-left 0.3s ease;
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background-color: white;
-  padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-}
-
-.sidebar-toggle {
-  background-color: transparent;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 20px;
-  line-height: 1;
-  padding: 6px 10px;
-  color: #333;
-  cursor: pointer;
-}
-.topbar h1 {
-  font-size: 22px;
-  margin: 0;
-  flex: 1;
-}
-.topbar-right { display: flex; align-items: center; gap: 10px; }
-.user-profile img {
-  width: 36px; height: 36px; border-radius: 50%;
-}
-
-/* ====== Dashboard ====== */
+/* ===== Dashboard ===== */
 .dashboard { margin-top: 20px; }
 
 .charts{
@@ -163,14 +174,13 @@ body.sidebar-open .main-content{
   gap: 20px;
   padding-top: 20px;
 }
-
 .chart-card{
   background:#fff;
   border:1px solid #eee;
   border-radius:12px;
   padding:16px;
-  max-width: 420px;  /* evita gigantismo en pantallas anchas */
-  height: 320px;     /* altura de la gráfica */
+  max-width: 420px;
+  height: 320px;
   margin-inline: auto;
 }
 .chart-card canvas{
@@ -178,7 +188,7 @@ body.sidebar-open .main-content{
   height: 100% !important;
 }
 
-/* ====== Tabla ====== */
+/* ===== Tabla ===== */
 .activity { 
   margin-top: 40px; 
   display: grid;
@@ -186,22 +196,12 @@ body.sidebar-open .main-content{
   align-items: center;
   column-gap: .5rem;
 }
-
-.activity > i{
-  color:#fbbf24;         /* opcional */
-  font-size: 1.55em;     /* opcional */
-}
-
-.activity > h2{
-  margin: 0;             /* quita margen que empuja */
-}
-
+.activity > i{ color:#fbbf24; font-size: 1.55em; }
+.activity > h2{ margin: 0; }
 .activity > table{
-  grid-column: 1 / -1;   /* la tabla va debajo ocupando todo el ancho */
+  grid-column: 1 / -1;   /* la tabla ocupa todo el ancho */
   margin-top: .5rem;
 }
-
-
 
 table {
   width: 100%;
@@ -210,18 +210,6 @@ table {
   border-radius: 8px;
   overflow: hidden;
 }
-table, th, td { 
-  border: 1px solid #ddd; 
-}
-
-th, td { 
-  padding: 12px; 
-  text-align: center; 
-  border: 2px solid #000000
-}
-
-th { 
-  background-color: #d66666; 
-}
-
-
+table, th, td { border: 1px solid #ddd; }
+th, td { padding: 12px; text-align: center; border: 2px solid #000000 }
+th { background-color: #d66666; }

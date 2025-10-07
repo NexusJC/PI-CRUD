@@ -1,35 +1,32 @@
-// ====== Sidebar ======
+// ====== Sidebar (comportamiento estilo PRIMER código) ======
 document.addEventListener('DOMContentLoaded', () => {
   const sidebar   = document.getElementById('sidebar');
-  const toggleBtn = document.getElementById('sidebar-toggle');
-  const closeBtn  = document.getElementById('close-btn');
+  const toggleBtn = document.getElementById('sidebar-toggle'); // botón ☰ de la topbar
   const overlay   = document.getElementById('overlay');
 
   function openSidebar() {
-    sidebar.classList.add('is-open');
-    overlay.classList.remove('hidden');
+    sidebar.classList.add('active');        // igual que el primer código
+    overlay?.classList.remove('hidden');
+    overlay?.classList.add('shown');
+    // Cambia el icono ☰ → ✖ (como en el 1er diseño)
+    if (toggleBtn && toggleBtn.textContent?.trim() === '☰') toggleBtn.textContent = '✖';
     sidebar.setAttribute('aria-hidden', 'false');
-    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+    toggleBtn?.setAttribute('aria-expanded', 'true');
   }
 
   function closeSidebar() {
-    sidebar.classList.remove('is-open');
-    overlay.classList.add('hidden');
+    sidebar.classList.remove('active');
+    overlay?.classList.add('hidden');
+    overlay?.classList.remove('shown');
+    if (toggleBtn && toggleBtn.textContent?.trim() === '✖') toggleBtn.textContent = '☰';
     sidebar.setAttribute('aria-hidden', 'true');
-    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn?.setAttribute('aria-expanded', 'false');
   }
 
   if (toggleBtn) {
     toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      sidebar.classList.contains('is-open') ? closeSidebar() : openSidebar();
-    });
-  }
-
-  if (closeBtn) {
-    closeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      closeSidebar();
+      sidebar.classList.contains('active') ? closeSidebar() : openSidebar();
     });
   }
 
@@ -38,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cerrar al hacer clic fuera
   document.addEventListener('click', (event) => {
     const clickedToggle = event.target === toggleBtn || toggleBtn?.contains(event.target);
-    if (sidebar.classList.contains('is-open') && !sidebar.contains(event.target) && !clickedToggle) {
+    if (sidebar.classList.contains('active') && !sidebar.contains(event.target) && !clickedToggle) {
       closeSidebar();
     }
   });
@@ -50,8 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ====== Charts ======
-/* Asegúrate de que Chart.js y chartjs-plugin-datalabels se cargan
-   antes de este bloque (ambos están con defer en el HTML). */
 window.addEventListener('DOMContentLoaded', () => {
   if (window.Chart && window.ChartDataLabels) {
     Chart.register(ChartDataLabels);
@@ -59,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const baseOptions = {
     responsive: true,
-    maintainAspectRatio: false, // respeta altura del contenedor
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom' },
       tooltip: { enabled: true },
@@ -83,7 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
     new Chart(c1, {
       type: 'pie',
       data: {
-        labels: ['Para llevar', 'En salón', 'Delivery'],
+        labels: ['Para llevar', 'En salón', 'Entrega'],
         datasets: [{ data: [17, 25, 58], backgroundColor: ['#FF6384','#36A2EB','#FFCE56'] }]
       },
       options: baseOptions
@@ -96,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
     new Chart(c2, {
       type: 'pie',
       data: {
-        labels: ['Para llevar', 'En salón', 'Delivery'],
+        labels: ['Estudiantes', 'Maestros', 'Trabajadores'],
         datasets: [{ data: [312, 235, 548], backgroundColor: ['#FF6384','#36A2EB','#FFCE56'] }]
       },
       options: baseOptions
@@ -105,7 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // ====== Actividad reciente (ejemplo) ======
   const exampleActivity = [
-    { turno: 'H-1',  cliente: 'Renegul',  correo: 'renegul@mail.com',  fecha: '2025-09-04' },
+    { turno: 'H-1',  cliente: 'Cristina',  correo: 'cristina@mail.com',  fecha: '2025-09-04' },
     { turno: 'A-12', cliente: 'Mauricio', correo: 'mauricio@mail.com', fecha: '2025-09-04' },
     { turno: 'H-2',  cliente: 'Juan',     correo: 'juan@mail.com',     fecha: '2025-09-04' },
     { turno: 'A-32', cliente: 'Carlos',   correo: 'carlos@mail.com',   fecha: '2025-09-04' },

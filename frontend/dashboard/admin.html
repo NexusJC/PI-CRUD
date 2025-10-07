@@ -4,18 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - La Parrilla Azteca</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="style.css"/>
+
+  <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Charts -->
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-  <!-- Checar los detalles -->
+  <!-- Lógica -->
   <script defer src="script.js"></script>
 </head>
 <body>
   <div class="container">
-    <!-- Sidebar (IZQUIERDA) -->
+    <!-- === SIDEBAR (copiado y adaptado) === -->
     <div class="sidebar" id="sidebar" aria-hidden="true" aria-label="Barra lateral de navegación">
+      <!-- (opcional) se oculta por CSS para imitar el diseño 1 -->
       <div id="close-btn" aria-label="Cerrar menú" role="button" tabindex="0">
         <i class="fas fa-times"></i>
       </div>
@@ -25,61 +32,50 @@
       </div>
 
       <ul class="nav-links">
-        <li data-no-translate="true"><!--Aqui va la direccion que se le asigne al redirigir la pagina-->
-          <a href="" data-no-translate>
-            <i class="fas fa-home" data-no-translate></i>
+        <li>
+          <a href="">
+            <i class="fas fa-home" aria-hidden="true"></i>
             <span class="link_name">Inicio</span>
           </a>
-        </li><!--
-        <li data-no-translate="true">
-          <a href="" data-no-translate>
-            <i class="fas fa-users" data-no-translate></i>
-            <span class="link_name">Editores</span>
-          </a>
         </li>
-        <li data-no-translate="true">
-          <a href="" data-no-translate>
-            <i class="fas fa-user-plus" data-no-translate></i>
-            <span class="link_name">Registrar Editor</span>
-          </a>
-        </li>
-        <li data-no-translate="true">
-          <a href="" data-no-translate>
-            <i class="fas fa-chart-bar" data-no-translate></i>
-            <span class="link_name">Estadísticas</span>
-          </a>
-        </li>
-        <li data-no-translate="true">
-          <a href="" data-no-translate>
-            <i class="fas fa-key" data-no-translate></i>
-            <span class="link_name">Configuración</span>
-          </a>
-        </li>
-        <li class="log_out" data-no-translate="true">
-          <a href="" data-no-translate>
-            <i class="fas fa-sign-out-alt" data-no-translate></i>
-            <span class="link_name">Cerrar Sesión</span>
-          </a>
-        </li>-->
+        <!-- Agrega más items si los necesitas; el estilo se mantiene -->
+        <!--
+        <li><a href=""><i class="fas fa-users"></i><span class="link_name">Editores</span></a></li>
+        <li><a href=""><i class="fas fa-user-plus"></i><span class="link_name">Registrar Editor</span></a></li>
+        <li><a href=""><i class="fas fa-chart-bar"></i><span class="link_name">Estadísticas</span></a></li>
+        <li><a href=""><i class="fas fa-key"></i><span class="link_name">Configuración</span></a></li>
+        <li class="log_out"><a href=""><i class="fas fa-sign-out-alt"></i><span class="link_name">Cerrar Sesión</span></a></li>
+        -->
       </ul>
     </div>
 
     <!-- Overlay (móvil) -->
     <div id="overlay" class="sidebar-overlay hidden"></div>
 
-    <!-- Contenido principal -->
+    <!-- === CONTENIDO PRINCIPAL === -->
     <main class="main-content">
+      <!-- TOPBAR (copiada del primer diseño) -->
       <header class="topbar">
-        <!-- Botón ☰ -->
-        <button class="sidebar-toggle" id="sidebar-toggle" aria-controls="sidebar" aria-expanded="false">☰</button>
-        <h1>Dashboard</h1>
-        <div class="topbar-right">
-          <div class="user-profile">
-            <img src="/PI-CRUD/frontend/img/la_parrilla_azteca.png" alt="Perfil" />
-          </div>
+        <!-- Botón hamburguesa (mismo id para el JS del sidebar) -->
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Abrir menú">☰</button>
+
+        <div class="brand">
+          <a href="/frontend/menu/index.html" class="logo-link">
+            <img class="logo" src="../../frontend/img/logo_1.png" alt="La Parrilla Azteca" />
+          </a>
+          <span class="brand-text">LA PARRILLA AZTECA</span>
         </div>
+
+        <nav class="actions">
+          <a class="iconbtn" href="../login/login.html" title="Iniciar sesión" aria-label="Iniciar sesión">
+            <svg viewBox="0 0 24 24" class="ico" aria-hidden="true">
+              <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z"/>
+            </svg>
+          </a>
+        </nav>
       </header>
 
+      <!-- Dashboard -->
       <section class="dashboard">
         <div class="charts">
           <div class="chart-card">
@@ -91,8 +87,9 @@
         </div>
       </section>
 
+      <!-- Actividad -->
       <section class="activity">
-        <i class="fas fa-sun" data-no-translate></i>
+        <i class="fas fa-sun" aria-hidden="true"></i>
         <h2>Actividad Reciente</h2>
         <table>
           <thead>
