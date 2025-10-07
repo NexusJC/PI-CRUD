@@ -50,30 +50,33 @@
     <img class="logo" src="../img/la_parrilla_azteca_logo.png" alt="La Parrilla Azteca">
     <h2>Registrarse</h2>
 
-    <form id="registerForm">
-      <div class="datos">
-        <input type="text" name="name" placeholder="Usuario" autocomplete="usuario" required>
-        <i class="fas fa-user"></i>
-      </div>
+    <form id="registerFormElement">
+  <div class="datos">
+    <input type="text" name="name" id="nombre" placeholder="Usuario" autocomplete="username" required />
+    <i class="fas fa-user"></i>
+  </div>
 
-      <div class="datos">
-        <input type="email" name="email" placeholder="Correo electrónico" autocomplete="email" required>
-        <i class="fas fa-envelope"></i>
-      </div>
+  <div class="datos">
+    <input type="email" name="email" id="correo" placeholder="Correo electrónico" autocomplete="email" required />
+    <i class="fas fa-envelope"></i>
+  </div>
 
-      <div class="datos">
-        <input type="password" name="password" id="password-register" placeholder="Contraseña" autocomplete="current-password" required>
-        <i class="fas fa-lock"></i>
-        <ul class="fas fa-eye" id="togglePassword-register"></ul>
-      </div>
-      
-      <div class="aceptar-condiciones">
-        <input type="checkbox" class="checkbox-aceptar" required> Acepta nuestras <a href="politicas.html">Políticas y Condiciones</a>
-      </div> 
-      <a class="con-cuenta" href="">¿Ya tienes cuenta? <p1>Ingrese aquí</p1></a>
+  <div class="datos">
+    <input type="password" name="password" id="contraseña" placeholder="Contraseña" autocomplete="current-password" required />
+    <i class="fas fa-lock"></i>
+    <ul class="fas fa-eye" id="togglePassword-register"></ul>
+  </div>
 
-      <button class="boton_ingresar" type="submit">Registrarme</button>
-    </form>
+  <div class="aceptar-condiciones">
+    <input type="checkbox" class="checkbox-aceptar" required />
+    Acepta nuestras <a href="./politicas.html">Políticas y Condiciones</a>
+  </div>
+
+  <a class="con-cuenta" href="#"><p>¿Ya tienes cuenta? Ingrese aquí</p></a>
+
+  <button class="boton_ingresar" type="submit">Registrarme</button>
+</form>
+
   </section>
 </div>
 
