@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       {
         id: "A-2109",
         fechaISO: "2025-09-30T10:35:00",
-        cliente: "Karen López",
         items: 3,
         total: 245.00,
         pago: "Tarjeta",
@@ -52,7 +51,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       {
         id: "A-2108",
         fechaISO: "2025-09-29T21:10:00",
-        cliente: "Mario García",
         items: 2,
         total: 190.00,
         pago: "Efectivo",
@@ -62,7 +60,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       {
         id: "A-2107",
         fechaISO: "2025-09-29T13:42:00",
-        cliente: "Lucía Torres",
         items: 5,
         total: 520.50,
         pago: "Tarjeta",
@@ -72,7 +69,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       {
         id: "A-2106",
         fechaISO: "2025-09-27T18:05:00",
-        cliente: "Saúl Hernández",
         items: 1,
         total: 79.00,
         pago: "Tarjeta",
@@ -86,7 +82,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   ordenes = ordenes.map(o => ({
     id: o.id || o.numero || o.no_orden || "—",
     fechaISO: o.fechaISO || o.fecha || o.created_at || o.fecha_hora || null,
-    cliente: o.cliente || o.nombre_cliente || "—",
     items: Number(o.items ?? o.total_items ?? 0),
     total: Number(o.total ?? o.total_pagar ?? 0),
     pago: o.pago || o.metodo_pago || "—",
@@ -115,7 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const filtradas = ordenes.filter(o => {
       const matchesQ = !q || (
         (o.id && o.id.toLowerCase().includes(q)) ||
-        (o.cliente && o.cliente.toLowerCase().includes(q)) ||
         (o.notas && o.notas.toLowerCase().includes(q))
       );
       const matchesEstado = !estado || (o.estado === estado);
@@ -139,7 +133,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td>${fecha ? fmtMX.format(fecha) : "—"}</td>
         <td>${fecha ? fmtHora.format(fecha) : "—"}</td>
         <td><strong>${escapeHTML(o.id)}</strong></td>
-        <td>${escapeHTML(o.cliente)}</td>
         <td>${o.items}</td>
         <td>${fmtMoneda.format(o.total)}</td>
         <td>${escapeHTML(o.pago)}</td>
