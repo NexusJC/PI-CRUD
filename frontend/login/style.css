@@ -1,9 +1,9 @@
 *{ margin: 0; padding: 0; background-color: #ffedd8;}
 
-.barra { height: 60px; width:auto; background: #e36842; }
+.barra {height: 45px; width:auto; background: #e36842; padding-top: 209/3px;}
 
-.flecha-regreso{ display: flex;  background-color: transparent; padding-left: 20px; padding-top: 15.5px; text-decoration: none;}
-.flecha-regreso button{width: 12.5%; height: 30px; background-color: #ff9e80;  border-style: none; border-radius: 15px; color: #ca502a; font-weight: bold; }
+.flecha-regreso {margin-top: 50px;  background-color: transparent; margin-left: 40px;  padding: 8px 16px; width: 12.5%; height: 30px; background-color: #ff9e80;  border-style: none; border-radius: 15px; color: #ca502a;  font-size: 24px; }
+i{  background-color: transparent;}
 
 .img {background-color: transparent;}
 h2 { color:#442719; background-color: transparent;font-size: 30px;}
@@ -36,8 +36,7 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
   text-align: center;
 }
 
-.logo{display:block; width:210px; height: auto; margin: 4px auto 8px; object-fit: contain; background: transparent;
-}
+.logo{display:block; width:210px; height: auto; margin: 4px auto 8px; object-fit: contain; background: transparent;}
 
 
 .form{ margin-bottom:10px; display: grid; gap: 10px; background: transparent;}
@@ -89,8 +88,9 @@ ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100
 .aceptar-condiciones a{ color: black; background-color: transparent; }
 .aceptar-condiciones a:hover{color: #967f74;}
 
-.con-cuenta{ background: transparent; color:black; text-decoration: none;}
-.con-cuenta:hover{text-decoration: underline;}
+.con-cuenta p1 {background-color: transparent;}
+.con-cuenta{width: auto; background: transparent; color:black; text-decoration: none; }
+.con-cuenta p1:hover{text-decoration: underline;}
 
 /*politicas de privacidad y condiciones*/
 
@@ -108,7 +108,7 @@ ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100
 .policies-container h1 {
     text-align: center;
     margin-bottom: 15px;
-    color: #e74c3c; /
+    color: #e74c3c; 
     font-size: 20px;
     background-color: transparent;
 }
