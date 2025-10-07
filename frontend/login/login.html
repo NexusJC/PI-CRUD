@@ -50,19 +50,19 @@
     <img class="logo" src="../img/la_parrilla_azteca_logo.png" alt="La Parrilla Azteca">
     <h2>Registrarse</h2>
 
-    <form class="form">
+    <form id="registerForm">
       <div class="datos">
-        <input type="text" placeholder="Usuario" autocomplete="usuario" required>
+        <input type="text" name="name" placeholder="Usuario" autocomplete="usuario" required>
         <i class="fas fa-user"></i>
       </div>
 
       <div class="datos">
-        <input type="email" placeholder="Correo electrónico" autocomplete="email" required>
+        <input type="email" name="email" placeholder="Correo electrónico" autocomplete="email" required>
         <i class="fas fa-envelope"></i>
       </div>
 
       <div class="datos">
-        <input type="password" id="password-register" placeholder="Contraseña" autocomplete="current-password" required>
+        <input type="password" name="password" id="password-register" placeholder="Contraseña" autocomplete="current-password" required>
         <i class="fas fa-lock"></i>
         <ul class="fas fa-eye" id="togglePassword-register"></ul>
       </div>
@@ -78,7 +78,7 @@
 </div>
 </body>
 
-
+<script src="./register.js"></script>
 <script src="./js/login.js"></script>
 
 </html>
