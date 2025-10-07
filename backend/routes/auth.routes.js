@@ -1,4 +1,3 @@
-// PI-CRUD/backend/routes/auth.routes.js
 import { Router } from "express";
 import { getUsers, login, register } from "../controllers/auth.controller.js";
 
