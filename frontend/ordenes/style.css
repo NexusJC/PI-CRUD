@@ -29,6 +29,9 @@
   border-radius: var(--r-xl);
   overflow:auto;
   box-shadow: var(--shadow);
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto; 
 }
 .tabla-ordenes {
   width:100%; border-collapse: collapse; min-width: 820px;
@@ -40,11 +43,11 @@
   border-bottom:1px solid var(--border);
 }
 .tabla-ordenes tbody td {
-  padding:12px; border-bottom:1px solid var(--border); color:var(--text);
+  padding:20px; border-bottom:1px solid var(--border); color:var(--text);
 }
 .tabla-ordenes tbody tr:hover { background:#fffaf5; }
 .badge {
-  display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:.8rem;
+  display:inline-block; padding:10px 30px; border-radius:999px; font-weight:700; font-size:.8rem;
 }
 .badge.entregado { background: #e8fff0; color:#166534; border:1px solid #bbf7d0; }
 .badge.cancelado { background: #fff1f2; color:#991b1b; border:1px solid #fecdd3; }
@@ -137,4 +140,9 @@ footer {
   color: white;
   padding: 20px;
   text-align: center;
+}
+.perfil-card {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
