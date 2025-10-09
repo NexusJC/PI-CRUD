@@ -8,27 +8,21 @@
   <title>La Parrilla Azteca · Inicio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="../img/logo_1.png" type="image/png">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- Topbar -->
+  <!-- TOPBAR -->
   <header class="topbar">
-    <!-- Botón hamburguesa -->
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
-      ☰
-    </button>
-
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     <div class="brand">
-  <a href="index.html" class="logo-link">
-    <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
-  </a>
-  <span class="brand-text">LA PARRILLA AZTECA</span>
-</div>
-
-
+      <a href="index.html" class="logo-link">
+        <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+      </a>
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </div>
     <nav class="actions">
       <a class="iconbtn" href="../login/login.html" title="Iniciar sesión" aria-label="Iniciar sesión">
         <svg viewBox="0 0 24 24" class="ico" aria-hidden="true">
@@ -38,64 +32,159 @@
     </nav>
   </header>
 
-  <!-- Sidebar oculto -->
+  <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
     <ul>
       <li><a href="#">Inicio</a></li>
       <li><a href="../menu/menu.html">Menú</a></li>
       <li><a href="#">Reservaciones</a></li>
-      <li><a href="#">Contacto</a></li>
     </ul>
   </nav>
 
-  <!-- Contenido principal -->
-  <main class="panel">
-    <section class="cta">
-      <h1>Tomar turno</h1>
-      <a id="btnTomar" class="btn" href="#">Tomar turno</a>
-    </section>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="layout">
+  <!-- PANEL IZQUIERDO -->
+  <section class="menu-section">
+    <!-- 🔍 BUSCADOR -->
+    <div class="search-section">
+      <input type="text" placeholder="Buscar productos..." class="search-bar" aria-label="Buscar productos">
+    </div>
 
-    <section id="promociones">
-      <h2>Lo más Vendido</h2>
-      <div class="promociones-grid">
-        <div class="promocion-card">
-          <img src="" alt="">
-          <h3>Bucket Clásico 12 piezas</h3>
-          <p class="precio">$384</p>
-          <p class="descripcion">12 Piezas de Pollo + 2 Complementos Familiares + 4 Bisquets Tradicionales.</p>
-          <button>Ver detalles</button>
+    <!-- 🍽️ CATEGORÍAS -->
+    <div class="category-section">
+      <h2 class="section-title">Categorías</h2>
+      <div class="category-grid">
+        <button class="category-btn active"><span class="cat-icon"><svg viewBox="0 0 24 24"><path d="M6 2h12v2a6 6 0 0 1-6 6v6h4a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2h4V10A6 6 0 0 1 6 4V2Z"/></svg></span><span class="cat-label">Bar</span></button>
+        <button class="category-btn"><span class="cat-icon"><svg viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 1 18 0H3Z"/><path d="M2 15h20a1 1 0 1 1 0 2H2a1 1 0 1 1 0-2Z"/></svg></span><span class="cat-label">Comida</span></button>
+        <button class="category-btn"><span class="cat-icon"><svg viewBox="0 0 24 24"><path d="M7 2h10v4a5 5 0 0 1-10 0V2Zm4 12h2v5h3a1 1 0 1 1 0 2H8a1 1 0 1 1 0-2h3v-5Z"/></svg></span><span class="cat-label">Vinos</span></button>
+        <button class="category-btn"><span class="cat-icon"><svg viewBox="0 0 24 24"><path d="M3 10h18a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6Zm2 8h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2Z"/></svg></span><span class="cat-label">Sopas</span></button>
+        <button class="category-btn"><span class="cat-icon"><svg viewBox="0 0 24 24"><path d="M3 7c5-3 13-3 18 0l-9 14L3 7Zm7.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm4 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg></span><span class="cat-label">Pizzas</span></button>
+        <button class="category-btn"><span class="cat-icon"><svg viewBox="0 0 24 24"><path d="M21 12s-3 4-9 4c-4 0-7-2-9-4 2-2 5-4 9-4 6 0 9 4 9 4Zm-5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg></span><span class="cat-label">Pescado</span></button>
+      </div>
+    </div>
+
+    <!-- ⭐ MENÚ -->
+    <div class="special-menu">
+      <h2 class="section-title">Menú Especial</h2>
+      <div class="menu-grid" id="menuGrid">
+        <div class="menu-card" data-name="Pizza Mexicana" data-price="12.00">
+          <img src="../img/pizza.jpg" alt="">
+          <h3>Pizza Mexicana</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
         </div>
-        <div class="promocion-card">
-          <img src="'" alt="">
-          <h3>Mega Combo Big Crunch + KE Tira</h3>
-          <p class="precio">$500</p>
-          <p class="descripcion">Deléitate con 1 Big Krunch® y 1 Ke-Tira® más complementos.</p>
-          <button>Ver detalles</button>
+        <div class="menu-card" data-name="Hamburguesa Azteca" data-price="10.00">
+          <img src="../img/burger.jpg" alt="">
+          <h3>Hamburguesa Azteca</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
         </div>
-        <div class="promocion-card">
-          <img src="" alt="">
-          <h3>Bucket Clásico 8 piezas</h3>
-          <p class="precio">$369</p>
-          <p class="descripcion">Bucket de 8 piezas acompañado de puré, ensalada y bísquets.</p>
-          <button>Ver detalles</button>
+        <div class="menu-card" data-name="Pollo Parrilla" data-price="9.00">
+          <img src="../img/chicken.jpg" alt="">
+          <h3>Pollo Estilo Parrilla</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
         </div>
-        <div class="promocion-card">
-          <img src="" alt="">
-          <h3>Bucket Clásico 16 piezas</h3>
-          <p class="precio">$600</p>
-          <p class="descripcion">Bucket de 16 piezas acompañado de puré, ensalada y bísquets.</p>
-          <button>Ver detalles</button>
+        <div class="menu-card" data-name="Papas Crujientes" data-price="6.00">
+          <img src="../img/fries.jpg" alt="">
+          <h3>Papas Crujientes</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+    <!--Fila 2-->
+    <div class="special-menu">
+      <div class="menu-grid" id="menuGrid">
+        <div class="menu-card" data-name="Pizza Mexicana" data-price="30.00">
+          <img src="../img/pizza.jpg" alt="">
+          <h3>Carne Asada</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+        <div class="menu-card" data-name="Hamburguesa Azteca" data-price="22.00">
+          <img src="../img/burger.jpg" alt="">
+          <h3>Chilaquiles</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+        <div class="menu-card" data-name="Pollo Parrilla" data-price="15.00">
+          <img src="../img/chicken.jpg" alt="">
+          <h3>Tostadas tradicionales</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+        <div class="menu-card" data-name="Papas Crujientes" data-price="16.00">
+          <img src="../img/fries.jpg" alt="">
+          <h3>Enchiladas</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+      </div>
+    </div>
+    <!--Fila 3-->
+    <div class="special-menu">
+      <div class="menu-grid" id="menuGrid">
+        <div class="menu-card" data-name="Pizza Mexicana" data-price="12.00">
+          <img src="../img/pizza.jpg" alt="">
+          <h3>Pizza Mexicana</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+        <div class="menu-card" data-name="Hamburguesa Azteca" data-price="10.00">
+          <img src="../img/burger.jpg" alt="">
+          <h3>Hamburguesa Azteca</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+        <div class="menu-card" data-name="Pollo Parrilla" data-price="9.00">
+          <img src="../img/chicken.jpg" alt="">
+          <h3>Pollo Estilo Parrilla</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+        <div class="menu-card" data-name="Papas Crujientes" data-price="6.00">
+          <img src="../img/fries.jpg" alt="">
+          <h3>Papas Crujientes</h3>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Footer -->
+  <!-- PANEL DERECHO -->
+  <aside class="order-details" id="orderDetails">
+    <h2>🧾 Detalles del Pedido</h2>
+    <div class="order-customer">
+      <p><strong>Cliente:</strong> Invitado</p>
+      <p class="order-id">N° Orden: <span id="orderId">#0001</span></p>
+    </div>
+    <ul id="orderList" class="order-list"></ul>
+    <div class="order-summary">
+      <p><span>Subtotal:</span> <strong id="subtotal">$0.00</strong></p>
+      <p><span>Descuento:</span> <strong id="discount">$0.00</strong></p>
+      <hr>
+      <p class="total"><span>Total:</span> <strong id="total">$0.00</strong></p>
+    </div>
+    <div class="order-actions">
+      <button class="order-btn confirm-btn">Confirmar Pedido</button>
+      <button class="order-btn print-btn" id="printBtn">Imprimir</button>
+    </div>
+  </aside>
+</main>
+
+
+  <!-- FOOTER -->
   <footer>
-    <p>&copy; 2025 Todos los derechos reservados</p>
+    <div class="footer-container">
+      <div class="contact-section">
+        <h3>Contacto</h3>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank"><img src="../img/facebook.png" alt="Facebook"></a>
+          <a href="https://x.com/LaParrillazteca" target="_blank"><img src="../img/twitter.png" alt="Twitter"></a>
+          <a href="https://www.tiktok.com/@laparrillazteca" target="_blank"><img src="../img/tik-tok.png" alt="TikTok"></a>
+          <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank"><img src="../img/instagram.png" alt="Instagram"></a>
+        </div>
+      </div>
+      <div class="copyright-section">
+        <p>&copy; 2025 Innovatech | Versión 1.0.1</p>
+      </div>
+      <div class="legal-section">
+        <a href="../login/politicas.html">Política de Privacidad</a>
+        <a href="../login/politicas.html">Términos y Condiciones</a>
+      </div>
+    </div>
   </footer>
-
-  <!-- Script externo -->
+  <script src="../menu/js/orderDetails.js"></script>
   <script src="../menu/js/sidebar.js"></script>
 </body>
 </html>
