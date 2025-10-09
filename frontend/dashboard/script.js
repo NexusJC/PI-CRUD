@@ -1,14 +1,13 @@
-// ====== Sidebar (comportamiento estilo PRIMER código) ======
+// Sidebar
 document.addEventListener('DOMContentLoaded', () => {
   const sidebar   = document.getElementById('sidebar');
-  const toggleBtn = document.getElementById('sidebar-toggle'); // botón ☰ de la topbar
+  const toggleBtn = document.getElementById('sidebar-toggle'); 
   const overlay   = document.getElementById('overlay');
 
   function openSidebar() {
-    sidebar.classList.add('active');        // igual que el primer código
+    sidebar.classList.add('active');       
     overlay?.classList.remove('hidden');
     overlay?.classList.add('shown');
-    // Cambia el icono ☰ → ✖ (como en el 1er diseño)
     if (toggleBtn && toggleBtn.textContent?.trim() === '☰') toggleBtn.textContent = '✖';
     sidebar.setAttribute('aria-hidden', 'false');
     toggleBtn?.setAttribute('aria-expanded', 'true');
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ====== Charts ======
+// Charts
 window.addEventListener('DOMContentLoaded', () => {
   if (window.Chart && window.ChartDataLabels) {
     Chart.register(ChartDataLabels);

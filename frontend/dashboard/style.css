@@ -1,19 +1,19 @@
-/* ===== Variables de tema (primer diseño) ===== */
+/* Variables de tema */
 :root{
-  --topbar:#e36842;     /* naranja */
-  --panel:#fff7ea;      /* crema */
-  --text:#2b2b2b;       /* texto */
+  --topbar:#e36842;    
+  --panel:#fff7ea;     
+  --text:#2b2b2b;      
   --border:#e5e5e5;
 }
 
-/* ===== Reset y base ===== */
+/* Reset y base */
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; padding: 0; }
 body {
   font-family: Poppins, system-ui, Arial, sans-serif;
   color: var(--text);
   background: #f7f7f7;
-  padding-top: 60px; /* evita que la topbar fija tape el contenido */
+  padding-top: 60px; 
 }
 .container {
   display: flex;
@@ -21,13 +21,13 @@ body {
   width: 100%;
 }
 
-/* ===== TOPBAR (copiada del primer código; no transparente) ===== */
+/*TOPBAR*/
 .topbar{
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  background: var(--topbar) !important; /* fuerza color sólido */
+  background: var(--topbar) !important; 
   border-bottom: 1px solid rgba(0, 0, 0, .05);
   position: fixed;
   top: 0; left: 0;
@@ -73,11 +73,11 @@ body {
 .logo-link{ text-decoration:none; color:inherit; }
 .logo-link:hover{ cursor:pointer; }
 
-/* ===== SIDEBAR (look & feel del primer código) ===== */
+/* SIDEBAR */
 .sidebar {
   position: fixed !important;
   top: 0;
-  left: -250px;               /* oculto inicialmente (slide) */
+  left: -250px;       
   width: 250px !important;
   height: 100%;
   background: var(--panel);   /* crema */
@@ -85,11 +85,11 @@ body {
   transition: left 0.3s ease;
   z-index: 999 !important;
   overflow: hidden;
-  padding-top: 60px;          /* para no quedar bajo la topbar fija */
+  padding-top: 60px;         
 }
 .sidebar.active { left: 0; }
 
-#close-btn { display: none; } /* se oculta para copiar el estilo minimal del 1er código */
+#close-btn { display: none; } 
 
 .sidebar .logo-details {
   height: auto;
@@ -192,14 +192,14 @@ body.sidebar-open .main-content{ margin-left: 0 !important; }
 .activity { 
   margin-top: 40px; 
   display: grid;
-  grid-template-columns: auto 1fr; /* icono | título */
+  grid-template-columns: auto 1fr; 
   align-items: center;
   column-gap: .5rem;
 }
 .activity > i{ color:#fbbf24; font-size: 1.55em; }
 .activity > h2{ margin: 0; }
 .activity > table{
-  grid-column: 1 / -1;   /* la tabla ocupa todo el ancho */
+  grid-column: 1 / -1;   
   margin-top: .5rem;
 }
 
