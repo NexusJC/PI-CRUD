@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Parrilla Azteca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <div class="sidebar-header">
+            <h2>La Parrilla Azteca</h2>
+            <p>Panel de Administración</p>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a href="../admin.html"><i class="fas fa-tachometer-alt"></i> Inicio</a></li>
+                <li><a href="."><i class="fas fa-newspaper"></i> Artículos</a></li>
+                <li><a href="."><i class="fas fa-tags"></i> Categorías</a></li>
+                <li><a href="." class="active"><i class="fas fa-users"></i> Editores</a></li>
+                <li><a href="."><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
+                <li><a href="/frontend/login/login.html"><i class="fas fa-cog"></i> Cerrar Sección</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Overlay para móviles -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Contenido principal -->
+    <div class="contenedor-principal">
+        <div class="header_1">
+            <h1>Gestión de Editores</h1>
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar por nombre o email...">
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-danger" id="errorAlert" style="display: none;">
+            <span id="errorMessage"></span>
+        </div>
+
+        <div class="results-count" id="resultsCount">
+            Cargando editores...
+        </div>
+
+        <div class="editors-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort="nombre">
+                            Nombre <i class="fas fa-sort"></i>
+                        </th>
+                        <th class="sortable" data-sort="email">
+                            Email <i class="fas fa-sort"></i>
+                        </th>
+                        <th class="sortable" data-sort="posts">
+                            Posts <i class="fas fa-sort"></i>
+                        </th>
+                        <th class="sortable" data-sort="estado">
+                            Estado <i class="fas fa-sort"></i>
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="editoresTableBody">
+                    <tr>
+                        <td colspan="5" class="no-data">Cargando editores...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
