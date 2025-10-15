@@ -138,3 +138,8 @@ footer {
 footer p {
     margin: 10px 0;
 }
+
+/* Confirmación de Contraseña */
+.fondo{margin: 0; width: auto; height: 100%;  background-color: orange;}
+.lol{background-color: orange;}
+.form-contraseña{ margin: 10%; height:500px; width: 500px; background-color: white; place-items: center; border-color: rgb(156, 146, 146); border-style:inset; }

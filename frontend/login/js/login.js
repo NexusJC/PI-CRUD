@@ -1,7 +1,7 @@
 // Mostrar/ocultar contraseña
-const toggleRegister = document.getElementById("togglePassword-register");
-if (toggleRegister) {
-    toggleRegister.addEventListener("click", function () {
+const toggleLogin = document.getElementById("togglePassword-login");
+if (toggleLogin) {
+    toggleLogin.addEventListener("click", function () {
         const passwordField = document.getElementById("contraseña");
         const type = passwordField.type === "password" ? "text" : "password";
         passwordField.type = type;
@@ -9,6 +9,18 @@ if (toggleRegister) {
         this.classList.toggle("fa-eye-slash");
     });
 }
+
+const toggleRegister= document.getElementById("togglePassword-register");
+if (toggleRegister) {
+    toggleRegister.addEventListener("click", function () {
+        const passwordField = document.getElementById("contraseña2");
+        const type = passwordField.type === "password" ? "text" : "password";
+        passwordField.type = type;
+        this.classList.toggle("fa-eye");
+        this.classList.toggle("fa-eye-slash");
+    });
+}
+
 
 // Cambiar entre login y registro
 const goToRegister = document.getElementById("goToRegister");
