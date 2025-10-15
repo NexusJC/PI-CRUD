@@ -21,6 +21,17 @@ if (toggleRegister) {
     });
 }
 
+const toggleConfirmacion= document.getElementById("togglePassword-register2");
+if (toggleConfirmacion) {
+    toggleConfirmacion.addEventListener("click", function () {
+        const passwordField = document.getElementById("contraseña3");
+        const type = passwordField.type === "password" ? "text" : "password";
+        passwordField.type = type;
+        this.classList.toggle("fa-eye");
+        this.classList.toggle("fa-eye-slash");
+    });
+}
+
 
 // Cambiar entre login y registro
 const goToRegister = document.getElementById("goToRegister");
