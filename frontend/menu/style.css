@@ -47,14 +47,6 @@ body { padding-top:60px; flex-grow:1; }
 /* ===== CONTENIDO ===== */
 .panel{flex-grow:1;max-width:1200px;margin:24px auto;padding:0 16px}
 
-/* ===== BUSCADOR ===== */
-.search-section { display:flex; justify-content:center; margin:2rem 0 1rem; }
-.search-bar {
-  width: 90%; max-width: 560px; padding: 12px 16px;
-  border-radius: 25px; border: 1px solid var(--border); font-size: 1rem;
-  outline: none; background:#fff; box-shadow: 0 3px 6px rgba(0,0,0,.08);
-}
-
 /* ===== CATEGORÍAS (con iconos) ===== */
 .category-section { text-align:center; margin-bottom: 2.2rem; }
 .section-title { font-size:1.1rem; font-weight:700; color:var(--text); }
