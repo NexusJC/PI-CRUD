@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-5<html lang="en">
+<html lang="en">
 <head>
   <title>La Parrilla Azteca</title>
     <meta charset="UTF-8">
@@ -10,8 +10,7 @@
     <link rel="icon" href="../img/favicon.png" type="image/png">
 
 </head>
-<body>
-
+<body background="../img/bbq-charcoal-delicious-2663442-scaled.jpg">
   <header>
     <div class="barra">
       <a class="flecha-regreso" href="../menu/index.html">    
@@ -22,7 +21,7 @@
 
    <div class="contenedor" id="loginForm">
   <section class="login">
-    <img class="logo" src="../img/la_parrilla_azteca_logo.png" alt="La Parrilla Azteca">
+    <img class="logo" src="../img/user-icon-png.webp" alt="La Parrilla Azteca">
     <h2>Iniciar sesión</h2>
         <!-- inicio de sesion -->
     <form class="form">
@@ -37,20 +36,29 @@
         <ul class="fas fa-eye" id="togglePassword-login"></ul>
       </div>
 
-      <button class="boton_ingresar" type="submit">Iniciar sesión</button>
+    <div class="olvidaste-contraseña">
       <a class="ayuda" href="../login/olvide_contraseña.html">¿Olvidaste tu contraseña?</a>
-      <a class="sinregistrar" href="#" id="goToRegister">¿Aún no tienes una cuenta? <p1>Registrate aquí</p1></a>
-    </form>
+    </div>
+
+      <button class="boton_ingresar" type="submit">Iniciar sesión</button>
+      
+    <div class="recuerdame">
+      <input type="checkbox" class="checkbox-recordar"> Recuerdame
+    </div>
+    
+      <div class="sinregistrar">¿Aún no tienes una cuenta?
+        <a class="registrarse" href="#" id="goToRegister">Registrate aquí</a>
+    </div>
+ </form>
   </section>
 </div>
 
   <!-- registros de usuarios -->
 <div class="contenedor-registro" id="registerForm" style="display:none;">
-  <section class="login">
-    <img class="logo" src="../img/la_parrilla_azteca_logo.png" alt="La Parrilla Azteca">
+  <section class="login-registro">
     <h2>Registrarse</h2>
 
-    <form id="registerForm">
+    <form class="" id="registerForm">
       <div class="datos">
         <input type="text" name="nombre" placeholder="Usuario" autocomplete="usuario" required>
         <i class="fas fa-user"></i>
@@ -69,18 +77,17 @@
       
       <div class="aceptar-condiciones">
         <input type="checkbox" class="checkbox-aceptar" required> Acepta nuestras <a href="politicas.html">Políticas y Condiciones</a>
-      </div> 
-      <a class="con-cuenta" href="">¿Ya tienes cuenta? <p1>Ingrese aquí</p1></a>
+      </div>
+      <div class="con-cuenta">¿Ya tienes cuenta?
+        <a class="ingresar" href=""> Ingrese aquí</a>
+      </div>
 
-      <button class="boton_ingresar" type="submit">Registrarme</button>
+      <button class="boton-registro" type="submit">Registrarme</button>
     </form>
   </section>
 </div>
 
-
 <script src="./js/register.js"></script>
 <script src="./js/login.js"></script>
 </body>
-
-
 </html>
