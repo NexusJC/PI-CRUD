@@ -233,19 +233,88 @@ footer {
 /* El botón del topbar siempre encima, para poder cerrar */
 .topbar { z-index: 1100; }
 
+/* ===== SIDEBAR ULTRA ESTILIZADO ===== */
 .sidebar {
   position: fixed;
   top: 0;
-  left: -250px; /* Oculto */
-  width: 250px;
+  left: -300px;
+  width: 300px;
   height: 100%;
-  background: #fff7ea;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
-  transition: left 0.3s ease;
-  padding-top: 60px; /* espacio para topbar */
+  background: linear-gradient(180deg, #fff7ea 0%, #fde3ca 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.25);
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  padding-top: 0;
+  transition: all 0.6s ease;
   z-index: 999;
+  overflow-y: auto;
 }
 
+.sidebar.active {
+  left: 0;
+  box-shadow: 10px 0 40px rgba(0, 0, 0, 0.4);
+}
+
+/* === HEADER DEL SIDEBAR === */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, var(--topbar), #ff9b66);
+  color: white;
+  font-weight: 800;
+  font-size: 1.1rem;
+  border-top-right-radius: 24px;
+  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.2);
+}
+.sidebar-header img {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.7);
+}
+
+/* === PERFIL / AVATAR === */
+.sidebar-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(227,104,66,0.2);
+}
+.sidebar-profile img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 12px rgba(227,104,66,0.4);
+  border: 2px solid white;
+}
+.sidebar-profile h4 {
+  margin: 10px 0 4px;
+  font-weight: 700;
+  color: var(--topbar);
+}
+.sidebar-profile p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* === SEPARADOR === */
+.sidebar hr {
+  border: none;
+  border-top: 1px solid rgba(227,104,66,0.2);
+  margin: 16px 20px;
+}
+
+/* === MENÚ === */
 .sidebar ul {
   list-style: none;
   padding: 0;
@@ -253,36 +322,116 @@ footer {
 }
 
 .sidebar ul li {
-  border-bottom: 1px solid var(--border);
+  margin: 6px 0;
 }
 
 .sidebar ul li a {
-  display: block;
-  padding: 14px 20px;
-  color: var(--text);
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 28px;
   font-weight: 600;
+  text-decoration: none;
+  color: #3b2d25;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
 }
 
+.sidebar ul li a::before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  mask-size: cover;
+  background-color: var(--topbar);
+  opacity: 0.85;
+  transition: all 0.4s ease;
+}
+
+/* ÍCONOS */
+.sidebar ul li:nth-child(1) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/home.svg"); }
+.sidebar ul li:nth-child(2) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/utensils.svg"); }
+.sidebar ul li:nth-child(3) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/calendar.svg"); }
+
+/* === HOVER === */
 .sidebar ul li a:hover {
-  background: var(--topbar);
-  color: #fff;
+  background: linear-gradient(90deg, rgba(227,104,66,0.12), rgba(227,104,66,0.25));
+  transform: translateX(8px) scale(1.03);
+  box-shadow: 0 6px 14px rgba(227,104,66,0.2);
+}
+.sidebar ul li a:hover::before {
+  transform: rotate(25deg) scale(1.15);
+  background-color: #e36842;
 }
 
-/* Sidebar visible */
-.sidebar.active {
-  left: 0;
+/* === EFECTO DE BRILLO INTERACTIVO === */
+.sidebar ul li a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+.sidebar ul li a:hover::after {
+  left: 130%;
 }
 
-@media (max-width: 950px) {
-  .layout {
-    grid-template-columns: 1fr;
+/* === PIE DE SIDEBAR === */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 18px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #333;
+  opacity: 0.8;
+}
+.sidebar-footer span {
+  color: var(--topbar);
+  font-weight: 700;
+}
+
+/* === ANIMACIÓN === */
+@keyframes floatIcon {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+.sidebar ul li:hover a::before {
+  animation: floatIcon 1s ease-in-out infinite;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 700px) {
+  .sidebar {
+    width: 250px;
   }
-  .order-details {
-    position: relative;
-    top: 0;
+  .sidebar-header {
+    font-size: 1rem;
+    padding: 16px;
   }
 }
+
+/* Asegura que el sidebar ocupe toda la altura y use columna */
+.sidebar{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;   /* clave para empujar el footer al fondo */
+  overflow-y:auto;    /* permite scroll si el contenido es largo */
+}
+
+/* El footer se pega al fondo del sidebar */
+.sidebar-footer{
+  margin-top:auto;     /* empuja el footer al final */
+  padding:16px 20px;
+  border-top:1px solid rgba(227,104,66,0.2);
+}
+
 
 /* ===== SOLO IMPRIMIR EL TICKET ===== */
 @media print {
@@ -431,4 +580,12 @@ footer {
   .item-actions {
     gap: 8px !important;
   }
+}
+
+/* === ELIMINAR BARRA NARANJA EN EL SIDEBAR === */
+.sidebar-header {
+  background: transparent !important;   /* quita el color naranja */
+  box-shadow: none !important;          /* elimina sombra interna */
+  border-bottom: 1px solid rgba(227,104,66,0.15); /* línea sutil opcional */
+  color: var(--topbar);
 }
