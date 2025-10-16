@@ -78,3 +78,19 @@ document.querySelector('.confirm-btn').addEventListener('click', () => {
   actualizarTotales();
   orderDetails.style.display = 'none';
 });
+// ANIMACIÓN
+const addButtons = document.querySelectorAll('.add-btn');
+
+function addToCart(event) {
+  const button = event.target.closest('.add-btn');
+  
+  button.classList.add('animate');
+  
+  setTimeout(() => {
+    button.classList.remove('animate');
+  }, 400);
+
+}
+addButtons.forEach(button => {
+  button.addEventListener('click', addToCart);
+});
