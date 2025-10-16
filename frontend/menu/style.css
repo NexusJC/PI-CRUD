@@ -368,4 +368,67 @@ footer {
 .category-btn.active .cat-icon { background: rgba(255,255,255,.22); }
 .category-btn:hover .cat-icon svg,
 .category-btn.active .cat-icon svg { fill: #fff; }
+.order-details {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  width: 520px;
+  background: var(--card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+  z-index: 1050;
+}
+.qty-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+  background: rgba(0,0,0,0.03);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
 
+.qty-btn {
+  border: none;
+  background: transparent;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 6px;
+  color: var(--topbar);
+}
+
+.item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+@media print {
+  /* Oculta controles y botones innecesarios en el ticket */
+  .qty-btn,
+  .remove-btn {
+    display: none !important;
+  }
+
+  /* Compacta el contenedor de cantidad para que solo se vea el número */
+  .qty-controls {
+    background: transparent !important;
+    padding: 0 !important;
+    gap: 4px !important;
+  }
+
+  /* Añade el símbolo × antes de la cantidad: ej. ×3 */
+  .qty::before {
+    content: "×";
+    margin-right: 2px;
+  }
+
+  /* Acomoda un poco los espacios en la línea */
+  .item-actions {
+    gap: 8px !important;
+  }
+}

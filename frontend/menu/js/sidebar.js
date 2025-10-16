@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // === TOGGLE SIDEBAR ===
+document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById("menuToggle");
   const sidebar = document.getElementById("sidebar");
 
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
       menuToggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
     });
   }
+});
 
   // === FILTRO DE CATEGORÍAS ===
   const norm = s => (s || '').toString().trim().toLowerCase();
