@@ -318,3 +318,19 @@ footer {
   }
 }
 
+@keyframes addToCart {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.add-btn.animate {
+  animation: addToCart 0.4s ease-in-out;
+}
+
