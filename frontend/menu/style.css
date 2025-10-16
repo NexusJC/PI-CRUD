@@ -333,4 +333,39 @@ footer {
 .add-btn.animate {
   animation: addToCart 0.4s ease-in-out;
 }
+/* Hover + activo en naranja */
+.category-btn:hover,
+.category-btn.active {
+  background: var(--topbar);
+  border-color: var(--topbar);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+}
+
+/* Icono en hover/activo: fondo suave y svg blanco */
+.category-btn:hover .cat-icon,
+.category-btn.active .cat-icon {
+  background: rgba(255,255,255,.22);
+}
+.category-btn:hover .cat-icon svg,
+.category-btn.active .cat-icon svg {
+  fill: #fff;
+}
+
+/* Accesibilidad: al navegar con teclado */
+.category-btn:focus-visible {
+  outline: 3px solid rgba(227,104,66,.5); /* usa --topbar */
+  outline-offset: 2px;
+}
+.category-btn:hover,
+.category-btn.active {
+  background: var(--topbar);
+  border-color: var(--topbar);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+}
+.category-btn:hover .cat-icon,
+.category-btn.active .cat-icon { background: rgba(255,255,255,.22); }
+.category-btn:hover .cat-icon svg,
+.category-btn.active .cat-icon svg { fill: #fff; }
 

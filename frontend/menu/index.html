@@ -50,37 +50,48 @@
 <div class="category-section">
   <h2 class="section-title">Categorías</h2>
   <div class="category-grid">
-    <button class="category-btn active" data-category="todos">
+    <!-- Todos -->
+   <button class="category-btn" data-category="todos">
       <span class="cat-icon">
         <svg viewBox="0 0 24 24"><path d="M6 2h12v2a6 6 0 0 1-6 6v6h4a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2h4V10A6 6 0 0 1 6 4V2Z"/></svg>
       </span>
-      <span class="cat-label">Bar</span>
+      <span class="cat-label">Todos</span>
     </button>
-    <button class="category-btn" data-category="Comida">
+
+    <!-- Comida -->
+    <button class="category-btn" data-category="comida">
       <span class="cat-icon">
         <svg viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 1 18 0H3Z"/><path d="M2 15h20a1 1 0 1 1 0 2H2a1 1 0 1 1 0-2Z"/></svg>
       </span>
       <span class="cat-label">Comida</span>
     </button>
-    <button class="category-btn" data-category="Vinos">
+
+    <!-- Vinos -->
+    <button class="category-btn" data-category="vinos">
       <span class="cat-icon">
         <svg viewBox="0 0 24 24"><path d="M7 2h10v4a5 5 0 0 1-10 0V2Zm4 12h2v5h3a1 1 0 1 1 0 2H8a1 1 0 1 1 0-2h3v-5Z"/></svg>
       </span>
       <span class="cat-label">Vinos</span>
     </button>
-    <button class="category-btn" data-category="Sopas">
+
+    <!-- Sopas -->
+    <button class="category-btn" data-category="sopas">
       <span class="cat-icon">
         <svg viewBox="0 0 24 24"><path d="M3 10h18a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6Zm2 8h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2Z"/></svg>
       </span>
       <span class="cat-label">Sopas</span>
     </button>
-    <button class="category-btn" data-category="Pizza">
+
+    <!-- Pizzas -->
+    <button class="category-btn" data-category="pizza">
       <span class="cat-icon">
         <svg viewBox="0 0 24 24"><path d="M3 7c5-3 13-3 18 0l-9 14L3 7Zm7.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm4 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
       </span>
       <span class="cat-label">Pizzas</span>
     </button>
-    <button class="category-btn" data-category="Pescado">
+
+    <!-- Pescado -->
+    <button class="category-btn" data-category="pescado">
       <span class="cat-icon">
         <svg viewBox="0 0 24 24"><path d="M21 12s-3 4-9 4c-4 0-7-2-9-4 2-2 5-4 9-4 6 0 9 4 9 4Zm-5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
       </span>
@@ -90,83 +101,85 @@
 </div>
 
 
-    <!-- ⭐ MENÚ -->
-    <div class="special-menu">
-      <h2 class="section-title">Menú Especial</h2>
-      <div class="menu-grid" id="menuGrid">
-        <div class="menu-card" data-name="Pizza Mexicana" data-price="12.00">
-          <img src="../menu/img/PizzaMexi.jpeg" alt="">
-          <h3>Pizza Mexicana</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Hamburguesa Azteca" data-price="10.00">
-          <img src="../menu/img/BurguerAzteca.jpeg" alt="">
-          <h3>Hamburguesa Azteca</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Pollo Parrilla" data-price="9.00">
-          <img src="../menu/img/PolloAsado.jpeg" alt="">
-          <h3>Pollo Estilo Parrilla</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Papas Crujientes" data-price="6.00">
-          <img src="../menu/img/Papasfritas.jpeg" alt="">
-          <h3>Papas Crujientes</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-      </div>
+<!-- ⭐ MENÚ -->
+<div class="special-menu">
+  <h2 class="section-title">Menú Especial</h2>
+  <div class="menu-grid" id="menuGrid">
+
+    <div class="menu-card" data-name="Pizza Mexicana" data-price="12.00">
+      <img src="../menu/img/PizzaMexi.jpeg" alt="">
+      <h3>Pizza Mexicana</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
     </div>
-    <!--Fila 2-->
-    <div class="special-menu">
-      <div class="menu-grid" id="menuGrid">
-        <div class="menu-card" data-name="Carne Asada" data-price="30.00">
-          <img src="../menu/img/CarneAsada.jpeg" alt="">
-          <h3>Carne Asada</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Chilaquiles" data-price="22.00">
-          <img src="../menu/img/Chilaquiles.jpeg" alt="">
-          <h3>Chilaquiles</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Tostadas tradicionales" data-price="15.00">
-          <img src="../menu/img/Tostadatradicional.jpeg" alt="">
-          <h3>Tostadas tradicionales</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Enchiladas" data-price="16.00">
-          <img src="../menu/img/Enchiladas.jpeg" alt="">
-          <h3>Enchiladas</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-      </div>
+
+    <div class="menu-card" data-name="Hamburguesa Azteca" data-price="10.00">
+      <img src="../menu/img/BurguerAzteca.jpeg" alt="">
+      <h3>Hamburguesa Azteca</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
     </div>
-    <!--Fila 3-->
-    <div class="special-menu">
-      <div class="menu-grid" id="menuGrid">
-        <div class="menu-card" data-name="Pozole" data-price="12.00">
-          <img src="../menu/img/Pozole.jpeg" alt="">
-          <h3>Pozole</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Costillas BBQ" data-price="10.00">
-          <img src="../menu/img/Costillasbbq.jpeg" alt="">
-          <h3>Costillas BBQ</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Tacos al Pastor" data-price="9.00">
-          <img src="../menu/img/TacosPastor.jpeg" alt="">
-          <h3>Tacos al Pastor</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-        <div class="menu-card" data-name="Tacos de Asada" data-price="6.00">
-          <img src="../menu/img/TacosAsada.jpeg" alt="">
-          <h3>Tacos de Asada</h3>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
-        </div>
-      </div>
+
+    <div class="menu-card" data-name="Pollo Parrilla" data-price="9.00">
+      <img src="../menu/img/PolloAsado.jpeg" alt="">
+      <h3>Pollo Estilo Parrilla</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
     </div>
-  </section>
+
+    <div class="menu-card" data-name="Papas Crujientes" data-price="6.00">
+      <img src="../menu/img/Papasfritas.jpeg" alt="">
+      <h3>Papas Crujientes</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Carne Asada" data-price="30.00">
+      <img src="../menu/img/CarneAsada.jpeg" alt="">
+      <h3>Carne Asada</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Chilaquiles" data-price="22.00">
+      <img src="../menu/img/Chilaquiles.jpeg" alt="">
+      <h3>Chilaquiles</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Tostadas tradicionales" data-price="15.00">
+      <img src="../menu/img/Tostadatradicional.jpeg" alt="">
+      <h3>Tostadas tradicionales</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Enchiladas" data-price="16.00">
+      <img src="../menu/img/Enchiladas.jpeg" alt="">
+      <h3>Enchiladas</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Pozole" data-price="12.00">
+      <img src="../menu/img/Pozole.jpeg" alt="">
+      <h3>Pozole</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Costillas BBQ" data-price="10.00">
+      <img src="../menu/img/Costillasbbq.jpeg" alt="">
+      <h3>Costillas BBQ</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Tacos al Pastor" data-price="9.00">
+      <img src="../menu/img/TacosPastor.jpeg" alt="">
+      <h3>Tacos al Pastor</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+    <div class="menu-card" data-name="Tacos de Asada" data-price="6.00">
+      <img src="../menu/img/TacosAsada.jpeg" alt="">
+      <h3>Tacos de Asada</h3>
+      <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>Agregar</button>
+    </div>
+
+  </div>
+</div>
 
   <!-- PANEL DERECHO -->
   <aside class="order-details" id="orderDetails">
@@ -211,7 +224,7 @@
       </div>
     </div>
   </footer>
-  <script src="../menu/js/orderDetails.js"></script>
-  <script src="../menu/js/sidebar.js"></script>
+ <script src="js/orderDetails.js"></script>
+<script src="js/sidebar.js" defer></script>
 </body>
 </html>
