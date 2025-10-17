@@ -106,7 +106,6 @@ body {
   display: block;
 }
 
-/* Lista como el <ul> del primer código */
 .sidebar .nav-links {
   list-style: none;
   padding: 0;
@@ -154,10 +153,9 @@ body {
 }
 .sidebar.active ~ #overlay { display: block; }
 
-/* Si algún estilo previo empujaba el main cuando abría el sidebar, lo anulamos */
 body.sidebar-open .main-content{ margin-left: 0 !important; }
 
-/* ===== Main ===== */
+/*  Main */
 .main-content {
   flex: 1;
   padding: 20px;
@@ -165,7 +163,7 @@ body.sidebar-open .main-content{ margin-left: 0 !important; }
   transition: margin-left 0.3s ease;
 }
 
-/* ===== Dashboard ===== */
+/*  Dashboard  */
 .dashboard { margin-top: 20px; }
 
 .charts{
@@ -188,7 +186,7 @@ body.sidebar-open .main-content{ margin-left: 0 !important; }
   height: 100% !important;
 }
 
-/* ===== Tabla ===== */
+/* Tabla */
 .activity { 
   margin-top: 40px; 
   display: grid;

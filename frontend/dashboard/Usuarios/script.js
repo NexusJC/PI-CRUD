@@ -238,13 +238,34 @@ function confirmarEliminacion(id) {
 }
 
 // Mostrar/ocultar sidebar (para móviles)
-function toggleSidebar() {
-    const adminSidebar = document.querySelector('.admin-sidebar');
+document.addEventListener("DOMContentLoaded", function() {
+    // Función para alternar el sidebar
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.admin-sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        
+        // Alternar la visibilidad del sidebar
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Ocultar o mostrar el botón
+        sidebarToggle.classList.toggle('hidden');  // Añadir clase que oculta el botón
+    }
+
+    // Botón de apertura/cierre del sidebar
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleSidebar();
+        });
+    }
+
+    // Evento para el overlay que cierra el sidebar cuando se hace click fuera
     const overlay = document.querySelector('.sidebar-overlay');
-    
-    adminSidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-}
+    overlay.addEventListener('click', toggleSidebar);
+});
 
 // Inicialización cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
