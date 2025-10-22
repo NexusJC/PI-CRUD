@@ -351,9 +351,9 @@ footer {
 }
 
 /* ÍCONOS */
-.sidebar ul li:nth-child(1) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/home.svg"); }
-.sidebar ul li:nth-child(2) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/utensils.svg"); }
-.sidebar ul li:nth-child(3) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/calendar.svg"); }
+.sidebar ul li:nth-child(1) a::before { mask-image: url("https://unpkg.com/lucide-static/icons/home.svg"); }
+.sidebar ul li:nth-child(2) a::before { mask-image: url("https://unpkg.com/lucide-static/icons/utensils.svg"); }
+.sidebar ul li:nth-child(3) a::before { mask-image: url("https://unpkg.com/lucide-static/icons/calendar.svg"); }
 
 /* === HOVER === */
 .sidebar ul li a:hover {
