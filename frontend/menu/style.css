@@ -622,3 +622,70 @@ footer {
   background-color: #e36842; /* Un tono más claro en el hover */
   transform: scale(1.05);
 }
+.order-details {
+  height: 700px; /* Define una altura específica para la vista normal */
+  overflow-y: auto; /* Permite el desplazamiento vertical */
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.order-list {
+  max-height: 300px; /* Ajusta la altura para que las órdenes sean desplazables */
+  overflow-y: auto; /* Permite el desplazamiento de las órdenes */
+  margin-bottom: 16px; /* Espacio entre la lista y los botones */
+}
+
+.order-actions {
+  position: sticky;
+  bottom: 0;
+  background: var(--card);
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+@media print {
+  /* En la impresión, se asegura que todos los pedidos se muestren */
+  .order-details {
+    height: auto !important; /* Ajusta la altura automáticamente según el contenido */
+    overflow: visible !important; /* Elimina el desplazamiento para que todo se muestre */
+  }
+
+  /* Asegura que la lista de pedidos no tenga una altura limitada durante la impresión */
+  .order-list {
+    max-height: none !important; /* Elimina la restricción de altura */
+    overflow-y: visible !important; /* Muestra todos los elementos sin barra de desplazamiento */
+  }
+
+  /* Elimina las barras de desplazamiento en el ticket impreso */
+  .order-list::-webkit-scrollbar {
+    display: none !important; /* Oculta la barra de desplazamiento */
+  }
+
+  /* Elimina la barra de desplazamiento en todo el ticket */
+  body * {
+    visibility: hidden !important; /* Oculta todos los elementos */
+  }
+
+  #orderDetails, #orderDetails * {
+    visibility: visible !important; /* Muestra solo el contenido del ticket */
+  }
+
+  /* Ajustes de la disposición del ticket */
+  #orderDetails {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* No imprimir controles innecesarios */
+  .order-actions {
+    display: none !important; /* Oculta los botones durante la impresión */
+  }
+}
