@@ -340,20 +340,11 @@ footer {
 }
 
 .sidebar ul li a::before {
-  content: "";
-  display: inline-block;
-  width: 26px;
-  height: 26px;
-  mask-size: cover;
-  background-color: var(--topbar);
-  opacity: 0.85;
-  transition: all 0.4s ease;
+  content: none;
+  
 }
 
 /* ÍCONOS */
-.sidebar ul li:nth-child(1) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/home.svg"); }
-.sidebar ul li:nth-child(2) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/utensils.svg"); }
-.sidebar ul li:nth-child(3) a::before { mask-image: url("https://cdn.jsdelivr.net/npm/lucide-static/icons/calendar.svg"); }
 
 /* === HOVER === */
 .sidebar ul li a:hover {
