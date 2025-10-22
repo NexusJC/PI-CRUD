@@ -19,19 +19,20 @@
     </div>
   </header>
 
+   <!-- Formulario de inicio de sesión -->
    <div class="contenedor" id="loginForm">
   <section class="login">
     <img class="logo" src="../img/user-icon-png.webp" alt="La Parrilla Azteca">
     <h2>Iniciar sesión</h2>
         <!-- inicio de sesion -->
-    <form class="form">
+    <form class="form" id="loginForm">
       <div class="datos">
-        <input type="email" placeholder="Correo electrónico" autocomplete="email" required>
+        <input type="email" name="email" placeholder="Correo electrónico" autocomplete="email" required>
         <i class="fas fa-envelope"></i>
       </div>
 
       <div class="datos">
-        <input type="password" id="contraseña" placeholder="Contraseña" autocomplete="current-password" required>
+        <input type="password" name="password" id="contraseña" placeholder="Contraseña" autocomplete="current-password" required>
         <i class="fas fa-lock"></i>
         <ul class="fas fa-eye" id="togglePassword-login"></ul>
       </div>
@@ -49,14 +50,14 @@
   </section>
 </div>
 
-  <!-- registros de usuarios -->
-<div class="contenedor-registro" id="registerFormContainer" style="display:none;">
+  <!-- Formulario de registro (inicialmente oculto) -->
+  <div class="contenedor-registro" id="registerFormContainer" style="display:none;">
   <section class="login-registro">
     <h2>Registrarse</h2>
 
-    <form rm class="" id="registerForm">
+    <form id="registerForm">
       <div class="datos">
-        <input type="text" name="nombre" placeholder="Usuario" autocomplete="usuario" required>
+        <input type="text" name="name" placeholder="Usuario" autocomplete="usuario" required>
         <i class="fas fa-user"></i>
       </div>
 
@@ -66,13 +67,13 @@
       </div>
 
       <div class="datos">
-        <input type="password" id="contraseña2" placeholder="Contraseña" autocomplete="current-password" required>
+        <input type="password" name="password" id="contraseña2" placeholder="Contraseña" autocomplete="current-password" required>
         <i class="fas fa-lock"></i>
         <ul class="fas fa-eye" id="togglePassword-register"></ul>
       </div>
       
       <div class="datos">
-        <input type="password" id="contraseña3" placeholder="Confirmar Contraseña" autocomplete="current-password" required>
+        <input type="password" name="password_confirmation" id="contraseña3" placeholder="Confirmar Contraseña" autocomplete="current-password" required>
         <i class="fas fa-lock"></i>
         <ul class="fas fa-eye" id="togglePassword-register2"></ul>
       </div>
@@ -81,7 +82,7 @@
         <input type="checkbox" class="checkbox-aceptar" required> Acepta nuestras <a href="politicas.html">Políticas y Condiciones</a>
       </div>
       <div class="con-cuenta">¿Ya tienes cuenta?
-        <a class="ingresar" href=""> Ingrese aquí</a>
+        <a class="ingresar" href="#" id="goToLogin"> Ingrese aquí</a>
       </div>
 
       <button class="boton-registro" type="submit">Registrarme</button>
@@ -92,4 +93,5 @@
 <script src="./js/register.js"></script>
 <script src="./js/login.js"></script>
 </body>
+
 </html>
