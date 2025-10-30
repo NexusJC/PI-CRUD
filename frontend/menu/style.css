@@ -96,6 +96,7 @@ body { padding-top:60px; flex-grow:1; }
 /* ===== MENÚ ESPECIAL ===== */
 .special-menu { text-align:center; padding: 0 1rem 4rem; }
 
+/* 4 columnas */
 .menu-grid{
   display:grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -131,6 +132,19 @@ body { padding-top:60px; flex-grow:1; }
 }
 .add-btn svg { width:18px; height:18px; fill:#fff; }
 .add-btn:hover { filter: brightness(.95); }
+
+/* ===== PROMOCIONES ===== */
+#promociones{color:#000;padding:4rem 2rem;max-width:1200px;margin:0 auto}
+#promociones h2{text-align:center;margin-bottom:2rem}
+.promociones-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem;
+}
+.promocion-card{ background-color:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+.promocion-card img{width:100%;height:200px;object-fit:cover}
+.promocion-card h3{padding:1rem;color:#333}
+.precio{color:#000;font-weight:bold;padding:0 1rem}
+.descripcion{padding:.5rem 1rem;color:#666}
+.promocion-card button{ margin:1rem;padding:.5rem 1rem;background-color:#000;color:white; border:none;border-radius:5px;cursor:pointer; }
 
 /* ===== FOOTER ===== */
 footer {
@@ -237,6 +251,7 @@ footer {
 /* === Push lateral cuando el sidebar está abierto === */
 :root { --sidebar-w: 250px; }
 
+/* El botón del topbar siempre encima, para poder cerrar */
 .topbar { z-index: 1100; }
 
 /* ===== SIDEBAR ULTRA ESTILIZADO ===== */
@@ -312,37 +327,6 @@ footer {
   font-size: 0.85rem;
   color: #444;
 }
-/* ===== Estilos del botón de iniciar sesión en el sidebar ===== */
-.sidebar-login-btn {
-  margin-top: auto;
-  padding-bottom: 20px; /* Esto empuja el botón hacia abajo antes del footer */
-  padding: 20px;
-  text-align: center;
-}
-
-.btn-login {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: var(--topbar); /* Usando el color de la barra superior */
-  color: white;
-  font-weight: 600;
-  border-radius: 16px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn-login:hover {
-  background-color: #e36842; /* Un tono más claro en el hover */
-  transform: scale(1.05);
-}
-
-/* ===== Eliminar la barra naranja del sidebar ===== */
-.sidebar-header {
-  background: transparent !important;   /* quita el color naranja */
-  box-shadow: none !important;          /* elimina sombra interna */
-  color: var(--topbar);
-}
-
 
 /* === SEPARADOR === */
 .sidebar hr {
@@ -376,10 +360,20 @@ footer {
   transition: all 0.35s ease;
 }
 
+.sidebar ul li a::before {
+  content: none;
+  
+}
+
+/* === HOVER === */
 .sidebar ul li a:hover {
   background: linear-gradient(90deg, rgba(227,104,66,0.12), rgba(227,104,66,0.25));
   transform: translateX(8px) scale(1.03);
   box-shadow: 0 6px 14px rgba(227,104,66,0.2);
+}
+.sidebar ul li a:hover::before {
+  transform: rotate(25deg) scale(1.15);
+  background-color: #e36842;
 }
 
 /* === EFECTO DE BRILLO INTERACTIVO === */
@@ -410,4 +404,288 @@ footer {
 .sidebar-footer span {
   color: var(--topbar);
   font-weight: 700;
+}
+
+/* === ANIMACIÓN === */
+@keyframes floatIcon {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+.sidebar ul li:hover a::before {
+  animation: floatIcon 1s ease-in-out infinite;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 700px) {
+  .sidebar {
+    width: 250px;
+  }
+  .sidebar-header {
+    font-size: 1rem;
+    padding: 16px;
+  }
+}
+
+.sidebar{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;   /* clave para empujar el footer al fondo */
+  overflow-y:auto;    /* permite scroll si el contenido es largo */
+}
+
+/* El footer se pega al fondo del sidebar */
+.sidebar-footer{
+  margin-top:auto;     /* empuja el footer al final */
+  padding:16px 20px;
+  border-top:1px solid rgba(227,104,66,0.2);
+}
+
+
+/* ===== SOLO IMPRIMIR EL TICKET ===== */
+@media print {
+  /* Oculta todo */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Muestra solo el ticket */
+  #orderDetails, #orderDetails * {
+    visibility: visible !important;
+  }
+
+  /* Coloca el ticket al inicio de la página impresa y limpia estilos visuales */
+  #orderDetails {
+    position: absolute !important;
+    left: 0; top: 0;
+    width: 100%;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* No imprimir botones del ticket */
+  #orderDetails .order-actions {
+    display: none !important;
+  }
+
+  /* Márgenes de la hoja */
+  @page {
+    margin: 10mm;
+  }
+}
+
+@keyframes addToCart {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.add-btn.animate {
+  animation: addToCart 0.4s ease-in-out;
+}
+/* Hover + activo en naranja */
+.category-btn:hover,
+.category-btn.active {
+  background: var(--topbar);
+  border-color: var(--topbar);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+}
+
+/* Icono en hover/activo: fondo suave y svg blanco */
+.category-btn:hover .cat-icon,
+.category-btn.active .cat-icon {
+  background: rgba(255,255,255,.22);
+}
+.category-btn:hover .cat-icon svg,
+.category-btn.active .cat-icon svg {
+  fill: #fff;
+}
+
+/* Accesibilidad: al navegar con teclado */
+.category-btn:focus-visible {
+  outline: 3px solid rgba(227,104,66,.5); /* usa --topbar */
+  outline-offset: 2px;
+}
+.category-btn:hover,
+.category-btn.active {
+  background: var(--topbar);
+  border-color: var(--topbar);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+}
+.category-btn:hover .cat-icon,
+.category-btn.active .cat-icon { background: rgba(255,255,255,.22); }
+.category-btn:hover .cat-icon svg,
+.category-btn.active .cat-icon svg { fill: #fff; }
+.order-details {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  width: 520px;
+  background: var(--card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+  z-index: 1050;
+}
+.qty-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+  background: rgba(0,0,0,0.03);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.qty-btn {
+  border: none;
+  background: transparent;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 6px;
+  color: var(--topbar);
+}
+
+.item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+@media print {
+  /* Oculta controles y botones innecesarios en el ticket */
+  .qty-btn,
+  .remove-btn {
+    display: none !important;
+  }
+
+  /* Compacta el contenedor de cantidad para que solo se vea el número */
+  .qty-controls {
+    background: transparent !important;
+    padding: 0 !important;
+    gap: 4px !important;
+  }
+
+  /* Añade el símbolo × antes de la cantidad: ej. ×3 */
+  .qty::before {
+    content: "×";
+    margin-right: 2px;
+  }
+
+  /* Acomoda un poco los espacios en la línea */
+  .item-actions {
+    gap: 8px !important;
+  }
+}
+
+/* === ELIMINAR BARRA NARANJA EN EL SIDEBAR === */
+.sidebar-header {
+  background: transparent !important;   /* quita el color naranja */
+  box-shadow: none !important;          /* elimina sombra interna */
+  border-bottom: 1px solid rgba(227,104,66,0.15); /* línea sutil opcional */
+  color: var(--topbar);
+}
+
+/* Estilos para el botón de login */
+.sidebar-login-btn {
+  margin-top: auto;
+  padding-bottom: 20px; /* Esto empuja el botón hacia abajo antes del footer */
+  padding: 20px;
+  text-align: center;
+}
+
+.btn-login {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--topbar); /* Usando el color de la barra superior */
+  color: white;
+  font-weight: 600;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-login:hover {
+  background-color: #e36842; /* Un tono más claro en el hover */
+  transform: scale(1.05);
+}
+.order-details {
+  height: 700px; /* Define una altura específica para la vista normal */
+  overflow-y: auto; /* Permite el desplazamiento vertical */
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.order-list {
+  max-height: 300px; /* Ajusta la altura para que las órdenes sean desplazables */
+  overflow-y: auto; /* Permite el desplazamiento de las órdenes */
+  margin-bottom: 16px; /* Espacio entre la lista y los botones */
+}
+
+.order-actions {
+  position: sticky;
+  bottom: 0;
+  background: var(--card);
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+@media print {
+  /* En la impresión, se asegura que todos los pedidos se muestren */
+  .order-details {
+    height: auto !important; /* Ajusta la altura automáticamente según el contenido */
+    overflow: visible !important; /* Elimina el desplazamiento para que todo se muestre */
+  }
+
+  /* Asegura que la lista de pedidos no tenga una altura limitada durante la impresión */
+  .order-list {
+    max-height: none !important; /* Elimina la restricción de altura */
+    overflow-y: visible !important; /* Muestra todos los elementos sin barra de desplazamiento */
+  }
+
+  /* Elimina las barras de desplazamiento en el ticket impreso */
+  .order-list::-webkit-scrollbar {
+    display: none !important; /* Oculta la barra de desplazamiento */
+  }
+
+  /* Elimina la barra de desplazamiento en todo el ticket */
+  body * {
+    visibility: hidden !important; /* Oculta todos los elementos */
+  }
+
+  #orderDetails, #orderDetails * {
+    visibility: visible !important; /* Muestra solo el contenido del ticket */
+  }
+
+  /* Ajustes de la disposición del ticket */
+  #orderDetails {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* No imprimir controles innecesarios */
+  .order-actions {
+    display: none !important; /* Oculta los botones durante la impresión */
+  }
 }
