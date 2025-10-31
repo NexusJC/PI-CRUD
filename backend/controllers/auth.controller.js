@@ -1,5 +1,7 @@
+import bcrypt from 'bcrypt';
 import { pool } from "../db.js";
 
+// Obtener todos los usuarios
 export const getUsers = async (_req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM users");
@@ -10,18 +12,26 @@ export const getUsers = async (_req, res) => {
   }
 };
 
+// Lógica de inicio de sesión
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Consultar al usuario por su correo electrónico
     const [rows] = await pool.query(
-      "SELECT * FROM users WHERE email = ? AND password = ?",
-      [email, password]
+      "SELECT * FROM users WHERE email = ?",
+      [email]
     );
 
     if (rows.length > 0) {
-     
-      return res.status(200).json({ message: "Login successful" });
+      // Comparar la contraseña proporcionada con la almacenada en la base de datos
+      const isMatch = await bcrypt.compare(password, rows[0].password);
+
+      if (isMatch) {
+        return res.status(200).json({ message: "Login successful" });
+      } else {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
     }
 
     res.status(401).json({ message: "Invalid credentials" });
@@ -31,14 +41,20 @@ export const login = async (req, res) => {
   }
 };
 
+// Lógica de registro
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+    // Encriptar la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 es el número de rondas de saltos
+
+    // Insertar el nuevo usuario con la contraseña encriptada
     await pool.query(
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-      [name, email, password]
+      [name, email, hashedPassword]
     );
+
     res.status(201).json({ message: "Usuario registrado correctamente" });
   } catch (err) {
     console.error("Error registering user:", err);
