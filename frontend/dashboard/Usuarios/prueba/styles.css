@@ -1,0 +1,40 @@
+.language-switcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#translate-toggle {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#translate-toggle:hover {
+  background-color: #e0e0e0;
+}
+
+.hidden {
+  display: none;
+}
+
+#google_translate_element {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1001;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
