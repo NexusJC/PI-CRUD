@@ -12,12 +12,11 @@ export const getUsers = async (_req, res) => {
   }
 };
 
-// Lógica de inicio de sesión
+// inicio de sesión
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Consultar al usuario por su correo electrónico
     const [rows] = await pool.query(
       "SELECT * FROM users WHERE email = ?",
       [email]
@@ -41,15 +40,13 @@ export const login = async (req, res) => {
   }
 };
 
-// Lógica de registro
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
     // Encriptar la contraseña
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 es el número de rondas de saltos
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insertar el nuevo usuario con la contraseña encriptada
     await pool.query(
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
       [name, email, hashedPassword]
@@ -58,7 +55,7 @@ export const register = async (req, res) => {
     res.status(201).json({ message: "Usuario registrado correctamente" });
   } catch (err) {
     console.error("Error registering user:", err);
-    res.status(500).send("Error registering user");
+    res.status(500).json("Error registering user");
   }
 };
 
