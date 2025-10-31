@@ -27,13 +27,10 @@
             </ul>
         </div>
     </div>
-
-    <!-- Overlay para móviles -->
     <div class="sidebar-overlay"></div>
-
-    <!-- Contenido principal -->
     <div class="contenedor-principal">
         <div class="header_1">
+            <button id="sidebar-toggle" class="menu-toggle" aria-label="Abrir menú">☰</button>
             <h1>Gestión de Editores</h1>
             <div class="search-container">
                 <div class="search-box">
@@ -78,6 +75,14 @@
             </table>
         </div>
     </div>
+
+<div class="language-switcher">
+  <button id="translate-toggle">🌐</button>
+  <div id="google_translate_element" style="display:none;"></div>
+</div>
+
+<script src="/frontend/dashboard/translate.js"></script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>

@@ -1,12 +1,9 @@
-/* Variables de tema */
 :root{
   --topbar:#e36842;    
   --panel:#fff7ea;     
   --text:#2b2b2b;      
   --border:#e5e5e5;
 }
-
-/* Reset y base */
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; padding: 0; }
 body {
@@ -20,7 +17,6 @@ body {
   min-height: 100vh;
   width: 100%;
 }
-
 /*TOPBAR*/
 .topbar{
   display: flex;
@@ -62,17 +58,35 @@ body {
   position: relative;
   top: -2px;
 }
-.actions{display:flex; align-items:center; gap:6px}
+.actions{
+  display:flex; 
+  align-items:center; 
+  gap:6px}
 .iconbtn{
-  display:inline-grid; place-items:center;
-  width:36px; height:36px; border-radius:999px; text-decoration:none;
-  border:1px solid rgba(0,0,0,.08); background:#fff;
+  display:inline-grid; 
+  place-items:center;
+  width:36px; 
+  height:36px; 
+  border-radius:999px; 
+  text-decoration:none;
+  border:1px solid rgba(0,0,0,.08); 
+  background:#fff;
 }
-.iconbtn:hover{ filter:brightness(0.98); }
-.ico{ width:22px; height:22px; fill:#333; }
-.logo-link{ text-decoration:none; color:inherit; }
-.logo-link:hover{ cursor:pointer; }
-
+.iconbtn:hover{ 
+  filter:brightness(0.98); 
+}
+.ico{ 
+  width:22px; 
+  height:22px; 
+  fill:#333; 
+}
+.logo-link{ 
+  text-decoration:none; 
+  color:inherit; 
+}
+.logo-link:hover{ 
+  cursor:pointer; 
+}
 /* SIDEBAR */
 .sidebar {
   position: fixed !important;
@@ -80,17 +94,19 @@ body {
   left: -250px;       
   width: 250px !important;
   height: 100%;
-  background: var(--panel);   /* crema */
+  background: var(--panel);
   box-shadow: 2px 0 8px rgba(0,0,0,0.2);
   transition: left 0.3s ease;
   z-index: 999 !important;
   overflow: hidden;
   padding-top: 60px;         
 }
-.sidebar.active { left: 0; }
-
-#close-btn { display: none; } 
-
+.sidebar.active { 
+  left: 0; 
+}
+#close-btn { 
+  display: none; 
+} 
 .sidebar .logo-details {
   height: auto;
   width: 100%;
@@ -105,8 +121,6 @@ body {
   margin: 16px auto 8px;
   display: block;
 }
-
-/* Lista como el <ul> del primer código */
 .sidebar .nav-links {
   list-style: none;
   padding: 0;
@@ -141,9 +155,9 @@ body {
   font-size: 18px;
   color: inherit;
 }
-
-/* Overlay para móvil */
-#overlay.hidden { display: none; }
+#overlay.hidden { 
+  display: none; 
+}
 #overlay {
   position: fixed;
   inset: 0;
@@ -152,22 +166,20 @@ body {
   pointer-events: none !important;
   display: none !important;
 }
-.sidebar.active ~ #overlay { display: block; }
-
-/* Si algún estilo previo empujaba el main cuando abría el sidebar, lo anulamos */
-body.sidebar-open .main-content{ margin-left: 0 !important; }
-
-/* ===== Main ===== */
+.sidebar.active ~ #overlay { 
+  display: block; 
+}
+body.sidebar-open .main-content{ 
+  margin-left: 0 !important; 
+}
 .main-content {
   flex: 1;
   padding: 20px;
   margin-left: 0;
   transition: margin-left 0.3s ease;
 }
-
-/* ===== Dashboard ===== */
+/*  Dashboard  */
 .dashboard { margin-top: 20px; }
-
 .charts{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -187,8 +199,7 @@ body.sidebar-open .main-content{ margin-left: 0 !important; }
   width: 100% !important;
   height: 100% !important;
 }
-
-/* ===== Tabla ===== */
+/* Tabla */
 .activity { 
   margin-top: 40px; 
   display: grid;
@@ -196,13 +207,17 @@ body.sidebar-open .main-content{ margin-left: 0 !important; }
   align-items: center;
   column-gap: .5rem;
 }
-.activity > i{ color:#fbbf24; font-size: 1.55em; }
-.activity > h2{ margin: 0; }
+.activity > i{
+  color:#fbbf24; 
+  font-size: 1.55em; 
+}
+.activity > h2{ 
+  margin: 0; 
+}
 .activity > table{
   grid-column: 1 / -1;   
   margin-top: .5rem;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
@@ -210,6 +225,14 @@ table {
   border-radius: 8px;
   overflow: hidden;
 }
-table, th, td { border: 1px solid #ddd; }
-th, td { padding: 12px; text-align: center; border: 2px solid #000000 }
-th { background-color: #d66666; }
+table, th, td {
+  border: 1px solid #ddd; 
+}
+th, td { 
+  padding: 12px; 
+  text-align: center; 
+  border: 2px solid #000000 
+}
+th { 
+  background-color: #d66666; 
+}
