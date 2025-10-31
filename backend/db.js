@@ -20,9 +20,7 @@ function fromDiscreteEnv() {
   };
 }
 
-const cfg = process.env.MYSQL_URL || process.env.MYSQL_PUBLIC_URL
-  ? fromUrl(process.env.MYSQL_URL || process.env.MYSQL_PUBLIC_URL)
-  : fromDiscreteEnv();
+const cfg = fromDiscreteEnv(); 
 
 export const pool = mysql.createPool({
   ...cfg,
