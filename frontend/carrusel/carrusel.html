@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel de Cocina · La Parrilla Azteca</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <link rel="stylesheet" href="../../menu/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <div class="brand">
+      <a href="../../menu/index.html" class="logo-link">
+        <img class="logo" src="../../img/logo_1.png" alt="La Parrilla Azteca" />
+      </a>
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </div>
+  </header>
+
+  <!-- SIDEBAR (solo navega al Menú) -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../../img/logo_1.png" alt="Logo">
+      Panel Cocina
+    </div>
+
+    <div class="sidebar-profile">
+      <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
+      <h4>Cocinero</h4>
+      <p>Pedidos en proceso</p>
+    </div>
+
+    <hr>
+    <ul>
+      <li><a href="../../menu/index.html"><i class="fas fa-utensils"></i> Menú</a></li>
+    </ul>
+
+    <hr>
+    <div class="sidebar-footer">
+      <p>© 2025 <span>Innovatech</span><br>Versión 1.0.7</p>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="layout" style="padding: 2rem 1rem 4rem;">
+    <section class="turnos-section fade-in">
+      <h2 class="section-title">Panel de Pedidos en Cocina</h2>
+      <p class="section-subtitle">Consulta el estado, los comentarios y la hora estimada de salida de cada pedido.</p>
+
+      <div class="turnos-carousel" id="turnosCarousel">
+
+        <!-- === PEDIDO 1 === -->
+        <article class="turno-card pendiente slide-up">
+          <div class="turno-header">
+            <h3>Pedido #401</h3>
+            <time>16:45</time>
+          </div>
+          <p class="cliente">Cliente: <strong>Ana López</strong></p>
+          <ul class="detalles">
+            <li>Hamburguesa Clásica con Queso</li>
+            <li>Papas Grandes</li>
+            <li>Refresco</li>
+          </ul>
+
+          <div class="pedido-info">
+            <p><strong>Hora del pedido:</strong> 16:45</p>
+            <p><strong>Hora estimada de salida:</strong> 17:05</p>
+          </div>
+
+          <div class="comentarios">
+            <h4>Comentarios del cliente</h4>
+            <p>"Por favor, sin cebolla y con extra de salsa."</p>
+          </div>
+
+          <div class="estado-row">
+            <span class="status-chip is-pendiente">Pendiente</span>
+          </div>
+
+          <div class="timeline">
+            <span class="step active">Pendiente</span>
+            <span class="step">Preparación</span>
+            <span class="step">Listo</span>
+            <span class="step">Entregado</span>
+          </div>
+
+          <div class="acciones">
+            <button class="btn iniciar"><i class="fa-solid fa-play"></i> Iniciar preparación</button>
+          </div>
+        </article>
+
+        <!-- === PEDIDO 2 === -->
+        <article class="turno-card preparando slide-up">
+          <div class="turno-header">
+            <h3>Pedido #402</h3>
+            <time>16:50</time>
+          </div>
+          <p class="cliente">Cliente: <strong>Juan Pérez</strong></p>
+          <ul class="detalles">
+            <li>Tacos al Pastor (3 piezas)</li>
+            <li>Agua de Jamaica</li>
+          </ul>
+
+          <div class="pedido-info">
+            <p><strong>Hora del pedido:</strong> 16:50</p>
+            <p><strong>Hora estimada de salida:</strong> 17:10</p>
+          </div>
+
+          <div class="comentarios">
+            <h4>Comentarios del cliente</h4>
+            <p>"Poco picante, por favor."</p>
+          </div>
+
+          <div class="estado-row">
+            <span class="status-chip is-preparando">En preparación</span>
+          </div>
+
+          <div class="timeline">
+            <span class="step completed">Pendiente</span>
+            <span class="step active">Preparación</span>
+            <span class="step">Listo</span>
+            <span class="step">Entregado</span>
+          </div>
+
+          <div class="acciones">
+            <button class="btn listo"><i class="fa-solid fa-check"></i> Marcar como listo</button>
+          </div>
+        </article>
+
+        <!-- === PEDIDO 3 === -->
+        <article class="turno-card listo slide-up">
+          <div class="turno-header">
+            <h3>Pedido #403</h3>
+            <time>17:00</time>
+          </div>
+          <p class="cliente">Cliente: <strong>Laura García</strong></p>
+          <ul class="detalles">
+            <li>Ensalada César</li>
+            <li>Limonada Natural</li>
+          </ul>
+
+          <div class="pedido-info">
+            <p><strong>Hora del pedido:</strong> 17:00</p>
+            <p><strong>Hora estimada de salida:</strong> 17:20</p>
+          </div>
+
+          <div class="comentarios">
+            <h4>Comentarios del cliente</h4>
+            <p>"Agregar aderezo aparte."</p>
+          </div>
+
+          <div class="estado-row">
+            <span class="status-chip is-listo">Listo</span>
+          </div>
+
+          <div class="timeline">
+            <span class="step completed">Pendiente</span>
+            <span class="step completed">Preparación</span>
+            <span class="step active">Listo</span>
+            <span class="step">Entregado</span>
+          </div>
+
+          <div class="acciones">
+            <button class="btn entregar"><i class="fa-solid fa-box"></i> Entregar pedido</button>
+          </div>
+        </article>
+
+        <!-- === PEDIDO 4 === -->
+        <article class="turno-card pendiente slide-up">
+          <div class="turno-header">
+            <h3>Pedido #404</h3>
+            <time>17:10</time>
+          </div>
+          <p class="cliente">Cliente: <strong>Sofía Ramírez</strong></p>
+          <ul class="detalles">
+            <li>Pizza Hawaiana</li>
+            <li>Refresco de Manzana</li>
+          </ul>
+
+          <div class="pedido-info">
+            <p><strong>Hora del pedido:</strong> 17:10</p>
+            <p><strong>Hora estimada de salida:</strong> 17:30</p>
+          </div>
+
+          <div class="comentarios">
+            <h4>Comentarios del cliente</h4>
+            <p>"Agregar piña extra."</p>
+          </div>
+
+          <div class="estado-row">
+            <span class="status-chip is-pendiente">Pendiente</span>
+          </div>
+
+          <div class="timeline">
+            <span class="step active">Pendiente</span>
+            <span class="step">Preparación</span>
+            <span class="step">Listo</span>
+            <span class="step">Entregado</span>
+          </div>
+
+          <div class="acciones">
+            <button class="btn iniciar"><i class="fa-solid fa-play"></i> Iniciar preparación</button>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="turnos-controls">
+        <button id="prevTurno"><i class="fa-solid fa-chevron-left"></i></button>
+        <button id="nextTurno"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- JS externos -->
+  <script src="../../menu/js/sidebar.js" defer></script>
+  <script src="carrusel.js" defer></script>
+</body>
+</html>
