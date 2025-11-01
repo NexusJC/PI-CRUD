@@ -1,5 +1,5 @@
 *{ margin: 0; padding: 0;}
-body{width: auto; height: 600px; background-position: center; background-size: cover; background-repeat: no-repeat; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; }
+body{width: auto; height: 600px; background-position: center; background-size: cover; background-repeat: no-repeat; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;}
 .barra {height: 10px; width:auto; padding-top: 15px;}
 .flecha-regreso {margin-top: 50px;  background-color: transparent; margin-left: 40px;  padding: 8px 16px; width: 12.5%; height: 30px;  border-style: none; border-radius: 15px; color:rgb(252, 252, 252, 0.8);  font-size: 24px; }
 
@@ -139,7 +139,29 @@ footer p {
     margin: 10px 0;
 }
 
-/* Confirmación de Contraseña */
-.fondo{margin: 0; width: auto; height: 100%;  background-color: orange;}
-.lol{background-color: orange;}
-.form-contraseña{ margin: 10%; height:500px; width: 500px; background-color: white; place-items: center; border-color: rgb(156, 146, 146); border-style:inset; }
+/* ----------------------------------- Confirmación de Contraseña ------------------------------- */
+.contenedor-restaurar{width:100% ; padding-top: 100px; place-items: center;}
+.restauracion-contraseña{ width:390px; background: #442719; border: 2px solid rgba(74,43,22,.45); padding: 24px 20px 22px; text-align: center; border-radius: 30px; border-style: none;}
+.restauracion-contraseña h2{color: rgb(255, 255, 255); font-size: 23px;}
+.restauracion-contraseña p{ color: white;}
+.formato-restaurar{margin-top: 20px; margin-bottom:10px; display: grid; gap: 10px; background: transparent;}
+.datos-rest {margin-top: 10px; position: relative; display: block;}
+.datos-rest input{width: 70%; box-sizing: border-box; padding: 12px 14px; font-size: 14.5px; outline: none; border-style: none; border-radius: 5px;background-color: white }
+
+ul { background: transparent; color: gray; font-weight: 100;
+    position: absolute;
+    right: 30px;
+    top: 65%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.boton-confirmar{margin-top: 10px; margin-left: 25%; width: 50%; padding: 12px 14px;
+  background: white;
+  font-weight: 600;
+  border-radius: 30px;
+  border-style: none;
+  color: #442719;
+}
+
+.color{background-color: whitesmoke}
