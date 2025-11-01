@@ -22,9 +22,15 @@ document.querySelectorAll('.add-btn').forEach(btn => {
     const name = card.dataset.name;
     const price = parseFloat(card.dataset.price);
 
-    if (orderDetails.style.display === 'none') {
-      orderDetails.style.display = 'block';
-    }
+   if (orderDetails.style.display === 'none') {
+  orderDetails.style.display = 'block';
+
+  // Reinicia y aplica la animación
+  orderDetails.classList.remove('open');
+  void orderDetails.offsetWidth; // fuerza reflow para reiniciar la animación
+  orderDetails.classList.add('open');
+}
+
 
     // ¿Ya existe el producto en la lista?
     let existing = Array.from(orderList.children).find(li => li.dataset.name === name);
@@ -37,20 +43,22 @@ document.querySelectorAll('.add-btn').forEach(btn => {
       li.dataset.price = String(price); // precio unitario
       li.dataset.qty = '1';
 
-      li.innerHTML = `
-        <div class="item-info">
-          <span class="item-name">${name}</span>
-          <div class="qty-controls">
-            <button class="qty-btn minus" aria-label="Disminuir">−</button>
-            <span class="qty">1</span>
-            <button class="qty-btn plus" aria-label="Aumentar">+</button>
-          </div>
-        </div>
-        <div class="item-actions">
-          <span class="line-total">$${price.toFixed(2)}</span>
-          <button class="remove-btn" title="Eliminar">✕</button>
-        </div>
-      `;
+     li.innerHTML = `
+  <div class="item-info">
+    <span class="item-name">${name}</span>
+    <div class="qty-controls">
+      <button class="qty-btn minus" aria-label="Disminuir">−</button>
+      <span class="qty">1</span>
+      <button class="qty-btn plus" aria-label="Aumentar">+</button>
+    </div>
+  </div>
+  <div class="item-actions">
+    <span class="line-total">$${price.toFixed(2)}</span>
+    <button class="remove-btn" title="Eliminar">✕</button>
+  </div>
+  <textarea class="comment" placeholder="Comentario adicionales..."></textarea>
+`;
+
       orderList.appendChild(li);
     } else {
       // Incrementar cantidad y subtotal del ítem existente
@@ -115,12 +123,60 @@ function actualizarTotales() {
 
 // === BOTÓN IMPRIMIR ===
 printBtn.addEventListener('click', () => {
+  // Clonar la lista para preparar versión de impresión
+  const clones = orderList.cloneNode(true);
+
+  clones.querySelectorAll('.comment').forEach(textarea => {
+    const texto = (textarea.value || '').trim();
+
+    if (!texto) {
+      // Si está vacío, se elimina del ticket
+      textarea.remove();
+      return;
+    }
+
+    // Si tiene texto, se muestra como línea legible
+    const span = document.createElement('div');
+    span.className = 'print-comment';
+    span.textContent = `Comentario: ${texto}`;
+    textarea.replaceWith(span);
+  });
+
+  // Reemplazar temporalmente la lista por la versión lista para imprimir
+  const original = orderList.innerHTML;
+  orderList.innerHTML = clones.innerHTML;
+
   window.print();
+
+  // Restaurar la lista editable después de imprimir
+  orderList.innerHTML = original;
 });
+
 
 // === CONFIRMAR PEDIDO ===
 document.querySelector('.confirm-btn').addEventListener('click', () => {
+  const items = Array.from(orderList.children).map(li => {
+    const comentario = li.querySelector('.comment')?.value?.trim() || '';
+    return {
+      producto: li.dataset.name,
+      cantidad: parseInt(li.dataset.qty || '0', 10),
+      comentario: comentario || null
+    };
+  });
+
+  const itemsParaBackend = items.map(i => {
+    if (i.comentario === null) {
+      // elimina la propiedad si está vacía
+      const { comentario, ...resto } = i;
+      return resto;
+    }
+    return i;
+  });
+
+  console.log('🧾 Items a enviar:', itemsParaBackend);
+
   alert('✅ Pedido confirmado con éxito');
+
   orderCount++;
   document.getElementById('orderId').textContent = `#${String(orderCount).padStart(4, '0')}`;
   orderList.innerHTML = '';
@@ -143,4 +199,81 @@ function addToCart(event) {
 }
 addButtons.forEach(button => {
   button.addEventListener('click', addToCart);
+});
+// === MODAL DETALLES DE PRODUCTO ===
+const modal = document.getElementById('productModal');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalAddBtn = document.getElementById('modalAddBtn');
+const modalClose = document.getElementById('modalClose');
+
+// Si el modal no existe aún, no continuamos para evitar errores
+if (modal && modalImg && modalTitle && modalDesc && modalAddBtn && modalClose) {
+  // Abrir modal al clickear imagen de la card
+  document.querySelectorAll('.menu-card img').forEach(img => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', () => {
+      const card = img.closest('.menu-card');
+      modalImg.src = img.src;
+      modalTitle.textContent = card.dataset.name || card.querySelector('h3')?.textContent || 'Producto';
+      modalDesc.textContent = card.dataset.desc || 'Descripción no disponible.';
+      modalAddBtn.dataset.name = card.dataset.name;
+      modalAddBtn.dataset.price = card.dataset.price;
+      modal.classList.add('active');
+    });
+  });
+
+  // Cerrar modal
+  modalClose.addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+
+  // Agregar al pedido desde el modal (reutiliza tu lógica de ".add-btn")
+  modalAddBtn.addEventListener('click', () => {
+    const name = modalAddBtn.dataset.name;
+    const card = document.querySelector(`.menu-card[data-name="${CSS.escape(name)}"]`);
+    const addBtn = card?.querySelector('.add-btn');
+    addBtn?.click();
+    modal.classList.remove('active');
+  });
+} else {
+  console.warn('Modal de producto no encontrado en el DOM al cargar orderDetails.js');
+}
+// === HINTS VISUALES PARA DETALLES ===
+document.querySelectorAll('.menu-card').forEach(card => {
+  // Badge “Detalles”
+  if (!card.querySelector('.details-badge')) {
+    const badge = document.createElement('div');
+    badge.className = 'details-badge';
+    badge.innerHTML = '<i class="fas fa-info-circle"></i><span>Detalles</span>';
+    card.appendChild(badge);
+  }
+
+  // Cinta “Haz clic para ver detalles”
+  if (!card.querySelector('.img-cta')) {
+    const cta = document.createElement('div');
+    cta.className = 'img-cta';
+    cta.innerHTML = '<span>Haz clic para ver detalles</span>';
+    card.appendChild(cta);
+  }
+
+  // Accesibilidad y pista de interacción en la imagen
+  const img = card.querySelector('img');
+  if (img) {
+    // role/button + teclado
+    img.setAttribute('role', 'button');
+    img.setAttribute('tabindex', '0');
+    const name = card.dataset.name || card.querySelector('h3')?.textContent || 'producto';
+    img.setAttribute('aria-label', `Ver detalles de ${name}`);
+
+    // Enter o Space también abren el modal
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        img.click();
+      }
+    });
+  }
 });
