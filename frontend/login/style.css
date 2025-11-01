@@ -1,5 +1,5 @@
-*{ margin: 0; padding: 0;}
-body{width: auto; height: 600px; background-position: center; background-size: cover; background-repeat: no-repeat; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;}
+*{ margin: 0; padding: 0; box-sizing: border-box;}
+body{width: auto; height: 600px; background-position: center; background-size: cover; background-repeat: no-repeat; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; background-attachment: fixed;}
 .barra {height: 10px; width:auto; padding-top: 15px;}
 .flecha-regreso {margin-top: 50px;  background-color: transparent; margin-left: 40px;  padding: 8px 16px; width: 12.5%; height: 30px;  border-style: none; border-radius: 15px; color:rgb(252, 252, 252, 0.8);  font-size: 24px; }
 
@@ -21,12 +21,49 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
   display: flexbox;
 }
 
-.login{ width:420px; height:450px; background:rgb(255, 255, 255, 0.8); border-radius: 35px; border: 2px solid rgba(74,43,22,.45); padding: 24px 20px 22px; text-align: center;
+.login{ width:420px; height:450px; background:rgb(255, 255, 255, 0.8); border-radius: 35px; border: 2px solid rgba(74,43,22,.45); padding: 24px 20px 22px; text-align: center;   align-items: center;
 }
 .login-registro{width:420px; height:380px; background:rgb(255, 255, 255, 0.8); border-radius: 35px; border: 2px solid rgba(74,43,22,.45); padding: 50px 20px 22px; text-align: center;
 }
 
 .logo{display:block; width: 50%; height: auto; margin: 4px auto 8px; object-fit: contain; background: transparent;}  
+
+/* Imagen circular tipo icono de usuario */
+.user-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient( #d9d9d9, #bfbfbf);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 35.5%;
+}
+
+/* Cabeza del usuario */
+.user-icon::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Cuerpo del usuario */
+.user-icon::after {
+  content: "";
+  position: absolute;
+  bottom: 20px;
+  width: 60px;
+  height: 35px;
+  background: white;
+  border-radius: 50% / 60%;
+}
+
+
 .form{ margin-bottom:10px; display: grid; gap: 10px; background: transparent;}
 .datos {margin-top: 10px; position: relative; display: block;}
 .datos input{width: 80%; box-sizing: border-box; padding: 12px 14px; padding-left: 40px; border-radius: 10px; border: 2px solid rgba(74,43,22,.45); font-size: 14.5px; outline: none;
@@ -165,3 +202,24 @@ ul { background: transparent; color: gray; font-weight: 100;
 }
 
 .color{background-color: whitesmoke}
+
+/* responsive */
+@media (max-width: 480px) {
+    .login {
+      margin-left: -13%;
+        padding: 20px 15px;
+        border-radius: 20px;
+    }
+  
+    .login-registro {
+      margin-right: -22.5px;
+      margin-left: 30%;
+        padding: 20px 15px;
+        border-radius: 20px;
+    }
+    
+    .datos input {
+        padding: 10px 12px;
+        padding-left: 35px;
+    }
+}
