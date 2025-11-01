@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (overlay) overlay.addEventListener('click', closeSidebar);
 
-  // Cerrar al hacer clic fuera
   document.addEventListener('click', (event) => {
     const clickedToggle = event.target === toggleBtn || toggleBtn?.contains(event.target);
     if (sidebar.classList.contains('active') && !sidebar.contains(event.target) && !clickedToggle) {
@@ -39,13 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Cerrar con ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeSidebar();
   });
 });
 
-// Charts
 window.addEventListener('DOMContentLoaded', () => {
   if (window.Chart && window.ChartDataLabels) {
     Chart.register(ChartDataLabels);
@@ -71,7 +68,6 @@ window.addEventListener('DOMContentLoaded', () => {
     layout: { padding: 8 }
   };
 
-  // Chart 1
   const c1 = document.getElementById('chart1');
   if (c1) {
     new Chart(c1, {
@@ -84,7 +80,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Chart 2
   const c2 = document.getElementById('chart2');
   if (c2) {
     new Chart(c2, {
@@ -97,7 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ====== Actividad reciente (ejemplo) ======
+  // Ejemplo
   const exampleActivity = [
     { turno: 'H-1',  cliente: 'Cristina',  correo: 'cristina@mail.com',  fecha: '2025-09-04' },
     { turno: 'A-12', cliente: 'Mauricio', correo: 'mauricio@mail.com', fecha: '2025-09-04' },

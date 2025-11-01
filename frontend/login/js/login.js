@@ -38,7 +38,7 @@ const goToRegister = document.getElementById("goToRegister");
 if (goToRegister) {
     goToRegister.addEventListener("click", function () {
         document.getElementById("loginForm").style.display = "none";
-        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("registerFormContainer").style.display = "block";
     });
 }
 

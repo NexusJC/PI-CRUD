@@ -1,13 +1,9 @@
-// Variables globales
 let editoresOriginal = [];
 let editoresFiltrados = [];
 let sortField = 'nombre';
 let sortDirection = 'asc';
 let searchTerm = '';
-
-// Función para cargar los editores
 function cargarEditores() {
-    // Simular datos de ejemplo (en producción vendrían de una API)
     editoresOriginal = [
         {
             Usuario_ID: 1,
@@ -95,9 +91,7 @@ function cargarEditores() {
     aplicarFiltrosYOrdenamiento();
 }
 
-// Función para aplicar búsqueda y ordenamiento
 function aplicarFiltrosYOrdenamiento() {
-    // Aplicar búsqueda
     if (searchTerm) {
         const term = searchTerm.toLowerCase();
         editoresFiltrados = editoresOriginal.filter(editor => 
@@ -108,7 +102,6 @@ function aplicarFiltrosYOrdenamiento() {
         editoresFiltrados = [...editoresOriginal];
     }
     
-    // Aplicar ordenamiento
     editoresFiltrados.sort((a, b) => {
         let valueA, valueB;
         
@@ -142,12 +135,10 @@ function aplicarFiltrosYOrdenamiento() {
     mostrarEditores();
 }
 
-// Función para mostrar editores en la tabla
 function mostrarEditores() {
     const tbody = document.getElementById('editoresTableBody');
     const resultsCount = document.getElementById('resultsCount');
     
-    // Actualizar contador de resultados
     const total = editoresOriginal.length;
     const filtrados = editoresFiltrados.length;
     
@@ -187,11 +178,9 @@ function mostrarEditores() {
     tbody.innerHTML = html;
 }
 
-// Función para ordenar por campo
 function ordenarPor(campo) {
     const sortableHeaders = document.querySelectorAll('.sortable');
     
-    // Si hacemos clic en el mismo campo, invertir la dirección
     if (sortField === campo) {
         sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
@@ -199,7 +188,6 @@ function ordenarPor(campo) {
         sortDirection = 'asc';
     }
     
-    // Actualizar indicadores visuales
     sortableHeaders.forEach(header => {
         header.classList.remove('asc', 'desc');
         if (header.dataset.sort === campo) {
@@ -210,26 +198,21 @@ function ordenarPor(campo) {
     aplicarFiltrosYOrdenamiento();
 }
 
-// Función para buscar editores
 function buscarEditores(termino) {
     searchTerm = termino;
     aplicarFiltrosYOrdenamiento();
 }
 
-// Función para escapar HTML (seguridad)
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
-// Función para confirmar eliminación
 function confirmarEliminacion(id) {
     if (confirm('¿Estás seguro de que deseas eliminar este editor?')) {
-        // En una implementación real, aquí se haría una petición al servidor
         console.log(`Eliminando editor con ID: ${id}`);
         
-        // Simular eliminación
         editoresOriginal = editoresOriginal.filter(editor => editor.Usuario_ID !== id);
         aplicarFiltrosYOrdenamiento();
         
@@ -237,23 +220,18 @@ function confirmarEliminacion(id) {
     }
 }
 
-// Mostrar/ocultar sidebar (para móviles)
 document.addEventListener("DOMContentLoaded", function() {
-    // Función para alternar el sidebar
     function toggleSidebar() {
         const sidebar = document.querySelector('.admin-sidebar');
         const overlay = document.querySelector('.sidebar-overlay');
         const sidebarToggle = document.getElementById('sidebar-toggle');
         
-        // Alternar la visibilidad del sidebar
         sidebar.classList.toggle('active');
         overlay.classList.toggle('active');
         
-        // Ocultar o mostrar el botón
-        sidebarToggle.classList.toggle('hidden');  // Añadir clase que oculta el botón
+        sidebarToggle.classList.toggle('hidden');
     }
 
-    // Botón de apertura/cierre del sidebar
     const sidebarToggle = document.getElementById('sidebar-toggle');
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function(e) {
@@ -262,24 +240,19 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Evento para el overlay que cierra el sidebar cuando se hace click fuera
     const overlay = document.querySelector('.sidebar-overlay');
     overlay.addEventListener('click', toggleSidebar);
 });
 
-// Inicialización cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar editores
     cargarEditores();
     
-    // Configurar eventos de ordenamiento
     document.querySelectorAll('.sortable').forEach(header => {
         header.addEventListener('click', function() {
             ordenarPor(this.dataset.sort);
         });
     });
     
-    // Configurar evento de búsqueda
     const searchInput = document.getElementById('searchInput');
     let searchTimeout;
     
@@ -287,21 +260,17 @@ document.addEventListener('DOMContentLoaded', function() {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             buscarEditores(this.value.trim());
-        }, 300); // Debounce de 300ms
+        }, 300); 
     });
     
-    // Buscar también al presionar Enter
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             buscarEditores(this.value.trim());
         }
     });
     
-    // Configurar sidebar para móviles
     const overlay = document.querySelector('.sidebar-overlay');
-    overlay.addEventListener('click', toggleSidebar);
     
-    // Si hay un botón de toggle en el sidebar, agregar evento
     const sidebarToggle = document.getElementById('sidebarToggle');
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function(e) {
@@ -311,9 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Función para simular carga desde API (ejemplo)
 function cargarEditoresDesdeAPI() {
-    // En una implementación real, esto sería una llamada fetch o axios
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(editoresOriginal);
@@ -321,7 +288,6 @@ function cargarEditoresDesdeAPI() {
     });
 }
 
-// Función para exportar datos (ejemplo adicional)
 function exportarDatos() {
     const datosExportar = searchTerm ? editoresFiltrados : editoresOriginal;
     const csvContent = "data:text/csv;charset=utf-8," 
