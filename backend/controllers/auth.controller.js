@@ -12,7 +12,7 @@ export const getUsers = async (_req, res) => {
   }
 };
 
-// inicio de sesión
+// inicio de sesion
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -23,7 +23,7 @@ export const login = async (req, res) => {
     );
 
     if (rows.length > 0) {
-      // Comparar la contraseña proporcionada con la almacenada en la base de datos
+      // aqui se compara la contraseña proporcionada con la almacenada en la base de datos
       const isMatch = await bcrypt.compare(password, rows[0].password);
 
       if (isMatch) {
@@ -44,7 +44,7 @@ export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // Encriptar la contraseña
+    // encriptacion de contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await pool.query(

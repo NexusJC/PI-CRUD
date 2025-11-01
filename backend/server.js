@@ -13,11 +13,11 @@ const testDbConnection = async () => {
     console.log("Conexión con la base de datos exitosa:", rows[0].ok);
   } catch (e) {
     console.error("Error de conexión a la base de datos:", e.message);
-    process.exit(1);  // Detener el servidor si la base de datos no está disponible
+    process.exit(1);  // se de tiene el servidor si la base de datos no funciona
   }
 };
 
-testDbConnection();  // Probar la conexión a la base de datos antes de iniciar el servidor
+testDbConnection();  // aqui se prueba la coenxion antes de iniciar el servidor
 
 const app = express();
 app.use(express.json());
@@ -48,13 +48,13 @@ app.get("/ping-db", async (_req, res) => {
   }
 });
 
-// Usar las rutas de autenticación
+// rutas de autenticación
 app.use("/api/auth", authRouter);
 
-// Manejo de rutas no encontradas
+// nanejo de rutas no encontradas
 app.use((req, res) => res.status(404).json({ error: "Not found" }));
 
-// Manejo de errores
+// manejo de errores
 app.use((err, req, res, next) => {
   console.error("[ERROR]", err);
   res.status(500).json({ error: "Internal Server Error" });
