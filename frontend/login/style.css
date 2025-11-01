@@ -12,7 +12,7 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
   display: grid;
   place-items: center;
 }
-.contenedor-registro{ margin: 28px auto; margin-top: 20px;
+.contenedor-registro{ margin: 28px auto; margin-top: 15px;
   width: min(1100px, 94%);
   border-radius: 10px;
   padding: 20px 18px; padding-bottom: 0px;
@@ -23,7 +23,7 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
 
 .login{ width:420px; height:450px; background:rgb(255, 255, 255, 0.8); border-radius: 35px; border: 2px solid rgba(74,43,22,.45); padding: 24px 20px 22px; text-align: center;   align-items: center;
 }
-.login-registro{width:420px; height:380px; background:rgb(255, 255, 255, 0.8); border-radius: 35px; border: 2px solid rgba(74,43,22,.45); padding: 50px 20px 22px; text-align: center;
+.login-registro{width:420px; height:450px; background:rgb(255, 255, 255, 0.8); border-radius: 35px; border: 2px solid rgba(74,43,22,.45); padding: 50px 20px 22px; text-align: center;
 }
 
 .logo{display:block; width: 50%; height: auto; margin: 4px auto 8px; object-fit: contain; background: transparent;}  
@@ -33,12 +33,12 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient( #d9d9d9, #bfbfbf);
+  background: linear-gradient( rgb(101, 101, 100), rgb(53, 53, 53));
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 35.5%;
+  margin-left: 37.5%;
 }
 
 /* Cabeza del usuario */
@@ -77,7 +77,7 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
     height: 18px;
     pointer-events: none;
 }
-ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100;
+ul { padding-right: 35px; padding-bottom: 10.5px; background: transparent; color: gray; font-weight: 100;
     position: absolute;
     right: 10px; /* Alinea el ícono a la derecha */
     top: 50%; /* Centra el ícono verticalmente */
@@ -111,7 +111,7 @@ ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100
   cursor: pointer;
 }
 
-.olvidaste-contraseña{margin: auto; height: auto; padding-right: 40%; justify-self: left;}
+.olvidaste-contraseña{margin: auto; height: auto; padding-right: 35%; justify-self: left;}
 .ayuda:hover{text-decoration: underline;}
 .ayuda {background: transparent; text-decoration: none; color: rgb(42, 100, 136);}
 
@@ -119,7 +119,7 @@ ul { padding-right: 50px; background: transparent; color: gray; font-weight: 100
 .sinregistrar{background: transparent; color: black; text-decoration: none;}
 .registrarse{color: brown; text-decoration:underline;}
 
-.aceptar-condiciones{margin-top: 10px; padding-right: 12%; position: relative; color: black; background: transparent;}
+.aceptar-condiciones{margin-top: 10px; padding-right: 5%; position: relative; color: black; background: transparent;}
 .aceptar-condiciones a{ color: black; background-color: transparent; }
 .aceptar-condiciones a:hover{color: #967f74;}
 
