@@ -18,12 +18,18 @@ Su propósito es optimizar los procesos internos mediante un panel dinámico y r
 
 ---
 
-## 🧱 Estructura del proyecto
-
+##  Estructura del proyecto
+PI-CRUD/
+├── backend/ # Lógica del servidor (Node.js, Express, API REST)
+├── frontend/ # Interfaz web (HTML, CSS, JS)
+├── uploads/ # Archivos e imágenes
+├── package.json
+├── README.md
+└── procfile
 
 ---
 
-## 🚀 Tecnologías utilizadas
+##  Tecnologías utilizadas
 
 ### 🖥️ Frontend
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -41,15 +47,15 @@ Su propósito es optimizar los procesos internos mediante un panel dinámico y r
 
 ---
 
-## 📊 Lenguajes más usados
+##  Lenguajes más usados
 
-- 🎨 **CSS:** 39.3%  
-- ⚡ **JavaScript:** 34.1%  
-- 🧱 **HTML:** 26.6%  
+- 🎨 **CSS:**
+- ⚡ **JavaScript:**  
+- 🧱 **HTML:**   
 
 ---
 
-## 🧠 Objetivo del proyecto
+##  Objetivo del proyecto
 
 Desarrollar una app CRUD moderna, eficiente y funcional que gestione la operación de un restaurante, desde la creación de órdenes hasta la administración de usuarios, mostrando **buenas prácticas de desarrollo web full-stack** y **uso de metodologías ágiles**.
 
