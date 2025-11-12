@@ -19,12 +19,13 @@ Su propósito es optimizar los procesos internos mediante un panel dinámico y r
 ---
 
 ##  Estructura del proyecto
-PI-CRUD/
-├── backend/ # Lógica del servidor (Node.js, Express, API REST)
-├── frontend/ # Interfaz web (HTML, CSS, JS)
-├── uploads/ # Archivos e imágenes
-├── package.json
-├── README.md
+
+PI-CRUD/<br>
+├── backend/ — Lógica del servidor (Node.js, Express, API REST)<br>
+├── frontend/ — Interfaz web (HTML, CSS, JS)<br>
+├── uploads/ — Archivos e imágenes<br>
+├── package.json<br>
+├── README.md<br>
 └── procfile
 
 ---
