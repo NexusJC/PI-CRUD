@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("menuGrid");
 
   try {
-    const res = await fetch("https://www.laparrillaazteca.online/api/dishes");
+    const res = await fetch("/api/dishes");
     const dishes = await res.json();
 
     if (!Array.isArray(dishes)) throw new Error("Respuesta inválida");
