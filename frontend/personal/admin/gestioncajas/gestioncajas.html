@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../img/logo_1.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Dashboard</title>
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="../gestioncajas/style.css">
+</head>
+<body>
+    
+    <div class="menu-dashboard">
+        <div class="top-menu">
+            <div class="logo">
+                <img src="../img/logo_1.png" alt="">
+                <span>La Parrilla Azteca</span>
+            </div>
+            <div class="toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+        </div>
+        <!--buscador-->
+        <div class="input-search">
+            <i class='bx bx-search'></i>
+            <input type="text" class="input" placeholder="Buscar">
+        </div>
+        <div class="menu">
+            <div class="enlace">
+                <i class="bx bx-grid-alt"></i>
+                <span>Dashboard</span>
+            </div>
+
+            <div class="enlace">
+                <i class="bx bx-user"></i>
+                <span>Usuarios</span>
+            </div>
+
+            <div class="enlace">
+                <i class='bx bx-group'></i>
+                <span>Trabajadores</span>
+            </div>
+
+            <div class="enlace">
+                <i class="bx bx-file-blank"></i>
+                <span>Archivos</span>
+            </div>
+
+            <div class="enlace">
+                <i class="bx bx-cart"></i>
+                <span>Pedidos</span>
+            </div>
+
+            <div class="enlace">
+                <i class="bx bx-cog"></i>
+                <span>Configuración</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-content">
+        <!-- SECCIÓN TRABAJADORES -->
+        <div class="seccion-trabajadores">
+            <div class="cuadro-blanco">
+                <h2 class="titulo-seccion">Gestión de Trabajadores</h2>
+                <button class="btn-agregar" id="btnAgregar">
+                    <i class='bx bx-plus'></i> Agregar más
+                </button>
+                <div class="cuadro-beige" id="contenedorTrabajadores">
+                    <div class="grid-trabajadores" id="gridTrabajadores">
+                        <!-- Tarjetas de trabajadores se agregarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="../gestioncajas/js/menu.js" defer></script>
+</body>
+</html>
