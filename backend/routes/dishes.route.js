@@ -1,11 +1,10 @@
-const express = require('express');
+import express from 'express';
+import { saveDish, getAllDishes } from '../controllers/dishes.controller.js';
+import upload from '../middlewares/upload.middleware.js';
+
 const router = express.Router();
-const { saveDish, getAllDishes } = require('../controllers/dishes.controller');
-const upload = require('../middlewares/upload.middleware');
 
 router.post('/', upload.single('image'), saveDish);
-
 router.get('/', getAllDishes);
 
 export default router;
-
