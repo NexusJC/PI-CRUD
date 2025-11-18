@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Dish | Admin</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Add New Dish</h2>
+
+  <form id="dish-form" enctype="multipart/form-data">
+    <label for="name">Name:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label for="description">Description:</label><br>
+    <textarea name="description" required></textarea><br><br>
+
+    <label for="price">Price:</label><br>
+    <input type="number" name="price" step="0.01" required><br><br>
+
+    <label for="category">Category:</label><br>
+    <input type="text" name="category" required><br><br>
+
+    <label for="image">Image:</label><br>
+    <input type="file" name="image" accept="image/*" required><br><br>
+
+    <button type="submit">Add Dish</button>
+  </form>
+
+  <script src="js/form-handler.js"></script>
+</body>
+</html>
