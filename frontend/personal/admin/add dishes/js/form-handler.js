@@ -6,7 +6,7 @@ form.addEventListener('submit', async (e) => {
   const formData = new FormData(form);
 
   try {
-    const response = await fetch('https://www.laparrillaazteca.online/api/dishes', {
+    const response = await fetch('/api/dishes', {
       method: 'POST',
       body: formData
     });
