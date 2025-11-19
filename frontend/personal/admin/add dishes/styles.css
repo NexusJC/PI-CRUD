@@ -112,3 +112,45 @@ button.delete-btn:hover {
     font-size: 0.9rem;
   }
 }
+/* ===== TOPBAR ===== */
+.topbar {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 16px;
+  background:var(--topbar);
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1100;
+}
+
+.menu-toggle {
+  background:none;
+  border:none;
+  font-size:1.8rem;
+  cursor:pointer;
+  color:#fff;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  gap:10px;
+  width:100%;
+}
+
+.logo {
+  width:40px;
+  height:40px;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+.brand-text {
+  font-size:1.2rem;
+  color:#fff;
+}
