@@ -4,11 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manage Dishes</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
    <link rel="icon" href="../img/logo_1.png" type="image/png">
 </head>
 <body>
-  
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+    <div class="brand">
+      <a href="index.html" class="logo-link">
+        <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+      </a>
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </div>
+    
+  </header>
+
+  <!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="../img/logo_1.png" alt="Logo">
+    La Parrilla Azteca
+  </div>
+
+  <div class="sidebar-profile">
+    <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
+    <h4>Bienvenido</h4>
+    <p>¡Explora el menú!</p>
+      <div class="sidebar-login-btn">
+  <a href="../login/login.html" class="btn-login" id="btn-login">
+    Iniciar sesión
+  </a>
+  <button class="btn-logout" id="btn-logout" style="display: none;">
+    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+  </button>
+</div>
+
+  </div>
+
+  <hr>
+
+  <ul>
+    <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+    <li><a href="../personal/admin/add dishes/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li><a href="#"><i class="fas fa-user-alt"></i> Empleados</a></li>
+    <li><a href="#"><i class="fas fa-cash-register"></i> Cajas</a></li>
+    <li><a href="#"><i class="fas fa-comment-alt"></i> Reportes</a></li>
+  </ul>
+
+  <hr>
+  <div class="sidebar-footer">
+    <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
+  </div>
+</nav>
+
   <h2>Add New Dish</h2>
 
   <form id="dish-form" enctype="multipart/form-data">
@@ -48,7 +99,8 @@
       <!-- JS will fill this -->
     </tbody>
   </table>
-
+<script src="../../js/sidebar.js" defer></script>
+<script src="../../js/auth.js"></script>
   <script src="js/form-handler.js"></script>
 </body>
 </html>
