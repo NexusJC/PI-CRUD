@@ -4,56 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restablecer contraseña</title>
-
-    <style>
-        body {
-            background: #fdeee1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-family: sans-serif;
-        }
-
-        .form-container {
-            background: white;
-            padding: 30px;
-            width: 380px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            color: #d65b33;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #e36842;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        button:hover {
-            background: #c5532e;
-        }
-    </style>
+    <link rel="stylesheet" href="reset.css">
 </head>
 
 <body>
@@ -68,32 +19,6 @@
             <button type="submit">Guardar contraseña</button>
         </form>
     </div>
-
-    <script>
-        document.getElementById("resetForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const params = new URLSearchParams(window.location.search);
-            const token = params.get("token");
-
-            const password = document.getElementById("password").value;
-            const confirm = document.getElementById("confirmPassword").value;
-
-            if (password !== confirm) {
-                alert("Las contraseñas no coinciden");
-                return;
-            }
-
-            const res = await fetch("/api/auth/reset-password", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token, password })
-            });
-
-            const data = await res.json();
-            alert(data.message);
-        });
-    </script>
-
+<script src="./js/new_pasword.js"></script>
 </body>
 </html>
