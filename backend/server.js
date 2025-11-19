@@ -4,15 +4,17 @@ import helmet from "helmet";
 import { pool } from "./db.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import dishesRoutes from "./routes/dishes.route.js";
 import authRouter from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 
 
 const app = express();
-// después de app.use("/api/auth", authRouter);
+// ruta para manejar perfiles de usuario
 app.use("/api/profile", profileRoutes);
-
-// sirve las imágenes públicas
+// ruta para gestionar platillos
+app.use("/api/dishes", dishesRoutes);
+// ruta para las imágenes públicas
 app.use("/uploads", express.static("uploads"));
 
 
