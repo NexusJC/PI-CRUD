@@ -12,60 +12,103 @@ body {
   background-color: var(--background);
   color: var(--text-dark);
   padding: 2rem;
-  max-width: 600px;
+  max-width: 1000px;
   margin: auto;
 }
 
 h2 {
   text-align: center;
   color: var(--primary);
-  margin-bottom: 2rem;
+  margin: 2rem 0 1.5rem;
 }
 
+/* Formulario */
 form {
   background-color: white;
   padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
 }
 
-label {
-  font-weight: bold;
+form label {
   display: block;
-  margin-bottom: 0.5rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
+  font-weight: bold;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="file"],
-textarea {
+form input,
+form textarea {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.7rem;
+  font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
-  font-size: 1rem;
   box-sizing: border-box;
+  margin-top: 0.5rem;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-button {
-  margin-top: 2rem;
+form button {
+  margin-top: 1.5rem;
   width: 100%;
-  padding: 0.9rem;
-  font-size: 1rem;
-  color: white;
   background-color: var(--primary);
+  color: white;
   border: none;
+  padding: 0.9rem;
   border-radius: var(--border-radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background-color: #d3542e;
+}
+
+/* Tabla de platillos */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+  background-color: var(--primary-light);
+}
+
+th, td {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+td img {
+  max-width: 60px;
+  border-radius: 6px;
+}
+
+button.delete-btn {
+  background-color: #ff4d4f;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #d4542f;
+button.delete-btn:hover {
+  background-color: #d9363e;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 0.9rem;
+  }
+  form input, form textarea {
+    font-size: 0.9rem;
+  }
 }

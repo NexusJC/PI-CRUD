@@ -3,30 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Dish | Admin</title>
+  <title>Manage Dishes</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h2>Add New Dish</h2>
 
   <form id="dish-form" enctype="multipart/form-data">
-    <label for="name">Name:</label><br>
-    <input type="text" name="name" required><br><br>
+    <label>Name:</label>
+    <input type="text" name="name" required>
 
-    <label for="description">Description:</label><br>
-    <textarea name="description" required></textarea><br><br>
+    <label>Description:</label>
+    <textarea name="description" required></textarea>
 
-    <label for="price">Price:</label><br>
-    <input type="number" name="price" step="0.01" required><br><br>
+    <label>Price:</label>
+    <input type="number" name="price" step="0.01" required>
 
-    <label for="category">Category:</label><br>
-    <input type="text" name="category" required><br><br>
+    <label>Category:</label>
+    <input type="text" name="category" required>
 
-    <label for="image">Image:</label><br>
-    <input type="file" name="image" accept="image/*" required><br><br>
+    <label>Image:</label>
+    <input type="file" name="image" accept="image/*" required>
 
     <button type="submit">Add Dish</button>
   </form>
+
+  <hr>
+
+  <h2>Current Dishes</h2>
+  <table id="dishes-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Image</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- JS will fill this -->
+    </tbody>
+  </table>
 
   <script src="js/form-handler.js"></script>
 </body>
