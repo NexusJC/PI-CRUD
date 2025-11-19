@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUsers, login, register } from "../controllers/auth.controller.js";
+import { getUsers, login, register,forgotPassword,resetPassword } from "../controllers/auth.controller.js";
 
 const router = Router();
 
@@ -11,5 +11,11 @@ router.post("/login", login);
 
 // ruta para el registro de nuevos usuarios
 router.post("/register", register);
+
+// nueva ruta para solicitar recuperación
+router.post("/forgot-password", forgotPassword);
+
+// nueva ruta para cambiar contraseña con token
+router.post("/reset-password", resetPassword);
 
 export default router;
