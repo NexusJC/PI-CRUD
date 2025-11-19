@@ -11,9 +11,14 @@ body {
   font-family: var(--font);
   background-color: var(--background);
   color: var(--text-dark);
+  margin: 0;
+}
+
+/* Contenedor principal para administración */
+.admin-container {
   padding: 2rem;
   max-width: 1000px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 h2 {
