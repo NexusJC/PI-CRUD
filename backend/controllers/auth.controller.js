@@ -107,13 +107,16 @@ export const forgotPassword = async (req, res) => {
     const link = `https://laparrillaazteca.online/login/new_password.html?token=${token}`;
 
     // configuracion de nodemailer
-    const transporter = nodemailer.createTransport({
-      service: "gmail",  
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
-      }
-    });
+   const transporter = nodemailer.createTransport({
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER, // Username SMTP de Brevo
+    pass: process.env.MAIL_PASS  // Contraseña SMTP de Brevo
+  }
+});
+
 
     // enviar correo
     await transporter.sendMail({
