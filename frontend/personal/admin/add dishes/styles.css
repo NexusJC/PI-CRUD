@@ -4,7 +4,7 @@
   --background: #fff7ea;
   --text-dark: #2c2c2c;
   --border-radius: 12px;
-  --font: 'Segoe UI', sans-serif;
+  --font: 'Segoe UI', 'Poppins', sans-serif;
 }
 
 body {
@@ -14,26 +14,145 @@ body {
   margin: 0;
 }
 
-/* Contenedor principal para administración */
-.admin-container {
-  padding: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
+/* ---------------- TOPBAR ---------------- */
+.topbar {
+  background-color: var(--primary);
+  color: white;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-h2 {
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.topbar .brand .logo {
+  height: 40px;
+}
+
+.topbar .brand-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ---------------- SIDEBAR ---------------- */
+.sidebar {
+  width: 250px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  padding: 1.5rem 1rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.sidebar-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
   text-align: center;
-  color: var(--primary);
-  margin: 2rem 0 1.5rem;
 }
 
-/* Formulario */
+.sidebar-header img {
+  height: 50px;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-profile {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-profile img {
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-profile h4 {
+  margin: 0.2rem 0;
+}
+
+.sidebar-profile p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 0.5rem 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.sidebar ul li a:hover {
+  background-color: var(--primary-light);
+}
+
+.sidebar-footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 2rem;
+}
+
+.btn-login, .btn-logout {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-login:hover, .btn-logout:hover {
+  background-color: #d3542e;
+}
+
+/* ---------------- FORMULARIO ---------------- */
 form {
   background-color: white;
   padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
+  margin: 2rem auto;
+  max-width: 700px;
 }
 
 form label {
@@ -70,9 +189,10 @@ form button:hover {
   background-color: #d3542e;
 }
 
-/* Tabla de platillos */
+/* ---------------- TABLA DE PLATILLOS ---------------- */
 table {
-  width: 100%;
+  width: 95%;
+  margin: 0 auto 3rem;
   border-collapse: collapse;
   background-color: white;
   border-radius: var(--border-radius);
@@ -109,11 +229,29 @@ button.delete-btn:hover {
   background-color: #d9363e;
 }
 
+h2 {
+  text-align: center;
+  color: var(--primary);
+  margin-top: 2rem;
+}
+
 @media (max-width: 768px) {
-  table {
-    font-size: 0.9rem;
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
   }
-  form input, form textarea {
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  form {
+    padding: 1.2rem;
+  }
+
+  table {
     font-size: 0.9rem;
   }
 }
