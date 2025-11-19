@@ -30,3 +30,15 @@ export const getAllDishes = async (req, res) => {
     res.status(500).json({ message: 'Error fetching dishes' });
   }
 };
+//para borrar platillos waasaaaa
+export const deleteDish = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query('DELETE FROM platillos WHERE id = ?', [id]);
+    res.json({ message: 'Dish deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting dish:', err);
+    res.status(500).json({ message: 'Error deleting dish' });
+  }
+};
+

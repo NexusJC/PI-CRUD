@@ -1,10 +1,11 @@
 import express from 'express';
-import { saveDish, getAllDishes } from '../controllers/dishes.controller.js';
+import { saveDish, getAllDishes, deleteDish } from '../controllers/dishes.controller.js';
 import upload from '../middlewares/upload.middleware.js';
 
 const router = express.Router();
 
 router.post('/', upload.single('image'), saveDish);
 router.get('/', getAllDishes);
+router.delete('/:id', deleteDish);
 
 export default router;
