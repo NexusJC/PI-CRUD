@@ -120,7 +120,7 @@ export const forgotPassword = async (req, res) => {
 
     // enviar correo
     await transporter.sendMail({
-      from: `"La Parrilla Azteca" <${process.env.MAIL_USER}>`,
+      from: `"La Parrilla Azteca" <jacobocisnerosbrandomyair@gmail.com>`,
       to: email,
       subject: "Recuperación de contraseña",
       html: `
