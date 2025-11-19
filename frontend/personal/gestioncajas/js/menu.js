@@ -14,6 +14,48 @@ toggle?.addEventListener("click", () => {
     iconoMenu?.classList.replace("bx-x", "bx-menu");
   }
 });
+// ===========================================
+//       REDIRECCIONES ENTRE SECCIONES
+// ===========================================
+
+document.querySelectorAll(".menu .enlace").forEach(enlace => {
+    const texto = enlace.innerText.trim().toLowerCase();
+
+    // === SOLO: EMPLEADOS → Gestión de Empleados ===
+    if (texto === "empleados") {
+        enlace.addEventListener("click", () => {
+            window.location.href = "/personal/employees/employee.html";
+        });
+    }
+
+    // Dashboard
+    if (texto === "dashboard") {
+        enlace.addEventListener("click", () => {
+            window.location.href = "/personal/admin/admin.html";
+        });
+    }
+
+    // Usuarios
+    if (texto === "usuarios") {
+        enlace.addEventListener("click", () => {
+            window.location.href = "/personal/admin/users/users.html";
+        });
+    }
+
+    // Pedidos
+    if (texto === "pedidos") {
+        enlace.addEventListener("click", () => {
+            window.location.href = "/personal/admin/orders/pedidos.html";
+        });
+    }
+
+    // Configuración
+    if (texto === "configuración") {
+        enlace.addEventListener("click", () => {
+            window.location.href = "/personal/admin/settings/settings.html";
+        });
+    }
+});
 
 /* =========================
    GESTIÓN DE CAJAS
