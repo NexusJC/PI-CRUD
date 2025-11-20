@@ -1,24 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Perfil · La Parrilla Azteca</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="Restaurante, Mexicano, Comida, Turnos, Reservaciones, La Parrilla Azteca" />
+  <meta name="description" content="Bienvenido a La Parrilla Azteca, tu restaurante mexicano favorito. Toma tu turno y disfruta de nuestra deliciosa comida." />
+  <title>La Parrilla Azteca · Inicio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="../img/logo_1.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+        <div class="brand">
+            <a href="index.html" class="logo-link">
+                <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+            </a>
+            <span class="brand-text">LA PARRILLA AZTECA</span>
+        </div>
+    </header>
 
-  <div class="perfil-container">
-    <h1><i class="fas fa-user-circle"></i> Mi Perfil</h1>
-    <div class="file-input">
-      <input type="file" id="fileInput" accept="image/*" />
-      <br />
-      <button id="uploadBtn">Actualizar Foto</button>
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="../img/logo_1.png" alt="Logo">
+            La Parrilla Azteca
+        </div>
+
+        <div class="sidebar-profile">
+            <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
+            <h4>Bienvenido</h4>
+            <p>¡Explora el menú!</p>
+            <div class="sidebar-login-btn">
+                <a href="../login/login.html" class="btn-login" id="btn-login">
+                    Iniciar sesión
+                </a>
+                <button class="btn-logout" id="btn-logout" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                </button>
+            </div>
+        </div>
+
+        <hr>
+
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="../personal/admin/add dishes/add_dishes.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-user-alt"></i> Empleados</a></li>
+            <li><a href="#"><i class="fas fa-cash-register"></i> Cajas</a></li>
+            <li><a href="#"><i class="fas fa-comment-alt"></i> Reportes</a></li>
+        </ul>
+
+        <hr>
+        <div class="sidebar-footer">
+            <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
+        </div>
+    </nav>
+  <!-- CONTENIDO PRINCIPAL -->
+<!-- contenido -->
+ <div class="perfil-content">
+  <section id="view-perfil">
+    <div class="perfil-card">
+      <!-- Imagen de perfil -->
+       <div class="avatar-section">
+            <div class="avatar-edit">
+              <img id="perfilImg" src="../img/miguel.jpg" alt="Imagen de Perfil" />
+              <button type="button" class="edit-btn" id="btnEditarImg" title="Cambiar imagen">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+                </svg>
+              </button>
+              <input type="file" id="inputImg" accept="image/*" hidden />
+            </div>
+          </div>
+
+          <!-- Información de perfil -->
+          <div class="info-section">
+            <h2>Mi perfil</h2>
+            <p>Gestiona tu cuenta para La Parrilla Azteca.</p>
+
+            <div class="field">
+              <label>Nombre</label>
+              <div class="input-edit">
+                <input type="text" id="perfilNombreText" class="input-dinamico" value="Juan Pérez" readonly>
+                <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Email</label>
+              <div class="input-edit">
+                <input type="email" id="perfilEmailText" class="input-dinamico" value="juan.perez@ejemplo.com" readonly>
+                <button type="button" class="edit-btn" id="btnEditarEmail" title="Editar email">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Género</label>
+              <div class="gender-select">
+                <label class="gender-option">
+                  <input type="radio" name="genero" value="masculino" checked>
+                  <span>Masculino</span>
+                </label>
+                <label class="gender-option">
+                  <input type="radio" name="genero" value="femenino">
+                  <span>Femenino</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn-sec">Guardar cambios</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-    <img id="preview" src="https://i.imgur.com/RbLqQ2C.png" alt="Vista previa" />
-    <div class="status-message" id="statusMsg"></div>
-  </div>
 
-  <script src="../perfil/js/perfil.js"></script>
+<script src="js/sidebar.js" defer></script>
 </body>
 </html>
