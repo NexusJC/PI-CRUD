@@ -7,10 +7,6 @@
   <meta name="description" content="Bienvenido a La Parrilla Azteca, tu restaurante mexicano favorito. Toma tu turno y disfruta de nuestra deliciosa comida." />
   <title>La Parrilla Azteca · Inicio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="icon" href="../img/logo_1.png" type="image/png">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -24,187 +20,115 @@
       </a>
       <span class="brand-text">LA PARRILLA AZTECA</span>
     </div>
-    
   </header>
 
   <!-- SIDEBAR -->
-<nav class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <img src="../img/logo_1.png" alt="Logo">
-    La Parrilla Azteca
-  </div>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../img/logo_1.png" alt="Logo">
+      La Parrilla Azteca
+    </div>
 
-  <div class="sidebar-profile">
-    <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
-    <h4>Bienvenido</h4>
-    <p>¡Explora el menú!</p>
+    <div class="sidebar-profile">
+      <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
+      <h4>Bienvenido</h4>
+      <p>¡Explora el menú!</p>
       <div class="sidebar-login-btn">
-  <a href="../login/login.html" class="btn-login" id="btn-login">
-    Iniciar sesión
-  </a>
-  <button class="btn-logout" id="btn-logout" style="display: none;">
-    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-  </button>
-</div>
+        <a href="../login/login.html" class="btn-login" id="btn-login">
+          Iniciar sesión
+        </a>
+        <button class="btn-logout" id="btn-logout" style="display: none;">
+          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </button>
+      </div>
+    </div>
 
-  </div>
+    <hr>
 
-  <hr>
+    <ul id="menuList">
+      <!-- El contenido del menú cambiará según el rol -->
+    </ul>
 
-  <ul>
-    <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
-    <li><a href="../personal/admin/add dishes/add_dishes.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="#"><i class="fas fa-user-alt"></i> Empleados</a></li>
-    <li><a href="#"><i class="fas fa-cash-register"></i> Cajas</a></li>
-    <li><a href="#"><i class="fas fa-comment-alt"></i> Reportes</a></li>
-  </ul>
-
-  <hr>
-  <div class="sidebar-footer">
-    <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
-  </div>
-</nav>
-
-
+    <hr>
+    <div class="sidebar-footer">
+      <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
+    </div>
+  </nav>
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="layout">
-  <!-- PANEL IZQUIERDO -->
-  <section class="menu-section">
-    
-   <!-- 🍽️ CATEGORÍAS -->
-<div class="category-section">
-  <h2 class="section-title">Categorías</h2>
-  <div class="category-grid">
-    <!-- Todos -->
-   <button class="category-btn" data-category="todos">
-      <span class="cat-icon">
-        <svg viewBox="0 0 24 24"><path d="M6 2h12v2a6 6 0 0 1-6 6v6h4a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2h4V10A6 6 0 0 1 6 4V2Z"/></svg>
-      </span>
-      <span class="cat-label">Todos</span>
-    </button>
+    <section class="menu-section">
+      <div class="category-section">
+        <h2 class="section-title">Categorías</h2>
+        <div class="category-grid">
+          <!-- Aquí van las categorías -->
+        </div>
+      </div>
 
-    <!-- Comida -->
-    <button class="category-btn" data-category="comida">
-      <span class="cat-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 1 18 0H3Z"/><path d="M2 15h20a1 1 0 1 1 0 2H2a1 1 0 1 1 0-2Z"/></svg>
-      </span>
-      <span class="cat-label">Comida</span>
-    </button>
+      <div class="special-menu">
+        <h2 class="section-title">Menú Especial</h2>
+        <div class="menu-grid" id="menuGrid">
+          <!-- Aquí se cargarán los platillos -->
+        </div>
+      </div>
+    </section>
+  </main>
 
-    <!-- Vinos -->
-    <button class="category-btn" data-category="vinos">
-      <span class="cat-icon">
-        <svg viewBox="0 0 24 24"><path d="M7 2h10v4a5 5 0 0 1-10 0V2Zm4 12h2v5h3a1 1 0 1 1 0 2H8a1 1 0 1 1 0-2h3v-5Z"/></svg>
-      </span>
-      <span class="cat-label">Vinos</span>
-    </button>
-
-    <!-- Sopas -->
-    <button class="category-btn" data-category="sopas">
-      <span class="cat-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 10h18a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6Zm2 8h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2Z"/></svg>
-      </span>
-      <span class="cat-label">Sopas</span>
-    </button>
-
-    <!-- Pizzas -->
-    <button class="category-btn" data-category="pizza">
-      <span class="cat-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 7c5-3 13-3 18 0l-9 14L3 7Zm7.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm4 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
-      </span>
-      <span class="cat-label">Pizzas</span>
-    </button>
-
-    <!-- Pescado -->
-    <button class="category-btn" data-category="pescado">
-      <span class="cat-icon">
-        <svg viewBox="0 0 24 24"><path d="M21 12s-3 4-9 4c-4 0-7-2-9-4 2-2 5-4 9-4 6 0 9 4 9 4Zm-5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
-      </span>
-      <span class="cat-label">Pescado</span>
-    </button>
-  </div>
-</div>
-
-
-<!--  MENÚ -->
-<div class="special-menu">
-  <h2 class="section-title">Menú Especial</h2>
-<div class="menu-grid" id="menuGrid">
-<!--Aqui van los platillos agregados pe-->
-</div>
-
-  <!-- PANEL DERECHO -->
-   <button id="toggleOrderBtn" class="toggle-order-btn">
-</button>
-<button id="toggleOrderBtn" class="toggle-order-btn">
-</button>
-  <aside class="order-details" id="orderDetails">
-    <h2>🧾 Detalles del Pedido</h2>
-    <div class="order-customer">
-      <p><strong>Cliente:</strong> Invitado</p>
-      <p class="order-id">N° Orden: <span id="orderId">#0001</span></p>
-    </div>
-    <ul id="orderList" class="order-list"></ul>
-    <div class="order-summary">
-      <p><span>Subtotal:</span> <strong id="subtotal">$0.00</strong></p>
-      <p><span>Descuento:</span> <strong id="discount">$0.00</strong></p>
-      <hr>
-      <p class="total"><span>Total:</span> <strong id="total">$0.00</strong></p>
-    </div>
-    <div class="order-actions">
-      <button class="order-btn confirm-btn">Confirmar Pedido</button>
-      <button class="order-btn print-btn" id="printBtn">Imprimir</button>
-    </div>
-  </aside>
-</main>
-
- <!-- === MODAL DE DESCRIPCIÓN DE PRODUCTO === -->
-<div class="product-modal" id="productModal">
-  <div class="modal-content">
-    <span class="modal-close" id="modalClose">&times;</span>
-    <img id="modalImg" src="" alt="">
-    <h2 id="modalTitle"></h2>
-    <p id="modalDesc"></p>
-    <button id="modalAddBtn" class="add-btn">
-      <svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>
-      Agregar al pedido
-    </button>
-  </div>
-</div>
-
-
-  <!-- FOOTER -->
   <footer>
     <div class="footer-container">
-      <div class="contact-section">
-        <h3>Contacto</h3>
-         <div class="social-icons">
-          <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank" rel="noopener" aria-label="Facebook">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-             <a href="https://x.com/LaParrillazteca" target="_blank" rel="noopener" aria-label="X (Twitter)">
-               <i class="fab fa-x-twitter"></i>
-              </a>
-              <a href="https://www.tiktok.com/@laparrillazteca" target="_blank" rel="noopener" aria-label="TikTok">
-                  <i class="fab fa-tiktok"></i>
-                 </a>
-                  <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank" rel="noopener" aria-label="Instagram">
-                       <i class="fab fa-instagram"></i>
-                       </a>
-                      </div>
-      </div>
-      <div class="copyright-section">
-        <p>&copy; 2025 Innovatech | Versión 1.0.1</p>
-      </div>
-      <div class="legal-section">
-        <a href="../login/politicas.html">Política de Privacidad</a>
-        <a href="../login/politicas.html">Términos y Condiciones</a>
-      </div>
+      <p>&copy; 2025 Innovatech | Versión 1.0.1</p>
     </div>
   </footer>
+
   <script src="js/load-dishes.js"></script>
- <script src="js/orderDetails.js"></script>
-<script src="js/sidebar.js" defer></script>
+  <script src="js/orderDetails.js"></script>
+  <script src="js/sidebar.js" defer></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const role = localStorage.getItem('role');
+      const btnLogin = document.getElementById('btn-login');
+      const btnLogout = document.getElementById('btn-logout');
+      const menuList = document.getElementById('menuList');
+
+      // Mostrar el botón de login/logout dependiendo del estado de la sesión
+      if (role) {
+        btnLogin.style.display = 'none';
+        btnLogout.style.display = 'block';
+        // Dependiendo del rol, actualizar el menú
+        if (role === 'admin') {
+          menuList.innerHTML = `
+            <li><a href="/admin/dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="/admin/manage-employees.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
+            <li><a href="/admin/manage-dishes.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
+          `;
+        } else if (role === 'empleado') {
+          menuList.innerHTML = `
+            <li><a href="/employee/orders.html"><i class="fas fa-cash-register"></i> Pedidos</a></li>
+            <li><a href="/employee/menu.html"><i class="fas fa-pizza-slice"></i> Ver Menú</a></li>
+          `;
+        } else {
+          menuList.innerHTML = `
+            <li><a href="/user/view-menu.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
+            <li><a href="/user/orders.html"><i class="fas fa-cash-register"></i> Mis Pedidos</a></li>
+          `;
+        }
+      } else {
+        btnLogin.style.display = 'block';
+        btnLogout.style.display = 'none';
+        // Menú para usuarios no autenticados
+        menuList.innerHTML = `
+          <li><a href="/login/login.html"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a></li>
+          <li><a href="/login/register.html"><i class="fas fa-user-plus"></i> Registrarse</a></li>
+        `;
+      }
+
+      // Lógica de cerrar sesión
+      btnLogout.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = "/login/login.html"; // Redirigir a login después de cerrar sesión
+      });
+    });
+  </script>
 </body>
 </html>
