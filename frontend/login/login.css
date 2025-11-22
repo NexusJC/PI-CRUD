@@ -34,7 +34,7 @@ body{
   transition: all 0.3s ease;
   width: 60px;
   height: 55px;
-  font-size: 13px;
+  font-size: 20px;
 }
 
 .flecha-regreso:hover {
@@ -131,11 +131,14 @@ h2 { color:#442719; background-color: transparent;font-size: 30px;}
     height: 18px;
     pointer-events: none;
 }
-ul { padding-right: 35px; padding-bottom: 10.5px; background: transparent; color: gray; font-weight: 100;
+ul { 
+    padding-right: 35px;
+    background: transparent; 
+    color: gray; font-weight: 100;
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
-    top: 50%; /* Centra el ícono verticalmente */
-    transform: translateY(-50%); /* Ajusta el ícono para centrarlo perfectamente */
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
     font-size: 18px;
 }
