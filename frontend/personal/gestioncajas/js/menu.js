@@ -61,68 +61,34 @@ document.querySelectorAll(".menu .enlace").forEach(enlace => {
 
 
 /* =========================
-   GESTIÓN DE CAJAS
+   GESTIÓN DE CAJAS (REAL BD)
 ========================= */
-let cajas = [];
-let idCaja = 1;
 
-const empleadosDemo = [
-  { id: 1, nombre: "Juan Pérez" },
-  { id: 2, nombre: "Maria Lopez" },
-  { id: 3, nombre: "Carlos Ruiz" }
-];
+// Si estas en local:
+const API_URL = "http://localhost:3000/api/cajas";
+// Si estas en Railway luego lo cambiamos.
 
 const contenedorCajas = document.getElementById("contenedorCajas");
-const btnAbrirModalCaja = document.getElementById("btnAbrirModalCaja");
-const overlayCaja = document.getElementById("overlayCaja");
-const modalCaja = document.getElementById("modalCaja");
-const btnCerrarModalCaja = document.getElementById("btnCerrarModalCaja");
-const btnCancelarCaja = document.getElementById("btnCancelarCaja");
-
 const formCaja = document.getElementById("formCaja");
-const numCaja = document.getElementById("numCaja");
-const empleadoCaja = document.getElementById("empleadoCaja");
-const estadoCaja = document.getElementById("estadoCaja");
 const filtroEstadoCaja = document.getElementById("filtroEstadoCaja");
 
-function cargarEmpleados() {
-  empleadoCaja.innerHTML = `<option disabled selected>Seleccionar empleado</option>`;
-  empleadosDemo.forEach(emp => {
-    let op = document.createElement("option");
-    op.value = emp.id;
-    op.textContent = emp.nombre;
-    empleadoCaja.appendChild(op);
-  });
+const empleadoCaja = document.getElementById("empleadoCaja");
+const estadoCaja = document.getElementById("estadoCaja");
+
+// Cargar cajas desde la BD
+async function cargarCajas() {
+  try {
+    const res = await fetch(API_URL);
+    const cajas = await res.json();
+    renderizarCajas(cajas);
+  } catch (err) {
+    console.error("Error al cargar cajas:", err);
+  }
 }
 
-function abrirModalCaja() {
-  numCaja.value = idCaja;
-  cargarEmpleados();
-  modalCaja.classList.add("activa");
-  overlayCaja.classList.add("activa");
-}
-
-function cerrarModalCaja() {
-  modalCaja.classList.remove("activa");
-  overlayCaja.classList.remove("activa");
-  formCaja.reset();
-}
-
-btnAbrirModalCaja?.addEventListener("click", abrirModalCaja);
-btnCerrarModalCaja?.addEventListener("click", cerrarModalCaja);
-btnCancelarCaja?.addEventListener("click", cerrarModalCaja);
-overlayCaja?.addEventListener("click", e => {
-  if (e.target === overlayCaja) cerrarModalCaja();
-});
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") cerrarModalCaja();
-});
-
-/* ===== RENDER ===== */
-function renderCajas() {
+// Pintar tarjetas
+function renderizarCajas(cajas) {
   contenedorCajas.innerHTML = "";
-
   const filtro = filtroEstadoCaja.value;
 
   cajas.forEach(caja => {
@@ -133,10 +99,10 @@ function renderCajas() {
 
     div.innerHTML = `
       <i class='bx bx-store icono-caja'></i>
-      <h3>Caja ${caja.numero}</h3>
-      <p class="empleado-asignado">${caja.empleadoNombre}</p>
+      <h3>Caja ${caja.id}</h3>
+      <p class="empleado-asignado">${caja.nombres}</p>
       <div class="caja-estado caja-estado--${caja.estado}">
-        ${caja.estado === "activa" ? "Activa" : "Inactiva"}
+        ${caja.estado === "activo" ? "Activa" : "Inactiva"}
       </div>
     `;
 
@@ -144,26 +110,29 @@ function renderCajas() {
   });
 }
 
-/* ===== GUARDAR ===== */
-formCaja?.addEventListener("submit", e => {
+// Guardar caja nueva
+formCaja?.addEventListener("submit", async e => {
   e.preventDefault();
 
-  const empleadoId = empleadoCaja.value;
-  const empleadoNombre = empleadosDemo.find(e => e.id == empleadoId)?.nombre;
+  const nombres = empleadoCaja.value;
+  const estado = estadoCaja.value;
 
-  cajas.push({
-    numero: idCaja++,
-    empleadoId,
-    empleadoNombre,
-    estado: estadoCaja.value
-  });
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombres, estado })
+    });
 
-  renderCajas();
-  cerrarModalCaja();
+    cerrarModalCaja();
+    cargarCajas();
+  } catch (err) {
+    console.error("Error al crear caja:", err);
+  }
 });
 
-/* ===== FILTRO ===== */
-filtroEstadoCaja?.addEventListener("change", renderCajas);
+// Filtro
+filtroEstadoCaja?.addEventListener("change", cargarCajas);
 
-/* ===== Inicial ===== */
-renderCajas();
+// Iniciar
+cargarCajas();
