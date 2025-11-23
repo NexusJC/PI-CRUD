@@ -83,52 +83,5 @@
   <script src="js/load-dishes.js"></script>
   <script src="js/orderDetails.js"></script>
   <script src="js/sidebar.js" defer></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const role = localStorage.getItem('role');
-      const btnLogin = document.getElementById('btn-login');
-      const btnLogout = document.getElementById('btn-logout');
-      const menuList = document.getElementById('menuList');
-
-      // Mostrar el botón de login/logout dependiendo del estado de la sesión
-      if (role) {
-        btnLogin.style.display = 'none';
-        btnLogout.style.display = 'block';
-        // Dependiendo del rol, actualizar el menú
-        if (role === 'admin') {
-          menuList.innerHTML = `
-            <li><a href="/admin/dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="/admin/manage-employees.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
-            <li><a href="/admin/manage-dishes.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
-          `;
-        } else if (role === 'empleado') {
-          menuList.innerHTML = `
-            <li><a href="/employee/orders.html"><i class="fas fa-cash-register"></i> Pedidos</a></li>
-            <li><a href="/employee/menu.html"><i class="fas fa-pizza-slice"></i> Ver Menú</a></li>
-          `;
-        } else {
-          menuList.innerHTML = `
-            <li><a href="/user/view-menu.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
-            <li><a href="/user/orders.html"><i class="fas fa-cash-register"></i> Mis Pedidos</a></li>
-          `;
-        }
-      } else {
-        btnLogin.style.display = 'block';
-        btnLogout.style.display = 'none';
-        // Menú para usuarios no autenticados
-        menuList.innerHTML = `
-          <li><a href="/login/login.html"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a></li>
-          <li><a href="/login/register.html"><i class="fas fa-user-plus"></i> Registrarse</a></li>
-        `;
-      }
-
-      // Lógica de cerrar sesión
-      btnLogout.addEventListener('click', () => {
-        localStorage.clear();
-        window.location.href = "/login/login.html"; // Redirigir a login después de cerrar sesión
-      });
-    });
-  </script>
 </body>
 </html>
