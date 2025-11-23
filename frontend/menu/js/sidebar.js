@@ -130,3 +130,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user?.role;
+    const menuList = document.getElementById("menuList");
+    const btnLogin = document.getElementById("btn-login");
+    const btnLogout = document.getElementById("btn-logout");
+
+    // Invitado
+    if (!role) {
+        btnLogin.style.display = "block";
+        btnLogout.style.display = "none";
+
+        menuList.innerHTML = `
+            <li><a href="/menu/index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="/login/login.html"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a></li>
+        `;
+
+        return;
+    }
+
+    // Usuario logeado
+    btnLogin.style.display = "none";
+    btnLogout.style.display = "block";
+
+    if (role === "admin") {
+        menuList.innerHTML = `
+            <li><a href="/frontend/personal/admin/add-dishes/admin.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
+            <li><a href="/frontend/personal/employees/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
+        `;
+    }
+
+    if (role === "empleado") {
+        menuList.innerHTML = `
+            <li><a href="/menu/index.html"><i class="fas fa-pizza-slice"></i> Menú</a></li>
+        `;
+    }
+
+    if (role === "usuario") {
+        menuList.innerHTML = `
+            <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
+            <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
+        `;
+    }
+});
