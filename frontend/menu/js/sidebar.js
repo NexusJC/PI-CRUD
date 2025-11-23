@@ -156,8 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (role === "admin") {
         menuList.innerHTML = `
-            <li><a href="personal/admin/add-dishes/admin.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
-            <li><a href="/employees/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
+            <li><a href="/personal/admin/add dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
+            <li><a href="/personal/admin/employee management/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
         `;
     }
 
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (role === "usuario") {
-        menuList.innerHTML = `
+        menuList.innerHTML = `  
             <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
             <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
         `;
