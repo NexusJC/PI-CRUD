@@ -156,8 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (role === "admin") {
         menuList.innerHTML = `
-            <li><a href="/frontend/personal/admin/add-dishes/admin.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
-            <li><a href="/frontend/personal/employees/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
+            <li><a href="personal/admin/add-dishes/admin.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
+            <li><a href="/employees/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
         `;
     }
 
