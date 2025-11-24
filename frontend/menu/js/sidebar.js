@@ -143,8 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btnLogout.style.display = "none";
 
         menuList.innerHTML = `
-            <li><a href="/menu/index.html"><i class="fas fa-home"></i> Inicio</a></li>
-            <li><a href="/login/login.html"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a></li>
         `;
 
         return;
