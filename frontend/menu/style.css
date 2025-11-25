@@ -844,7 +844,6 @@ footer {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  /* color y fondo base, cámbialos a tu paleta */
   background-color: #222;
   color: #fff;
   font-size: 18px;
@@ -853,6 +852,6 @@ footer {
 
 .social-icons a:hover {
   transform: translateY(-2px) scale(1.05);
-  background-color: #ff7b00; /* color de acento */
+  background-color: #ff7b00; 
   color: #fff;
 }
