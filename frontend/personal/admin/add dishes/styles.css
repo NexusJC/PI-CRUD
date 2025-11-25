@@ -1,148 +1,151 @@
 :root {
   --primary: #e36842;
   --primary-light: #fde3ca;
-  --background: #fff7ea;
   --text-dark: #2c2c2c;
   --border-radius: 12px;
-  --font: 'Segoe UI', 'Poppins', sans-serif;
+  --blanco: #2b2b2b;
+  --azul-opacidad: #f0d4c0;
+  --bg-menu: #fff7ea;
+  --bg-body: #fff7ea;
+  --naranja: #e36842;
+  --naranja-oscuro: #cf542b;
+  --bg-main: #f5f0e9;
 }
+
+* { box-sizing: border-box;}
 
 body {
-  font-family: var(--font);
-  background-color: var(--background);
+  font-family: 'Poppins', system-ui, Arial, sans-serif;
+  background-color: #f5f0e9;
   color: var(--text-dark);
   margin: 0;
+  height: 100vh;
 }
 
-/* ---------------- TOPBAR ---------------- */
-.topbar {
-  background-color: var(--primary);
-  color: white;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.topbar .brand {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.topbar .brand .logo {
-  height: 40px;
-}
-
-.topbar .brand-text {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-}
-
-.menu-toggle {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-/* ---------------- SIDEBAR ---------------- */
-.sidebar {
-  width: 250px;
-  background-color: white;
+/* SIDEBAR */
+.menu-dashboard {
   position: fixed;
   top: 0;
   left: 0;
+  width: 150px;
   height: 100vh;
-  padding: 1.5rem 1rem;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-  overflow-y: auto;
-  z-index: 999;
+  background: #fff7ea ;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: width 0.35s ease;
+  overflow: hidden;
+  z-index: 10;
 }
 
-.sidebar-header {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
+.top-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.sidebar-header img {
-  height: 50px;
-  margin-bottom: 0.5rem;
+.top-menu .logo {
+  display: flex;
+  align-items: center;
 }
 
-.sidebar-profile {
-  text-align: center;
-  margin-bottom: 1.5rem;
+.top-menu .logo img {
+  width: 40px;
+  transition: width .3s ease;
 }
 
-.sidebar-profile img {
-  height: 60px;
-  border-radius: 50%;
-  margin-bottom: 0.5rem;
+.top-menu .logo span {
+  font-size: 20px;
+  margin-left: 20px;
+  display: none;
 }
 
-.sidebar-profile h4 {
-  margin: 0.2rem 0;
-}
-
-.sidebar-profile p {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #555;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar ul li {
-  margin: 0.5rem 0;
-}
-
-.sidebar ul li a {
-  text-decoration: none;
-  color: #333;
-  display: block;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-
-.sidebar ul li a:hover {
-  background-color: var(--primary-light);
-}
-
-.sidebar-footer {
-  text-align: center;
-  font-size: 0.8rem;
-  color: #999;
-  margin-top: 2rem;
-}
-
-.btn-login, .btn-logout {
-  display: inline-block;
-  margin: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 8px;
+.top-menu .toggle {
+  width: 30px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
-  text-decoration: none;
 }
 
-.btn-login:hover, .btn-logout:hover {
-  background-color: #d3542e;
+.top-menu .toggle i {
+  font-size: 35px;
+}
+
+.input-search {
+  width: 100%;
+  margin: 40px 0 30px;
+  background-color: var(--azul-opacidad);
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.input-search i {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.input-search .input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+  height: 30px;
+  color: var(--blanco);
+  font-size: 16px;
+  display: none;
+}
+
+.menu .enlace {
+  width: 100%;
+  padding: 16px 0 16px 17px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all .3s ease;
+}
+
+.menu .enlace:hover {
+  background: var(--azul-opacidad);
+}
+
+.menu .enlace i {
+  margin-right: 16px;
+  font-size: 22px;
+}
+
+.menu .enlace span {
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.menu .enlace.activo {
+  background: var(--azul-opacidad);
+}
+
+.menu-dashboard.open {
+  width: 250px;
+}
+
+.menu-dashboard.open .top-menu .logo span {
+  display: block;
+}
+
+.menu-dashboard.open .input-search .input {
+  display: block;
+}
+
+.menu-dashboard.open .menu .enlace {
+  padding: 16px;
+}
+
+.menu-dashboard.open .menu .enlace span {
+  opacity: 1;
 }
 
 /* ---------------- FORMULARIO ---------------- */

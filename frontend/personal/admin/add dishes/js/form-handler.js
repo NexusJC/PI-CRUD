@@ -86,3 +86,4 @@ async function deleteDish(id) {
     alert('Error al eliminar');
   }
 }
+
