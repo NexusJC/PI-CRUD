@@ -1,11 +1,3 @@
-:root {
-  --topbar:#e36842;
-  --panel:#fff7ea;
-  --text:#2b2b2b;
-  --card:#ffffff;
-  --border:#e5e5e5;
-}
-
 * { box-sizing:border-box; }
 
 html, body {
@@ -21,7 +13,6 @@ html, body {
 
 body { padding-top:60px; flex-grow:1; }
 
-/* ===== TOPBAR ===== */
 .topbar {
   display:flex;
   align-items:center;
@@ -64,7 +55,6 @@ body { padding-top:60px; flex-grow:1; }
   color:#fff;
 }
 
-/* ===== SIDEBAR ===== */
 .sidebar {
   position:fixed;
   top:0;
@@ -210,201 +200,190 @@ body { padding-top:60px; flex-grow:1; }
   transform:scale(1.05);
 }
 
+.edit-btn {
+  border: none;
+  background: transparent;
+  color: var(--cta);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    /* Botones de edición */
-    .edit-btn {
-      border: none;
-      background: transparent;
-      color: var(--cta);
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity 0.2s;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+.edit-btn:hover {
+  opacity: 1;
+}
 
-    .edit-btn:hover {
-      opacity: 1;
-    }
+.perfil-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex: 1;
+  padding: 30px 20px;
+  }
 
-    /* Contenido principal */
-    .perfil-content {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      flex: 1;
-      padding: 30px 20px;
-    }
+.perfil-card {
+  border-radius: 20px;
+  border-style:groove;
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  background-color: white;
+}
 
-    /* Tarjeta de perfil */
-    .perfil-card {
-      border-radius: 20px;
-      border-style:groove;
-      padding: 40px;
-      max-width: 900px;
-      width: 100%;
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
-      background-color: white;
-    }
+.perfil-card h2 {
+  color: var(--choco);
+  font-size: 32px;
+  margin: 0 0 20px;
+}
 
-    .perfil-card h2 {
-      color: var(--choco);
-      font-size: 32px;
-      margin: 0 0 20px;
-    }
+.perfil-card p {
+  color: var(--ink);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
 
-    .perfil-card p {
-      color: var(--ink);
-      margin-bottom: 30px;
-      font-size: 1.1rem;
-    }
+.avatar-section {
+  position: relative;
+  flex-shrink: 0;
+}
 
-    /* Imagen de perfil editable */
-    .avatar-section {
-      position: relative;
-      flex-shrink: 0;
-    }
+.avatar-edit {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--choco);
+  background: #fffbe9;
+}
 
-    .avatar-edit {
-      position: relative;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid var(--choco);
-      background: #fffbe9;
-    }
+.avatar-edit img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-    .avatar-edit img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.avatar-edit .edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  z-index: 100;
+}
 
-    .avatar-edit .edit-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: transparent;
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      z-index: 100;
-    }
+.avatar-edit .edit-btn svg {
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
 
-    .avatar-edit .edit-btn svg {
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-    }
+.info-section {
+  flex: 1;
+}
 
-    /* Campos de información */
-    .info-section {
-      flex: 1;
-    }
+.field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
 
-    .field {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
+.field label {
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 16px;
+}
 
-    .field label {
-      font-weight: 700;
-      color: var(--muted);
-      font-size: 16px;
-    }
+.input-edit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-    .input-edit {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+.input-dinamico {
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  width: 100%;
+  font-size: 1.05rem;
+}
 
-    .input-dinamico {
-      border: 1px solid rgba(0,0,0,.12);
-      border-radius: 12px;
-      padding: 12px 14px;
-      font: inherit;
-      width: 100%;
-      font-size: 1.05rem;
-    }
+.gender-select {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
 
-    /* Select de género */
-    .gender-select {
-      display: flex;
-      gap: 15px;
-      margin-top: 5px;
-    }
+.gender-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
 
-    .gender-option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
+.gender-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
 
-    .gender-option input[type="radio"] {
-      width: 18px;
-      height: 18px;
-    }
-
-    .gender-option span {
-      font-size: 1.05rem;
-    }
-
-    /* Botones de acción */
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 30px;
-      gap: 15px;
-    }
-
-    .btn-sec {
-      background: #e6d7bf;
-      color: var(--choco);
-      padding: 14px 26px;
-      border-radius: 12px;
-      font-weight: 800;
-      border: none;
-      cursor: pointer;
-      font-size: 1.05rem;
-    }
-
-    .btn-sec:hover {
-      filter: brightness(1.05);
-    }
-
-    
+.gender-option span {
+  font-size: 1.05rem;
+}
 
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .perfil-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 30px 20px;
-      }
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  gap: 15px;
+}
+
+.btn-sec {
+  background: #e6d7bf;
+  color: var(--choco);
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  font-size: 1.05rem;
+}
+
+.btn-sec:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 768px) {
+  .perfil-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px;
+  }
       
-      .avatar-edit {
-        width: 140px;
-        height: 140px;
-      }
+  .avatar-edit {
+    width: 140px;
+    height: 140px;
+  }
       
-      .brand {
-        gap: 10px;
-      }
+  .brand {
+    gap: 10px;
+  }
       
-      .logo {
-        width: 44px;
-        height: 44px;
-      }
+  .logo {
+    width: 44px;
+    height: 44px;
+  }
       
-      .brand-text {
-        font-size: 1.1rem;
-      }
-    }
+  .brand-text {
+    font-size: 1.1rem;
+  }
+}
