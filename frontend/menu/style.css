@@ -831,3 +831,27 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   #menuGrid { transition: none; }
 }
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons a {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #222;
+  color: #fff;
+  font-size: 18px;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.social-icons a:hover {
+  transform: translateY(-2px) scale(1.05);
+  background-color: #ff7b00; 
+  color: #fff;
+}
