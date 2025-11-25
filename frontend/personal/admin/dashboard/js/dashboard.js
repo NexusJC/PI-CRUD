@@ -1,38 +1,42 @@
-// GRAFICA — ÓRDENES ÚLTIMOS 7 DÍAS
-const ctxOrders = document.getElementById("chartOrders");
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.querySelector(".menu-dashboard");
+    const toggle = document.querySelector(".toggle");
+    const toggleIcon = toggle ? toggle.querySelector("i") : null;
 
-new Chart(ctxOrders, {
-    type: "line",
-    data: {
-        labels: ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"],
-        datasets: [{
-            label: "Órdenes",
-            data: [12, 17, 9, 14, 20, 18, 11],
-            borderColor: "#e36842",
-            backgroundColor: "rgba(227,104,66,0.2)",
-            tension: 0.3,
-            borderWidth: 3
-        }]
-    },
-    options: {
-        responsive: true
+    if (!sidebar) {
+        console.error("❌ No se encontró .menu-dashboard");
+        return;
     }
-});
 
-// GRAFICA — PLATILLOS MÁS VENDIDOS
-const ctxTop = document.getElementById("chartTopDishes");
-
-new Chart(ctxTop, {
-    type: "bar",
-    data: {
-        labels: ["Tacos", "Pozole", "Enchiladas", "Burritos"],
-        datasets: [{
-            label: "Ventas",
-            data: [35, 50, 28, 43],
-            backgroundColor: "#e36842"
-        }]
-    },
-    options: {
-        responsive: true
+    if (!toggle) {
+        console.error("❌ No se encontró .toggle");
+        return;
     }
+
+    // === Toggle del sidebar ===
+    toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+
+        if (toggleIcon) {
+            if (sidebar.classList.contains("open")) {
+                toggleIcon.classList.remove("bx-menu");
+                toggleIcon.classList.add("bx-x");
+            } else {
+                toggleIcon.classList.remove("bx-x");
+                toggleIcon.classList.add("bx-menu");
+            }
+        }
+    });
+
+    // === Abrir sidebar al navegar entre enlaces ===
+    const links = document.querySelectorAll(".menu .enlace");
+    links.forEach(link => {
+        link.addEventListener("click", () => {
+            sidebar.classList.add("open");
+            if (toggleIcon) {
+                toggleIcon.classList.remove("bx-menu");
+                toggleIcon.classList.add("bx-x");
+            }
+        });
+    });
 });
