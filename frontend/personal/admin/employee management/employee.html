@@ -14,36 +14,44 @@
 </head>
 <body>
 
-  <!-- SIDEBAR -->
-    <div class="menu-dashboard">
-        <div class="top-menu">
-            <div class="logo">
-                <img src="/frontend/img/logo_1.png"Logo">
-                <span>Bienvenido</span>
-            </div>
-            <div class="toggle">
-                <i class='bx bx-menu'></i>
-            </div>
+<!-- SIDEBAR -->
+<div class="menu-dashboard">
+    <div class="top-menu">
+        <div class="logo">
+            <img src="/frontend/img/logo_1.png" alt="Logo">
+            <span>Bienvenido</span>
         </div>
-        <div class="input-search">
-            <i class='bx bx-search'></i>
-            <input type="text" class="input" placeholder="Buscar">
-        </div>
-        <div class="menu">
-            <a class="enlace" href="/frontend/personal/admin/dashboard.html">
-                <i class="bx bx-grid-alt"></i>
-                <span>Dashboard</span>
-            </a>
-            <a class="enlace" href="/frontend/personal/admin/employee management/employee.html">
-                <i class='bx bx-group'></i>
-                <span>Gestión Empleados</span>
-            </a>
-              <a class="enlace" href="/frontend/personal/admin/gestioncajas/gestioncajas.html">
-                 <i class="bx bx-store"></i>
-                   <span>Gestión Cajas</span>
-              </a>
+        <div class="toggle">
+            <i class='bx bx-menu'></i>
         </div>
     </div>
+    <div class="user-box">
+        <img id="sidebarUserImg" class="user-photo" src="/frontend/img/userplaceholder.png" alt="Usuario">
+
+        <div class="user-info">
+            <span id="sidebarUserName"></span>
+
+            <button id="logoutBtn" class="logout-btn">
+                <i class='bx bx-log-out'></i> Cerrar sesión
+            </button>
+        </div>
+    </div>
+    <div class="menu">
+        <a class="enlace" href="/frontend/personal/admin/dashboard/dashboard.html">
+            <i class="bx bx-grid-alt"></i>
+            <span>Dashboard</span>
+        </a>
+        <a class="enlace" href="/frontend/personal/admin/employee management/employee.html">
+            <i class='bx bx-group'></i>
+            <span>Gestión Empleados</span>
+        </a>
+        <a class="enlace" href="/frontend/personal/admin/gestioncajas/gestioncajas.html">
+            <i class="bx bx-store"></i>
+            <span>Gestión Cajas</span>
+        </a>
+    </div>
+</div>
+
     <!-- SECCIÓN EMPLEADOS -->
     <main id="seccion-trabajadores" class="seccion-trabajadores-card">
         <h2 class="titulo-empleados">Gestión de empleados</h2>
