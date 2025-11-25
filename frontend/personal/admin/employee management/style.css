@@ -827,3 +827,17 @@ input[type="tel"].invalid {
     border-color: #c0392b !important;
     box-shadow: 0 0 0 2px rgba(192, 57, 43, .25) !important;
 }
+.enlace {
+    color: inherit;              /* No azul */
+    text-decoration: none;       /* Quitar subrayado */
+    background: none;            /* Evitar cualquier highlight */
+}
+
+.enlace:focus,
+.enlace:active,
+.enlace:visited {
+    color: inherit;              /* Mantener color original */
+    background: none !important; /* Quitar el color azul */
+    outline: none;               /* Quitar borde */
+}
+
