@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="Restaurante, Mexicano, Comida, Turnos, Reservaciones, La Parrilla Azteca" />
+  <meta name="description" content="Bienvenido a La Parrilla Azteca, tu restaurante mexicano favorito. Toma tu turno y disfruta de nuestra deliciosa comida." />
+  <title>La Parrilla Azteca · Inicio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+    <div class="brand">
+      <a href="index.html" class="logo-link">
+        <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+      </a>
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../img/logo_1.png" alt="Logo">
+      La Parrilla Azteca
+    </div>
+
+    <div class="sidebar-profile">
+      <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
+      <h4>Bienvenido</h4>
+      <p>¡Explora el menú!</p>
+      <div class="sidebar-login-btn">
+        <a href="../login/login.html" class="btn-login" id="btn-login">
+          Iniciar sesión
+        </a>
+        <button class="btn-logout" id="btn-logout" style="display: none;">
+          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </button>
+      </div>
+    </div>
+
+    <hr>
+
+    <ul id="menuList">
+      <!-- El contenido del menú cambiará según el rol -->
+    </ul>
+
+    <hr>
+    <div class="sidebar-footer">
+      <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="layout">
+    <section class="menu-section">
+      <div class="category-section">
+        <h2 class="section-title">Categorías</h2>
+        <div class="category-grid">
+          <!-- Aquí van las categorías -->
+        </div>
+      </div>
+
+      <div class="special-menu">
+        <h2 class="section-title">Menú Especial</h2>
+        <div class="menu-grid" id="menuGrid">
+          <!-- Aquí se cargarán los platillos -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+ <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="contact-section">
+        <h3>Contacto</h3>
+<div class="social-icons">
+  <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+  <a href="https://x.com/LaParrillazteca" target="_blank">
+    <i class="fab fa-x-twitter"></i>
+  </a>
+  <a href="https://www.tiktok.com/@laparrillazteca" target="_blank">
+    <i class="fab fa-tiktok"></i>
+  </a>
+  <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+</div>
+      </div>
+      <div class="copyright-section">
+        <p>&copy; 2025 Innovatech | Versión 1.0.1</p>
+      </div>
+      <div class="legal-section">
+        <a href="../login/politicas.html">Política de Privacidad</a>
+        <a href="../login/politicas.html">Términos y Condiciones</a>
+      </div>
+    </div>
+  </footer>
+  <script src="js/load-dishes.js"></script>
+  <script src="js/orderDetails.js"></script>
+  <script src="js/sidebar.js" defer></script>
+</body>
+</html>
