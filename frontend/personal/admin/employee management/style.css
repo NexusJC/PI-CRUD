@@ -840,4 +840,107 @@ input[type="tel"].invalid {
     background: none !important; /* Quitar el color azul */
     outline: none;               /* Quitar borde */
 }
+/* === USER BOX SIN BORDES NEGROS === */
+.user-box {
+    width: 100%;
+    margin: 25px 0 25px;
+    background: #fff7ea; /* color exacto del sidebar */
+    padding: 14px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    /* borde súper suave, 100% acorde a tu diseño */
+    border: 1px solid #f6e9d8; 
+
+    /* sombra ligera estilo tus tarjetas */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+
+    transition: all 0.3s ease;
+}
+
+/* FOTO */
+.user-photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--naranja);
+    object-fit: cover;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+/* CONTENIDO */
+.user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: opacity .3s ease;
+}
+
+.user-info span {
+    font-size: 15px;
+    font-weight: 700;
+    color: #3b2d25;
+    white-space: nowrap;
+}
+
+/* BOTÓN */
+.logout-btn {
+    margin-top: 6px;
+    background: var(--naranja);
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity .3s ease, filter .3s ease;
+}
+
+.logout-btn:hover {
+    filter: brightness(.92);
+}
+
+/* === MODO CERRADO === */
+.menu-dashboard:not(.open) .user-info {
+    opacity: 0;
+    width: 0;
+    pointer-events: none;
+}
+
+.menu-dashboard:not(.open) .user-box {
+    padding: 10px;
+    justify-content: center;
+    border: none; /* sin borde al cerrar */
+    box-shadow: none; /* sin sombra al cerrar */
+}
+
+/* foto más pequeña al cerrar */
+.menu-dashboard:not(.open) .user-photo {
+    width: 36px;
+    height: 36px;
+}
+.menu-dashboard:not(.open) .user-box {
+    padding: 0;
+    margin-left: 12px;  
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-dashboard:not(.open) .user-photo {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto;
+}
 

@@ -1,89 +1,106 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="icon" href="/frontend/img/logo_1.png" type="image/png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard — Administración</title>
 
     <!-- ICONOS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
 
-    <!-- ESTILOS GENERALES DE TU ADMIN -->
-    <link rel="stylesheet" href="../employee%20management/employee.css">
-
-    <!-- ESTILOS DEL DASHBOARD -->
+    <!-- ESTILOS (PRIMERO employee, LUEGO local) -->
+    <link rel="stylesheet" href="/frontend/personal/admin/employee management/style.css">
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- FIX DEL SIDEBAR PARA QUE FUNCIONE EN DASHBOARD -->
+    <style>
+        .menu-dashboard {
+            max-width: 150px !important;
+            transition: max-width .3s ease !important;
+        }
+
+        .menu-dashboard.open {
+            max-width: 300px !important;
+        }
+
+        .menu-dashboard.open ~ .seccion-trabajadores-card {
+            transform: translateX(60px);
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <img src="../../../img/logo_1.png" alt="">
-            <h2>Bienvenido</h2>
+<!-- SIDEBAR -->
+<div class="menu-dashboard">
+    <div class="top-menu">
+        <div class="logo">
+            <img src="/frontend/img/logo_1.png" alt="Logo">
+            <span>Bienvenido</span>
         </div>
-
-        <div class="sidebar-menu">
-
-            <a href="./dashboard.html" class="active">
-                <i class="fa fa-chart-pie"></i> Dashboard
-            </a>
-
-            <a href="../admin/employee%20management/employee.html">
-                <i class="fa fa-users"></i> Gestión Empleados
-            </a>
-
-            <a href="../admin/caja/caja.html">
-                <i class="fa fa-store"></i> Gestión Cajas
-            </a>
-
-            <a href="../admin/add-dishes/admin.html">
-                <i class="fa fa-utensils"></i> Gestión Platillos
-            </a>
-
-            <a href="#">
-                <i class="fa fa-gear"></i> Configuración
-            </a>
+        <div class="toggle">
+            <i class='bx bx-menu'></i>
         </div>
+    </div>
+    <div class="user-box">
+        <img id="sidebarUserImg" class="user-photo" src="/frontend/img/userplaceholder.png" alt="Usuario">
 
-    </aside>
+        <div class="user-info">
+            <span id="sidebarUserName"></span>
 
+            <button id="logoutBtn" class="logout-btn">
+                <i class='bx bx-log-out'></i> Cerrar sesión
+            </button>
+        </div>
+    </div>
+    <div class="menu">
+        <a class="enlace" href="/frontend/personal/admin/dashboard/dashboard.html">
+            <i class="bx bx-grid-alt"></i>
+            <span>Dashboard</span>
+        </a>
+        <a class="enlace" href="/frontend/personal/admin/employee management/employee.html">
+            <i class='bx bx-group'></i>
+            <span>Gestión Empleados</span>
+        </a>
+        <a class="enlace" href="/frontend/personal/admin/gestioncajas/gestioncajas.html">
+            <i class="bx bx-store"></i>
+            <span>Gestión Cajas</span>
+        </a>
+    </div>
+</div>
     <!-- CONTENIDO -->
-    <main class="main-content">
+    <main class="seccion-trabajadores-card">
 
         <h1 class="titulo">Dashboard general</h1>
 
-        <!-- CARDS -->
+        <!-- TARJETAS -->
         <section class="cards-grid">
-
             <div class="card">
                 <h3>Platillos Totales</h3>
-                <p class="numero" id="stat-platillos">25</p>
+                <p class="numero">25</p>
             </div>
 
             <div class="card">
                 <h3>Empleados Activos</h3>
-                <p class="numero" id="stat-empleados">8</p>
+                <p class="numero">8</p>
             </div>
 
             <div class="card">
                 <h3>Usuarios Registrados</h3>
-                <p class="numero" id="stat-usuarios">92</p>
+                <p class="numero">92</p>
             </div>
 
             <div class="card">
                 <h3>Órdenes del Día</h3>
-                <p class="numero" id="stat-ordenes">18</p>
+                <p class="numero">18</p>
             </div>
-
         </section>
 
         <!-- GRAFICAS -->
         <section class="graficas">
-
             <div class="grafica-card">
                 <h3>Órdenes en los últimos 7 días</h3>
                 <canvas id="chartOrders"></canvas>
@@ -93,11 +110,11 @@
                 <h3>Platillos más vendidos</h3>
                 <canvas id="chartTopDishes"></canvas>
             </div>
-
         </section>
 
     </main>
 
-    <script src="dashboard.js"></script>
+    <script src="../dashboard/js/dashboard.js" defer></script>
+
 </body>
 </html>
