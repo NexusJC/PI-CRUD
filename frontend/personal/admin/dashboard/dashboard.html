@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Administración</title>
+
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ESTILOS GENERALES DE TU ADMIN -->
+    <link rel="stylesheet" href="../employee%20management/employee.css">
+
+    <!-- ESTILOS DEL DASHBOARD -->
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../../img/logo_1.png" alt="">
+            <h2>Bienvenido</h2>
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="./dashboard.html" class="active">
+                <i class="fa fa-chart-pie"></i> Dashboard
+            </a>
+
+            <a href="../admin/employee%20management/employee.html">
+                <i class="fa fa-users"></i> Gestión Empleados
+            </a>
+
+            <a href="../admin/caja/caja.html">
+                <i class="fa fa-store"></i> Gestión Cajas
+            </a>
+
+            <a href="../admin/add-dishes/admin.html">
+                <i class="fa fa-utensils"></i> Gestión Platillos
+            </a>
+
+            <a href="#">
+                <i class="fa fa-gear"></i> Configuración
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <h1 class="titulo">Dashboard general</h1>
+
+        <!-- CARDS -->
+        <section class="cards-grid">
+
+            <div class="card">
+                <h3>Platillos Totales</h3>
+                <p class="numero" id="stat-platillos">25</p>
+            </div>
+
+            <div class="card">
+                <h3>Empleados Activos</h3>
+                <p class="numero" id="stat-empleados">8</p>
+            </div>
+
+            <div class="card">
+                <h3>Usuarios Registrados</h3>
+                <p class="numero" id="stat-usuarios">92</p>
+            </div>
+
+            <div class="card">
+                <h3>Órdenes del Día</h3>
+                <p class="numero" id="stat-ordenes">18</p>
+            </div>
+
+        </section>
+
+        <!-- GRAFICAS -->
+        <section class="graficas">
+
+            <div class="grafica-card">
+                <h3>Órdenes en los últimos 7 días</h3>
+                <canvas id="chartOrders"></canvas>
+            </div>
+
+            <div class="grafica-card">
+                <h3>Platillos más vendidos</h3>
+                <canvas id="chartTopDishes"></canvas>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

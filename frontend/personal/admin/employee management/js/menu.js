@@ -22,50 +22,6 @@ enlacesMenu.forEach(enlace => {
     iconoMenu?.classList.replace("bx-menu", "bx-x");
   });
 });
-// ===========================================
-//       REDIRECCIONES ENTRE SECCIONES
-// ===========================================
-
-document.querySelectorAll(".menu .enlace").forEach(enlace => {
-    const texto = enlace.innerText.trim().toLowerCase();
-
-    // === SOLO: CAJAS → Gestión de Cajas ===
-    if (texto === "cajas") {
-        enlace.addEventListener("click", () => {
-            window.location.href = "/personal/admin/gestioncajas/gestioncajas.html";
-        });
-    }
-
-    // Dashboard
-    if (texto === "dashboard") {
-        enlace.addEventListener("click", () => {
-            window.location.href = "/personal/admin/admin.html";
-        });
-    }
-
-    // Usuarios
-    if (texto === "usuarios") {
-        enlace.addEventListener("click", () => {
-            window.location.href = "/personal/admin/users/users.html";
-        });
-    }
-
-    // Pedidos
-    if (texto === "pedidos") {
-        enlace.addEventListener("click", () => {
-            window.location.href = "/personal/admin/orders/pedidos.html";
-        });
-    }
-
-    // Configuración
-    if (texto === "configuración") {
-        enlace.addEventListener("click", () => {
-            window.location.href = "/personal/admin/settings/settings.html";
-        });
-    }
-});
-
-
 // =========================
 // GESTIÓN EMPLEADOS
 // =========================
@@ -97,6 +53,33 @@ const zonaImagen = document.getElementById("zonaImagen");
 
 // Datos en memoria (simulación, luego se reemplaza con BD)
 let empleados = [];
+// =====================================
+// CARGAR EMPLEADOS REALES DESDE BACKEND
+// =====================================
+fetch("/api/auth/users")
+  .then(res => res.json())
+  .then(data => {
+    console.log("Empleados desde BD:", data);
+
+    // Normalizar los datos según la tabla
+    empleados = data.map(emp => ({
+        id: emp.id,
+        nombre: emp.name,
+        telefono: emp.telefono ?? "-",
+        caja: emp.caja ?? "-",
+        estado: "activo",        // Ajusta si luego tienes columna estado
+        fechaRegistro: emp.created_at?.split("T")[0] ?? "",
+        foto: emp.profile_picture 
+              ? "/uploads/" + emp.profile_picture
+              : "https://via.placeholder.com/80/FFE1C8/000000?text=EMP"
+    }));
+
+    renderEmpleados();
+  })
+  .catch(err => {
+    console.error("Error cargando empleados:", err);
+  });
+
 let idCounter = 1;
 let modo = "crear";           // "crear" | "editar"
 let empleadoEditandoId = null;
@@ -302,18 +285,11 @@ formEmpleado?.addEventListener("submit", e => {
   }
 
   if (modo === "crear") {
-    const nuevo = {
-      id: idCounter++,
-      nombre,
-      telefono,
-      foto: fotoFinal,
-      // estos 3 se controlarán en backend en el futuro
-      caja: 1,
-      estado: "activo",
-      fechaRegistro: hoyISO()
-    };
-    empleados.push(nuevo);
-  } else if (modo === "editar" && empleadoEditandoId !== null) {
+  alert("Esta función no está conectada todavía al backend.");
+  return;
+}
+
+   else if (modo === "editar" && empleadoEditandoId !== null) {
     const idx = empleados.findIndex(e => e.id === empleadoEditandoId);
     if (idx !== -1) {
       empleados[idx].nombre = nombre;
