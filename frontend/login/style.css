@@ -22,7 +22,7 @@ body{
   display: inline-flex;
   justify-content: center;
   padding: 15px;
-  background: linear-gradient(orange, rgb(234, 131, 47));
+  background: linear-gradient(#5c3928,#442719 );
   border: none;
   border-radius: 15px;
   color: rgb(255, 250, 244);
@@ -31,6 +31,7 @@ body{
   width: 60px;
   height: 55px;
   font-size: 20px;
+  position: fixed;
 }
 
 .flecha-regreso:hover {
@@ -50,6 +51,7 @@ h2 {
   padding: 20px 18px;
   display: grid;
   place-items: center;
+  padding-top: 90px;
 }
 
 .contenedor-registro{ 
@@ -336,14 +338,11 @@ footer p {
 }
 
 .flecha-regreso-politicas button{
+  position: fixed;
   border-radius: 8px;
   background-color: #442719;
   color: #fff;
   border: none;
   padding: 10px 20px;
   box-shadow:  0 4px 10px rgba(10, 10, 10, 10);
-}
-
-.flecha-regreso-politicas button:hover{
-  background-color: #e36842;
 }
