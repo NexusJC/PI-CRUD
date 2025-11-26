@@ -115,6 +115,12 @@
     </main>
 
     <script src="../dashboard/js/dashboard.js" defer></script>
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+if (!user || user.role !== "admin") {
+    window.location.href = "/frontend/login/login.html";
+}
+</script>
 
 </body>
 </html>

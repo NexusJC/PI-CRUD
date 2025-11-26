@@ -224,5 +224,12 @@
   </div>
 
   <script src="/frontend/personal/employees/carousel/js/carousel.js"></script>
+  <script>
+const user = JSON.parse(localStorage.getItem("user"));
+if (!user || (user.role !== "empleado" && user.role !== "admin")) {
+    window.location.href = "/frontend/login/login.html";
+}
+</script>
+
 </body>
 </html>
