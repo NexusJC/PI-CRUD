@@ -128,9 +128,20 @@ export const register = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("Error registering user:", err);
-    res.status(500).json({ error: "Error registering user" });
+  console.error("Error registering user:", err);
+
+  // si el correo ya existe
+  if (err.code === "ER_DUP_ENTRY") {
+    return res.status(400).json({
+      error: "El correo ya está registrado"
+    });
   }
+
+  return res.status(500).json({
+    error: err.message || "Error registrando usuario"
+  });
+}
+
 };
 
 // 1) Solicitar recuperación por correo
