@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { pool } from "../db.js";
 import { getUsers, login, register,forgotPassword,resetPassword } from "../controllers/auth.controller.js";
 
 const router = Router();
