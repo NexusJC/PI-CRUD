@@ -100,7 +100,7 @@ export const register = async (req, res) => {
 
     // 6) Enviar correo HTML
     await transporter.sendMail({
-      from: `"La Parrilla Azteca" <${process.env.MAIL_USER}>`,
+      from: `"La Parrilla Azteca" <jacobocisnerosbrandomyair@gmail.com>"`,
       to: email,
       subject: "Confirma tu correo — La Parrilla Azteca",
       html: `
