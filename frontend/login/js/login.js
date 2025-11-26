@@ -101,13 +101,13 @@ if (loginForm) {
 
         // redirecciones segun los roles aaaaaa saquenme de aquiiiaaaaaa
         if (role === "admin") {
-          window.location.href = "/frontend/personal/admin/dashboard/dashboard.html";
+          window.location.href = "/personal/admin/dashboard/dashboard.html";
         } 
         else if (role === "empleado") {
-          window.location.href = "/frontend/personal/employees/employee management/employee.html";
+          window.location.href = "/personal/employees/employee management/employee.html";
         } 
         else {
-          window.location.href = "/frontend/menu/index.html";
+          window.location.href = "/menu/index.html";
         }
 
       } else {
