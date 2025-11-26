@@ -81,12 +81,9 @@ fetch("/api/auth/users")
   });
 
 let idCounter = 1;
-let modo = "crear";           // "crear" | "editar"
+let modo = "crear";           
 let empleadoEditandoId = null;
 
-// =========================
-// UTILIDADES
-// =========================
 
 function hoyISO() {
   const d = new Date();
@@ -112,9 +109,6 @@ function resetPreview() {
   if (archivoInput) archivoInput.value = "";
 }
 
-// =========================
-// MODAL
-// =========================
 
 function abrirModalCrear() {
   modo = "crear";
@@ -158,9 +152,6 @@ function cerrarModal() {
   modal.setAttribute("aria-hidden", "true");
 }
 
-// =========================
-// RENDER TABLA
-// =========================
 
 function renderEmpleados() {
   if (!tbody) return;
@@ -211,9 +202,6 @@ function renderEmpleados() {
   });
 }
 
-// =========================
-// IMAGEN (SUBIR / DRAG & DROP)
-// =========================
 
 archivoInput?.addEventListener("change", e => {
   const file = e.target.files[0];
@@ -244,9 +232,6 @@ zonaImagen?.addEventListener("drop", e => {
   }
 });
 
-// =========================
-// EVENTOS GENERALES
-// =========================
 
 btnNuevoEmpleado?.addEventListener("click", abrirModalCrear);
 
@@ -284,21 +269,57 @@ formEmpleado?.addEventListener("submit", e => {
     fotoFinal = URL.createObjectURL(archivoInput.files[0]);
   }
 
-  if (modo === "crear") {
-  alert("Esta función no está conectada todavía al backend.");
-  return;
+ if (modo === "crear") {
+    const formData = new FormData();
+    formData.append("name", nombre);
+    formData.append("telefono", telefono);
+
+    if (archivoInput.files[0]) {
+        formData.append("profile_picture", archivoInput.files[0]);
+    }
+
+    fetch("/api/users", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Empleado creado correctamente.");
+        cerrarModal();
+        location.reload();
+    })
+    .catch(err => {
+        console.error("Error creando empleado:", err);
+        alert("Error al crear empleado");
+    });
+
+    return;
 }
 
+
    else if (modo === "editar" && empleadoEditandoId !== null) {
-    const idx = empleados.findIndex(e => e.id === empleadoEditandoId);
-    if (idx !== -1) {
-      empleados[idx].nombre = nombre;
-      empleados[idx].telefono = telefono;
-      if (fotoFinal) {
-        empleados[idx].foto = fotoFinal;
-      }
-    }
-  }
+
+    const body = {
+        name: nombre,
+        telefono: telefono
+    };
+
+    fetch(`/api/users/${empleadoEditandoId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Empleado actualizado correctamente");
+        cerrarModal();
+        location.reload();
+    })
+    .catch(err => {
+        console.error("Error editando:", err);
+    });
+}
+
 
   renderEmpleados();
   cerrarModal();
@@ -310,10 +331,15 @@ btnEliminarEmpleado?.addEventListener("click", () => {
   const conf = confirm("¿Seguro que deseas eliminar este empleado?");
   if (!conf) return;
 
-  empleados = empleados.filter(e => e.id !== empleadoEditandoId);
-  empleadoEditandoId = null;
-  renderEmpleados();
-  cerrarModal();
+  fetch(`/api/users/${empleadoEditandoId}`, { method: "DELETE" })
+    .then(res => res.json())
+    .then(data => {
+        alert("Empleado eliminado correctamente.");
+        cerrarModal();
+        location.reload();
+    })
+    .catch(err => console.error("Error al eliminar:", err));
+
 });
 
 // Filtro estado
