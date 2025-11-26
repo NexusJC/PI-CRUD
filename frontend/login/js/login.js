@@ -93,12 +93,23 @@ if (loginForm) {
       const data = await response.json();
 
       if (response.ok) {
-        // Guardar token y datos del usuario en localStorage
+        // Guardar token en localstorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert("Bienvenido " + data.user.name + " hola pe");
-        window.location.href = "../menu/index.html";
+        const role = data.user.role;
+
+        // redirecciones segun los roles aaaaaa saquenme de aquiiiaaaaaa
+        if (role === "admin") {
+          window.location.href = "/frontend/personal/admin/dashboard/dashboard.html";
+        } 
+        else if (role === "empleado") {
+          window.location.href = "/frontend/personal/employees/employee.html";
+        } 
+        else {
+          window.location.href = "/frontend/menu/index.html";
+        }
+
       } else {
         alert(data.message || "Correo o contraseña incorrectos.");
       }
