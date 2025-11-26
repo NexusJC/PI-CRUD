@@ -398,3 +398,172 @@ body {
     font-size: 1.1rem;
   }
 }
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff7ea 0%, #fde3ca 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: 6px 0 30px rgba(0,0,0,0.25);
+  border-right: 2px solid rgba(255,255,255,0.2);
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  transition: all 0.6s ease;
+  z-index: 999;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.sidebar.active {
+  left: 0;
+  box-shadow: 10px 0 40px rgba(0,0,0,0.4);
+}
+
+/* ENCABEZADO */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(227,104,66,0.15);
+  color: #e36842;
+}
+
+.sidebar-header img {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.7);
+}
+
+/* PERFIL DEL SIDEBAR */
+.sidebar-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(227,104,66,0.2);
+}
+
+.sidebar-profile img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 12px rgba(227,104,66,0.4);
+  border: 2px solid white;
+}
+
+.sidebar-profile h4 {
+  margin: 10px 0 4px;
+  font-weight: 700;
+  color: #e36842;
+}
+
+.sidebar-profile p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* LOGIN / LOGOUT BUTTONS */
+.sidebar-login-btn {
+  margin-top: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-login {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e36842;
+  color: white;
+  font-weight: 600;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.btn-login:hover {
+  background-color: #cf542b;
+  transform: scale(1.05);
+}
+
+.btn-logout {
+  margin-top: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.btn-logout:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+/* DIVISORES */
+.sidebar hr {
+  border: none;
+  border-top: 1px solid rgba(227,104,66,0.2);
+  margin: 16px 20px;
+}
+
+/* LISTA DEL MENÚ */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin: 6px 0;
+}
+
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 28px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #3b2d25;
+  border-radius: 14px;
+  transition: all 0.35s ease;
+}
+
+.sidebar ul li a:hover {
+  background: linear-gradient(90deg, rgba(227,104,66,0.12), rgba(227,104,66,0.25));
+  transform: translateX(8px) scale(1.03);
+  box-shadow: 0 6px 14px rgba(227,104,66,0.2);
+}
+
+/* FOOTER */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(227,104,66,0.2);
+  text-align: center;
+  font-size: 0.85rem;
+  color: #333;
+  opacity: 0.8;
+}
+
+.sidebar-footer span {
+  color: #e36842;
+  font-weight: 700;
+}

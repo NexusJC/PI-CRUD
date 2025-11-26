@@ -18,7 +18,7 @@
   <header class="topbar">
     <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     <div class="brand">
-      <a href="index.html" class="logo-link">
+      <a href="../menu/index.html" class="logo-link">
         <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
       </a>
       <span class="brand-text">LA PARRILLA AZTECA</span>
@@ -26,39 +26,40 @@
   </header>
 
 
-  <!-- SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <img src="../img/logo_1.png" alt="Logo">
-      La Parrilla Azteca
+ <!-- SIDEBAR - COPIA DEL INDEX -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="../img/logo_1.png" alt="Logo">
+    La Parrilla Azteca
+  </div>
+
+  <div class="sidebar-profile">
+    <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
+    <h4>Bienvenido</h4>
+    <p>¡Explora el menú!</p>
+
+    <div class="sidebar-login-btn">
+      <a href="../login/login.html" class="btn-login" id="btn-login">
+        Iniciar sesión
+      </a>
+      <button class="btn-logout" id="btn-logout" style="display: none;">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </button>
     </div>
+  </div>
 
-    <div class="sidebar-profile">
-      <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
-      <h4>Bienvenido</h4>
-      <p>¡Explora el menú!</p>
-      <div class="sidebar-login-btn">
-        <a href="../login/login.html" class="btn-login" id="btn-login">
-          Iniciar sesión
-        </a>
-        <button class="btn-logout" id="btn-logout" style="display: none;">
-          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-        </button>
-      </div>
-    </div>
+  <hr>
 
-    <hr>
+  <ul id="menuList">
+    <!-- Se llena dinámicamente según rol -->
+  </ul>
 
-    <ul id="menuList">
-      <!-- El contenido del menú cambiará según el rol -->
-    </ul>
+  <hr>
 
-    <hr>
-    <div class="sidebar-footer">
-      <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
-    </div>
-  </nav>
-
+  <div class="sidebar-footer">
+    <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
+  </div>
+</nav>
   <!-- CONTENIDO PRINCIPAL -->
 <!-- contenido -->
  <div class="perfil-content">
@@ -122,6 +123,6 @@
       </section>
     </div>
 
-<script src="js/sidebar.js" defer></script>
+<script src="./js/sidebar.js" defer></script>
 </body>
 </html>

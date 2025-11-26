@@ -73,73 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 document.addEventListener("DOMContentLoaded", () => {
 
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user") || "null");
-
-  const btnLogin = document.getElementById("btn-login");
-  const btnLogout = document.getElementById("btn-logout");
-  const menuList = document.getElementById("menuList");
-  const sidebarUserImg = document.querySelector(".sidebar-profile img");
-  const sidebarUserName = document.querySelector(".sidebar-profile h4");
-
-  const perfilNombre = document.getElementById("perfilNombreText");
-  const perfilEmail = document.querySelector(".valor-estatico");
-  const perfilImg = document.getElementById("perfilImg");
-
-  if (!token || !user) {
-    if (btnLogin) btnLogin.style.display = "block";
-    if (btnLogout) btnLogout.style.display = "none";
-    return;
-  }
-
-  if (btnLogin) btnLogin.style.display = "none";
-  if (btnLogout) btnLogout.style.display = "block";
-
-  if (sidebarUserName) sidebarUserName.textContent = user.name || "Usuario";
-
-  if (sidebarUserImg && user.profile_picture)
-    sidebarUserImg.src = "/uploads/" + user.profile_picture;
-
-  if (perfilNombre) perfilNombre.value = user.name || "";
-
-  if (perfilEmail) perfilEmail.textContent = user.email || "";
-
-  if (perfilImg) {
-    perfilImg.src = user.profile_picture
-      ? "/uploads/" + user.profile_picture
-      : "../img/miguel.jpg";
-  }
-
-  if (menuList) {
-    if (user.role === "admin") {
-      menuList.innerHTML = `
-        <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-        <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
-        <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
-      `;
-    }
-
-    if (user.role === "empleado") {
-      menuList.innerHTML = `
-        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Tomar pedidos</a></li>
-      `;
-    }
-
-    if (user.role === "usuario") {
-      menuList.innerHTML = `
-        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver menú</a></li>
-        <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi perfil</a></li>
-      `;
-    }
-  }
-
-  if (btnLogout) {
-    btnLogout.addEventListener("click", () => {
-      localStorage.clear();
-      window.location.href = "../login/login.html";
-    });
-  }
-
+  // === TOGGLE SIDEBAR ===
   const menuToggle = document.getElementById("menuToggle");
   const sidebar = document.getElementById("sidebar");
 
@@ -148,15 +82,70 @@ document.addEventListener("DOMContentLoaded", () => {
       sidebar.classList.toggle("active");
       menuToggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
     });
+  }
 
-    document.addEventListener("click", (e) => {
-      if (!sidebar.contains(e.target) &&
-          !menuToggle.contains(e.target) &&
-          sidebar.classList.contains("active")) {
-        sidebar.classList.remove("active");
-        menuToggle.textContent = "☰";
+  // === CERRAR SIDEBAR AL HACER CLICK FUERA ===
+  document.addEventListener("click", (e) => {
+    if (!sidebar.contains(e.target) &&
+        !menuToggle.contains(e.target) &&
+        sidebar.classList.contains("active")) {
+      sidebar.classList.remove("active");
+      menuToggle.textContent = "☰";
+    }
+  });
+
+  // === SESIÓN ===
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const btnLogin = document.getElementById("btn-login");
+  const btnLogout = document.getElementById("btn-logout");
+  const menuList = document.getElementById("menuList");
+
+  // Usuario NO logueado
+  if (!token || !user) {
+    if (btnLogin) btnLogin.style.display = "block";
+    if (btnLogout) btnLogout.style.display = "none";
+    if (menuList) menuList.innerHTML = "";
+    return;
+  }
+
+  // Usuario LOGUEADO
+  if (btnLogin) btnLogin.style.display = "none";
+  if (btnLogout) btnLogout.style.display = "block";
+
+  // Menú dinámico según rol
+  if (menuList) {
+    if (user.role === "admin") {
+      menuList.innerHTML = `
+        <li><a href="/personal/admin/add dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
+        <li><a href="/personal/admin/employee management/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
+      `;
+    }
+
+    if (user.role === "empleado") {
+      menuList.innerHTML = `
+        <li><a href="/menu/index.html"><i class="fas fa-pizza-slice"></i> Menú</a></li>
+      `;
+    }
+
+    if (user.role === "usuario") {
+      menuList.innerHTML = `
+        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
+        <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
+      `;
+    }
+  }
+
+  // LOGOUT
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      if (confirm("¿Seguro que quieres cerrar sesión?")) {
+        localStorage.clear();
+        window.location.href = "../menu/index.html";
       }
     });
   }
 
 });
+
