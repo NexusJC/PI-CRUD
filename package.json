@@ -15,6 +15,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
     "mysql2": "^3.9.7",
-    "nodemailer": "^7.0.10"
+    "nodemailer": "^7.0.10",
+    "sib-api-v3-sdk": "^8.5.0"
   }
 }
