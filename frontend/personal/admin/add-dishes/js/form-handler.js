@@ -1,10 +1,10 @@
 const form = document.getElementById('dish-form');
 const tableBody = document.querySelector('#dishes-table tbody');
 
-// 🔁 Cargar platillos al iniciar
+// Cargar platillos al iniciar
 window.addEventListener('DOMContentLoaded', loadDishes);
 
-// ✅ Agregar platillo
+//  Agregar platillo
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -30,7 +30,7 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-// ✅ Función para cargar todos los platillos
+//  Función para cargar todos los platillos
 async function loadDishes() {
   tableBody.innerHTML = '';
   try {
@@ -46,7 +46,7 @@ async function loadDishes() {
         <td>$${dish.precio}</td>
         <td>${dish.categoria}</td>
         <td><img src="${dish.imagen}" alt="${dish.nombre}" width="60" /></td>
-        <td><button class="delete-btn" data-id="${dish.id}">🗑️ Eliminar</button></td>
+        <td><button class="delete-btn" data-id="${dish.id}"> Eliminar</button></td>
       `;
 
       tableBody.appendChild(row);
@@ -68,7 +68,7 @@ async function loadDishes() {
   }
 }
 
-// ✅ Función para eliminar platillo
+//  Función para eliminar platillo
 async function deleteDish(id) {
   try {
     const res = await fetch(`/api/dishes/${id}`, {
