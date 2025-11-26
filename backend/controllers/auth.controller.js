@@ -3,6 +3,7 @@ import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import SibApiV3Sdk from "sib-api-v3-sdk";
 
 // Obtener todos los usuarios
 export const getUsers = async (_req, res) => {
@@ -67,6 +68,7 @@ export const login = async (req, res) => {
   }
 };
 
+
 // Registrar usuario + enviar correo de verificación
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -78,7 +80,7 @@ export const register = async (req, res) => {
     // 2) Generar token de verificación
     const verificationToken = crypto.randomBytes(40).toString("hex");
 
-    // 3) Insertar usuario con token y email_verified = 0
+    // 3) Insertar usuario
     await pool.query(
       "INSERT INTO users (name, email, password, verification_token, email_verified) VALUES (?, ?, ?, ?, 0)",
       [name, email, hashedPassword, verificationToken]
@@ -87,61 +89,59 @@ export const register = async (req, res) => {
     // 4) URL de verificación
     const verifyURL = `https://laparrillaazteca.online/api/auth/verify?token=${verificationToken}`;
 
-    // 5) Configuración de Nodemailer (Brevo, como ya usas en forgotPassword)
-    const transporter = nodemailer.createTransport({
-      host: "smtp-relay.brevo.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.MAIL_USER, // SMTP user
-        pass: process.env.MAIL_PASS  // SMTP password
-      }
-    });
+    // ------------------------------
+    // 5) CONFIG BREVO API
+    // ------------------------------
+    const client = SibApiV3Sdk.ApiClient.instance;
+    client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
-    // 6) Enviar correo HTML
-    await transporter.sendMail({
-      from: `"La Parrilla Azteca" <jacobocisnerosbrandomyair@gmail.com>"`,
-      to: email,
+    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+    // ------------------------------
+    // 6) ENVIAR EMAIL CON API
+    // ------------------------------
+    await apiInstance.sendTransacEmail({
+      sender: {
+        name: "La Parrilla Azteca",
+        email: "jacobocisnerosbrandomyair@gmail.com" // remitente verificado en Brevo
+      },
+      to: [{ email }],
       subject: "Confirma tu correo — La Parrilla Azteca",
-      html: `
+      htmlContent: `
         <div style="font-family: Arial; text-align:center; background:#f5f0e9; padding:40px; border-radius:10px;">
-          <img src="https://laparrillaazteca.online/img/logo_1.png" width="120" alt="La Parrilla Azteca"/>
+          <img src="https://laparrillaazteca.online/img/logo_1.png" width="120"/>
           <h2 style="color:#e36842;">Confirma tu cuenta</h2>
           <p>Gracias por registrarte en <b>La Parrilla Azteca</b>.</p>
           <p>Haz clic en el siguiente botón para activar tu cuenta:</p>
 
           <a href="${verifyURL}"
             style="background:#e36842;color:white;padding:14px 28px;
-            text-decoration:none;border-radius:6px;font-size:18px; display:inline-block; margin-top:20px;">
+            text-decoration:none;border-radius:6px;font-size:18px;
+            display:inline-block;margin-top:20px;">
             Confirmar mi correo
           </a>
 
-          <p style="margin-top:30px;font-size:14px;color:#333;">
-            Si no solicitaste esta cuenta, ignora este correo.
-          </p>
+          <br><br>
+          <small>Si no solicitaste esta cuenta, ignora este correo.</small>
         </div>
       `
     });
 
     res.status(201).json({
-      message: "Usuario registrado. Revisa tu correo para confirmar la cuenta."
+      message: "Usuario registrado. Revisa tu correo."
     });
 
   } catch (err) {
-  console.error("Error registering user:", err);
+    console.error("Error registering user:", err);
 
-  // si el correo ya existe
-  if (err.code === "ER_DUP_ENTRY") {
-    return res.status(400).json({
-      error: "El correo ya está registrado"
+    if (err.code === "ER_DUP_ENTRY") {
+      return res.status(400).json({ error: "El correo ya está registrado" });
+    }
+
+    return res.status(500).json({
+      error: err.message || "Error registrando usuario"
     });
   }
-
-  return res.status(500).json({
-    error: err.message || "Error registrando usuario"
-  });
-}
-
 };
 
 // 1) Solicitar recuperación por correo
