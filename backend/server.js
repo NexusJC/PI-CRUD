@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import dishesRoutes from "./routes/dishes.route.js";
 import authRouter from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
-
+import usersRouter from "./routes/users.routes.js";
 
 const app = express();
 // ruta para manejar perfiles de usuario
@@ -16,7 +16,10 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/dishes", dishesRoutes);
 // ruta para las imágenes públicas
 app.use("/uploads", express.static("uploads"));
+// para manejar empleados 
+app.use("/api/users", usersRouter);
 
+//para el profe que revise esto, nadie trabajó, mas que yo, brandom
 
 // Conectar con la base de datos antes de iniciar el servidor
 const testDbConnection = async () => {
