@@ -71,7 +71,7 @@ fetch("/api/auth/users")
         fechaRegistro: emp.created_at?.split("T")[0] ?? "",
         foto: emp.profile_picture 
               ? "/uploads/" + emp.profile_picture
-              : "https://via.placeholder.com/80/FFE1C8/000000?text=EMP"
+              : "/img/userplaceholder.png"
     }));
 
     renderEmpleados();
@@ -164,7 +164,7 @@ function renderEmpleados() {
     if (filtro !== "todos" && estado !== filtro) return;
 
     const tr = document.createElement("tr");
-    const fotoFinal = emp.foto || "https://via.placeholder.com/80/FFE1C8/000000?text=EMP";
+    const fotoFinal = emp.foto || "/img/userplaceholder.png";
 
     const esActivo = estado === "activo";
     const bolitaClase = esActivo ? "bolita-verde" : "bolita-roja";
