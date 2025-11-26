@@ -61,7 +61,7 @@ if (registerForm) {
                 name: nombre,
                 email: correo,
                 password: contraseña,
-                role: "usuario", // puedes cambiar el rol si gustas
+                role: "usuario",
             }),
         });
 
@@ -104,7 +104,7 @@ if (loginForm) {
           window.location.href = "/personal/admin/dashboard/dashboard.html";
         } 
         else if (role === "empleado") {
-          window.location.href = "/personal/employees/employee-management/employee.html";
+          window.location.href = "/personal/employees/carousel/carousel.html";
         } 
         else {
           window.location.href = "/menu/index.html";
