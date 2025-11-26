@@ -567,3 +567,7 @@ body {
   color: #e36842;
   font-weight: 700;
 }
+#menuToggle {
+  position: relative;
+  z-index: 5000 !important;
+}
