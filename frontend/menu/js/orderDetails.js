@@ -16,62 +16,64 @@ let orderCount = 1;
 orderDetails.style.display = 'none';
 
 // === AGREGAR PRODUCTOS (stack) ===
-document.querySelectorAll('.add-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const card = btn.closest('.menu-card');
-    const name = card.dataset.name;
-    const price = parseFloat(card.dataset.price);
+// Escuchar clicks dinámicos en botones "Agregar"
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".add-btn");
+  if (!btn) return; // si no es un botón agregar, no hacemos nada
 
-   if (orderDetails.style.display === 'none') {
-  orderDetails.style.display = 'block';
+  const card = btn.closest(".menu-card");
+  const name = card.dataset.name;
+  const price = parseFloat(card.dataset.price);
 
-  // Reinicia y aplica la animación
-  orderDetails.classList.remove('open');
-  void orderDetails.offsetWidth; // fuerza reflow para reiniciar la animación
-  orderDetails.classList.add('open');
-}
+  // Abrir el panel si está oculto
+  if (orderDetails.style.display === "none") {
+    orderDetails.style.display = "block";
+    orderDetails.classList.remove("open");
+    void orderDetails.offsetWidth;
+    orderDetails.classList.add("open");
+  }
 
+  // Buscar item existente
+  let existing = Array.from(orderList.children).find(li => li.dataset.name === name);
 
-    // ¿Ya existe el producto en la lista?
-    let existing = Array.from(orderList.children).find(li => li.dataset.name === name);
+  // Si no existe, crearlo
+  if (!existing) {
+    const li = document.createElement("li");
+    li.className = "order-item";
+    li.dataset.name = name;
+    li.dataset.price = price;
+    li.dataset.qty = "1";
 
-    if (!existing) {
-      // Crear ítem stackeado
-      const li = document.createElement('li');
-      li.className = 'order-item';
-      li.dataset.name = name;
-      li.dataset.price = String(price); // precio unitario
-      li.dataset.qty = '1';
+    li.innerHTML = `
+      <div class="item-info">
+        <span class="item-name">${name}</span>
+        <div class="qty-controls">
+          <button class="qty-btn minus">−</button>
+          <span class="qty">1</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+      </div>
+      <div class="item-actions">
+        <span class="line-total">$${price.toFixed(2)}</span>
+        <button class="remove-btn">✕</button>
+      </div>
+      <textarea class="comment" placeholder="Comentario adicionales..."></textarea>
+    `;
 
-     li.innerHTML = `
-  <div class="item-info">
-    <span class="item-name">${name}</span>
-    <div class="qty-controls">
-      <button class="qty-btn minus" aria-label="Disminuir">−</button>
-      <span class="qty">1</span>
-      <button class="qty-btn plus" aria-label="Aumentar">+</button>
-    </div>
-  </div>
-  <div class="item-actions">
-    <span class="line-total">$${price.toFixed(2)}</span>
-    <button class="remove-btn" title="Eliminar">✕</button>
-  </div>
-  <textarea class="comment" placeholder="Comentario adicionales..."></textarea>
-`;
+    orderList.appendChild(li);
+  } 
+  // Si ya existe, aumentar cantidad
+  else {
+    let qty = parseInt(existing.dataset.qty);
+    qty++;
+    existing.dataset.qty = qty;
+    existing.querySelector(".qty").textContent = qty;
+    existing.querySelector(".line-total").textContent = `$${(price * qty).toFixed(2)}`;
+  }
 
-      orderList.appendChild(li);
-    } else {
-      // Incrementar cantidad y subtotal del ítem existente
-      const unit = parseFloat(existing.dataset.price);
-      const qty = parseInt(existing.dataset.qty, 10) + 1;
-      existing.dataset.qty = String(qty);
-      existing.querySelector('.qty').textContent = String(qty);
-      existing.querySelector('.line-total').textContent = `$${(unit * qty).toFixed(2)}`;
-    }
-
-    actualizarTotales();
-  });
+  actualizarTotales();
 });
+
 
 // Delegación para +, − y eliminar por ítem
 orderList.addEventListener('click', (e) => {
@@ -184,22 +186,15 @@ document.querySelector('.confirm-btn').addEventListener('click', () => {
   actualizarTotales();
   orderDetails.style.display = 'none';
 });
-// ANIMACIÓN
-const addButtons = document.querySelectorAll('.add-btn');
 
-function addToCart(event) {
-  const button = event.target.closest('.add-btn');
-  
-  button.classList.add('animate');
-  
-  setTimeout(() => {
-    button.classList.remove('animate');
-  }, 400);
+// Delegación para animación en botones agregados dinámicamente
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".add-btn");
+  if (!btn) return;
 
-}
-addButtons.forEach(button => {
-  button.addEventListener('click', addToCart);
+  addToCart(e);
 });
+
 // === MODAL DETALLES DE PRODUCTO ===
 const modal = document.getElementById('productModal');
 const modalImg = document.getElementById('modalImg');
