@@ -73,17 +73,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 document.addEventListener("DOMContentLoaded", () => {
 
-    function getLoginUrl() {
-        const isLocal =
-            location.hostname === "127.0.0.1" ||
-            location.hostname === "localhost";
+    function findLoginPath() {
+        const paths = [
+            "../../login/login.html",
+            "../login/login.html",
+            "/frontend/login/login.html",
+            "/login/login.html"
+        ];
 
-        if (isLocal) {
-            return "../../login/login.html";
+        for (let path of paths) {
+            try {
+                const xhr = new XMLHttpRequest();
+                xhr.open("HEAD", path, false);
+                xhr.send();
+                if (xhr.status !== 404) return path;
+            } catch(e){}
         }
-
         return "/login/login.html";
     }
+
+    const loginUrl = findLoginPath();
 
     const logoutBtn = document.getElementById("btn-logout");
     const loginBtn = document.getElementById("btn-login");
@@ -95,33 +104,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!token || !user || user.role !== "usuario") {
-        window.location.href = getLoginUrl();
+        window.location.href = loginUrl;
         return;
     }
 
     loginBtn.style.display = "none";
     logoutBtn.style.display = "block";
 
-    if (sidebarUserName) {
-        sidebarUserName.textContent = user.name || "Usuario";
-    }
-
-    if (sidebarUserImg && user.profile_picture) {
+    if (sidebarUserName) sidebarUserName.textContent = user.name || "Usuario";
+    if (sidebarUserImg && user.profile_picture)
         sidebarUserImg.src = "/uploads/" + user.profile_picture;
-    }
 
     menuList.innerHTML = `
         <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
         <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
     `;
 
-    // LOGOUT
     logoutBtn.addEventListener("click", () => {
-        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
-        if (!confirmLogout) return;
-
+        const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
+        if (!confirmar) return;
         localStorage.clear();
-        window.location.href = getLoginUrl();
+        window.location.href = loginUrl;
     });
 
     const menuToggle = document.getElementById("menuToggle");
@@ -137,8 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener('click', (event) => {
         if (!sidebar.contains(event.target) &&
             !menuToggle.contains(event.target) &&
-            sidebar.classList.contains('active')) 
-        {
+            sidebar.classList.contains('active')) {
             sidebar.classList.remove('active');
             menuToggle.textContent = "☰";
         }
