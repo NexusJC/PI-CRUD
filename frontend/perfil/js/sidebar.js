@@ -73,60 +73,65 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 document.addEventListener("DOMContentLoaded", () => {
 
-    function findLoginPath() {
-        const paths = [
-            "../../login/login.html",
-            "../login/login.html",
-            "/frontend/login/login.html",
-            "/login/login.html"
-        ];
+    // Obtener sesión guardada
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-        for (let path of paths) {
-            try {
-                const xhr = new XMLHttpRequest();
-                xhr.open("HEAD", path, false);
-                xhr.send();
-                if (xhr.status !== 404) return path;
-            } catch(e){}
-        }
-        return "/login/login.html";
-    }
-
-    const loginUrl = findLoginPath();
-
-    const logoutBtn = document.getElementById("btn-logout");
-    const loginBtn = document.getElementById("btn-login");
+    const btnLogin = document.getElementById("btn-login");
+    const btnLogout = document.getElementById("btn-logout");
     const menuList = document.getElementById("menuList");
     const sidebarUserImg = document.querySelector(".sidebar-profile img");
     const sidebarUserName = document.querySelector(".sidebar-profile h4");
 
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (!token || !user || user.role !== "usuario") {
-        window.location.href = loginUrl;
+    // Si no hay sesión => regresar a login
+    if (!token || !user) {
+        window.location.href = "../login/login.html";
         return;
     }
 
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "block";
+    // Mostrar nombre
+    if (sidebarUserName) sidebarUserName.textContent = user.name ?? "Usuario";
 
-    if (sidebarUserName) sidebarUserName.textContent = user.name || "Usuario";
-    if (sidebarUserImg && user.profile_picture)
+    // Imagen si existe
+    if (sidebarUserImg && user.profile_picture) {
         sidebarUserImg.src = "/uploads/" + user.profile_picture;
+    }
 
-    menuList.innerHTML = `
-        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
-        <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
-    `;
+    // Alternar login / logout
+    btnLogin.style.display = "none";
+    btnLogout.style.display = "block";
 
-    logoutBtn.addEventListener("click", () => {
-        const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
-        if (!confirmar) return;
+    // Construir menú dinámico por rol
+    if (user.role === "admin") {
+        menuList.innerHTML = `
+            <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Gestión de Empleados</a></li>
+            <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Gestión de Cajas</a></li>
+        `;
+    }
+
+    if (user.role === "empleado") {
+        menuList.innerHTML = `
+            <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Tomar pedidos</a></li>
+        `;
+    }
+
+    if (user.role === "usuario") {
+        menuList.innerHTML = `
+            <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver menú</a></li>
+            <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi perfil</a></li>
+        `;
+    }
+
+    // ----- LOGOUT -----
+    btnLogout.addEventListener("click", () => {
+        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
+        if (!confirmLogout) return;
         localStorage.clear();
-        window.location.href = loginUrl;
+        window.location.href = "../login/login.html";
     });
 
+    // ----- TOGGLE SIDEBAR -----
     const menuToggle = document.getElementById("menuToggle");
     const sidebar = document.getElementById("sidebar");
 
@@ -137,11 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    document.addEventListener('click', (event) => {
-        if (!sidebar.contains(event.target) &&
-            !menuToggle.contains(event.target) &&
-            sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
+    // Cerrar al hacer clic fuera
+    document.addEventListener("click", (e) => {
+        if (!sidebar.contains(e.target) &&
+            !menuToggle.contains(e.target) &&
+            sidebar.classList.contains("active")) {
+            sidebar.classList.remove("active");
             menuToggle.textContent = "☰";
         }
     });
