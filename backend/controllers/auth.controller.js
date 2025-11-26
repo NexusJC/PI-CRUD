@@ -87,7 +87,7 @@ export const register = async (req, res) => {
     );
 
     // 4) URL de verificación
-    const verifyURL = `https://laparrillaazteca.online/api/auth/verify?token=${verificationToken}`;
+    const verifyURL = `https://laparrilaazteca.online/api/auth/verify?token=${verificationToken}`;
 
     // ------------------------------
     // 5) CONFIG BREVO API
@@ -109,7 +109,7 @@ export const register = async (req, res) => {
       subject: "Confirma tu correo — La Parrilla Azteca",
       htmlContent: `
         <div style="font-family: Arial; text-align:center; background:#f5f0e9; padding:40px; border-radius:10px;">
-          <img src="https://laparrillaazteca.online/img/logo_1.png" width="120"/>
+          <img src="https://laparrilaazteca.online/img/logo_1.png" width="120"/>
           <h2 style="color:#e36842;">Confirma tu cuenta</h2>
           <p>Gracias por registrarte en <b>La Parrilla Azteca</b>.</p>
           <p>Haz clic en el siguiente botón para activar tu cuenta:</p>
@@ -170,7 +170,7 @@ export const forgotPassword = async (req, res) => {
     );
 
     // enlace que va en el correo
-    const link = `https://laparrillaazteca.online/login/new_password.html?token=${token}`;
+    const link = `https://laparrilaazteca.online/login/new_password.html?token=${token}`;
 
     // configuracion de nodemailer (Brevo)
     const transporter = nodemailer.createTransport({
