@@ -48,6 +48,10 @@ const FRONT_ROOT = path.join(__dirname, "..", "frontend");
 
 app.use(express.static(FRONT_ROOT));
 app.use("/menu", express.static(path.join(FRONT_ROOT, "menu")));
+// carpetas adicionales del frontend
+app.use("/personal", express.static(path.join(FRONT_ROOT, "personal")));
+app.use("/login", express.static(path.join(FRONT_ROOT, "login")));
+app.use("/perfil", express.static(path.join(FRONT_ROOT, "perfil")));
 app.get("/", (_req, res) => res.redirect(302, "/menu/"));
 app.get("/health", (_req, res) => res.status(200).send("ok"));
 
