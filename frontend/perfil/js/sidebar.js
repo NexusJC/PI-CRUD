@@ -71,3 +71,88 @@ document.addEventListener('DOMContentLoaded', () => {
         emailInput.style.backgroundColor = 'transparent';
       }
     });
+  // Cerrar sesión
+  if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+  const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
+  if (confirmLogout) {
+    localStorage.clear();
+    window.location.href = "../menu/index.html";
+      }
+    });
+   }
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout = document.getElementById('btn-logout');
+  const usernameText = document.getElementById('username-text');
+  const usernameValue = document.getElementById('username');
+  const usernameDefault = document.getElementById('username-default');
+
+  if (token && user) {
+    btnLogin.style.display = 'none';
+    btnLogout.style.display = 'block';
+    usernameText.style.display = 'block';
+    usernameValue.textContent = user.name;
+    usernameDefault.style.display = 'none';
+  } else {
+    btnLogin.style.display = 'block';
+    btnLogout.style.display = 'none';
+    usernameText.style.display = 'none';
+    usernameDefault.style.display = 'block';
+  }
+
+  if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+      const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
+      if (confirmLogout) {
+        localStorage.clear();
+        window.location.href = "../login/login.html";
+      }
+    });
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user?.role;
+    const menuList = document.getElementById("menuList");
+    const btnLogin = document.getElementById("btn-login");
+    const btnLogout = document.getElementById("btn-logout");
+
+    // Invitado
+    if (!role) {
+        btnLogin.style.display = "block";
+        btnLogout.style.display = "none";
+
+        menuList.innerHTML = `
+        `;
+
+        return;
+    }
+
+    // Usuario logeado
+    btnLogin.style.display = "none";
+    btnLogout.style.display = "block";
+
+    if (role === "admin") {
+        menuList.innerHTML = `
+            <li><a href="/personal/admin/add dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
+            <li><a href="/personal/admin/employee management/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
+        `;
+    }
+
+    if (role === "empleado") {
+        menuList.innerHTML = `
+            <li><a href="/menu/index.html"><i class="fas fa-pizza-slice"></i> Menú</a></li>
+        `;
+    }
+
+    if (role === "usuario") {
+        menuList.innerHTML = `  
+            <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
+            <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
+        `;
+    }
+});

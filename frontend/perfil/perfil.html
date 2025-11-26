@@ -25,42 +25,40 @@
     </div>
   </header>
 
-    <!-- SIDEBAR -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="../img/logo_1.png" alt="Logo">
-            La Parrilla Azteca
-        </div>
 
-        <div class="sidebar-profile">
-            <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
-            <h4>Bienvenido</h4>
-            <p>¡Explora el menú!</p>
-            <div class="sidebar-login-btn">
-                <a href="../login/login.html" class="btn-login" id="btn-login">
-                    Iniciar sesión
-                </a>
-                <button class="btn-logout" id="btn-logout" style="display: none;">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                </button>
-            </div>
-        </div>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../img/logo_1.png" alt="Logo">
+      La Parrilla Azteca
+    </div>
 
-        <hr>
+    <div class="sidebar-profile">
+      <img src="https://i.imgur.com/RbLqQ2C.png" alt="Avatar">
+      <h4>Bienvenido</h4>
+      <p>¡Explora el menú!</p>
+      <div class="sidebar-login-btn">
+        <a href="../login/login.html" class="btn-login" id="btn-login">
+          Iniciar sesión
+        </a>
+        <button class="btn-logout" id="btn-logout" style="display: none;">
+          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </button>
+      </div>
+    </div>
 
-        <ul>
-            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
-            <li><a href="../personal/admin/add dishes/add_dishes.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-user-alt"></i> Empleados</a></li>
-            <li><a href="#"><i class="fas fa-cash-register"></i> Cajas</a></li>
-            <li><a href="#"><i class="fas fa-comment-alt"></i> Reportes</a></li>
-        </ul>
+    <hr>
 
-        <hr>
-        <div class="sidebar-footer">
-            <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
-        </div>
-    </nav>
+    <ul id="menuList">
+      <!-- El contenido del menú cambiará según el rol -->
+    </ul>
+
+    <hr>
+    <div class="sidebar-footer">
+      <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
+    </div>
+  </nav>
+
   <!-- CONTENIDO PRINCIPAL -->
 <!-- contenido -->
  <div class="perfil-content">
@@ -95,19 +93,13 @@
                 </button>
               </div>
             </div>
-
+            
             <div class="field">
-              <label>Email</label>
-              <div class="input-edit">
-                <input type="email" id="perfilEmailText" class="input-dinamico" value="juan.perez@ejemplo.com" readonly>
-                <button type="button" class="edit-btn" id="btnEditarEmail" title="Editar email">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                    <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
-                  </svg>
-                </button>
-              </div>
+               <label>Email</label>
+                <div class="input-edit">
+                    <span class="valor-estatico">juan.perez@ejemplo.com</span>
+                </div>
             </div>
-
             <div class="field">
               <label>Género</label>
               <div class="gender-select">
