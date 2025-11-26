@@ -10,26 +10,10 @@
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
 
     <!-- ESTILOS (PRIMERO employee, LUEGO local) -->
-    <link rel="stylesheet" href="/frontend/personal/admin/employee management/style.css">
+    <link rel="stylesheet" href="/frontend/personal/admin/employee_management/style.css">
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- FIX DEL SIDEBAR PARA QUE FUNCIONE EN DASHBOARD -->
-    <style>
-        .menu-dashboard {
-            max-width: 150px !important;
-            transition: max-width .3s ease !important;
-        }
-
-        .menu-dashboard.open {
-            max-width: 300px !important;
-        }
-
-        .menu-dashboard.open ~ .seccion-trabajadores-card {
-            transform: translateX(60px);
-        }
-    </style>
 </head>
 
 <body>
@@ -115,11 +99,6 @@
     </main>
 
     <script src="../dashboard/js/dashboard.js" defer></script>
-<script>
-const user = JSON.parse(localStorage.getItem("user"));
-if (!user || user.role !== "admin") {
-    window.location.href = "/frontend/login/login.html";
-}
 </script>
 
 </body>

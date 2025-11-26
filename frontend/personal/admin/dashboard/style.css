@@ -123,3 +123,15 @@
         grid-template-columns: 1fr;
     }
 }
+   .menu-dashboard {
+            max-width: 150px !important;
+            transition: max-width .3s ease !important;
+        }
+
+        .menu-dashboard.open {
+            max-width: 300px !important;
+        }
+
+        .menu-dashboard.open ~ .seccion-trabajadores-card {
+            transform: translateX(60px);
+        }
