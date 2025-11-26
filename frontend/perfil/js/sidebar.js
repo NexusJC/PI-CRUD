@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 document.addEventListener("DOMContentLoaded", () => {
+
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
@@ -81,47 +82,63 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarUserImg = document.querySelector(".sidebar-profile img");
   const sidebarUserName = document.querySelector(".sidebar-profile h4");
 
+  const perfilNombre = document.getElementById("perfilNombreText");
+  const perfilEmail = document.querySelector(".valor-estatico");
+  const perfilImg = document.getElementById("perfilImg");
+
   if (!token || !user) {
-    window.location.href = "../login/login.html";
+    if (btnLogin) btnLogin.style.display = "block";
+    if (btnLogout) btnLogout.style.display = "none";
     return;
   }
 
-  btnLogin.style.display = "none";
-  btnLogout.style.display = "block";
+  if (btnLogin) btnLogin.style.display = "none";
+  if (btnLogout) btnLogout.style.display = "block";
 
-  sidebarUserName.textContent = user.name || "Usuario";
+  if (sidebarUserName) sidebarUserName.textContent = user.name || "Usuario";
 
-  if (user.profile_picture) {
+  if (sidebarUserImg && user.profile_picture)
     sidebarUserImg.src = "/uploads/" + user.profile_picture;
+
+  if (perfilNombre) perfilNombre.value = user.name || "";
+
+  if (perfilEmail) perfilEmail.textContent = user.email || "";
+
+  if (perfilImg) {
+    perfilImg.src = user.profile_picture
+      ? "/uploads/" + user.profile_picture
+      : "../img/miguel.jpg";
   }
 
-  if (user.role === "admin") {
-    menuList.innerHTML = `
-      <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-      <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
-      <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
-    `;
+  if (menuList) {
+    if (user.role === "admin") {
+      menuList.innerHTML = `
+        <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+        <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
+        <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
+      `;
+    }
+
+    if (user.role === "empleado") {
+      menuList.innerHTML = `
+        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Tomar pedidos</a></li>
+      `;
+    }
+
+    if (user.role === "usuario") {
+      menuList.innerHTML = `
+        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver menú</a></li>
+        <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi perfil</a></li>
+      `;
+    }
   }
 
-  if (user.role === "empleado") {
-    menuList.innerHTML = `
-      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Tomar pedidos</a></li>
-    `;
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "../login/login.html";
+    });
   }
-
-  if (user.role === "usuario") {
-    menuList.innerHTML = `
-      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver menú</a></li>
-      <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi perfil</a></li>
-    `;
-  }
-
-  btnLogout.addEventListener("click", () => {
-    const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
-    if (!confirmar) return;
-    localStorage.clear();
-    window.location.href = "../login/login.html";
-  });
 
   const menuToggle = document.getElementById("menuToggle");
   const sidebar = document.getElementById("sidebar");
@@ -141,4 +158,5 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
 });
