@@ -19,7 +19,8 @@ app.use("/uploads", express.static("uploads"));
 // para manejar empleados 
 app.use("/api/users", usersRouter);
 // rutas de autenticación
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRouter);
+
 
 //para el profe que revise esto, nadie trabajó, mas que yo, brandom
 
