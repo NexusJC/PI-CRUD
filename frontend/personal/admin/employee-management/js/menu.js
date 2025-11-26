@@ -270,9 +270,14 @@ formEmpleado?.addEventListener("submit", e => {
   }
 
  if (modo === "crear") {
+    const email = document.getElementById("emailEmpleado").value.trim();
+    const password = document.getElementById("passwordEmpleado").value.trim();
+
     const formData = new FormData();
     formData.append("name", nombre);
     formData.append("telefono", telefono);
+    formData.append("email", email);
+    formData.append("password", password);
 
     if (archivoInput.files[0]) {
         formData.append("profile_picture", archivoInput.files[0]);
@@ -282,6 +287,7 @@ formEmpleado?.addEventListener("submit", e => {
         method: "POST",
         body: formData
     })
+
     .then(res => res.json())
     .then(data => {
         alert("Empleado creado correctamente.");
