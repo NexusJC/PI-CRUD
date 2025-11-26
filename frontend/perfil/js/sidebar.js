@@ -72,84 +72,73 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "null");
 
-    // Obtener sesión guardada
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+  const btnLogin = document.getElementById("btn-login");
+  const btnLogout = document.getElementById("btn-logout");
+  const menuList = document.getElementById("menuList");
+  const sidebarUserImg = document.querySelector(".sidebar-profile img");
+  const sidebarUserName = document.querySelector(".sidebar-profile h4");
 
-    const btnLogin = document.getElementById("btn-login");
-    const btnLogout = document.getElementById("btn-logout");
-    const menuList = document.getElementById("menuList");
-    const sidebarUserImg = document.querySelector(".sidebar-profile img");
-    const sidebarUserName = document.querySelector(".sidebar-profile h4");
+  if (!token || !user) {
+    window.location.href = "../login/login.html";
+    return;
+  }
 
-    // Si no hay sesión => regresar a login
-    if (!token || !user) {
-        window.location.href = "../login/login.html";
-        return;
-    }
+  btnLogin.style.display = "none";
+  btnLogout.style.display = "block";
 
-    // Mostrar nombre
-    if (sidebarUserName) sidebarUserName.textContent = user.name ?? "Usuario";
+  sidebarUserName.textContent = user.name || "Usuario";
 
-    // Imagen si existe
-    if (sidebarUserImg && user.profile_picture) {
-        sidebarUserImg.src = "/uploads/" + user.profile_picture;
-    }
+  if (user.profile_picture) {
+    sidebarUserImg.src = "/uploads/" + user.profile_picture;
+  }
 
-    // Alternar login / logout
-    btnLogin.style.display = "none";
-    btnLogout.style.display = "block";
+  if (user.role === "admin") {
+    menuList.innerHTML = `
+      <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
+      <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
+    `;
+  }
 
-    // Construir menú dinámico por rol
-    if (user.role === "admin") {
-        menuList.innerHTML = `
-            <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-            <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Gestión de Empleados</a></li>
-            <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Gestión de Cajas</a></li>
-        `;
-    }
+  if (user.role === "empleado") {
+    menuList.innerHTML = `
+      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Tomar pedidos</a></li>
+    `;
+  }
 
-    if (user.role === "empleado") {
-        menuList.innerHTML = `
-            <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Tomar pedidos</a></li>
-        `;
-    }
+  if (user.role === "usuario") {
+    menuList.innerHTML = `
+      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver menú</a></li>
+      <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi perfil</a></li>
+    `;
+  }
 
-    if (user.role === "usuario") {
-        menuList.innerHTML = `
-            <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver menú</a></li>
-            <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi perfil</a></li>
-        `;
-    }
+  btnLogout.addEventListener("click", () => {
+    const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
+    if (!confirmar) return;
+    localStorage.clear();
+    window.location.href = "../login/login.html";
+  });
 
-    // ----- LOGOUT -----
-    btnLogout.addEventListener("click", () => {
-        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
-        if (!confirmLogout) return;
-        localStorage.clear();
-        window.location.href = "../login/login.html";
+  const menuToggle = document.getElementById("menuToggle");
+  const sidebar = document.getElementById("sidebar");
+
+  if (menuToggle && sidebar) {
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      menuToggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
     });
 
-    // ----- TOGGLE SIDEBAR -----
-    const menuToggle = document.getElementById("menuToggle");
-    const sidebar = document.getElementById("sidebar");
-
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener("click", () => {
-            sidebar.classList.toggle("active");
-            menuToggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
-        });
-    }
-
-    // Cerrar al hacer clic fuera
     document.addEventListener("click", (e) => {
-        if (!sidebar.contains(e.target) &&
-            !menuToggle.contains(e.target) &&
-            sidebar.classList.contains("active")) {
-            sidebar.classList.remove("active");
-            menuToggle.textContent = "☰";
-        }
+      if (!sidebar.contains(e.target) &&
+          !menuToggle.contains(e.target) &&
+          sidebar.classList.contains("active")) {
+        sidebar.classList.remove("active");
+        menuToggle.textContent = "☰";
+      }
     });
-
+  }
 });
