@@ -321,3 +321,43 @@ filtroEstado?.addEventListener("change", renderEmpleados);
 
 // Inicial
 renderEmpleados();
+
+// =========================
+// SESIÓN / LOGOUT (MISMO QUE EN INDEX)
+// =========================
+
+function getLoginUrl() {
+    const isLocal =
+        location.hostname === "127.0.0.1" ||
+        location.hostname === "localhost";
+
+    if (isLocal) {
+        return "../../../login/login.html";
+    }
+
+    return "/login/login.html";
+}
+
+const logoutBtn = document.getElementById("logoutBtn");
+const sidebarUserName = document.getElementById("sidebarUserName");
+const sidebarUserImg = document.getElementById("sidebarUserImg");
+
+const user = JSON.parse(localStorage.getItem("user"));
+const token = localStorage.getItem("token");
+
+if (!token || !user || user.rol !== "admin") {
+    window.location.href = getLoginUrl();
+}
+
+if (user && sidebarUserName) {
+    sidebarUserName.textContent = user.name || "Usuario";
+
+    if (user.profile_picture) {
+        sidebarUserImg.src = "/uploads/" + user.profile_picture;
+    }
+}
+
+logoutBtn?.addEventListener("click", () => {
+    localStorage.clear();
+    window.location.href = getLoginUrl();
+});
