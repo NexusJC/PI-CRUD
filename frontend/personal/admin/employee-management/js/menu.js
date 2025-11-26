@@ -56,7 +56,7 @@ let empleados = [];
 // =====================================
 // CARGAR EMPLEADOS REALES DESDE BACKEND
 // =====================================
-fetch("/api/auth/users")
+fetch("/api/users")
   .then(res => res.json())
   .then(data => {
     console.log("Empleados desde BD:", data);
