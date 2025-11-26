@@ -32,48 +32,25 @@ if (toggleConfirmacion) {
     });
 }
 
-
 // Cambiar entre login y registro
 const goToRegister = document.getElementById("goToRegister");
 if (goToRegister) {
-    goToRegister.addEventListener("click", function () {
+    goToRegister.addEventListener("click", function (e) {
+        e.preventDefault();
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("registerFormContainer").style.display = "block";
     });
 }
 
-// Registrar nuevo usuario
-const registerForm = document.getElementById("registerFormElement");
-if (registerForm) {
-    registerForm.addEventListener("submit", async (e) => {
+const goToLogin = document.getElementById("goToLogin");
+if (goToLogin) {
+    goToLogin.addEventListener("click", function (e) {
         e.preventDefault();
-
-        const nombre = document.getElementById("nombre").value;
-        const correo = document.getElementById("correo").value;
-        const contraseña = document.getElementById("contraseña").value;
-
-        const response = await fetch("/api/auth/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                name: nombre,
-                email: correo,
-                password: contraseña,
-                role: "usuario",
-            }),
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            alert("Usuario registrado con éxito");
-            // Redirigir o limpiar formulario
-        } else {
-            alert(data.message || "Hubo un error al registrar el usuario");
-        }
+        document.getElementById("registerFormContainer").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
     });
 }
+
 // iniciar sesión
 const loginForm = document.querySelector("#loginForm form");
 if (loginForm) {
@@ -99,7 +76,7 @@ if (loginForm) {
 
         const role = data.user.role;
 
-        // redirecciones segun los roles aaaaaa saquenme de aquiiiaaaaaa
+        // redirecciones segun los roles
         if (role === "admin") {
           window.location.href = "/personal/admin/dashboard/dashboard.html";
         } 
