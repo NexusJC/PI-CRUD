@@ -71,88 +71,79 @@ document.addEventListener('DOMContentLoaded', () => {
         emailInput.style.backgroundColor = 'transparent';
       }
     });
-  // Cerrar sesión
-  if (btnLogout) {
-    btnLogout.addEventListener('click', () => {
-  const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
-  if (confirmLogout) {
-    localStorage.clear();
-    window.location.href = "../menu/index.html";
-      }
-    });
-   }
-document.addEventListener('DOMContentLoaded', () => {
-  const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user'));
-
-  const btnLogin = document.getElementById('btn-login');
-  const btnLogout = document.getElementById('btn-logout');
-  const usernameText = document.getElementById('username-text');
-  const usernameValue = document.getElementById('username');
-  const usernameDefault = document.getElementById('username-default');
-
-  if (token && user) {
-    btnLogin.style.display = 'none';
-    btnLogout.style.display = 'block';
-    usernameText.style.display = 'block';
-    usernameValue.textContent = user.name;
-    usernameDefault.style.display = 'none';
-  } else {
-    btnLogin.style.display = 'block';
-    btnLogout.style.display = 'none';
-    usernameText.style.display = 'none';
-    usernameDefault.style.display = 'block';
-  }
-
-  if (btnLogout) {
-    btnLogout.addEventListener('click', () => {
-      const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
-      if (confirmLogout) {
-        localStorage.clear();
-        window.location.href = "../login/login.html";
-      }
-    });
-  }
-});
 document.addEventListener("DOMContentLoaded", () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const role = user?.role;
+
+    function findLoginPath() {
+        const paths = [
+            "../../login/login.html",
+            "../login/login.html",
+            "/frontend/login/login.html",
+            "/login/login.html"
+        ];
+
+        for (let path of paths) {
+            try {
+                const xhr = new XMLHttpRequest();
+                xhr.open("HEAD", path, false);
+                xhr.send();
+                if (xhr.status !== 404) return path;
+            } catch(e){}
+        }
+        return "/login/login.html";
+    }
+
+    const loginUrl = findLoginPath();
+
+    const logoutBtn = document.getElementById("btn-logout");
+    const loginBtn = document.getElementById("btn-login");
     const menuList = document.getElementById("menuList");
-    const btnLogin = document.getElementById("btn-login");
-    const btnLogout = document.getElementById("btn-logout");
+    const sidebarUserImg = document.querySelector(".sidebar-profile img");
+    const sidebarUserName = document.querySelector(".sidebar-profile h4");
 
-    // Invitado
-    if (!role) {
-        btnLogin.style.display = "block";
-        btnLogout.style.display = "none";
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-        menuList.innerHTML = `
-        `;
-
+    if (!token || !user || user.role !== "usuario") {
+        window.location.href = loginUrl;
         return;
     }
 
-    // Usuario logeado
-    btnLogin.style.display = "none";
-    btnLogout.style.display = "block";
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "block";
 
-    if (role === "admin") {
-        menuList.innerHTML = `
-            <li><a href="/personal/admin/add dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
-            <li><a href="/personal/admin/employee management/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
-        `;
+    if (sidebarUserName) sidebarUserName.textContent = user.name || "Usuario";
+    if (sidebarUserImg && user.profile_picture)
+        sidebarUserImg.src = "/uploads/" + user.profile_picture;
+
+    menuList.innerHTML = `
+        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
+        <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
+    `;
+
+    logoutBtn.addEventListener("click", () => {
+        const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
+        if (!confirmar) return;
+        localStorage.clear();
+        window.location.href = loginUrl;
+    });
+
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+            menuToggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
+        });
     }
 
-    if (role === "empleado") {
-        menuList.innerHTML = `
-            <li><a href="/menu/index.html"><i class="fas fa-pizza-slice"></i> Menú</a></li>
-        `;
-    }
+    document.addEventListener('click', (event) => {
+        if (!sidebar.contains(event.target) &&
+            !menuToggle.contains(event.target) &&
+            sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            menuToggle.textContent = "☰";
+        }
+    });
 
-    if (role === "usuario") {
-        menuList.innerHTML = `  
-            <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
-            <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
-        `;
-    }
 });
