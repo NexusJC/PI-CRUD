@@ -855,3 +855,28 @@ footer {
   background-color: #ff7b00; 
   color: #fff;
 }
+.order-details {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 300px;
+  max-height: calc(100vh - 120px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  padding: 16px;
+  overflow-y: auto;
+  display: none; /* el JS luego lo muestra */
+  z-index: 50;
+}
+
+.order-details h2 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+#orderList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+}
