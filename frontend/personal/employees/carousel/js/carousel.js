@@ -490,28 +490,48 @@ function calcularPrecioItem(nombre) {
     return precios[nombre] || 50.00;
 }
 
-function inicializarSidebar() {
-    const menuToggle = document.getElementById("menuToggle");
-    const sidebar = document.getElementById("sidebar");
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.querySelector(".menu-dashboard");
+    const toggle = document.querySelector(".toggle");
+    const toggleIcon = toggle ? toggle.querySelector("i") : null;
 
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener("click", () => {
-            sidebar.classList.toggle("active");
-            menuToggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
-        });
+    if (!sidebar) {
+        console.error("❌ No se encontró .menu-dashboard");
+        return;
     }
 
-    document.addEventListener('click', (e) => {
-        if (sidebar && sidebar.classList.contains('active')) {
-            const clickInsideSidebar = sidebar.contains(e.target);
-            const clickOnToggle = menuToggle.contains(e.target);
-            if (!clickInsideSidebar && !clickOnToggle) {
-                sidebar.classList.remove("active");
-                menuToggle.textContent = "☰";
+    if (!toggle) {
+        console.error("❌ No se encontró .toggle");
+        return;
+    }
+
+    // === Toggle del sidebar ===
+    toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+
+        if (toggleIcon) {
+            if (sidebar.classList.contains("open")) {
+                toggleIcon.classList.remove("bx-menu");
+                toggleIcon.classList.add("bx-x");
+            } else {
+                toggleIcon.classList.remove("bx-x");
+                toggleIcon.classList.add("bx-menu");
             }
         }
     });
-}
+
+    // === Abrir sidebar al navegar entre enlaces ===
+    const links = document.querySelectorAll(".menu .enlace");
+    links.forEach(link => {
+        link.addEventListener("click", () => {
+            sidebar.classList.add("open");
+            if (toggleIcon) {
+                toggleIcon.classList.remove("bx-menu");
+                toggleIcon.classList.add("bx-x");
+            }
+        });
+    });
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     const originalActualizarDetallesPanel = window.actualizarDetallesPanel;
