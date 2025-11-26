@@ -104,7 +104,7 @@ if (loginForm) {
           window.location.href = "/personal/admin/dashboard/dashboard.html";
         } 
         else if (role === "empleado") {
-          window.location.href = "/personal/employees/employee management/employee.html";
+          window.location.href = "/personal/employees/employee-management/employee.html";
         } 
         else {
           window.location.href = "/menu/index.html";
