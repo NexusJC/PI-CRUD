@@ -10,7 +10,7 @@ form.addEventListener("submit", async (e) => {
   };
 
   try {
-    const resp = await fetch("/api/auth/register", {
+    const resp = await fetch("https://laparrilaazteca.online/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
