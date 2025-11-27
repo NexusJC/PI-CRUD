@@ -90,7 +90,7 @@ async function deleteDish(id) {
 // =========================
 // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // =========================
-function getLoginUrl() {
+/* function getLoginUrl() {
     const isLocal =
         location.hostname === "127.0.0.1" ||
         location.hostname === "localhost";
@@ -128,3 +128,4 @@ logoutBtn?.addEventListener("click", () => {
     window.location.href = getLoginUrl();
 });
 
+ */
