@@ -40,6 +40,18 @@ testDbConnection();  // aqui se prueba la coenxion antes de iniciar el servidor
 
 app.use(express.json());
 app.use(helmet());
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy",
+    "default-src 'self'; " +
+    "connect-src 'self' https://laparrilaazteca.online https://www.laparrilaazteca.online; " +
+    "script-src 'self' 'unsafe-inline' https://translate.google.com https://*.gstatic.com; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:; " +
+    "frame-src https://translate.google.com;"
+  );
+  next();
+});
+
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN?.split(",") ?? "*",
