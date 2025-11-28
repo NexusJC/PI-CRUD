@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ["https://www.laparrilaazteca.online"],
+    origin: ["https://laparrilaazteca.online"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
