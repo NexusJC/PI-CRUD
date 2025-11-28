@@ -90,8 +90,6 @@ async function deleteDish(id) {
 // =========================
 // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // =========================
-
-/*
 function getLoginUrl() {
     const isLocal =
         location.hostname === "127.0.0.1" ||
@@ -103,7 +101,7 @@ function getLoginUrl() {
 
     return "/login/login.html";
 }
-*/
+
 const logoutBtn = document.getElementById("logoutBtn");
 const sidebarUserName = document.getElementById("sidebarUserName");
 const sidebarUserImg = document.getElementById("sidebarUserImg");
