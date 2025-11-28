@@ -354,7 +354,7 @@ filtroEstado?.addEventListener("change", renderEmpleados);
 // Inicial
 renderEmpleados();
 
-/* // =========================
+ // =========================
 // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // =========================
 function getLoginUrl() {
@@ -394,4 +394,3 @@ logoutBtn?.addEventListener("click", () => {
     localStorage.clear();
     window.location.href = getLoginUrl();
 });
- */
