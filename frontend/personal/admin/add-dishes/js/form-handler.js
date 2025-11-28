@@ -87,7 +87,7 @@ async function deleteDish(id) {
   }
 }
 
-// =========================
+/* // =========================
 // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // =========================
 function getLoginUrl() {
@@ -128,3 +128,4 @@ logoutBtn?.addEventListener("click", () => {
     window.location.href = getLoginUrl();
 });
 
+ */
