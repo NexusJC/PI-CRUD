@@ -90,7 +90,9 @@ async function deleteDish(id) {
 // =========================
 // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // =========================
-/* function getLoginUrl() {
+
+/*
+function getLoginUrl() {
     const isLocal =
         location.hostname === "127.0.0.1" ||
         location.hostname === "localhost";
@@ -101,7 +103,7 @@ async function deleteDish(id) {
 
     return "/login/login.html";
 }
-
+*/
 const logoutBtn = document.getElementById("logoutBtn");
 const sidebarUserName = document.getElementById("sidebarUserName");
 const sidebarUserImg = document.getElementById("sidebarUserImg");
@@ -128,4 +130,3 @@ logoutBtn?.addEventListener("click", () => {
     window.location.href = getLoginUrl();
 });
 
- */
