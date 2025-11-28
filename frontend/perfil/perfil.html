@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body> <!-- 👈 AQUÍ EMPIEZA EL BODY CORRECTAMENTE -->
+<body> 
 
 <header class="topbar">
   <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
@@ -90,6 +90,18 @@
           <div class="input-edit">
             <input type="text" id="perfilNombreText" class="input-dinamico" value="Juan Pérez" readonly>
             <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Número Telefonico</label>
+          <div class="input-edit">
+            <input type="text" id="perfilNumeroText" class="input-dinamico" value="314 218 7900" readonly>
+            <button type="button" class="edit-btn" id="btnEditarNumero" title="Editar número">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
               </svg>
