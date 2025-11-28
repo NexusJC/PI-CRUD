@@ -1,0 +1,190 @@
+:root {
+  --topbar: #e36842;
+  --panel: #fff7ea;
+  --card: #ffffff;
+  --text: #2b2b2b;
+}
+
+/*TOPBAR*/
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 10px 16px;
+  background: var(--topbar);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1100;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: white;
+  margin-left: 10px; 
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center; 
+  width: 100%;  
+}
+
+.brand-text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+h2{text-align: center;}
+/*SIDEBAR*/
+
+.sidebar {
+  position:fixed;
+  top:0;
+  left:-300px;
+  width:300px;
+  height:100%;
+  background:linear-gradient(180deg,#fff7ea 0%,#fde3ca 100%);
+  border-right:2px solid rgba(255,255,255,0.2);
+  border-top-right-radius:24px;
+  border-bottom-right-radius:24px;
+  box-shadow:6px 0 30px rgba(0,0,0,0.25);
+  transition:0.5s ease;
+  z-index:1000;
+  overflow-y:auto;
+}
+
+.sidebar.active {
+  left:0;
+  box-shadow:10px 0 40px rgba(0,0,0,0.4);
+}
+
+.sidebar-header {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:18px 22px;
+  color:var(--topbar);
+}
+
+.sidebar-header img {
+  width:42px; height:42px;
+  border-radius:50%;
+}
+
+/* PROFILE */
+.sidebar-profile {
+  text-align:center;
+  padding:20px;
+}
+
+.sidebar-profile img {
+  width:70px; height:70px;
+  border-radius:50%;
+  border:2px solid white;
+}
+
+.sidebar-profile h4 {
+  margin:10px 0 4px;
+  color:var(--topbar);
+}
+
+.sidebar ul {
+  list-style:none;
+  padding:0;
+}
+
+.sidebar ul li a {
+  display:flex;
+  gap:16px;
+  padding:14px 24px;
+  text-decoration:none;
+  color:#3b2d25;
+  font-weight:600;
+  border-radius:14px;
+}
+
+.sidebar ul li a:hover {
+  background:rgba(227,104,66,0.15);
+  transform:translateX(5px);
+}
+
+/* ========================= */
+/*      CONTENIDO TURNOS     */
+/* ========================= */
+
+body {
+  background:var(--panel);
+  margin:0;
+  padding-top:70px;
+  font-family:Poppins,Arial,sans-serif;
+}
+
+.turnos-main {
+  padding:20px;
+  max-width:1200px;
+  margin:auto;
+}
+
+.titulo {
+  text-align:center;
+  font-size:32px;
+  font-weight:800;
+}
+
+.turno-actual {
+  background:white;
+  padding:24px;
+  border-radius:18px;
+  width:80%;
+  margin:0 auto 30px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.turno-numero {
+  font-size:60px;
+  color:var(--topbar);
+  font-weight:900;
+}
+
+.lista-turnos {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+
+.turno-card {
+  background:white;
+  border-radius:16px;
+  padding:14px;
+  text-align:center;
+  box-shadow:0 3px 8px rgba(0,0,0,0.12);
+}
+
+.turno-card.resaltado {
+  background:#ffe4d4;
+  border:2px solid var(--topbar);
+}
+
+/* RESPONSIVE */
+@media (max-width:768px){
+  .turno-actual { width:95%; }
+  .turno-numero { font-size:44px; }
+}
+
+@media (max-width:480px){
+  .turno-numero { font-size:32px; }
+}
