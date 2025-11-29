@@ -880,7 +880,7 @@ footer {
   padding: 0;
   margin: 0 0 10px 0;
 }
-/* Estilo general del Sidebar - Order Details */
+/* Estilo del Sidebar (OrderDetails) */
 .order-details {
   position: fixed;
   top: 80px;
@@ -913,7 +913,7 @@ footer {
 
 .order-details h2 {
   font-size: 1.4rem;
-  color: #e36842;  /* Color naranja del header */
+  color: #e36842;  /* Naranja del header */
   margin-bottom: 10px;
   text-align: center;
 }
@@ -976,7 +976,7 @@ textarea.comment {
   transition: all 0.25s ease;
 }
 
-/* Estilos para el botón de Confirmar Pedido */
+/* Estilos para los botones de Confirmar y Imprimir */
 .order-btn {
   width: 100%;
   padding: 10px;

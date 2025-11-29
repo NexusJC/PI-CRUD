@@ -276,24 +276,28 @@ document.querySelectorAll('.menu-card').forEach(card => {
 const orderDetails = document.getElementById('orderDetails');
 const closeDetailsBtn = document.getElementById('close-details');
 const openSidebarBtn = document.getElementById('open-sidebar-btn');
+const orderList = document.getElementById('orderList');
+const subtotalEl = document.getElementById('subtotal');
+const totalEl = document.getElementById('total');
 const confirmBtn = document.getElementById('confirm-btn');
+const printBtn = document.getElementById('print-btn');
 const emptyCartMsg = document.getElementById('empty-cart-msg');
 
-// Función para abrir el Sidebar (comanda)
+// Abrir el Sidebar (mostrar la orden)
 function openOrderDetails() {
   orderDetails.style.display = 'block';
   orderDetails.classList.add('open');
-  openSidebarBtn.classList.add('hidden'); // Ocultar botón de "Ver Orden" cuando se abre
+  openSidebarBtn.classList.add('hidden'); // Ocultar botón de "Ver Orden"
 }
 
 // Cerrar el Sidebar
 closeDetailsBtn.addEventListener('click', () => {
   orderDetails.style.display = 'none';
   orderDetails.classList.remove('open');
-  openSidebarBtn.classList.remove('hidden'); // Mostrar botón de "Ver Orden" cuando se cierra
+  openSidebarBtn.classList.remove('hidden'); // Mostrar botón de "Ver Orden"
 });
 
-// Mostrar el Sidebar cuando se agrega un producto
+// Mostrar el sidebar cuando se agrega un producto
 document.addEventListener('click', (e) => {
   const btn = e.target.closest(".add-btn");
   if (!btn) return;
