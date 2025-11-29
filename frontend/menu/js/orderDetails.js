@@ -70,6 +70,94 @@ document.addEventListener("click", (e) => {
     existing.querySelector(".qty").textContent = qty;
     existing.querySelector(".line-total").textContent = `$${(price * qty).toFixed(2)}`;
   }
+// === BOTÓN DE ABRIR EL SIDEBAR (OrderDetails) ===
+// Cuando haya productos, mostrar el botón en el header
+const openSidebarBtn = document.getElementById('open-sidebar-btn');
+const closeDetailsBtn = document.getElementById('close-details');
+
+// Mostrar el botón solo cuando haya productos
+function checkCart() {
+  let itemsInCart = orderList.children.length; // Contar productos en el carrito
+  if (itemsInCart > 0) {
+    openSidebarBtn.classList.remove('hidden');  // Mostrar el botón "Ver Orden"
+  } else {
+    openSidebarBtn.classList.add('hidden');  // Ocultar el botón si no hay productos
+  }
+}
+
+// Abrir el sidebar de la comanda (orderDetails)
+openSidebarBtn.addEventListener('click', () => {
+  orderDetails.style.display = 'block';
+  orderDetails.classList.add('open');  // Añadir la clase para animar la apertura
+  openSidebarBtn.classList.add('hidden'); // Ocultar el botón cuando el sidebar está abierto
+});
+
+// Cerrar el sidebar de la comanda (orderDetails)
+closeDetailsBtn.addEventListener('click', () => {
+  orderDetails.style.display = 'none';
+  openSidebarBtn.classList.remove('hidden');  // Mostrar el botón "Ver Orden" cuando se cierre el sidebar
+});
+
+// Llamar a la función que muestra u oculta el botón de abrir cuando se agrega o elimina un producto
+document.addEventListener('click', () => {
+  checkCart();  // Verificar si hay productos en el carrito
+});
+
+// === AGREGAR PRODUCTOS (stack) ===
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".add-btn");
+  if (!btn) return;
+
+  const card = btn.closest(".menu-card");
+  const name = card.dataset.name;
+  const price = parseFloat(card.dataset.price);
+
+  // Mostrar el panel (sidebar) si está oculto
+  if (orderDetails.style.display === "none") {
+    orderDetails.style.display = "block";
+    orderDetails.classList.remove("open");
+    void orderDetails.offsetWidth;
+    orderDetails.classList.add("open");
+  }
+
+  // Buscar item existente
+  let existing = Array.from(orderList.children).find(li => li.dataset.name === name);
+
+  // Si no existe, crear el producto en la lista
+  if (!existing) {
+    const li = document.createElement("li");
+    li.className = "order-item";
+    li.dataset.name = name;
+    li.dataset.price = price;
+    li.dataset.qty = "1";
+
+    li.innerHTML = `
+      <div class="item-info">
+        <span class="item-name">${name}</span>
+        <div class="qty-controls">
+          <button class="qty-btn minus">−</button>
+          <span class="qty">1</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+      </div>
+      <div class="item-actions">
+        <span class="line-total">$${price.toFixed(2)}</span>
+        <button class="remove-btn">✕</button>
+      </div>
+      <textarea class="comment" placeholder="Comentario adicionales..."></textarea>
+    `;
+
+    orderList.appendChild(li);
+  } else {
+    let qty = parseInt(existing.dataset.qty);
+    qty++;
+    existing.dataset.qty = qty;
+    existing.querySelector(".qty").textContent = qty;
+    existing.querySelector(".line-total").textContent = `$${(price * qty).toFixed(2)}`;
+  }
+
+  actualizarTotales(); // Actualizar totales
+});
 
   actualizarTotales();
 });
