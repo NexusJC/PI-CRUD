@@ -276,11 +276,7 @@ document.querySelectorAll('.menu-card').forEach(card => {
 const orderDetails = document.getElementById('orderDetails');
 const closeDetailsBtn = document.getElementById('close-details');
 const openSidebarBtn = document.getElementById('open-sidebar-btn');
-const orderList = document.getElementById('orderList');
-const subtotalEl = document.getElementById('subtotal');
-const totalEl = document.getElementById('total');
 const confirmBtn = document.getElementById('confirm-btn');
-const printBtn = document.getElementById('print-btn');
 const emptyCartMsg = document.getElementById('empty-cart-msg');
 
 // Abrir el Sidebar (mostrar la orden)
