@@ -74,32 +74,28 @@ export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // 1) Encriptar contraseña
+    // Encriptar contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 2) Generar token de verificación
+    // Generar token de verificación
     const verificationToken = crypto.randomBytes(40).toString("hex");
 
-    // 3) Insertar usuario
+    // Insertar usuario
     await pool.query(
       "INSERT INTO users (name, email, password, verification_token, email_verified) VALUES (?, ?, ?, ?, 0)",
       [name, email, hashedPassword, verificationToken]
     );
 
-    // 4) URL de verificación
+    // URL de verificación
     const verifyURL = `https://www.laparrilaazteca.online/api/auth/verify?token=${verificationToken}`;
 
-    // ------------------------------
-    // 5) CONFIG BREVO API
-    // ------------------------------
+    // CONFIG BREVO API
     const client = SibApiV3Sdk.ApiClient.instance;
     client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-    // ------------------------------
-    // 6) ENVIAR EMAIL CON API
-    // ------------------------------
+    // ENVIAR EMAIL CON API
     await apiInstance.sendTransacEmail({
       sender: {
         name: "La Parrilla Azteca",
@@ -144,7 +140,7 @@ export const register = async (req, res) => {
   }
 };
 
-// 1) Solicitar recuperación por correo
+// Solicitar recuperación por correo
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
