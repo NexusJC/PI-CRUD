@@ -880,10 +880,29 @@ footer {
   padding: 0;
   margin: 0 0 10px 0;
 }
-/* Estilo del Sidebar - OrderDetails */
+/* Estilos del botón de abrir la comanda (orderDetails) */
+.open-btn {
+  position: fixed;
+  top: 10px;  /* Coloca el botón en el header */
+  right: 20px;
+  background: #e36842;  /* Color naranja */
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 10px;
+  z-index: 1001;
+}
+
+.open-btn.hidden {
+  display: none;  /* Oculta el botón cuando no hay productos */
+}
+
+/* Estilo del Sidebar (orderDetails) */
 .order-details {
   position: fixed;
-  top: 80px;
+  top: 80px;  /* Alinea el sidebar debajo del header */
   right: -400px;  /* Inicialmente fuera de la vista */
   width: 350px;
   background: #fff;
@@ -891,7 +910,7 @@ footer {
   border: 1px solid #e5e5e5;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: none; /* Oculto inicialmente */
+  display: none;  /* Oculto inicialmente */
   z-index: 1000;
   height: auto;
   max-height: 90vh;
@@ -900,14 +919,14 @@ footer {
   transition: all 0.3s ease;
 }
 
-/* Animación para abrir el Sidebar */
+/* Animación para abrir el sidebar */
 @keyframes slideInOrder {
   from { opacity: 0; transform: translateX(30px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
 .order-details.open {
-  right: 20px;  /* Mover a la izquierda cuando se abre */
+  right: 20px;  /* Mueve el sidebar hacia la izquierda cuando se abre */
   display: block;
 }
 
@@ -919,7 +938,7 @@ footer {
 }
 
 .order-item {
-  background: #f5f0e9; /* Fondo claro */
+  background: #f5f0e9;  /* Fondo claro */
   padding: 12px;
   border-radius: 12px;
   margin-bottom: 10px;
@@ -976,7 +995,7 @@ textarea.comment {
   transition: all 0.25s ease;
 }
 
-/* Estilos para los botones de Confirmar y Imprimir */
+/* Estilo de los botones */
 .order-btn {
   width: 100%;
   padding: 10px;
@@ -988,11 +1007,11 @@ textarea.comment {
 }
 
 .confirm-btn {
-  background-color: #e36842; /* Naranja */
+  background-color: #e36842;  /* Naranja */
 }
 
 .print-btn {
-  background-color: #4b2d22; /* Gris oscuro */
+  background-color: #4b2d22;  /* Gris oscuro */
   margin-top: 10px;
 }
 
@@ -1006,26 +1025,7 @@ textarea.comment {
   width: 100%;
 }
 
-/* Estilo para el botón de abrir el Sidebar (Ver Orden) */
-.open-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #e36842;
-  color: white;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 12px 20px;
-  border-radius: 10px;
-  z-index: 1001;
-}
-
-.open-btn.hidden {
-  display: none;
-}
-
-/* Estilo para el mensaje de carrito vacío */
+/* Mensaje de carrito vacío */
 .empty-cart-msg {
   text-align: center;
 }
@@ -1039,28 +1039,4 @@ textarea.comment {
   font-size: 1.2rem;
   color: #333;
   margin-top: 10px;
-}
-/* Estilo para el botón de abrir la comanda (orderDetails) */
-.open-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #e36842;
-  color: white;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 12px 20px;
-  border-radius: 10px;
-  z-index: 1001;
-}
-
-.open-btn.hidden {
-  display: none; /* Oculta el botón cuando no haya productos en la orden */
-}
-
-/* Estilo para el icono del carrito */
-.open-btn i {
-  margin-right: 8px;
-  font-size: 1.4rem;
 }
