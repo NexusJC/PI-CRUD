@@ -14,16 +14,21 @@
 </head>
 
 <body>
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
-    <div class="brand">
-      <a href="index.html" class="logo-link">
-        <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
-      </a>
-      <span class="brand-text">LA PARRILLA AZTECA</span>
-    </div>
-  </header>
+ <!-- TOPBAR -->
+<header class="topbar">
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+  <div class="brand">
+    <a href="index.html" class="logo-link">
+      <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+    </a>
+    <span class="brand-text">LA PARRILLA AZTECA</span>
+  </div>
+  <!-- Botón que abre el sidebar (ver orden) -->
+  <button id="open-sidebar-btn" class="open-btn">
+    <i class="fas fa-shopping-cart"></i> Ver Orden
+  </button>
+</header>
+
 
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
@@ -96,19 +101,29 @@
     <i class="fab fa-instagram"></i>
   </a>
 </div>
-<!-- Order Details Sidebar -->
+<!-- Sidebar de la Comanda (OrderDetails) -->
 <aside id="orderDetails" class="order-details">
   <h2>Tu orden</h2>
 
-  <ul id="orderList"></ul>
+  <ul id="orderList">
+    <!-- Los productos se agregarán aquí dinámicamente -->
+  </ul>
 
   <div class="totals">
     <p>Subtotal: <span id="subtotal">$0.00</span></p>
     <p>Total: <span id="total">$0.00</span></p>
   </div>
 
-  <button id="close-details" class="close-btn">Cerrar</button>
-</aside>
+  <!-- Mensaje si el carrito está vacío -->
+  <div id="empty-cart-msg" class="empty-cart-msg" style="display: none;">
+    <img src="path-to-empty-cart-image" alt="Carrito vacío" />
+    <p>El carrito está vacío</p>
+  </div>
+
+  <!-- Botones para Confirmar y Imprimir -->
+  <button id="confirm-btn" class="order-btn confirm-btn" disabled>Confirmar Pedido</button>
+  <button id="print-btn" class="order-btn print-btn" disabled>Imprimir Ticket</button>
+
 
 
 
