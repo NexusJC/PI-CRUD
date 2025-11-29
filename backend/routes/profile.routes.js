@@ -15,7 +15,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Ruta para obtener los datos del perfil
+router.get("/", verifyToken, getProfile);
+
+// Ruta para actualizar los datos del perfil
+router.put("/", verifyToken, updateProfileData);
+
 // Ruta para subir imagen de perfil
 router.post("/upload-profile", verifyToken, upload.single("profile"), updateProfilePicture);
 
 export default router;
+
