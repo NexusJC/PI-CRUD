@@ -1,6 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import { updateProfilePicture } from "../controllers/profile.controller.js";
+import { updateProfile } from "../controllers/profile.controller.js"; 
 import { verifyToken } from "../middlewares/verifyToken.js"; // si ya tienes middleware
 
 const router = Router();
