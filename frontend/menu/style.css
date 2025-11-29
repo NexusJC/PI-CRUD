@@ -880,7 +880,7 @@ footer {
   padding: 0;
   margin: 0 0 10px 0;
 }
-/* Estilo del Sidebar (OrderDetails) */
+/* Estilo del Sidebar - OrderDetails */
 .order-details {
   position: fixed;
   top: 80px;
@@ -891,7 +891,7 @@ footer {
   border: 1px solid #e5e5e5;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: none;
+  display: none; /* Oculto inicialmente */
   z-index: 1000;
   height: auto;
   max-height: 90vh;
@@ -900,20 +900,19 @@ footer {
   transition: all 0.3s ease;
 }
 
-/* Animación para abrir el Sidebar */
 @keyframes slideInOrder {
   from { opacity: 0; transform: translateX(30px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
 .order-details.open {
-  right: 20px;  /* Mover a la izquierda cuando se abre */
+  right: 20px;  /* Cuando se abre, se mueve hacia la izquierda */
   display: block;
 }
 
 .order-details h2 {
   font-size: 1.4rem;
-  color: #e36842;  /* Naranja del header */
+  color: #e36842;  /* Color naranja del header */
   margin-bottom: 10px;
   text-align: center;
 }
@@ -976,7 +975,7 @@ textarea.comment {
   transition: all 0.25s ease;
 }
 
-/* Estilos para los botones de Confirmar y Imprimir */
+/* Estilo para los botones de Confirmar y Imprimir */
 .order-btn {
   width: 100%;
   padding: 10px;
@@ -988,7 +987,7 @@ textarea.comment {
 }
 
 .confirm-btn {
-  background-color: #e36842; /* Naranja del header */
+  background-color: #e36842; /* Naranja */
 }
 
 .print-btn {
@@ -1022,7 +1021,7 @@ textarea.comment {
   margin-top: 10px;
 }
 
-/* Estilos para el botón de abrir el Sidebar (Ver Orden) */
+/* Estilo para el botón de abrir el Sidebar (Ver Orden) */
 .open-btn {
   position: fixed;
   bottom: 20px;

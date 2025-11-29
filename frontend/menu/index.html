@@ -96,14 +96,27 @@
     <i class="fab fa-instagram"></i>
   </a>
 </div>
+<!-- Botón para abrir el Sidebar (Ver Orden) en el Header -->
+<header class="topbar">
+  <button id="menuToggle" aria-label="Abrir menú">☰</button>
+  <div class="brand">
+    <a href="index.html" class="logo-link">
+      <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+    </a>
+    <span class="brand-text">LA PARRILLA AZTECA</span>
+  </div>
+  <!-- Este es el botón que abrirá el sidebar (carrito) -->
+  <button id="open-sidebar-btn" class="open-btn">
+    <i class="fas fa-shopping-cart"></i> Ver Orden
+  </button>
+</header>
+
 <!-- Sidebar para la Comanda (OrderDetails) -->
 <aside id="orderDetails" class="order-details">
   <h2>Tu orden</h2>
-
   <ul id="orderList">
     <!-- Los productos se agregarán aquí dinámicamente -->
   </ul>
-
   <div class="totals">
     <p>Subtotal: <span id="subtotal">$0.00</span></p>
     <p>Total: <span id="total">$0.00</span></p>
@@ -122,7 +135,6 @@
   <!-- Botón para Cerrar el Sidebar -->
   <button id="close-details" class="close-btn">Cerrar</button>
 </aside>
-
 
 
 

@@ -279,7 +279,7 @@ const openSidebarBtn = document.getElementById('open-sidebar-btn');
 const confirmBtn = document.getElementById('confirm-btn');
 const emptyCartMsg = document.getElementById('empty-cart-msg');
 
-// Abrir el Sidebar (mostrar la orden)
+// Función para abrir el Sidebar (comanda)
 function openOrderDetails() {
   orderDetails.style.display = 'block';
   orderDetails.classList.add('open');
