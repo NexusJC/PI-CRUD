@@ -272,3 +272,91 @@ document.querySelectorAll('.menu-card').forEach(card => {
     });
   }
 });
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest(".add-btn");
+  if (!btn) return;
+
+  const card = btn.closest(".menu-card");
+  const name = card.dataset.name;
+  const price = parseFloat(card.dataset.price);
+
+  // Show the order sidebar when an item is added
+  if (document.getElementById("orderDetails").style.display === "none") {
+    document.getElementById("orderDetails").style.display = "block";
+    document.getElementById("orderDetails").classList.add("open");
+  }
+
+  // Create new order item if it doesn't exist
+  let existing = Array.from(document.getElementById("orderList").children).find(li => li.dataset.name === name);
+  if (!existing) {
+    const li = document.createElement("li");
+    li.className = "order-item";
+    li.dataset.name = name;
+    li.dataset.price = price;
+    li.dataset.qty = "1";
+
+    li.innerHTML = `
+      <div class="item-info">
+        <span class="item-name">${name}</span>
+        <div class="qty-controls">
+          <button class="qty-btn minus">−</button>
+          <span class="qty">1</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+      </div>
+      <div class="item-actions">
+        <span class="line-total">$${price.toFixed(2)}</span>
+        <button class="remove-btn">✕</button>
+      </div>
+      <textarea class="comment" placeholder="Comentario adicional..."></textarea>
+    `;
+    document.getElementById("orderList").appendChild(li);
+  }
+
+  // Update total price when an item is added
+  updateTotals();
+});
+
+document.getElementById('orderList').addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  const li = e.target.closest('.order-item');
+  if (!btn || !li) return;
+
+  const unit = parseFloat(li.dataset.price);
+  let qty = parseInt(li.dataset.qty);
+
+  if (btn.classList.contains('plus')) {
+    qty++;
+  } else if (btn.classList.contains('minus')) {
+    qty--;
+    if (qty <= 0) {
+      li.remove();
+      if (document.getElementById("orderList").children.length === 0) {
+        document.getElementById("orderDetails").style.display = "none";
+      }
+      return;
+    }
+  } else if (btn.classList.contains('remove-btn')) {
+    li.remove();
+    if (document.getElementById("orderList").children.length === 0) {
+      document.getElementById("orderDetails").style.display = "none";
+    }
+    return;
+  }
+
+  li.dataset.qty = qty;
+  li.querySelector(".qty").textContent = qty;
+  li.querySelector(".line-total").textContent = `$${(unit * qty).toFixed(2)}`;
+  updateTotals();
+});
+
+function updateTotals() {
+  let subtotal = 0;
+  Array.from(document.getElementById("orderList").children).forEach(li => {
+    const unit = parseFloat(li.dataset.price || '0');
+    const qty = parseInt(li.dataset.qty || '0', 10);
+    subtotal += unit * qty;
+  });
+  document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+  document.getElementById('total').textContent = `$${subtotal.toFixed(2)}`;
+}

@@ -96,19 +96,23 @@
     <i class="fab fa-instagram"></i>
   </a>
 </div>
-<!-- Order Details Sidebar -->
 <aside id="orderDetails" class="order-details">
   <h2>Tu orden</h2>
-
-  <ul id="orderList"></ul>
+  <ul id="orderList">
+    <!-- Items will be dynamically added here -->
+  </ul>
 
   <div class="totals">
     <p>Subtotal: <span id="subtotal">$0.00</span></p>
     <p>Total: <span id="total">$0.00</span></p>
   </div>
 
+  <!-- Buttons for confirming and printing -->
+  <button id="confirm-btn" class="order-btn confirm-btn" disabled>Confirmar Pedido</button>
+  <button id="print-btn" class="order-btn print-btn" disabled>Imprimir Ticket</button>
   <button id="close-details" class="close-btn">Cerrar</button>
 </aside>
+
 
 
 
