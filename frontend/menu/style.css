@@ -880,27 +880,101 @@ footer {
   padding: 0;
   margin: 0 0 10px 0;
 }
+/* Sidebar Styles - Make it look like a ticket */
 .order-details {
   position: fixed;
-  top: 90px;
+  top: 80px;
   right: 20px;
-  width: 520px;
-  background: var(--card);
+  width: 350px;
+  background: #fff;
   border-radius: 20px;
-  border: 1px solid var(--border);
-  padding: 24px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e5e5e5;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: none;
-  animation: fadeIn 0.4s ease forwards;
-  z-index: 1050;
-  height: 700px;
+  z-index: 1000;
+  height: auto;
+  max-height: 90vh;
   overflow-y: auto;
+  animation: slideInOrder .35s ease both;
+  transition: all 0.3s ease;
+}
+
+@keyframes slideInOrder {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 .order-details.open {
   display: block;
 }
 
+.order-details h2 {
+  font-size: 1.4rem;
+  color: #e36842;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.order-item {
+  background: #f5f0e9;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.order-item .item-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-info .item-name {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.item-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.item-actions .line-total {
+  font-weight: 600;
+  color: #e36842;
+}
+
+.item-actions .qty-controls {
+  background: #f5f0e9;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.item-actions .remove-btn {
+  font-size: 1.1rem;
+  color: #e74c3c;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+textarea.comment {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 50px;
+  font-family: inherit;
+  background: #fafafa;
+  transition: all 0.25s ease;
+}
+
+/* Confirm and Print Buttons */
 .order-btn {
   width: 100%;
   padding: 10px;
@@ -908,21 +982,45 @@ footer {
   color: white;
   font-weight: 700;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .confirm-btn {
-  background: var(--primary);
+  background-color: #e36842;
 }
 
 .print-btn {
-  background: #4b2d22;
+  background-color: #4b2d22;
+  margin-top: 10px;
 }
 
 .close-btn {
-  background: transparent;
+  background-color: #e74c3c;
   border: none;
-  color: #e36842;
-  cursor: pointer;
+  color: white;
   font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Animation for Open/Close */
+@media print {
+  .order-details {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible !important;
+  }
+
+  .order-details .close-btn {
+    display: none;
+  }
 }
