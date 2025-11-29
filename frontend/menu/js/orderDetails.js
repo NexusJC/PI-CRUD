@@ -272,6 +272,24 @@ document.querySelectorAll('.menu-card').forEach(card => {
     });
   }
 });
+// Toggle sidebar visibility
+const orderDetails = document.getElementById('orderDetails');
+const closeDetailsBtn = document.getElementById('close-details');
+const confirmBtn = document.getElementById('confirm-btn');
+
+// Open the order details sidebar
+function openOrderDetails() {
+  orderDetails.style.display = 'block';
+  orderDetails.classList.add('open');
+}
+
+// Close the order details sidebar
+closeDetailsBtn.addEventListener('click', () => {
+  orderDetails.style.display = 'none';
+  orderDetails.classList.remove('open');
+});
+
+// Open order details when an item is added
 document.addEventListener('click', (e) => {
   const btn = e.target.closest(".add-btn");
   if (!btn) return;
@@ -280,14 +298,13 @@ document.addEventListener('click', (e) => {
   const name = card.dataset.name;
   const price = parseFloat(card.dataset.price);
 
-  // Show the order sidebar when an item is added
-  if (document.getElementById("orderDetails").style.display === "none") {
-    document.getElementById("orderDetails").style.display = "block";
-    document.getElementById("orderDetails").classList.add("open");
+  // Open sidebar if it's not already visible
+  if (orderDetails.style.display === "none") {
+    openOrderDetails();
   }
 
-  // Create new order item if it doesn't exist
-  let existing = Array.from(document.getElementById("orderList").children).find(li => li.dataset.name === name);
+  // Check if the item already exists in the list
+  let existing = Array.from(orderList.children).find(li => li.dataset.name === name);
   if (!existing) {
     const li = document.createElement("li");
     li.className = "order-item";
@@ -310,53 +327,33 @@ document.addEventListener('click', (e) => {
       </div>
       <textarea class="comment" placeholder="Comentario adicional..."></textarea>
     `;
-    document.getElementById("orderList").appendChild(li);
-  }
 
-  // Update total price when an item is added
-  updateTotals();
-});
-
-document.getElementById('orderList').addEventListener('click', (e) => {
-  const btn = e.target.closest('button');
-  const li = e.target.closest('.order-item');
-  if (!btn || !li) return;
-
-  const unit = parseFloat(li.dataset.price);
-  let qty = parseInt(li.dataset.qty);
-
-  if (btn.classList.contains('plus')) {
+    orderList.appendChild(li);
+  } else {
+    let qty = parseInt(existing.dataset.qty);
     qty++;
-  } else if (btn.classList.contains('minus')) {
-    qty--;
-    if (qty <= 0) {
-      li.remove();
-      if (document.getElementById("orderList").children.length === 0) {
-        document.getElementById("orderDetails").style.display = "none";
-      }
-      return;
-    }
-  } else if (btn.classList.contains('remove-btn')) {
-    li.remove();
-    if (document.getElementById("orderList").children.length === 0) {
-      document.getElementById("orderDetails").style.display = "none";
-    }
-    return;
+    existing.dataset.qty = qty;
+    existing.querySelector(".qty").textContent = qty;
+    existing.querySelector(".line-total").textContent = `$${(price * qty).toFixed(2)}`;
   }
 
-  li.dataset.qty = qty;
-  li.querySelector(".qty").textContent = qty;
-  li.querySelector(".line-total").textContent = `$${(unit * qty).toFixed(2)}`;
   updateTotals();
 });
 
+// Update the total price
 function updateTotals() {
   let subtotal = 0;
-  Array.from(document.getElementById("orderList").children).forEach(li => {
+  Array.from(orderList.children).forEach(li => {
     const unit = parseFloat(li.dataset.price || '0');
     const qty = parseInt(li.dataset.qty || '0', 10);
     subtotal += unit * qty;
   });
   document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
   document.getElementById('total').textContent = `$${subtotal.toFixed(2)}`;
+
+  // Enable buttons when there's an order
+  if (subtotal > 0) {
+    confirmBtn.disabled = false;
+    printBtn.disabled = false;
+  }
 }
