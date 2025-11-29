@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mis Turnos · La Parrilla Azteca</title>
+
+  <!-- ICONOS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <!-- CSS GENERAL -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </div>
+
+  <div class="brand">
+    <img class="logo" src="../img/logo_1.png">
+    <span class="brand-text">LA PARRILLA AZTECA</span>
+  </div>
+</header>
+
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+
+  <div class="sidebar-header">
+    <img src="/img/logo_1.png" alt="Logo">
+    La Parrilla Azteca
+  </div>
+
+  <div class="sidebar-profile">
+    <img src="/img/user.deflt.png" alt="Avatar">
+    <h4 id="sidebarUserName">Bienvenido</h4>
+    <p id="sidebarUserInfo">¡Explora el menú!</p>
+
+    <div class="sidebar-login-btn">
+      <a href="/login/login.html" class="btn-login" id="btn-login">Iniciar sesión</a>
+      <button class="btn-logout" id="btn-logout" style="display:none;">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </button>
+    </div>
+  </div>
+
+  <hr>
+
+  <ul id="menuList"></ul>
+
+  <hr>
+
+  <div class="sidebar-footer">
+    © 2025 <span>Innovatech</span><br>Versión 1.0.1
+  </div>
+
+</nav>
+
+<!-- ======== PANTALLA PRINCIPAL (TURNOS) ======== -->
+<main class="turnos-main">
+
+  <h1 class="titulo">Turno Actual</h1>
+
+  <section class="turno-actual">
+    <span class="turno-numero">A-23</span>
+    <p class="turno-desc">Juan Pérez — $185.00</p>
+  </section>
+
+  <h2 class="titulo-secundario">Todos los turnos</h2>
+
+  <section class="lista-turnos">
+
+    <div class="turno-card resaltado">
+      <h3>A-23</h3>
+      <p>Juan Pérez</p>
+      <span>$185.00</span>
+    </div>
+
+    <div class="turno-card"><h3>A-24</h3><p>María López</p><span>$220.00</span></div>
+    <div class="turno-card"><h3>A-25</h3><p>Carlos Ruiz</p><span>$150.00</span></div>
+    <div class="turno-card"><h3>A-26</h3><p>Patricia Díaz</p><span>$260.00</span></div>
+    <div class="turno-card"><h3>A-27</h3><p>José Martínez</p><span>$175.00</span></div>
+    <div class="turno-card"><h3>A-28</h3><p>Ana Torres</p><span>$190.00</span></div>
+    <div class="turno-card"><h3>A-29</h3><p>Mario Ríos</p><span>$210.00</span></div>
+    <div class="turno-card"><h3>A-30</h3><p>Laura Vega</p><span>$140.00</span></div>
+    <div class="turno-card"><h3>A-31</h3><p>Hugo Serrano</p><span>$160.00</span></div>
+
+  </section>
+
+</main>
+
+<!-- JS -->
+<script src="./js/shifts.js"></script>
+
+</body>
+</html>
