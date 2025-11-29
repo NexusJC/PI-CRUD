@@ -19,3 +19,20 @@
     alert(result.message);
     document.getElementById("preview").src = `/uploads/${result.image}`;
   });
+
+  document.getElementById('btnEditarNombre').addEventListener('click', async () => {
+  const nombre = document.getElementById('perfilNombreText').value;
+  const telefono = document.getElementById('perfilNumeroText').value;
+  
+  const response = await fetch('/api/profile/update-profile', {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: nombre, telefono: telefono })
+  });
+
+  const result = await response.json();
+  alert(result.message); // Mensaje de éxito
+});
