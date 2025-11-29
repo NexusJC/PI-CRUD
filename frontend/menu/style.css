@@ -1040,3 +1040,22 @@ textarea.comment {
   color: #333;
   margin-top: 10px;
 }
+/* Estilo para el mensaje de carrito vacío */
+.empty-cart-msg {
+  text-align: center;
+  padding: 20px;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.empty-cart-msg img {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.empty-cart-msg p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 10px;
+}
