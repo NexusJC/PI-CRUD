@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         menuList.innerHTML = `  
             <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Ver Menú</a></li>
             <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
-            <li><a href="/shifts/shifts.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
+            <li><a href="/shifts/shifts.html"><i class="fas fa-user-clock"></i> Mi Perfil</a></li>
         `;
     }
 });
