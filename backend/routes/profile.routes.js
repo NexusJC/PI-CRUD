@@ -2,7 +2,6 @@ import { Router } from "express";
 import multer from "multer";
 import { updateProfilePicture } from "../controllers/profile.controller.js";
 import { verifyToken } from "../middlewares/verifyToken.js"; // si ya tienes middleware
-router.put("/update-profile", verifyToken, updateProfile);
 
 const router = Router();
 
@@ -16,7 +15,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Ruta para actualizar datos de perfil (nombre y teléfono)
 router.put("/update-profile", verifyToken, updateProfile);
+
 // Ruta para subir imagen de perfil
 router.post("/upload-profile", verifyToken, upload.single("profile"), updateProfilePicture);
 

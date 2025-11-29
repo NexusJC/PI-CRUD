@@ -1,8 +1,5 @@
 import { pool } from "../db.js";
 
-router.put("/update-profile", verifyToken, updateProfile);
-
-
 export const updateProfilePicture = async (req, res) => {
   const userId = req.user.id;
   const imagePath = req.file.filename;
@@ -31,4 +28,3 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar perfil' });
   }
 };
-
