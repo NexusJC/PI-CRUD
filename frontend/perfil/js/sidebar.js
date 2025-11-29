@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Funcionalidad para editar email
-    document.getElementById('btnEditarEmail').addEventListener('click', function() {
-      const emailInput = document.getElementById('perfilEmailText');
+    // Funcionalidad para editar número de teléfono
+    document.getElementById('btnEditarNumero').addEventListener('click', function() {
+      const emailInput = document.getElementById('perfilNumeroText');
       if (emailInput.readOnly) {
         emailInput.readOnly = false;
         emailInput.focus();
