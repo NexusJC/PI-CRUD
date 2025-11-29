@@ -20,21 +20,21 @@ export const getProfile = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const [user] = await pool.query("SELECT name, telefono, email, gender, profile_picture FROM users WHERE id = ?", [userId]);
+    const [user] = await pool.query('SELECT name, telefono, email, gender, profile_picture FROM users WHERE id = ?', [userId]);
     if (user.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-    res.json(user[0]); // Devuelves los datos del usuario
+    res.json(user[0]); // Devuelve los datos del perfil
   } catch (err) {
-    console.error("Error al obtener los datos del perfil:", err);
-    res.status(500).json({ message: "Error al obtener los datos del perfil" });
+    console.error('Error al obtener los datos del perfil:', err);
+    res.status(500).json({ message: 'Error al obtener los datos del perfil' });
   }
 };
 
 // Función para actualizar los datos del perfil
 export const updateProfileData = async (req, res) => {
   const userId = req.user.id;
-  const { name, telfono, gender } = req.body; // Recibir los datos
+  const { name, telefono, gender } = req.body; // Recibir los datos
 
   try {
     await pool.query("UPDATE users SET name = ?, telefono = ?, gender = ? WHERE id = ?", [name, telefono, gender, userId]);
