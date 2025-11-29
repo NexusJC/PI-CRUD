@@ -272,38 +272,3 @@ document.querySelectorAll('.menu-card').forEach(card => {
     });
   }
 });
-// === ABRIR Y CERRAR EL ORDER DETAILS (COMANDA) ===
-
-// Botón para abrir el sidebar (orderDetails)
-const openSidebarBtn = document.getElementById('open-sidebar-btn');  // Botón "Ver Orden"
-const closeDetailsBtn = document.getElementById('close-details');  // Botón para cerrar el sidebar
-const emptyCartMsg = document.getElementById('empty-cart-msg');  // Mensaje "Carrito vacío"
-
-// Mostrar el carrito vacío si no hay productos
-function checkCart() {
-  if (orderList.children.length === 0) {
-    emptyCartMsg.style.display = 'block';  // Mostrar mensaje de carrito vacío
-    orderDetails.style.display = 'none';  // No mostrar el sidebar si está vacío
-  } else {
-    emptyCartMsg.style.display = 'none';  // Ocultar mensaje si hay productos
-    orderDetails.style.display = 'block'; // Mostrar el sidebar si hay productos
-  }
-}
-
-// Función para abrir el sidebar (orderDetails)
-openSidebarBtn.addEventListener('click', () => {
-  orderDetails.style.display = 'block';  // Mostrar el sidebar
-  orderDetails.classList.add('open');    // Agregar clase para animación
-  checkCart();  // Verificar si hay productos para mostrar el mensaje adecuado
-});
-
-// Cerrar el sidebar (orderDetails)
-closeDetailsBtn.addEventListener('click', () => {
-  orderDetails.style.display = 'none';  // Ocultar el sidebar
-  emptyCartMsg.style.display = 'none';  // Ocultar mensaje de carrito vacío
-});
-
-// Llamar a checkCart cuando se agregue o elimine un producto
-document.addEventListener('click', () => {
-  checkCart();  // Verificar si el carrito está vacío o tiene productos
-});
