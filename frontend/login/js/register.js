@@ -1,3 +1,4 @@
+
 const registerForm = document.getElementById("registerForm");
 
 // Agregar un evento para cuando se envíe el formulario
