@@ -96,21 +96,37 @@
     <i class="fab fa-instagram"></i>
   </a>
 </div>
-<!-- Order Details Sidebar -->
+<!-- Sidebar para la Orden -->
 <aside id="orderDetails" class="order-details">
   <h2>Tu orden</h2>
 
-  <ul id="orderList"></ul>
+  <ul id="orderList">
+    <!-- Los productos se agregarán aquí dinámicamente -->
+  </ul>
 
   <div class="totals">
     <p>Subtotal: <span id="subtotal">$0.00</span></p>
     <p>Total: <span id="total">$0.00</span></p>
   </div>
 
+  <!-- Mensaje si el carrito está vacío -->
+  <div id="empty-cart-msg" class="empty-cart-msg" style="display: none;">
+    <img src="path-to-empty-cart-image" alt="Carrito vacío" />
+    <p>El carrito está vacío</p>
+  </div>
+
+  <!-- Botones para Confirmar y Imprimir -->
+  <button id="confirm-btn" class="order-btn confirm-btn" disabled>Confirmar Pedido</button>
+  <button id="print-btn" class="order-btn print-btn" disabled>Imprimir Ticket</button>
+
+  <!-- Botón para Cerrar el Sidebar -->
   <button id="close-details" class="close-btn">Cerrar</button>
 </aside>
 
-
+<!-- Botón para Abrir el Sidebar (ver carrito) -->
+<button id="open-sidebar-btn" class="open-btn">
+  <i class="fas fa-shopping-cart"></i> Ver Orden
+</button>
 
       </div>
       <div class="copyright-section">
