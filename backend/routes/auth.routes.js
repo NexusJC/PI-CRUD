@@ -49,7 +49,7 @@ router.get("/verify", async (req, res) => {
     // Página de confirmación
     return res.send(`
       <div style="font-family:Arial; text-align:center; padding:50px;">
-        <h2 style="color:#27ae60;">✅ Tu correo ha sido verificado</h2>
+        <h2 style="color:#27ae60;"> Tu correo ha sido verificado</h2>
         <p>Ya puedes iniciar sesión con tu cuenta.</p>
 
         <a href="/login/login.html"
