@@ -880,3 +880,162 @@ footer {
   padding: 0;
   margin: 0 0 10px 0;
 }
+/* Estilo del Sidebar - OrderDetails */
+.order-details {
+  position: fixed;
+  top: 80px;
+  right: -400px;  /* Inicialmente fuera de la vista */
+  width: 350px;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #e5e5e5;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: none; /* Oculto inicialmente */
+  z-index: 1000;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideInOrder .35s ease forwards;
+  transition: all 0.3s ease;
+}
+
+@keyframes slideInOrder {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.order-details.open {
+  right: 20px;  /* Cuando se abre, se mueve hacia la izquierda */
+  display: block;
+}
+
+.order-details h2 {
+  font-size: 1.4rem;
+  color: #e36842;  /* Color naranja del header */
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.order-item {
+  background: #f5f0e9; /* Fondo claro */
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.order-item .item-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-info .item-name {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.item-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.item-actions .line-total {
+  font-weight: 600;
+  color: #e36842;
+}
+
+.item-actions .qty-controls {
+  background: #f5f0e9;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.item-actions .remove-btn {
+  font-size: 1.1rem;
+  color: #e74c3c;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+textarea.comment {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 50px;
+  font-family: inherit;
+  background: #fafafa;
+  transition: all 0.25s ease;
+}
+
+/* Estilo para los botones de Confirmar y Imprimir */
+.order-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.confirm-btn {
+  background-color: #e36842; /* Naranja */
+}
+
+.print-btn {
+  background-color: #4b2d22; /* Gris oscuro */
+  margin-top: 10px;
+}
+
+.close-btn {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Estilo para el mensaje de carrito vacío */
+.empty-cart-msg {
+  text-align: center;
+}
+
+.empty-cart-msg img {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.empty-cart-msg p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Estilo para el botón de abrir el Sidebar (Ver Orden) */
+.open-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #e36842;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 10px;
+  z-index: 1001;
+}
+
+.open-btn.hidden {
+  display: none;
+}

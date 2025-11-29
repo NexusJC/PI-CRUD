@@ -20,8 +20,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body> <!-- 👈 AQUÍ EMPIEZA EL BODY CORRECTAMENTE -->
-
+<body>
 <header class="topbar">
   <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
   <div class="brand">
@@ -67,10 +66,9 @@
 <div class="perfil-content">
   <section id="view-perfil">
     <div class="perfil-card">
-      <!-- Imagen -->
       <div class="avatar-section">
         <div class="avatar-edit">
-          <img id="perfilImg" src="../img/miguel.jpg" alt="Imagen de Perfil" />
+          <img id="perfilImg" src="../img/miguel.jpg" alt="Imagen de Perfil">
           <button type="button" class="edit-btn" id="btnEditarImg" title="Cambiar imagen">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
               <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
@@ -85,17 +83,29 @@
         <h2>Mi perfil</h2>
         <p>Gestiona tu cuenta para La Parrilla Azteca.</p>
 
-        <div class="field">
-          <label>Nombre</label>
-          <div class="input-edit">
-            <input type="text" id="perfilNombreText" class="input-dinamico" value="Juan Pérez" readonly>
-            <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
-              </svg>
-            </button>
-          </div>
-        </div>
+<div class="field">
+  <label>Nombre</label>
+  <div class="input-edit">
+    <input type="text" id="perfilNombreText" class="input-dinamico" value="Juan Pérez" readonly>
+    <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="field">
+  <label>Número</label>
+  <div class="input-edit">
+    <input type="tel" id="perfilNumeroText" class="input-dinamico" value="314 567 9390" readonly pattern="[\+]?[0-9]{1,4}[-\s\.]?[0-9]{1,4}[-\s\.]?[0-9]{1,4}" title="Solo se permiten números y caracteres como espacio, guion o punto." >
+    <button type="button" class="edit-btn" id="btnEditarNumero" title="Editar número">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+      </svg>
+    </button>
+  </div>
+</div>
 
         <div class="field">
           <label>Email</label>
@@ -129,6 +139,7 @@
 
 <script src="../menu/js/sidebar.js" defer></script>
 <script src="./js/sidebar.js" defer></script>
+<script src="./js/perfil.js" defer></script>
 
 </body>
 </html>
