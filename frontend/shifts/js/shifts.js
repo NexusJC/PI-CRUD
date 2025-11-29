@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (user.role === "usuario") {
     menuList.innerHTML = `
       <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Menú</a></li>
-      <li><a href="/personal/turnos/turnos.html"><i class="fas fa-bell"></i> Mis Turnos</a></li>
+      <li><a href="/shifts/shifts.html"><i class="fas fa-bell"></i> Mis Turnos</a></li>
       <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
     `;
   }
