@@ -895,3 +895,56 @@ footer {
   transform: translateY(-50%) translateY(-1px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.22);
 }
+/* ===== HEADER DEL SIDEBAR DE ORDEN ===== */
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.order-header h2 {
+  margin: 0;
+}
+
+.order-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  border-radius: 999px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.order-close-btn i {
+  color: #9ca3af; /* gris suave */
+}
+
+.order-close-btn:hover {
+  background: #f3f4f6;
+  transform: scale(1.05);
+}
+
+/* ===== ESTADO VACÍO (ÍCONO, NO IMAGEN) ===== */
+.empty-cart-msg {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.empty-cart-msg .empty-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 0.75rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-cart-msg .empty-icon i {
+  font-size: 2rem;
+}
