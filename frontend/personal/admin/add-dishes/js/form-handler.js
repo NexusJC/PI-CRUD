@@ -87,6 +87,27 @@ async function deleteDish(id) {
   }
 }
 
+const btnShowDishForm = document.getElementById("btnShowDishForm");
+const btnCloseDishForm = document.getElementById("btnCloseDishForm");
+const dishModal = document.getElementById("dishModal");
+const dishOverlay = document.getElementById("dishOverlay");
+
+btnShowDishForm.addEventListener("click", () => {
+    dishModal.style.display = "block";
+    dishOverlay.style.display = "block";
+});
+
+btnCloseDishForm.addEventListener("click", () => {
+    dishModal.style.display = "none";
+    dishOverlay.style.display = "none";
+});
+
+dishOverlay.addEventListener("click", () => {
+    dishModal.style.display = "none";
+    dishOverlay.style.display = "none";
+});
+
+
 /* // =========================
 // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // =========================
