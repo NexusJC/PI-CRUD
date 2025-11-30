@@ -347,6 +347,34 @@ body { padding-top:60px; flex-grow:1; }
   min-height:100vh;
 }
 
+/* Botón modo Oscuro */
+.theme-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: #fff;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: #f2f2f2;
+  transform: translateY(-1px);
+}
+
+.theme-toggle-btn i {
+  font-size: 1rem;
+}
+
 .sidebar.active {
   left:0;
   box-shadow:10px 0 40px rgba(0,0,0,0.4);
@@ -1058,4 +1086,111 @@ textarea.comment {
   font-size: 1.2rem;
   color: #333;
   margin-top: 10px;
+}
+
+/* ====== MODO OSCURO INVERTIDO (NEGRO ↔ GRIS) ====== */
+
+body.dark {
+  --topbar: #161d26;   /* antes #11161d → cambia a gris oscuro */
+  --panel: #131920;    /* antes #0b0f14 → sube un tono (gris oscuro) */
+  --text: #ffffff;     /* era gris claro, ahora más blanco */
+  --card: #0b0f14;     /* antes gris → ahora más negro */
+  --border: #1a2129;   /* antes #24303b → ahora más oscuro */
+  --accent: #ff7a45;   /* igual, no se invierte */
+
+  background: var(--panel);
+  color: var(--text);
+}
+
+/* SIDEBAR */
+body.dark .sidebar {
+  background: #0f1419;           /* antes gris claro → ahora casi negro */
+  border-right: 1px solid #1a2129;
+}
+
+body.dark .sidebar-profile {
+  background: #131920 !important; /* era gris → ahora más negro */
+  border-bottom: 1px solid #1a2129;
+}
+
+body.dark .sidebar ul li a {
+  color: #d9d9d9;
+}
+
+/* TOPBAR */
+body.dark .topbar {
+  background: #252a32;   /* gris oscuro en lugar del negro fuerte */
+}
+
+/* CARDS */
+body.dark .menu-card {
+  background: #0b0f14;     /* ahora casi negro */
+  border: 1px solid #1a2129;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.6);
+}
+
+body.dark .menu-card h3 {
+  color: #ffffff;
+}
+
+/* CATEGORÍAS */
+body.dark .category-btn {
+  background: #161d26;   /* antes gris claro → ahora gris oscuro */
+  color: #fff;
+  border: 1px solid #1a2129;
+}
+
+/* ORDER DETAILS */
+body.dark .order-details {
+  background: #0b0f14;   /* más negro */
+  border: 1px solid #1a2129;
+}
+
+body.dark .order-item {
+  background: #161d26;   /* gris */
+  border: 1px solid #1a2129;
+}
+
+/* BOTONES */
+body.dark .add-btn,
+body.dark .confirm-btn,
+body.dark .print-btn,
+body.dark .open-btn {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* TEXTOS */
+body.dark p,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark span,
+body.dark a,
+body.dark li {
+  color: #ffffff !important;
+}
+
+/* FOOTER */
+body.dark footer {
+  background: #333;  /* casi negro */
+  color: #e4e7eb;
+}
+
+body.dark footer a {
+  color: #c8ccd2 !important;
+}
+
+/* BOTÓN DEL TOGGLE */
+body.dark #themeToggle {
+  background: #333;
+  color: #ffffff;
+  border: 1px solid #1a2129;
+}
+
+body.dark #themeToggle:hover {
+  background: #1a2129;
 }

@@ -172,3 +172,43 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 });
+
+/* =========================================================
+   MODO OSCURO GLOBAL
+   ========================================================= */
+
+const themeToggle = document.getElementById("themeToggle");
+
+// Cargar estado guardado
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark");
+    updateThemeButton(true);
+  }
+});
+
+// Activar / desactivar
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark");
+
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    updateThemeButton(isDark);
+  });
+}
+
+function updateThemeButton(isDark) {
+  const icon = themeToggle.querySelector("i");
+  const text = themeToggle.querySelector("span");
+
+  if (isDark) {
+    icon.classList.replace("fa-moon", "fa-sun");
+    text.textContent = "Modo claro";
+  } else {
+    icon.classList.replace("fa-sun", "fa-moon");
+    text.textContent = "Modo oscuro";
+  }
+}
