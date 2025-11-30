@@ -11,9 +11,8 @@ const printBtn = document.getElementById("print-btn");
 const confirmBtn = document.getElementById("confirm-btn");
 const emptyCartMsg = document.getElementById("empty-cart-msg");
 
-// Botones para abrir / cerrar OrderDetails
-const openOrderDetailsBtn  = document.getElementById("openOrderDetailsBtn");
-const closeOrderDetailsBtn = document.getElementById("closeOrderDetailsBtn");
+// Botón para abrir OrderDetails
+const openOrderDetailsBtn = document.getElementById("openOrderDetailsBtn");
 
 // Variables
 let orderCount = 1;
@@ -27,12 +26,6 @@ if (openOrderDetailsBtn) {
     orderDetails.style.display = "block";
     orderDetails.classList.add("open");
     actualizarEstadoVacio();
-  });
-}
-if (closeOrderDetailsBtn) {
-  closeOrderDetailsBtn.addEventListener("click", () => {
-    orderDetails.classList.remove("open");
-    orderDetails.style.display = "none";
   });
 }
 
