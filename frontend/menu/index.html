@@ -24,16 +24,14 @@
     <span class="brand-text">LA PARRILLA AZTECA</span>
   </div>
   <!-- Botón que abre el sidebar (ver orden) -->
-<aside id="orderDetails" class="order-details">
-  <div class="order-header">
-    <h2>Tu orden</h2>
-    <button id="closeOrderDetailsBtn" class="order-close-btn" aria-label="Cerrar orden">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
+  <button id="open-sidebar-btn" class="open-btn">
+    <i class="fas fa-shopping-cart"></i> Ver Orden
+  </button>
+</header>
+
 
   <!-- SIDEBAR -->
-<nav class="sidebar" id="sidebarMenu">
+  <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <img src="../img/logo_1.png" alt="Logo">
       La Parrilla Azteca
@@ -110,20 +108,23 @@
   <ul id="orderList">
     <!-- Los productos se agregarán aquí dinámicamente -->
   </ul>
+
   <div class="totals">
     <p>Subtotal: <span id="subtotal">$0.00</span></p>
     <p>Total: <span id="total">$0.00</span></p>
   </div>
-<!-- Mensaje carrito vacío -->
+ <!-- Este es el espacio donde se mostrará el mensaje cuando el carrito esté vacío -->
 <div id="empty-cart-msg" class="empty-cart-msg" style="display: none;">
-  <div class="empty-icon">
-    <i class="fa-solid fa-bowl-food"></i>
-  </div>
-  <p>Tu orden está vacía, empieza a pedir algo 🍽️</p>
+  <img src="path-to-empty-cart-image" alt="Carrito vacío" />
+  <p>El carrito está vacío</p>
 </div>
+
   <!-- Botones para Confirmar y Imprimir -->
   <button id="confirm-btn" class="order-btn confirm-btn" disabled>Confirmar Pedido</button>
   <button id="print-btn" class="order-btn print-btn" disabled>Imprimir Ticket</button>
+
+
+
 
       </div>
       <div class="copyright-section">
