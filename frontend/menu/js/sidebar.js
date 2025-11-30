@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById("menuToggle");
-  const sidebar = document.getElementById("sidebar");
+const sidebarMenu = document.getElementById("sidebarMenu");
 
-  if (menuToggle && sidebar) {
+  if (menuToggle && sidebarMenu) {
     menuToggle.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-      menuToggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
+      sidebarMenu.classList.toggle("active");
+      menuToggle.textContent = sidebarMenu.classList.contains("active") ? "✖" : "☰";
     });
   }
 });
@@ -58,14 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // === Cerrar sidebar al hacer clic fuera ===
 document.addEventListener('click', (e) => {
-  const sidebar = document.getElementById('sidebar');
+const sidebarMenu = document.getElementById("sidebarMenu");
   const menuToggle = document.getElementById('menuToggle');
 
-  if (sidebar.classList.contains('active')) {
-    const clickInsideSidebar = sidebar.contains(e.target);
+  if (sidebarMenu.classList.contains('active')) {
+    const clickInsideSidebar = sidebarMenu.contains(e.target);
     const clickOnToggle = menuToggle.contains(e.target);
     if (!clickInsideSidebar && !clickOnToggle) {
-      sidebar.classList.remove('active');
+      sidebarMenu.classList.remove('active');
       menuToggle.textContent = '☰'; 
     }
   }
