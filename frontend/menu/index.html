@@ -24,11 +24,13 @@
     <span class="brand-text">LA PARRILLA AZTECA</span>
   </div>
   <!-- Botón que abre el sidebar (ver orden) -->
-<button id="openOrderDetailsBtn" class="open-btn">
-    <i class="fas fa-shopping-cart"></i> Ver Orden
-  </button>
-</header>
-
+<aside id="orderDetails" class="order-details">
+  <div class="order-header">
+    <h2>Tu orden</h2>
+    <button id="closeOrderDetailsBtn" class="order-close-btn" aria-label="Cerrar orden">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
 
   <!-- SIDEBAR -->
 <nav class="sidebar" id="sidebarMenu">
@@ -115,7 +117,9 @@
   </div>
 <!-- Mensaje carrito vacío -->
 <div id="empty-cart-msg" class="empty-cart-msg" style="display: none;">
-  <img src="../img/empty-cart.png" alt="Carrito vacío" />
+  <div class="empty-icon">
+    <i class="fa-solid fa-bowl-food"></i>
+  </div>
   <p>Tu orden está vacía, empieza a pedir algo 🍽️</p>
 </div>
   <!-- Botones para Confirmar y Imprimir -->
