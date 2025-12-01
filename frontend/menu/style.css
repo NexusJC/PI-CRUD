@@ -1421,3 +1421,32 @@ body.dark #themeToggle:hover {
   transform:translateY(-2px);
   box-shadow:0 4px 12px rgba(0,0,0,.15);
 }
+
+.qty {
+  color: #000 !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+}
+
+.qty-btn {
+  color: #e36842 !important;   
+  font-weight: 900 !important;
+  font-size: 1.1rem !important;
+}
+
+.od-controls .price,
+.line-total {
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+
+#subtotal,
+#total {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
+.od-summary .row span:first-child {
+  color: #444 !important;
+  font-weight: 600 !important;
+}
