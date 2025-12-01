@@ -3,22 +3,22 @@ import { pool } from "../db.js";
 export const getDashboardStats = async (req, res) => {
   try {
     // === TOTAL DE PLATILLOS ===
-    const [platillos] = await db.query(
+    const [platillos] = await pool.query(
       "SELECT COUNT(*) AS total FROM platillos"
     );
 
     // === TOTAL DE USUARIOS ===
-    const [usuarios] = await db.query(
+    const [usuarios] = await pool.query(
       "SELECT COUNT(*) AS total FROM users"
     );
 
-    // === TOTAL DE EMPLEADOS (role = 'employee') ===
-    const [empleados] = await db.query(
+    // === TOTAL DE EMPLEADOS ===
+    const [empleados] = await pool.query(
       "SELECT COUNT(*) AS total FROM users WHERE role = 'employee'"
     );
 
-    // === TOTAL DE ADMINISTRADORES (role = 'admin') ===
-    const [admins] = await db.query(
+    // === TOTAL DE ADMINISTRADORES ===
+    const [admins] = await pool.query(
       "SELECT COUNT(*) AS total FROM users WHERE role = 'admin'"
     );
 
@@ -30,7 +30,7 @@ export const getDashboardStats = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("❌ Error en getDashboardStats:", error);
     res.status(500).json({ message: "Error al obtener estadísticas" });
   }
 };
