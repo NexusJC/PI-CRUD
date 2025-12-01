@@ -36,7 +36,6 @@ const getProfileData = async () => {
     const data = await response.json();
     
     if (response.ok) {
-      // Rellenamos los campos con los datos obtenidos
       document.getElementById("perfilNombreText").value = data.name || '';
       document.getElementById("perfilNumeroText").value = data.telefono  || '';
       document.getElementById("perfilEmail").textContent = data.email;
@@ -49,7 +48,7 @@ const getProfileData = async () => {
       }
 
       // Rellenar imagen de perfil
-      document.getElementById("perfilImg").src = `/uploads/${data.profile_picture}` || '/img/default-profile.png';
+      document.getElementById("perfilImg").src = data.profile_picture ? `/uploads/${data.profile_picture}` : "../img/default.png";
     } else {
       alert("No se pudo obtener el perfil");
     }
@@ -68,7 +67,7 @@ document.getElementById("guardarCambios").addEventListener("click", async () => 
   const token = localStorage.getItem("token");
 
   if (!name) {
-    alert("Nombre es obligatorios.");
+    alert("El nombre es obligatorio.");
     return;
   }
 
@@ -79,7 +78,7 @@ document.getElementById("guardarCambios").addEventListener("click", async () => 
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`, // Enviar el token para autenticar la solicitud
+        Authorization : `Bearer ${token}`, // Enviar el token para autenticar la solicitud
       },
       body: JSON.stringify({ name, telefono, gender: genero }) // Enviar los datos modificados
     });
@@ -97,36 +96,41 @@ document.getElementById("guardarCambios").addEventListener("click", async () => 
   }
 });
 
-
 // Subir nueva foto de perfil
 document.getElementById("btnEditarImg").addEventListener("click", () => {
-  document.getElementById("inputImg").click(); // Abre el selector de archivo
+  document.getElementById("inputImg").click();
 });
 
 document.getElementById("inputImg").addEventListener("change", async (e) => {
-  const file = e.target.files[0];  // Obtener el archivo seleccionado
+  const file = e.target.files[0];
   if (!file) {
     alert("No se seleccionó ninguna imagen.");
     return;
   }
 
   const formData = new FormData();
-  formData.append("profile", file); // Agregar la imagen al formulario
+  formData.append("profile", file);
 
   try {
-    const response = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
+    const response = await fetch("https://www.laparrilaazteca.online/api/profile/upload-profile", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}` // Enviar el token para autenticar la solicitud
+        Authorization: `Bearer ${token}`
       },
       body: formData
     });
 
     const result = await response.json();
-    alert(result.message);
-    document.getElementById("perfilImg").src = `/uploads/${result.image}`; // Actualizar la imagen en el perfil
+
+    if (response.ok) {
+      alert("Foto actualizada correctamente");
+      document.getElementById("perfilImg").src = `/uploads/${result.image}`;
+    } else {
+      alert(result.message || "Error al subir la imagen");
+    }
+
   } catch (error) {
-    console.error("Error al subir la imagen", error);
+    console.error("Error al subir imagen", error);
     alert("Error al subir la imagen");
   }
 });
