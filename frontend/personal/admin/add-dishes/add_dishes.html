@@ -50,33 +50,36 @@
     </a>
   </div>
 </div>
-<div id="dishOverlay" class="dish-overlay"></div>
+<!-- Overlay -->
+<div class="dish-overlay" id="dishOverlay"></div>
 
-<div id="dishModal" class="dish-modal">
+<!-- Modal -->
+<div class="dish-modal" id="dishModal">
     <div class="dish-modal-header">
-        <h2 class="dish-modal-title">Agregar nuevo platillo</h2>
-        <button id="btnCloseDishForm" class="dish-close-btn">&times;</button>
+        <h3 class="dish-modal-title">Agregar nuevo platillo</h3>
+        <button class="dish-close-btn" id="closeDishModal">&times;</button>
     </div>
-    <form id="dish-form" enctype="multipart/form-data">
-  <label>Nombre:</label>
-  <input type="text" name="nombre" required>
 
-  <label>Descripción:</label>
-  <textarea name="descripcion" required></textarea>
+    <form id="dish-form">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required>
 
-  <label>Precio:</label>
-  <input type="number" name="precio" step="0.01" required>
+        <label>Descripción:</label>
+        <textarea name="descripcion" required></textarea>
 
-  <label>Categoria:</label>
-  <input type="text" name="categoria" required>
+        <label>Precio:</label>
+        <input type="number" name="precio" required>
 
-  <label>Imagen:</label>
-  <input type="file" name="imagen" accept="image/*" required>
+        <label>Categoría:</label>
+        <input type="text" name="categoria" required>
 
-  <button type="submit">Agregar Platillo</button>
-</form>
+        <label>Imagen:</label>
+        <input type="file" name="imagen" accept="image/*" required>
 
+        <button type="submit">Agregar Platillo</button>
+    </form>
 </div>
+
 
 <div class="dishes-title-row">
     <h2>Platillos Actuales</h2>

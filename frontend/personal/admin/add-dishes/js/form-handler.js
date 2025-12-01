@@ -1,8 +1,29 @@
 const form = document.getElementById('dish-form');
 const tableBody = document.querySelector('#dishes-table tbody');
+const CLOUD_NAME = "dwwaxrr6r";
+const UPLOAD_PRESET = "unsigned_preset";
+const openDishModal = document.getElementById("openDishModal");
+const closeDishModal = document.getElementById("closeDishModal");
+const dishModal = document.getElementById("dishModal");
+const dishOverlay = document.getElementById("dishOverlay");
 
-const CLOUD_NAME = "dwwaxrr6r";           // <--- tu cloud name
-const UPLOAD_PRESET = "unsigned_preset"; // <--- tu upload preset
+// ABRIR MODAL
+openDishModal.addEventListener("click", () => {
+  dishModal.style.display = "block";
+  dishOverlay.style.display = "block";
+});
+
+// CERRAR MODAL
+closeDishModal.addEventListener("click", () => {
+  dishModal.style.display = "none";
+  dishOverlay.style.display = "none";
+});
+
+// CERRAR SI HACEN CLICK FUERA
+dishOverlay.addEventListener("click", () => {
+  dishModal.style.display = "none";
+  dishOverlay.style.display = "none";
+});
 
 // =========================
 // SUBIR IMAGEN A CLOUDINARY
