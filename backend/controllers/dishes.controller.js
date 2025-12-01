@@ -3,7 +3,7 @@ import { pool } from '../db.js';
 // Crear un nuevo platillo - ahora usando Cloudinary
 export const saveDish = async (req, res) => {
   try {
-    const { name, description, price, category } = req.body;
+    const { nombre, descripcion, precio, categoria } = req.body;
 
     // URL final de Cloudinary
     const imageUrl = req.file?.path || null;
@@ -13,7 +13,7 @@ export const saveDish = async (req, res) => {
       VALUES (?, ?, ?, ?, ?)
     `;
 
-    await pool.query(sql, [name, description, price, category, imageUrl]);
+    await pool.query(sql, [nombre, descripcion, precio, categoria, imageUrl]);
 
     res.json({
       message: 'Dish saved successfully',
@@ -23,7 +23,7 @@ export const saveDish = async (req, res) => {
   } catch (err) {
     console.error('Error saving dish:', err);
     res.status(500).json({ message: 'Error saving dish' });
-  }
+  } 
 };
 
 // Obtener todos los platillos
