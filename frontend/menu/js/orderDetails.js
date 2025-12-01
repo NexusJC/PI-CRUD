@@ -209,30 +209,198 @@ if (orderList) {
 /* ============ IMPRIMIR TICKET ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
-    if (!orderList.children.length) return;
+    // Si no hay items, no imprimimos
+    if (!orderList.children.length) {
+      alert("No hay productos en la orden para imprimir.");
+      return;
+    }
 
-    const clones = orderList.cloneNode(true);
+    // Aseguramos que el subtotal esté calculado
+    actualizarTotales();
 
-    clones.querySelectorAll(".comment").forEach((textarea) => {
-      const texto = (textarea.value || "").trim();
-      if (!texto) {
-        textarea.remove();
-      } else {
-        const span = document.createElement("div");
-        span.className = "print-comment";
-        span.textContent = `Comentario: ${texto}`;
-        textarea.replaceWith(span);
-      }
+    // Obtenemos items del carrito
+    const items = Array.from(orderList.children).map(li => {
+      const name = li.dataset.name || li.querySelector(".order-item-name")?.textContent?.trim() || "Producto";
+      const qty  = parseInt(li.dataset.qty || li.querySelector(".qty")?.textContent || "0", 10);
+      const unit = parseFloat(li.dataset.price || "0");
+      const total = unit * qty;
+
+      return { name, qty, unit, total };
     });
 
-    const original = orderList.innerHTML;
-    orderList.innerHTML = clones.innerHTML;
+    const fecha = new Date();
+    const fechaStr = fecha.toLocaleDateString("es-MX");
+    const horaStr  = fecha.toLocaleTimeString("es-MX", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
 
-    window.print();
+    const folio = `#${String(orderCount).padStart(4, "0")}`;
 
-    orderList.innerHTML = original;
+    // Estilo tipo ticket térmico (basado en el repo de ticket-php-mysql)
+    const ticketHTML = `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Ticket de consumo</title>
+        <style>
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+          body {
+            font-family: "Courier New", monospace;
+            font-size: 12px;
+            padding: 8px;
+          }
+          .ticket {
+            width: 280px;
+            margin: 0 auto;
+          }
+          .ticket-header {
+            text-align: center;
+            margin-bottom: 8px;
+          }
+          .ticket-header h2 {
+            font-size: 16px;
+            margin-bottom: 2px;
+          }
+          .ticket-header p {
+            font-size: 11px;
+          }
+          .ticket-meta {
+            margin: 8px 0;
+            font-size: 11px;
+          }
+          .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+          }
+          hr {
+            border: none;
+            border-top: 1px dashed #000;
+            margin: 6px 0;
+          }
+          .items-header,
+          .items-row {
+            display: flex;
+          }
+          .col-cant {
+            width: 30px;
+            text-align: right;
+            padding-right: 4px;
+          }
+          .col-desc {
+            flex: 1;
+            padding-right: 4px;
+          }
+          .col-imp {
+            width: 70px;
+            text-align: right;
+          }
+          .items-row + .items-row {
+            margin-top: 2px;
+          }
+          .totals {
+            margin-top: 6px;
+            font-size: 11px;
+          }
+          .totals .row {
+            margin-bottom: 3px;
+          }
+          .totals .row.total {
+            font-weight: bold;
+          }
+          .ticket-footer {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 11px;
+          }
+          @media print {
+            body {
+              margin: 0;
+              padding: 0;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="ticket">
+          <div class="ticket-header">
+            <h2>La Parrilla Azteca</h2>
+            <p>Ticket de consumo</p>
+          </div>
+
+          <div class="ticket-meta">
+            <div class="row">
+              <span>Fecha: ${fechaStr}</span>
+              <span>Hora: ${horaStr}</span>
+            </div>
+            <div class="row">
+              <span>Orden: ${folio}</span>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="items-header">
+            <span class="col-cant">Cant</span>
+            <span class="col-desc">Descripción</span>
+            <span class="col-imp">Importe</span>
+          </div>
+          <hr />
+
+          ${items
+            .map(
+              (i) => `
+            <div class="items-row">
+              <span class="col-cant">${i.qty}</span>
+              <span class="col-desc">${i.name}</span>
+              <span class="col-imp">$${i.total.toFixed(2)}</span>
+            </div>
+          `
+            )
+            .join("")}
+
+          <hr />
+
+          <div class="totals">
+            <div class="row">
+              <span>Subtotal:</span>
+              <span>$${subtotal.toFixed(2)}</span>
+            </div>
+            <div class="row">
+              <span>Impuestos:</span>
+              <span>$0.00</span>
+            </div>
+            <div class="row total">
+              <span>Total:</span>
+              <span>$${subtotal.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div class="ticket-footer">
+            <p>¡Gracias por su preferencia!</p>
+            <p>Vuelva pronto</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const vent = window.open("", "PRINT", "height=600,width=400");
+    vent.document.write(ticketHTML);
+    vent.document.close();
+    vent.focus();
+    vent.print();
+    vent.close();
   });
 }
+/* =========== FIN BOTÓN IMPRIMIR TICKET =========== */
+
 
 /* ============ CONFIRMAR PEDIDO ============ */
 if (confirmBtn && orderList) {
