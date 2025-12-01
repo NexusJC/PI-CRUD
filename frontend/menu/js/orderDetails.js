@@ -207,199 +207,114 @@ if (orderList) {
 }
 
 /* ============ IMPRIMIR TICKET ============ */
-if (printBtn && orderList) {
-  printBtn.addEventListener("click", () => {
+// === TICKET DE CONSUMO (FORMATO ORIGINAL + COMENTARIOS) ===
+function imprimirTicketConComentarios() {
+  // 1) Leer productos de la orden
+  const items = Array.from(orderList.children).map((li) => {
+    const qty     = parseInt(li.dataset.qty || "0", 10);
+    const name    = li.dataset.name || "";
+    const unit    = parseFloat(li.dataset.price || "0");
+    const comment = li.querySelector(".comment")?.value || "";
+    return { qty, name, unit, comment };
+  }).filter(i => i.qty > 0);
 
-    if (!orderList.children.length) {
-      alert("No hay productos para imprimir.");
-      return;
+  if (!items.length) {
+    alert("No hay productos en la orden para imprimir.");
+    return;
+  }
+
+  // 2) Totales
+  const subtotal  = items.reduce((acc, i) => acc + i.qty * i.unit, 0);
+  const impuestos = 0;
+  const total     = subtotal + impuestos;
+
+  // 3) Fecha / hora / folio
+  const now      = new Date();
+  const fechaStr = now.toLocaleDateString("es-MX");
+  const horaStr  = now.toLocaleTimeString("es-MX", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const folio = document.getElementById("orderId")?.textContent?.trim() || "#0001";
+  const linea = "----------------------------------------";
+
+  // 4) Líneas de productos (con comentario debajo)
+  const lineasProductos = items.map((i) => {
+    const qtyStr   = String(i.qty).padStart(2, " ");
+    const maxNom   = 24;
+    const nombreRec = i.name.length > maxNom
+      ? i.name.slice(0, maxNom - 1) + "…"
+      : i.name;
+    const nameStr    = nombreRec.padEnd(maxNom, " ");
+    const importeStr = ("$" + (i.qty * i.unit).toFixed(2)).padStart(10, " ");
+
+    let bloque = `${qtyStr} ${nameStr} ${importeStr}\n`;
+
+    const comment = i.comment.trim();
+    if (comment) {
+      bloque += `   Nota: ${comment}\n`;
     }
 
-    actualizarTotales();
+    return bloque;
+  }).join("\n");
 
-    const items = Array.from(orderList.children).map(li => {
-      return {
-        name: li.dataset.name || "Producto",
-        qty: parseInt(li.dataset.qty || "0"),
-        unit: parseFloat(li.dataset.price || "0"),
-      };
-    });
+  // 5) HTML del ticket (el formato compacto que te gustó)
+  const ticketHTML = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ticket de consumo</title>
+<style>
+  body {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    margin: 0;
+    padding: 10px;
+    background: #ffffff;
+  }
+  pre {
+    margin: 0;
+    white-space: pre;
+  }
+</style>
+</head>
+<body>
+<pre>
+${fechaStr}, ${horaStr}
 
-    const fecha = new Date();
-    const fechaStr = fecha.toLocaleDateString("es-MX");
-    const horaStr = fecha.toLocaleTimeString("es-MX", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+           La Parrilla Azteca
+            Ticket de consumo
 
-    const folio = `#${String(orderCount).padStart(4, "0")}`;
+Fecha: ${fechaStr}
+Hora:  ${horaStr}
+Orden: ${folio}
+${linea}
+Cant Descripción                 Importe
+${linea}
+${lineasProductos}
+${linea}
+Subtotal:                       $${subtotal.toFixed(2)}
+Impuestos:                      $${impuestos.toFixed(2)}
+Total:                          $${total.toFixed(2)}
 
-    const ticketHTML = `
-      <!DOCTYPE html>
-      <html lang="es">
-      <head>
-        <meta charset="UTF-8" />
-        <title>Ticket de consumo</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            margin: 0;
-            background: white;
-          }
+      ¡Gracias por su preferencia!
+             Vuelva pronto
+</pre>
+</body>
+</html>
+  `;
 
-          .ticket {
-            width: 400px; /* MÁS GRANDE */
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            background: #fafafa;
-          }
-
-          .title {
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 4px;
-          }
-
-          .subtitle {
-            text-align: center;
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #666;
-          }
-
-          .meta {
-            font-size: 15px;
-            margin-bottom: 15px;
-          }
-
-          hr {
-            border: none;
-            border-top: 1.5px dashed #555;
-            margin: 12px 0;
-          }
-
-          .items-header,
-          .item-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 15px;
-          }
-
-          .item-row {
-            margin: 6px 0;
-          }
-
-          .item-name {
-            width: 60%;
-          }
-
-          .item-qty {
-            width: 10%;
-            text-align: right;
-          }
-
-          .item-price {
-            width: 30%;
-            text-align: right;
-            font-weight: bold;
-          }
-
-          .totals {
-            font-size: 16px;
-            margin-top: 20px;
-          }
-
-          .totals div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-          }
-
-          .totals .total-final {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 15px;
-          }
-
-          .footer {
-            margin-top: 25px;
-            text-align: center;
-            font-size: 15px;
-            color: #444;
-          }
-
-          @media print {
-            body {
-              padding: 0;
-            }
-            .ticket {
-              border: none;
-              width: 100%;
-              padding: 10px;
-            }
-          }
-        </style>
-      </head>
-
-      <body>
-        <div class="ticket">
-          
-          <div class="title">La Parrilla Azteca</div>
-          <div class="subtitle">Ticket de consumo</div>
-
-          <div class="meta">
-            <strong>Fecha:</strong> ${fechaStr}<br>
-            <strong>Hora:</strong> ${horaStr}<br>
-            <strong>Orden:</strong> ${folio}
-          </div>
-
-          <hr>
-
-          <div class="items-header">
-            <span>Cant</span>
-            <span>Descripción</span>
-            <span>Importe</span>
-          </div>
-
-          <hr>
-
-          ${items.map(i => `
-            <div class="item-row">
-              <span class="item-qty">${i.qty}</span>
-              <span class="item-name">${i.name}</span>
-              <span class="item-price">$${(i.qty * i.unit).toFixed(2)}</span>
-            </div>
-          `).join("")}
-
-          <hr>
-
-          <div class="totals">
-            <div><span>Subtotal:</span> <span>$${subtotal.toFixed(2)}</span></div>
-            <div><span>Impuestos:</span> <span>$0.00</span></div>
-            <div class="total-final"><span>Total:</span> <span>$${subtotal.toFixed(2)}</span></div>
-          </div>
-
-          <div class="footer">
-            ¡Gracias por su preferencia!<br>
-            Vuelva pronto
-          </div>
-
-        </div>
-      </body>
-      </html>
-    `;
-
-    const vent = window.open("", "_blank", "width=600,height=800");
-    vent.document.write(ticketHTML);
-    vent.document.close();
-    vent.focus();
-    vent.print();
-  });
+  const printWindow = window.open("", "_blank", "width=600,height=800");
+  printWindow.document.write(ticketHTML);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+  // printWindow.close();
 }
+
 /* ============ CONFIRMAR PEDIDO ============ */
 if (confirmBtn && orderList) {
   confirmBtn.addEventListener("click", () => {
