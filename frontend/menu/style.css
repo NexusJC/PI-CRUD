@@ -347,6 +347,34 @@ body { padding-top:60px; flex-grow:1; }
   min-height:100vh;
 }
 
+/* Botón modo Oscuro */
+.theme-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: #fff;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: #f2f2f2;
+  transform: translateY(-1px);
+}
+
+.theme-toggle-btn i {
+  font-size: 1rem;
+}
+
 .sidebar.active {
   left:0;
   box-shadow:10px 0 40px rgba(0,0,0,0.4);
@@ -1058,4 +1086,363 @@ textarea.comment {
   font-size: 1.2rem;
   color: #333;
   margin-top: 10px;
+}
+
+/* ====== MODO OSCURO INVERTIDO (NEGRO ↔ GRIS) ====== */
+
+body.dark {
+  --topbar: #161d26;   /* antes #11161d → cambia a gris oscuro */
+  --panel: #131920;    /* antes #0b0f14 → sube un tono (gris oscuro) */
+  --text: #ffffff;     /* era gris claro, ahora más blanco */
+  --card: #0b0f14;     /* antes gris → ahora más negro */
+  --border: #1a2129;   /* antes #24303b → ahora más oscuro */
+  --accent: #ff7a45;   /* igual, no se invierte */
+
+  background: var(--panel);
+  color: var(--text);
+}
+
+/* SIDEBAR */
+body.dark .sidebar {
+  background: #0f1419;           /* antes gris claro → ahora casi negro */
+  border-right: 1px solid #1a2129;
+}
+
+body.dark .sidebar-profile {
+  background: #131920 !important; /* era gris → ahora más negro */
+  border-bottom: 1px solid #1a2129;
+}
+
+body.dark .sidebar ul li a {
+  color: #d9d9d9;
+}
+
+/* TOPBAR */
+body.dark .topbar {
+  background: #252a32;   /* gris oscuro en lugar del negro fuerte */
+}
+
+/* CARDS */
+body.dark .menu-card {
+  background: #0b0f14;     /* ahora casi negro */
+  border: 1px solid #1a2129;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.6);
+}
+
+body.dark .menu-card h3 {
+  color: #ffffff;
+}
+
+/* CATEGORÍAS */
+body.dark .category-btn {
+  background: #161d26;   /* antes gris claro → ahora gris oscuro */
+  color: #fff;
+  border: 1px solid #1a2129;
+}
+
+/* ORDER DETAILS */
+body.dark .order-details {
+  background: #0b0f14;   /* más negro */
+  border: 1px solid #1a2129;
+}
+
+body.dark .order-item {
+  background: #161d26;   /* gris */
+  border: 1px solid #1a2129;
+}
+
+/* BOTONES */
+body.dark .add-btn,
+body.dark .confirm-btn,
+body.dark .print-btn,
+body.dark .open-btn {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* TEXTOS */
+body.dark p,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark span,
+body.dark a,
+body.dark li {
+  color: #ffffff !important;
+}
+
+/* FOOTER */
+body.dark footer {
+  background: #333;  /* casi negro */
+  color: #e4e7eb;
+}
+
+body.dark footer a {
+  color: #c8ccd2 !important;
+}
+
+/* BOTÓN DEL TOGGLE */
+body.dark #themeToggle {
+  background: #333;
+  color: #ffffff;
+  border: 1px solid #1a2129;
+}
+
+body.dark #themeToggle:hover {
+  background: #1a2129;
+}
+/* ===== ORDER DETAILS – PANEL DERECHO (ESTILO TICKET) ===== */
+
+.order-details {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 380px;
+  max-width: 95vw;
+  background: #f6f6f7;           /* fondo gris muy claro, como app */
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+  padding: 14px 14px 18px;
+  display: none;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  z-index: 2000;
+  animation: slideOrder .25s ease;
+  font-size: 0.92rem;
+}
+
+@keyframes slideOrder {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* Header: "Tu orden" + X */
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 10px;
+}
+
+.order-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.order-close-btn {
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  border-radius: 999px;
+  transition: background .15s ease, color .15s ease;
+}
+
+.order-close-btn:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* Bloque tipo "card" donde va la info */
+.order-list,
+.totals-box,
+.action-buttons {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+/* Lista de productos */
+.order-list {
+  list-style: none;
+  padding: 10px 10px 2px;
+  margin: 0 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-item {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+/* Fila superior: nombre + qty */
+.item-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.item-info span {
+  font-weight: 600;
+}
+
+/* Controles de cantidad */
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 3px 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.qty-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e36842;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.qty {
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Fila de abajo: total + eliminar */
+.item-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.line-total {
+  font-weight: 600;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Comentarios */
+textarea.comment {
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  resize: vertical;
+  font-size: 0.85rem;
+}
+
+/* Totales (tipo resumen) */
+.totals-box {
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.totals-box p {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+  font-weight: 500;
+}
+
+.totals-box span {
+  font-weight: 700;
+}
+
+/* Botones de acción */
+.action-buttons {
+  padding: 10px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-btn {
+  padding: 9px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 0.9rem;
+  transition: transform .1s ease, box-shadow .1s ease, opacity .1s ease;
+}
+
+.confirm-btn {
+  background: #e36842;
+}
+
+.print-btn {
+  background: #111827;
+}
+
+.order-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+}
+
+.order-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ===== ESTADO VACÍO (como la segunda imagen) ===== */
+.empty-cart-msg {
+  text-align: center;
+  margin: 20px 0 10px;
+  color: #4b5563;
+}
+
+.empty-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 999px;
+  margin: 0 auto 12px;
+  background: #eef2ff; /* círculo suave como app */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon i {
+  font-size: 2.2rem;
+  color: #1d4ed8; /* azul similar al del dibujito */
+}
+
+.empty-cart-msg p {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Contenedor de botones cuando hay algo o no */
+.action-buttons.hidden {
+  display: none;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+  .order-details {
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
 }
