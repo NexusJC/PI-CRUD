@@ -6,7 +6,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "parrilla_azteca",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"]
+    upload_preset: "unsigned_preset"
   }
 });
 
