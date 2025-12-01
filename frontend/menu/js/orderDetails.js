@@ -161,52 +161,7 @@ document.addEventListener("click", (e) => {
 });
 
 /* ============ + / − / ELIMINAR PRODUCTO ============ */
-if (orderList) {
-  orderList.addEventListener("click", (e) => {
-    const btn = e.target.closest("button");
-    if (!btn) return;
-
-    const li = e.target.closest(".od-item");
-    if (!li) return;
-
-    const unit = parseFloat(li.dataset.price || "0");
-    let qty    = parseInt(li.dataset.qty || "0", 10);
-
-    // Botón X (eliminar producto)
-    if (btn.classList.contains("od-delete") || btn.classList.contains("remove-btn")) {
-      li.remove();
-      actualizarTotales();
-      actualizarEstadoVacio();
-      return;
-    }
-
-    if (btn.classList.contains("plus")) {
-      qty++;
-    } else if (btn.classList.contains("minus")) {
-      qty--;
-      if (qty <= 0) {
-        li.remove();
-        actualizarTotales();
-        actualizarEstadoVacio();
-        return;
-      }
-    } else {
-      return;
-    }
-
-    li.dataset.qty = String(qty);
-
-    const qtySpan = li.querySelector(".qty");
-    const line    = li.querySelector(".line-total");
-    if (qtySpan) qtySpan.textContent = String(qty);
-    if (line)    line.textContent    = `$${(unit * qty).toFixed(2)}`;
-
-    actualizarTotales();
-    actualizarEstadoVacio();
-  });
-}
-
-/* ============ IMPRIMIR TICKET ============ */
+/* =========== BOTÓN IMPRIMIR TICKET (VERSIÓN ESTÉTICA, GRANDE Y MODERNA) =========== */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
 
@@ -222,6 +177,7 @@ if (printBtn && orderList) {
         name: li.dataset.name || "Producto",
         qty: parseInt(li.dataset.qty || "0"),
         unit: parseFloat(li.dataset.price || "0"),
+        comment: li.querySelector("textarea")?.value || ""
       };
     });
 
@@ -232,7 +188,7 @@ if (printBtn && orderList) {
       minute: "2-digit",
     });
 
-    const folio = `#${String(orderCount).padStart(4, "0")}`;
+    const folio = `#${String(Date.now()).slice(-4)}`;
 
     const ticketHTML = `
       <!DOCTYPE html>
@@ -240,114 +196,115 @@ if (printBtn && orderList) {
       <head>
         <meta charset="UTF-8" />
         <title>Ticket de consumo</title>
+
         <style>
           body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: #FFF7EA;
+            padding: 30px;
             margin: 0;
-            background: white;
           }
 
           .ticket {
-            width: 400px; /* MÁS GRANDE */
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            background: #fafafa;
+            width: 500px; /* MÁS GRANDE */
+            background: white;
+            padding: 35px;
+            margin: auto;
+
+            border-radius: 18px;
+            border: 3px solid #E36842;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
           }
 
           .title {
             text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 4px;
+            font-size: 30px;
+            font-weight: 800;
+            color: #E36842;
+            margin-bottom: 10px;
           }
 
           .subtitle {
             text-align: center;
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #666;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 25px;
+            color: #333;
           }
 
           .meta {
-            font-size: 15px;
-            margin-bottom: 15px;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 25px;
           }
 
           hr {
             border: none;
-            border-top: 1.5px dashed #555;
-            margin: 12px 0;
+            border-top: 2px dashed #E36842;
+            margin: 20px 0;
           }
 
-          .items-header,
-          .item-row {
+          .product {
+            font-size: 17px;
+            margin-bottom: 18px;
+          }
+
+          .prod-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 4px;
+          }
+
+          .qty-price {
             display: flex;
             justify-content: space-between;
+            margin-top: 4px;
+            font-size: 17px;
+          }
+
+          .comment {
+            margin-top: 5px;
             font-size: 15px;
-          }
-
-          .item-row {
-            margin: 6px 0;
-          }
-
-          .item-name {
-            width: 60%;
-          }
-
-          .item-qty {
-            width: 10%;
-            text-align: right;
-          }
-
-          .item-price {
-            width: 30%;
-            text-align: right;
-            font-weight: bold;
+            color: #555;
+            font-style: italic;
           }
 
           .totals {
-            font-size: 16px;
-            margin-top: 20px;
+            margin-top: 35px;
+            font-size: 19px;
           }
 
           .totals div {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
           }
 
-          .totals .total-final {
-            font-size: 20px;
+          .total-final {
+            font-size: 24px;
             font-weight: bold;
+            color: #E36842;
             margin-top: 15px;
           }
 
           .footer {
-            margin-top: 25px;
+            margin-top: 40px;
             text-align: center;
-            font-size: 15px;
+            font-size: 17px;
             color: #444;
+            line-height: 1.4;
           }
 
           @media print {
-            body {
-              padding: 0;
-            }
-            .ticket {
-              border: none;
-              width: 100%;
-              padding: 10px;
-            }
+            body { background: white; padding: 0; margin: 0; }
+            .ticket { width: 100%; border: none; box-shadow: none; }
           }
         </style>
       </head>
 
       <body>
         <div class="ticket">
-          
+
           <div class="title">La Parrilla Azteca</div>
           <div class="subtitle">Ticket de consumo</div>
 
@@ -359,19 +316,16 @@ if (printBtn && orderList) {
 
           <hr>
 
-          <div class="items-header">
-            <span>Cant</span>
-            <span>Descripción</span>
-            <span>Importe</span>
-          </div>
-
-          <hr>
-
           ${items.map(i => `
-            <div class="item-row">
-              <span class="item-qty">${i.qty}</span>
-              <span class="item-name">${i.name}</span>
-              <span class="item-price">$${(i.qty * i.unit).toFixed(2)}</span>
+            <div class="product">
+              <div class="prod-title">${i.name}</div>
+              
+              <div class="qty-price">
+                <span>Cantidad: <strong>${i.qty}</strong></span>
+                <span>Importe: <strong>$${(i.qty * i.unit).toFixed(2)}</strong></span>
+              </div>
+
+              ${i.comment ? `<div class="comment">💬 Comentario: "${i.comment}"</div>` : ""}
             </div>
           `).join("")}
 
@@ -385,7 +339,7 @@ if (printBtn && orderList) {
 
           <div class="footer">
             ¡Gracias por su preferencia!<br>
-            Vuelva pronto
+            Estamos para servirle.
           </div>
 
         </div>
@@ -393,13 +347,14 @@ if (printBtn && orderList) {
       </html>
     `;
 
-    const vent = window.open("", "_blank", "width=600,height=800");
+    const vent = window.open("", "_blank", "width=800,height=1000");
     vent.document.write(ticketHTML);
     vent.document.close();
     vent.focus();
     vent.print();
   });
 }
+
 /* ============ CONFIRMAR PEDIDO ============ */
 if (confirmBtn && orderList) {
   confirmBtn.addEventListener("click", () => {
