@@ -209,35 +209,31 @@ if (orderList) {
 /* ============ IMPRIMIR TICKET ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
-    // Si no hay items, no imprimimos
+
     if (!orderList.children.length) {
-      alert("No hay productos en la orden para imprimir.");
+      alert("No hay productos para imprimir.");
       return;
     }
 
-    // Aseguramos que el subtotal esté calculado
     actualizarTotales();
 
-    // Obtenemos items del carrito
     const items = Array.from(orderList.children).map(li => {
-      const name = li.dataset.name || li.querySelector(".order-item-name")?.textContent?.trim() || "Producto";
-      const qty  = parseInt(li.dataset.qty || li.querySelector(".qty")?.textContent || "0", 10);
-      const unit = parseFloat(li.dataset.price || "0");
-      const total = unit * qty;
-
-      return { name, qty, unit, total };
+      return {
+        name: li.dataset.name || "Producto",
+        qty: parseInt(li.dataset.qty || "0"),
+        unit: parseFloat(li.dataset.price || "0"),
+      };
     });
 
     const fecha = new Date();
     const fechaStr = fecha.toLocaleDateString("es-MX");
-    const horaStr  = fecha.toLocaleTimeString("es-MX", {
+    const horaStr = fecha.toLocaleTimeString("es-MX", {
       hour: "2-digit",
-      minute: "2-digit"
+      minute: "2-digit",
     });
 
     const folio = `#${String(orderCount).padStart(4, "0")}`;
 
-    // Estilo tipo ticket térmico (basado en el repo de ticket-php-mysql)
     const ticketHTML = `
       <!DOCTYPE html>
       <html lang="es">
@@ -245,163 +241,165 @@ if (printBtn && orderList) {
         <meta charset="UTF-8" />
         <title>Ticket de consumo</title>
         <style>
-          * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-          }
           body {
-            font-family: "Courier New", monospace;
-            font-size: 12px;
-            padding: 8px;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            background: white;
           }
+
           .ticket {
-            width: 280px;
+            width: 400px; /* MÁS GRANDE */
             margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: #fafafa;
           }
-          .ticket-header {
+
+          .title {
             text-align: center;
-            margin-bottom: 8px;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 4px;
           }
-          .ticket-header h2 {
-            font-size: 16px;
-            margin-bottom: 2px;
+
+          .subtitle {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #666;
           }
-          .ticket-header p {
-            font-size: 11px;
+
+          .meta {
+            font-size: 15px;
+            margin-bottom: 15px;
           }
-          .ticket-meta {
-            margin: 8px 0;
-            font-size: 11px;
-          }
-          .row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2px;
-          }
+
           hr {
             border: none;
-            border-top: 1px dashed #000;
+            border-top: 1.5px dashed #555;
+            margin: 12px 0;
+          }
+
+          .items-header,
+          .item-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+          }
+
+          .item-row {
             margin: 6px 0;
           }
-          .items-header,
-          .items-row {
-            display: flex;
+
+          .item-name {
+            width: 60%;
           }
-          .col-cant {
-            width: 30px;
-            text-align: right;
-            padding-right: 4px;
-          }
-          .col-desc {
-            flex: 1;
-            padding-right: 4px;
-          }
-          .col-imp {
-            width: 70px;
+
+          .item-qty {
+            width: 10%;
             text-align: right;
           }
-          .items-row + .items-row {
-            margin-top: 2px;
-          }
-          .totals {
-            margin-top: 6px;
-            font-size: 11px;
-          }
-          .totals .row {
-            margin-bottom: 3px;
-          }
-          .totals .row.total {
+
+          .item-price {
+            width: 30%;
+            text-align: right;
             font-weight: bold;
           }
-          .ticket-footer {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 11px;
+
+          .totals {
+            font-size: 16px;
+            margin-top: 20px;
           }
+
+          .totals div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+          }
+
+          .totals .total-final {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+          }
+
+          .footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 15px;
+            color: #444;
+          }
+
           @media print {
             body {
-              margin: 0;
               padding: 0;
+            }
+            .ticket {
+              border: none;
+              width: 100%;
+              padding: 10px;
             }
           }
         </style>
       </head>
+
       <body>
         <div class="ticket">
-          <div class="ticket-header">
-            <h2>La Parrilla Azteca</h2>
-            <p>Ticket de consumo</p>
+          
+          <div class="title">La Parrilla Azteca</div>
+          <div class="subtitle">Ticket de consumo</div>
+
+          <div class="meta">
+            <strong>Fecha:</strong> ${fechaStr}<br>
+            <strong>Hora:</strong> ${horaStr}<br>
+            <strong>Orden:</strong> ${folio}
           </div>
 
-          <div class="ticket-meta">
-            <div class="row">
-              <span>Fecha: ${fechaStr}</span>
-              <span>Hora: ${horaStr}</span>
-            </div>
-            <div class="row">
-              <span>Orden: ${folio}</span>
-            </div>
-          </div>
-
-          <hr />
+          <hr>
 
           <div class="items-header">
-            <span class="col-cant">Cant</span>
-            <span class="col-desc">Descripción</span>
-            <span class="col-imp">Importe</span>
+            <span>Cant</span>
+            <span>Descripción</span>
+            <span>Importe</span>
           </div>
-          <hr />
 
-          ${items
-            .map(
-              (i) => `
-            <div class="items-row">
-              <span class="col-cant">${i.qty}</span>
-              <span class="col-desc">${i.name}</span>
-              <span class="col-imp">$${i.total.toFixed(2)}</span>
+          <hr>
+
+          ${items.map(i => `
+            <div class="item-row">
+              <span class="item-qty">${i.qty}</span>
+              <span class="item-name">${i.name}</span>
+              <span class="item-price">$${(i.qty * i.unit).toFixed(2)}</span>
             </div>
-          `
-            )
-            .join("")}
+          `).join("")}
 
-          <hr />
+          <hr>
 
           <div class="totals">
-            <div class="row">
-              <span>Subtotal:</span>
-              <span>$${subtotal.toFixed(2)}</span>
-            </div>
-            <div class="row">
-              <span>Impuestos:</span>
-              <span>$0.00</span>
-            </div>
-            <div class="row total">
-              <span>Total:</span>
-              <span>$${subtotal.toFixed(2)}</span>
-            </div>
+            <div><span>Subtotal:</span> <span>$${subtotal.toFixed(2)}</span></div>
+            <div><span>Impuestos:</span> <span>$0.00</span></div>
+            <div class="total-final"><span>Total:</span> <span>$${subtotal.toFixed(2)}</span></div>
           </div>
 
-          <div class="ticket-footer">
-            <p>¡Gracias por su preferencia!</p>
-            <p>Vuelva pronto</p>
+          <div class="footer">
+            ¡Gracias por su preferencia!<br>
+            Vuelva pronto
           </div>
+
         </div>
       </body>
       </html>
     `;
 
-    const vent = window.open("", "PRINT", "height=600,width=400");
+    const vent = window.open("", "_blank", "width=600,height=800");
     vent.document.write(ticketHTML);
     vent.document.close();
     vent.focus();
     vent.print();
-    vent.close();
   });
 }
-/* =========== FIN BOTÓN IMPRIMIR TICKET =========== */
-
-
 /* ============ CONFIRMAR PEDIDO ============ */
 if (confirmBtn && orderList) {
   confirmBtn.addEventListener("click", () => {
