@@ -16,6 +16,7 @@ form.addEventListener("submit", async (e) => {
       body: JSON.stringify(data)
     });
 
+    
     const result = await resp.json();
 
     if (resp.ok) {
