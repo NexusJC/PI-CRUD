@@ -1,19 +1,25 @@
 import { pool } from '../db.js';
 
-// Crear un nuevo platillo
+// Crear un nuevo platillo - ahora usando Cloudinary
 export const saveDish = async (req, res) => {
   try {
     const { name, description, price, category } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // URL final de Cloudinary
+    const imageUrl = req.file?.path || null;
 
     const sql = `
       INSERT INTO platillos (nombre, descripcion, precio, categoria, imagen)
       VALUES (?, ?, ?, ?, ?)
     `;
 
-    await pool.query(sql, [name, description, price, category, image]);
+    await pool.query(sql, [name, description, price, category, imageUrl]);
 
-    res.json({ message: 'Dish saved successfully' });
+    res.json({
+      message: 'Dish saved successfully',
+      image: imageUrl
+    });
+
   } catch (err) {
     console.error('Error saving dish:', err);
     res.status(500).json({ message: 'Error saving dish' });
@@ -30,7 +36,8 @@ export const getAllDishes = async (req, res) => {
     res.status(500).json({ message: 'Error fetching dishes' });
   }
 };
-//para borrar platillos waasaaaa
+
+// Borrar platillo
 export const deleteDish = async (req, res) => {
   try {
     const { id } = req.params;
@@ -41,4 +48,3 @@ export const deleteDish = async (req, res) => {
     res.status(500).json({ message: 'Error deleting dish' });
   }
 };
-
