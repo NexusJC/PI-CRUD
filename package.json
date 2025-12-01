@@ -9,11 +9,13 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^4.0.0",
     "mysql2": "^3.9.7",
     "nodemailer": "^7.0.10",
     "sib-api-v3-sdk": "^8.5.0"
