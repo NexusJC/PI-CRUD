@@ -81,10 +81,6 @@ const getProfileData = async () => {
 };
 window.onload = getProfileData;
 
-// Llamamos a la función para cargar los datos al cargar la página
-getProfileData();
-
-
 // Enviar los datos actualizados del perfil
 document.getElementById("guardarCambios").addEventListener("click", async () => {
   const name = document.getElementById("perfilNombreText").value;

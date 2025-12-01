@@ -3,8 +3,10 @@ import multer from "multer";
 import { updateProfilePicture } from "../controllers/profile.controller.js";
 import { updateProfile } from "../controllers/profile.controller.js"; 
 import { verifyToken } from "../middlewares/verifyToken.js"; // si ya tienes middleware
+import { pool } from "../db.js";
 
 const router = Router();
+
 
 const storage = multer.diskStorage({
   destination: "uploads/",
@@ -16,23 +18,28 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Ruta para actualizar datos de perfil (nombre y teléfono)
+// ruta para actualizar datos
 router.put("/update-profile", verifyToken, updateProfile);
 
-// Ruta para subir imagen de perfil
+// ruta para imagen
 router.post("/upload-profile", verifyToken, upload.single("profile"), updateProfilePicture);
 
-// Ruta para obtener los datos del perfil del usuario
+// ruta para obtener perfil
 router.get("/get-profile", verifyToken, async (req, res) => {
-  const userId = req.user.id; // Tomamos el ID del usuario desde el token
+  const { id } = req.user;
+
   try {
-    const [rows] = await pool.query("SELECT name, email, telefono, gender, profile_picture FROM users WHERE id = ?", [userId]);
-    if (rows.length === 0) {
+    const [rows] = await pool.query(
+      "SELECT name, email, telefono, gender, profile_picture FROM users WHERE id = ?",
+      [id]
+    );
+
+    if (rows.length === 0)
       return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-    res.json(rows[0]);  // Devolvemos los datos del perfil
+
+    res.json(rows[0]);
   } catch (error) {
-    console.error("Error obteniendo el perfil:", error);
+    console.error(error);
     res.status(500).json({ message: "Error al obtener el perfil" });
   }
 });
