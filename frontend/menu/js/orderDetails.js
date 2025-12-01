@@ -33,12 +33,20 @@ function cerrarOrderPanel() {
   orderPanel.style.display = "none";
 }
 
+// Botón "Ver Orden" → ahora hace TOGGLE (abrir/cerrar)
 if (openOrderBtn) {
   openOrderBtn.addEventListener("click", () => {
-    abrirOrderPanel();
+    if (!orderPanel) return;
+    const isOpen = orderPanel.classList.contains("open");
+    if (isOpen) {
+      cerrarOrderPanel();
+    } else {
+      abrirOrderPanel();
+    }
   });
 }
 
+// Botón X dentro del panel
 if (closeOrderBtn) {
   closeOrderBtn.addEventListener("click", () => {
     cerrarOrderPanel();
@@ -87,9 +95,7 @@ document.addEventListener("click", (e) => {
 
   // Si tienes una función global addToCart, la respetamos
   if (typeof addToCart === "function") {
-    try {
-      addToCart(e);
-    } catch (_) {}
+    try { addToCart(e); } catch (_) {}
   }
 
   const card  = btn.closest(".menu-card");
@@ -107,32 +113,34 @@ document.addEventListener("click", (e) => {
   let existing = Array.from(orderList.children).find(li => li.dataset.name === name);
 
   if (!existing) {
-    // Crear item nuevo
+    // Crear item nuevo (DISEÑO POS PREMIUM)
     const li = document.createElement("li");
-    li.className    = "order-item";
-    li.dataset.name = name;
+    li.className    = "od-item";
+    li.dataset.name  = name;
     li.dataset.price = price;
     li.dataset.qty   = "1";
 
     li.innerHTML = `
-      <div class="item-info">
-        ${img ? `<img class="item-thumb" src="${img}" alt="${name}">` : ""}
-        <div class="item-main">
-          <span class="item-name">${name}</span>
-          <div class="qty-controls">
-            <button class="qty-btn minus">−</button>
-            <span class="qty">1</span>
-            <button class="qty-btn plus">+</button>
-          </div>
+      <div class="od-thumb">
+        ${img ? `<img src="${img}" alt="${name}">` : ""}
+      </div>
+
+      <div class="od-info">
+        <div class="od-name-row">
+          <span class="name">${name}</span>
+          <button class="od-delete" aria-label="Eliminar producto">✕</button>
         </div>
+        <textarea class="comment" placeholder="Comentarios adicionales..."></textarea>
       </div>
 
-      <div class="item-actions">
-        <span class="line-total">$${price.toFixed(2)}</span>
-        <button class="remove-btn">✕</button>
+      <div class="od-controls">
+        <div class="qty-controls">
+          <button class="qty-btn minus">−</button>
+          <span class="qty">1</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+        <div class="price line-total">$${price.toFixed(2)}</div>
       </div>
-
-      <textarea class="comment" placeholder="Comentarios adicionales..."></textarea>
     `;
 
     orderList.appendChild(li);
@@ -158,14 +166,14 @@ if (orderList) {
     const btn = e.target.closest("button");
     if (!btn) return;
 
-    const li = e.target.closest(".order-item");
+    const li = e.target.closest(".od-item");
     if (!li) return;
 
     const unit = parseFloat(li.dataset.price || "0");
     let qty    = parseInt(li.dataset.qty || "0", 10);
 
     // Botón X (eliminar producto)
-    if (btn.classList.contains("remove-btn")) {
+    if (btn.classList.contains("od-delete") || btn.classList.contains("remove-btn")) {
       li.remove();
       actualizarTotales();
       actualizarEstadoVacio();
@@ -263,7 +271,7 @@ if (confirmBtn && orderList) {
   });
 }
 
-/* ============ MODAL DETALLES DE PRODUCTO (OPCIONAL) ============ */
+/* ============ MODAL DETALLES DE PRODUCTO (se mantiene) ============ */
 const modal      = document.getElementById("productModal");
 const modalImg   = document.getElementById("modalImg");
 const modalTitle = document.getElementById("modalTitle");
@@ -303,7 +311,7 @@ if (modal && modalImg && modalTitle && modalDesc && modalAddBtn && modalClose) {
   });
 }
 
-/* ============ HINTS VISUALES PARA DETALLES (OPCIONAL) ============ */
+/* ============ HINTS VISUALES PARA DETALLES (se mantiene) ============ */
 document.querySelectorAll(".menu-card").forEach(card => {
   if (!card.querySelector(".details-badge")) {
     const badge = document.createElement("div");
