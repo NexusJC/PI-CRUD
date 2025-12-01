@@ -4,6 +4,8 @@ import helmet from "helmet";
 import { pool } from "./db.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import dashboardRoutes from "./routes/dashboard.routes.js";
+
 
 import dishesRoutes from "./routes/dishes.route.js";
 import authRouter from "./routes/auth.routes.js";
@@ -34,6 +36,8 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/dishes", dishesRoutes);
 app.use("/api/users", usersRouter);
 app.use("/uploads", express.static("uploads"));
+app.use("/api/dashboard", dashboardRoutes);
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
