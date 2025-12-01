@@ -207,7 +207,7 @@ if (orderList) {
 }
 
 /* ============ IMPRIMIR TICKET ============ */
-/* ============ IMPRIMIR TICKET ============ */
+/* ============ IMPRIMIR TICKET (FIX 0's + IVA 16% INDIVIDUAL) ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
 
@@ -216,13 +216,13 @@ if (printBtn && orderList) {
       return;
     }
 
-    // Aseguramos que subtotal esté actualizado
+    // Aseguramos que el subtotal global esté al día
     actualizarTotales();
 
-    // ⬅️ AHORA TAMBIÉN TOMAMOS EL COMENTARIO DE CADA PRODUCTO
+    // Tomar productos + comentarios desde el orderList
     const items = Array.from(orderList.children).map(li => {
       const name    = li.dataset.name || "Producto";
-      const qty     = parseInt(li.dataset.qty || "0");
+      const qty     = parseInt(li.dataset.qty || "0", 10);
       const unit    = parseFloat(li.dataset.price || "0");
       const comment = li.querySelector(".comment")?.value?.trim() || "";
       return { name, qty, unit, comment };
@@ -237,6 +237,21 @@ if (printBtn && orderList) {
 
     const folio = `#${String(orderCount).padStart(4, "0")}`;
 
+    // ========= CÁLCULO DE SUBTOTAL + IVA 16% POR PRODUCTO =========
+    let subtotalCalc = 0;
+    let ivaCalc      = 0;
+
+    items.forEach(i => {
+      const lineSubtotal = i.unit * i.qty;       // precioUnit * cantidad
+      const ivaUnit      = i.unit * 0.16;        // 16% de CADA unidad
+      const ivaProducto  = ivaUnit * i.qty;      // IVA total de ese producto
+
+      subtotalCalc += lineSubtotal;
+      ivaCalc      += ivaProducto;
+    });
+
+    const totalGeneral = subtotalCalc + ivaCalc;
+
     const ticketHTML = `
       <!DOCTYPE html>
       <html lang="es">
@@ -244,6 +259,10 @@ if (printBtn && orderList) {
         <meta charset="UTF-8" />
         <title>Ticket de consumo</title>
         <style>
+          * {
+            box-sizing: border-box;
+          }
+
           body {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -255,7 +274,7 @@ if (printBtn && orderList) {
             width: 400px;
             margin: 0 auto;
             padding: 20px;
-            border: 1px solid #ddd;
+            border: 1px solid ${"#ddd"};
             border-radius: 12px;
             background: #fafafa;
           }
@@ -285,39 +304,41 @@ if (printBtn && orderList) {
             margin: 12px 0;
           }
 
+          /* AJUSTE DE COLUMNAS PARA QUE NO SE CORTEN LOS 00 */
           .items-header,
           .item-row {
             display: flex;
             justify-content: space-between;
             font-size: 15px;
+            width: 100%;
           }
 
-          .item-row {
-            margin: 6px 0;
-          }
-
-          .item-name {
-            width: 60%;
-          }
-
+          /* Cantidad un poco más ancha y alineada a la derecha */
           .item-qty {
-            width: 10%;
+            width: 12%;
             text-align: right;
           }
 
+          /* Nombre con un poco menos de ancho para darle más espacio al importe */
+          .item-name {
+            width: 48%;
+            text-align: left;
+          }
+
+          /* Importe con MÁS ancho para que entren bien todos los decimales */
           .item-price {
-            width: 30%;
+            width: 40%;
             text-align: right;
             font-weight: bold;
           }
 
-          /* ⬇️ Comentario va EN OTRA LÍNEA, NO TAPA NADA */
+          /* Comentario en otra línea, sin tapar nada */
           .item-comment {
             font-size: 13px;
             color: #555;
             margin-top: 2px;
             margin-bottom: 4px;
-            padding-left: 10px; /* se corre un poco a la derecha */
+            padding-left: 12%; /* alineado con el texto, sin tocar columnas */
           }
 
           .totals {
@@ -394,9 +415,9 @@ if (printBtn && orderList) {
           <hr>
 
           <div class="totals">
-            <div><span>Subtotal:</span> <span>$${subtotal.toFixed(2)}</span></div>
-            <div><span>Impuestos:</span> <span>$0.00</span></div>
-            <div class="total-final"><span>Total:</span> <span>$${subtotal.toFixed(2)}</span></div>
+            <div><span>Subtotal:</span> <span>$${subtotalCalc.toFixed(2)}</span></div>
+            <div><span>IVA 16%:</span>   <span>$${ivaCalc.toFixed(2)}</span></div>
+            <div class="total-final"><span>Total:</span> <span>$${totalGeneral.toFixed(2)}</span></div>
           </div>
 
           <div class="footer">
@@ -416,7 +437,6 @@ if (printBtn && orderList) {
     vent.print();
   });
 }
-
 /* ============ CONFIRMAR PEDIDO ============ */
 if (confirmBtn && orderList) {
   confirmBtn.addEventListener("click", () => {
