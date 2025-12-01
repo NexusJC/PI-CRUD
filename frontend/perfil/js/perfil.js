@@ -4,7 +4,7 @@
   const nombre = document.getElementById('perfilNombreText').value;
   const telefono = document.getElementById('perfilNumeroText').value;
   
-  const response = await fetch('/api/profile/update-profile', {
+  const response = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
     method: 'PUT',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -27,7 +27,7 @@ const getProfileData = async () => {
   }
 
   try {
-    const response = await fetch("/api/profile/get-profile", {
+    const response = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`  // Enviamos el token para autenticar la solicitud
@@ -73,7 +73,7 @@ document.getElementById("guardarCambios").addEventListener("click", async () => 
   }
 
   try {
-    const response = await fetch("/api/profile/update-profile", {
+    const response = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +114,7 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
   formData.append("profile", file); // Agregar la imagen al formulario
 
   try {
-    const response = await fetch("/api/profile/upload-profile", {
+    const response = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}` // Enviar el token para autenticar la solicitud
