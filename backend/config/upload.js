@@ -5,7 +5,6 @@ import cloudinary from "./cloudinary.js";
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "parrilla_azteca",
     upload_preset: "unsigned_preset"
   }
 });
