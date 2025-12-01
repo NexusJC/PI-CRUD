@@ -105,9 +105,9 @@
     <i class="fab fa-instagram"></i>
   </a>
 </div>
+<!-- ===== ORDER DETAILS ===== -->
 <aside id="orderDetails" class="order-details">
 
-  <!-- Header -->
   <div class="od-header">
     <h2>Tu orden</h2>
     <button id="closeOrderDetailsBtn" class="od-close">
@@ -115,25 +115,47 @@
     </button>
   </div>
 
-  <!-- Productos -->
-  <div id="orderList" class="od-items"></div>
+  <div id="orderList" class="od-items">
 
-  <!-- Estado vacío -->
+    <!-- EJEMPLO DE UN PRODUCTO (INCLUYE LA X) -->
+    <div class="od-item">
+      <div class="od-thumb">
+        <img src="https://via.placeholder.com/60">
+      </div>
+
+      <div class="od-info">
+        <div class="od-name-row">
+          <span class="name">Nombre del producto</span>
+          <button class="od-delete"><i class="fas fa-times"></i></button>
+        </div>
+        <textarea class="comment" placeholder="Comentarios..."></textarea>
+      </div>
+
+      <div class="od-controls">
+        <div class="qty-controls">
+          <button class="qty-btn minus">−</button>
+          <span class="qty">1</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+        <span class="price">$0.00</span>
+      </div>
+    </div>
+
+  </div>
+
   <div id="empty-cart-msg" class="od-empty">
     <div class="od-empty-icon">
       <i class="fa-solid fa-bowl-food"></i>
     </div>
-    <p>Tu orden está vacía.<br>Agrega un platillo para comenzar </p>
+    <p>Tu orden está vacía.<br>Agrega un platillo para comenzar 🍽️</p>
   </div>
 
-  <!-- Totales -->
   <div class="od-summary">
     <div class="row"><span>Subtotal:</span><span id="subtotal">$0.00</span></div>
     <div class="row"><span>Impuestos:</span><span>$0.00</span></div>
     <div class="row total"><span>Total:</span><span id="total">$0.00</span></div>
   </div>
 
-  <!-- Acciones -->
   <div id="actionButtons" class="od-actions">
     <button id="confirm-btn" class="od-btn od-confirm" disabled>Confirmar Pedido</button>
     <button id="print-btn" class="od-btn od-print" disabled>Imprimir Ticket</button>

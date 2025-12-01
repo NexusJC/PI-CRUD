@@ -1450,3 +1450,27 @@ body.dark #themeToggle:hover {
   color: #444 !important;
   font-weight: 600 !important;
 }
+/* ===== NOMBRE DEL PRODUCTO (NEGRO) ===== */
+.od-info .name {
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+.od-delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ef4444;
+  font-size: 1rem;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.od-delete:hover {
+  background: #fee2e2;
+}
+
+.od-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
