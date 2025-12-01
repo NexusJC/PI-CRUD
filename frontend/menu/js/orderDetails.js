@@ -207,31 +207,112 @@ if (orderList) {
 }
 
 /* ============ IMPRIMIR TICKET ============ */
-if (printBtn && orderList) {
-  printBtn.addEventListener("click", () => {
-    if (!orderList.children.length) return;
+// === TICKET DE CONSUMO (FORMATO ORIGINAL + COMENTARIOS) ===
+function imprimirTicketConComentarios() {
+  // 1) Leer productos de la orden
+  const items = Array.from(orderList.children).map((li) => {
+    const qty     = parseInt(li.dataset.qty || "0", 10);
+    const name    = li.dataset.name || "";
+    const unit    = parseFloat(li.dataset.price || "0");
+    const comment = li.querySelector(".comment")?.value || "";
+    return { qty, name, unit, comment };
+  }).filter(i => i.qty > 0);
 
-    const clones = orderList.cloneNode(true);
+  if (!items.length) {
+    alert("No hay productos en la orden para imprimir.");
+    return;
+  }
 
-    clones.querySelectorAll(".comment").forEach((textarea) => {
-      const texto = (textarea.value || "").trim();
-      if (!texto) {
-        textarea.remove();
-      } else {
-        const span = document.createElement("div");
-        span.className = "print-comment";
-        span.textContent = `Comentario: ${texto}`;
-        textarea.replaceWith(span);
-      }
-    });
+  // 2) Totales
+  const subtotal  = items.reduce((acc, i) => acc + i.qty * i.unit, 0);
+  const impuestos = 0;
+  const total     = subtotal + impuestos;
 
-    const original = orderList.innerHTML;
-    orderList.innerHTML = clones.innerHTML;
-
-    window.print();
-
-    orderList.innerHTML = original;
+  // 3) Fecha / hora / folio
+  const now      = new Date();
+  const fechaStr = now.toLocaleDateString("es-MX");
+  const horaStr  = now.toLocaleTimeString("es-MX", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
   });
+
+  const folio = document.getElementById("orderId")?.textContent?.trim() || "#0001";
+  const linea = "----------------------------------------";
+
+  // 4) Líneas de productos (con comentario debajo)
+  const lineasProductos = items.map((i) => {
+    const qtyStr   = String(i.qty).padStart(2, " ");
+    const maxNom   = 24;
+    const nombreRec = i.name.length > maxNom
+      ? i.name.slice(0, maxNom - 1) + "…"
+      : i.name;
+    const nameStr    = nombreRec.padEnd(maxNom, " ");
+    const importeStr = ("$" + (i.qty * i.unit).toFixed(2)).padStart(10, " ");
+
+    let bloque = `${qtyStr} ${nameStr} ${importeStr}\n`;
+
+    const comment = i.comment.trim();
+    if (comment) {
+      bloque += `   Nota: ${comment}\n`;
+    }
+
+    return bloque;
+  }).join("\n");
+
+  // 5) HTML del ticket (el formato compacto que te gustó)
+  const ticketHTML = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ticket de consumo</title>
+<style>
+  body {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    margin: 0;
+    padding: 10px;
+    background: #ffffff;
+  }
+  pre {
+    margin: 0;
+    white-space: pre;
+  }
+</style>
+</head>
+<body>
+<pre>
+${fechaStr}, ${horaStr}
+
+           La Parrilla Azteca
+            Ticket de consumo
+
+Fecha: ${fechaStr}
+Hora:  ${horaStr}
+Orden: ${folio}
+${linea}
+Cant Descripción                 Importe
+${linea}
+${lineasProductos}
+${linea}
+Subtotal:                       $${subtotal.toFixed(2)}
+Impuestos:                      $${impuestos.toFixed(2)}
+Total:                          $${total.toFixed(2)}
+
+      ¡Gracias por su preferencia!
+             Vuelva pronto
+</pre>
+</body>
+</html>
+  `;
+
+  const printWindow = window.open("", "_blank", "width=600,height=800");
+  printWindow.document.write(ticketHTML);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+  // printWindow.close();
 }
 
 /* ============ CONFIRMAR PEDIDO ============ */
