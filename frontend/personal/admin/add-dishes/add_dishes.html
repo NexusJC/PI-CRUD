@@ -58,22 +58,24 @@
         <button id="btnCloseDishForm" class="dish-close-btn">&times;</button>
     </div>
     <form id="dish-form" enctype="multipart/form-data">
-        <label>Nombre:</label>
-        <input type="text" name="name" required>
+  <label>Nombre:</label>
+  <input type="text" name="nombre" required>
 
-        <label>Descripción:</label>
-        <textarea name="description" required></textarea>
-        <label>Precio:</label>
-        <input type="number" name="price" step="0.01" required>
+  <label>Descripción:</label>
+  <textarea name="descripcion" required></textarea>
 
-        <label>Categoria:</label>
-        <input type="text" name="category" required>
+  <label>Precio:</label>
+  <input type="number" name="precio" step="0.01" required>
 
-        <label>Imagen:</label>
-        <input type="file" name="image" accept="image/*" required>
+  <label>Categoria:</label>
+  <input type="text" name="categoria" required>
 
-        <button type="submit">Agregar Platillo</button>
-    </form>
+  <label>Imagen:</label>
+  <input type="file" name="imagen" accept="image/*" required>
+
+  <button type="submit">Agregar Platillo</button>
+</form>
+
 </div>
 
 <div class="dishes-title-row">
@@ -96,12 +98,10 @@
       </tr>
     </thead>
     <tbody>
-      <!-- JS will fill this -->
     </tbody>
   </table>
 </div>
 <script src="js/form-handler.js"></script>
 <script src="../employee-management/js/menu.js"></script>
-
 </body>
 </html>
