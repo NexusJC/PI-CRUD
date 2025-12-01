@@ -37,8 +37,8 @@ const getProfileData = async () => {
     
     if (response.ok) {
       // Rellenamos los campos con los datos obtenidos
-      document.getElementById("perfilNombreText").value = data.name;
-      document.getElementById("perfilNumeroText").value = data.telefono;
+      document.getElementById("perfilNombreText").value = data.name || '';
+      document.getElementById("perfilNumeroText").value = data.telefono  || '';
       document.getElementById("perfilEmail").textContent = data.email;
 
       // Rellenar género
@@ -49,7 +49,7 @@ const getProfileData = async () => {
       }
 
       // Rellenar imagen de perfil
-      document.getElementById("perfilImg").src = `/uploads/${data.profile_picture}`;
+      document.getElementById("perfilImg").src = `/uploads/${data.profile_picture}` || '/img/default-profile.png';
     } else {
       alert("No se pudo obtener el perfil");
     }
@@ -62,18 +62,20 @@ window.onload = getProfileData;
 
 // Enviar los datos actualizados del perfil
 document.getElementById("guardarCambios").addEventListener("click", async () => {
-  const name = document.getElementById("perfilNombreText").value;
-  const telefono = document.getElementById("perfilNumeroText").value;
+  const name = document.getElementById("perfilNombreText").value.trim();
+  const telefono = document.getElementById("perfilNumeroText").value.trim();
   const genero = document.querySelector('input[name="genero"]:checked').value;
   const token = localStorage.getItem("token");
 
-  if (!name || !telefono) {
-    alert("Nombre y teléfono son obligatorios.");
+  if (!name) {
+    alert("Nombre es obligatorios.");
     return;
   }
 
+  if (telefono === "") telefono = null;
+
   try {
-    const response = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
+    const response = await fetch("https://www.laparrilaazteca.online/api/profile/update-profile", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -102,9 +104,7 @@ document.getElementById("btnEditarImg").addEventListener("click", () => {
 });
 
 document.getElementById("inputImg").addEventListener("change", async (e) => {
-  const token = localStorage.getItem("token"); // Obtener el token desde localStorage
   const file = e.target.files[0];  // Obtener el archivo seleccionado
-
   if (!file) {
     alert("No se seleccionó ninguna imagen.");
     return;

@@ -9,9 +9,12 @@
   <meta name="keywords" content="Restaurante, Mexicano, Comida, Turnos, Reservaciones, La Parrilla Azteca" />
   <meta name="description" content="Bienvenido a La Parrilla Azteca, tu restaurante mexicano favorito. Toma tu turno y disfruta de nuestra deliciosa comida." />
   <title>La Parrilla Azteca · Inicio</title>
+  <link rel="icon" href="../img/logo_1.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="style.css">
 </head>
+
+
 
 <body>
  <!-- TOPBAR -->
@@ -105,7 +108,7 @@
     <i class="fab fa-instagram"></i>
   </a>
 </div>
-<!-- === ORDER DETAILS PANEL (Tu orden) === -->
+<!-- === ORDER DETAILS PANEL=== -->
 <aside id="orderDetails" class="order-details">
 
   <div class="od-header">
@@ -115,18 +118,14 @@
     </button>
   </div>
 
-  <!-- Lista de productos (SE LLENA SOLO DESDE JS) -->
   <div id="orderList" class="od-items"></div>
 
-  <!-- Estado: carrito vacío -->
   <div id="empty-cart-msg" class="od-empty">
     <div class="od-empty-icon">
       <i class="fa-solid fa-bowl-food"></i>
     </div>
-    <p>Tu orden está vacía.<br>Agrega un platillo para comenzar 🍽️</p>
+    <p>Tu orden está vacía.<br>Agrega un platillo para comenzar </p>
   </div>
-
-  <!-- Resumen de totales -->
   <div class="od-summary">
     <div class="row">
       <span>Subtotal:</span>
@@ -141,8 +140,6 @@
       <span id="total">$0.00</span>
     </div>
   </div>
-
-  <!-- Botones de acción -->
   <div id="actionButtons" class="od-actions">
     <button id="confirm-btn" class="od-btn od-confirm" disabled>
       Confirmar Pedido
