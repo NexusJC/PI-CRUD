@@ -407,7 +407,7 @@ if (printBtn && orderList) {
               <span class="item-price">$${(i.qty * i.unit).toFixed(2)}</span>
             </div>
             ${i.comment
-              ? `<div class="item-comment">💬 ${i.comment}</div>`
+              ? `<div class="item-comment"> ${i.comment}</div>`
               : ""
             }
           `).join("")}
