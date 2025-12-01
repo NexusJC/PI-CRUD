@@ -37,7 +37,7 @@ router.get("/verify", async (req, res) => {
         </h2>
       `);
     }
-
+//papoi?
     const user = rows[0];
 
     // Marcar como verificado
