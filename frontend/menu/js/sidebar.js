@@ -116,8 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     } else if (role === "usuario") {
       menuList.innerHTML = `  
-        <li><a href="/menu/index.html"><i class="fas fa-utensils"data-no-translate></i> Ver Menú</a></li>
-        <li><a href="/perfil/perfil.html"><i class="fas fa-user"data-no-translate></i> Mi Perfil</a></li>
+        <li><a href="/menu/index.html"><i class="fas fa-utensils"data-no-translation></i> Ver Menú</a></li>
+        <li><a href="/perfil/perfil.html"><i class="fas fa-user" notranslate></i> Mi Perfil</a></li>
       `;
     }
   }
