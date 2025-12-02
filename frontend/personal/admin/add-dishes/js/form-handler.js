@@ -25,9 +25,7 @@ dishOverlay.addEventListener("click", () => {
   dishOverlay.style.display = "none";
 });
 
-// =========================
 // SUBIR IMAGEN A CLOUDINARY
-// =========================
 async function uploadImageToCloudinary(file) {
   const fd = new FormData();
   fd.append("file", file);
@@ -44,12 +42,10 @@ async function uploadImageToCloudinary(file) {
   }
 
   const data = await res.json();
-  return data.secure_url; // URL pública final
+  return data.secure_url; 
 }
 
-// =========================
 // AGREGAR PLATILLO
-// =========================
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -99,9 +95,7 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-// =========================
 // CARGAR PLATILLOS
-// =========================
 async function loadDishes() {
   tableBody.innerHTML = '';
   try {
@@ -137,10 +131,7 @@ async function loadDishes() {
     tableBody.innerHTML = "<tr><td colspan='6'>Error al cargar platillos</td></tr>";
   }
 }
-
-// =========================
 // ELIMINAR PLATILLO
-// =========================
 async function deleteDish(id) {
   try {
     const res = await fetch(`/api/dishes/${id}`, {
