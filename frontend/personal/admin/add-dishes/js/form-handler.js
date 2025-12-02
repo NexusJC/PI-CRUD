@@ -64,7 +64,7 @@ form.addEventListener('submit', async (e) => {
     // 1) Subir imagen a Cloudinary
     const imageUrl = await uploadImageToCloudinary(file);
 
-    // 2) Enviar datos a tu backend (SOLO JSON)
+    // 2) Enviar datos al backend (SOLO JSON)
     const body = {
       nombre,
       descripcion,
@@ -84,7 +84,9 @@ form.addEventListener('submit', async (e) => {
     if (res.ok) {
       alert("Platillo agregado correctamente");
       form.reset();
-      loadDishes();
+
+      // Recargar la lista de platillos después de agregar uno nuevo
+      loadDishes(); // Esto asegura que los platillos se recarguen en el frontend
     } else {
       alert(result.message || "Error al agregar platillo");
     }
@@ -94,6 +96,7 @@ form.addEventListener('submit', async (e) => {
     alert("Error al agregar platillo");
   }
 });
+
 
 // CARGAR PLATILLOS
 async function loadDishes() {
