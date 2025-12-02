@@ -86,7 +86,7 @@ form.addEventListener('submit', async (e) => {
       form.reset();
 
       // Recargar la lista de platillos después de agregar uno nuevo
-      loadDishes(); // Esto asegura que los platillos se recarguen en el frontend
+    await loadDishes(); // Esto asegura que los platillos se recarguen en el frontend
     } else {
       alert(result.message || "Error al agregar platillo");
     }
