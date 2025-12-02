@@ -34,12 +34,10 @@
 
         <div class="user-info">
             <span id="sidebarUserName"></span>
-
-            <button id="logoutBtn" class="logout-btn">
-                <i class='bx bx-log-out'></i> Cerrar sesión
-            </button>
         </div>
     </div>
+
+    <!-- Menú de navegación -->
     <div class="menu">
         <a class="enlace" href="/personal/admin/dashboard/dashboard.html">
             <i class="bx bx-grid-alt"></i>
@@ -53,12 +51,20 @@
             <i class="bx bx-store"></i>
             <span>Gestión Cajas</span>
         </a>
-         <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
-    <i class='bx bx-restaurant'></i>
-    <span>Añadir Platillo</span>
-</a>
+        <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
+            <i class='bx bx-restaurant'></i>
+            <span>Añadir Platillo</span>
+        </a>
+    </div>
+
+    <!-- Botón de cerrar sesión al final -->
+    <div class="logout-container">
+        <button id="logoutBtn" class="logout-btn">
+            <i class='bx bx-log-out'></i> Cerrar sesión
+        </button>
     </div>
 </div>
+
 
     <!-- CONTENIDO -->
     <main class="seccion-trabajadores-card">
@@ -66,15 +72,25 @@
         <h1 class="titulo">Dashboard general</h1>
 
         <!-- TARJETAS -->
-        <section class="cards-grid">
-            <div class="card-number" id="platillosTotales">0</div>
+<section class="cards-grid">
+    <div class="card">
+        <h3>Platillos Totales</h3>
+        <div class="numero" id="platillosTotales">0</div>
+    </div>
+    <div class="card">
+        <h3>Usuarios Registrados</h3>
+        <div class="numero" id="usuariosRegistrados">0</div>
+    </div>
+    <div class="card">
+        <h3>Empleados Activos</h3>
+        <div class="numero" id="empleadosActivos">0</div>
+    </div>
+    <div class="card">
+        <h3>Admins Totales</h3>
+        <div class="numero" id="adminsTotales">0</div>
+    </div>
+</section>
 
-            <div class="card-number" id="usuariosRegistrados">0</div>
-
-            <div class="card-number" id="empleadosActivos">0</div>
-
-            <div class="card-number" id="adminsTotales">0</div>
-        </section>
 
         <!-- GRAFICAS -->
         <section class="graficas">

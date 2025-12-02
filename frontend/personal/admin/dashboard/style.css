@@ -135,3 +135,91 @@
         .menu-dashboard.open ~ .seccion-trabajadores-card {
             transform: translateX(60px);
         }
+
+/* Estilo general del sidebar */
+.menu-dashboard {
+    width: 250px;
+    background: var(--sidebar-bg);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-right: 2px solid var(--sidebar-border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Asegura que el contenido se distribuye entre la parte superior e inferior */
+}
+
+/* Información de usuario en el sidebar */
+.menu-dashboard .user-box {
+    text-align: center;
+}
+
+.menu-dashboard .user-box img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.menu-dashboard .user-info {
+    margin-top: 10px;
+    color: var(--sidebar-text);
+    flex-grow: 1; /* Esto permite que la parte superior crezca y empuje el botón hacia abajo */
+}
+
+/* Botón de cerrar sesión en la parte inferior */
+.menu-dashboard .logout-container {
+    margin-top: auto; /* Empuja el botón al final */
+    display: flex;
+    justify-content: center; /* Centra el botón horizontalmente */
+    align-items: center; /* Asegura que el botón esté bien alineado */
+}
+
+.menu-dashboard .user-info button {
+    background: var(--topbar-highlight);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 20px; /* Espacio entre la info de usuario y el botón */
+}
+
+.menu-dashboard .user-info button:hover {
+    background: #e34b00;
+}
+
+/* Menú del sidebar */
+.menu-dashboard .menu {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Menú y enlaces */
+.menu-dashboard .menu a {
+    padding: 15px 20px;
+    text-decoration: none;
+    color: var(--sidebar-text);
+    font-weight: 600;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.3s ease;
+}
+
+.menu-dashboard .menu a:hover {
+    background: var(--sidebar-hover-bg);
+    color: var(--topbar-highlight);
+}
+
+.menu-dashboard .menu a.active {
+    background: var(--active-link-bg);
+    color: white;
+}
