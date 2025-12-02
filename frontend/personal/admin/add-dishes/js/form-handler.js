@@ -25,7 +25,6 @@ dishOverlay.addEventListener("click", () => {
   dishOverlay.style.display = "none";
 });
 
-
 // =========================
 // SUBIR IMAGEN A CLOUDINARY
 // =========================
