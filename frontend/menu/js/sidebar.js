@@ -116,9 +116,10 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     } else if (role === "usuario") {
       menuList.innerHTML = `  
-        <li data-no-translate>
-          <a href="/menu/index.html" data-no-translate>
-            <i class="fas fa-utensils" data-no-translate></i> Ver Menú
+        <li>
+          <a href="/menu/index.html">
+            <i class="fas fa-utensils notranslate"></i>
+              <span>Ver Menú</span>
           </a>
         </li>
         <li data-no-translate>
