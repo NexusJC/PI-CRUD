@@ -7,7 +7,7 @@ let currentLanguage = 'es'; // Idioma predeterminado es español (es)
 // Elementos HTML que serán traducidos
 // Si necesitas traducir otros elementos, agrégalos a este array
 const translatableElements = [
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'span', 'li','strong','button'
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'span', 'li','strong'
 ];
 
 // =====================================================================
