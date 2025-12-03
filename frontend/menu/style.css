@@ -1550,7 +1550,7 @@ body.dark #themeToggle:hover {
   width: 80%;
   max-width: 550px;
   display: none; /* Inicialmente oculto */
-  animation: popupOpen 0.5s ease-in-out;
+  animation: popupOpen 0.3s ease-in-out;  /* Animación más rápida */
 }
 
 /* Animación de apertura del popup */
@@ -1562,6 +1562,22 @@ body.dark #themeToggle:hover {
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Fondo difuminado cuando el popup se abre */
+#descriptionPopup {
+  background: rgba(0, 0, 0, 0.7);  /* Fondo negro difuminado */
+  animation: fadeIn 0.3s ease-in-out;  /* Animación suave */
+}
+
+/* Animación de fondo difuso */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -1589,6 +1605,7 @@ body.dark #themeToggle:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Colocamos la descripción en la parte inferior */
 #popupDescription {
   font-size: 1.1rem;
   color: #4d4d4d;
