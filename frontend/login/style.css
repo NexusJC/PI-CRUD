@@ -400,3 +400,41 @@ footer p {
   display: flex;
   align-items: center;
 }
+
+/* Estilos para estados del botón de idioma */
+.idioma-btn[data-current-lang="en"] .bandera-container::after {
+    content: " English" !important;
+}
+
+.idioma-btn[data-current-lang="es"] .bandera-container::after {
+    content: " Español" !important;
+}
+
+/* Indicador visual del idioma actual */
+.idioma-btn.active-lang {
+    background: #f0f0f0;
+    border-color: #007bff;
+}
+
+/* Transición suave para cambios de texto */
+.bandera-container::after {
+    transition: opacity 0.3s ease;
+}
+
+.bandera-container[data-idioma-text]::after {
+    opacity: 1;
+}
+
+/* Estilos para elementos traducidos */
+[data-translated="true"] {
+    transition: opacity 0.3s ease;
+}
+
+/* Clases para estilos específicos por idioma */
+body.lang-es {
+    font-family: 'Arial', sans-serif;
+}
+
+body.lang-en {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
