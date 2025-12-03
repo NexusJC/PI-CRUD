@@ -545,45 +545,6 @@ document.querySelectorAll(".menu-card").forEach(card => {
     });
   }
 });
-if (modal && modalImg && modalTitle && modalDesc && modalAddBtn && modalClose) {
-  document.querySelectorAll(".menu-card img").forEach(img => {
-    img.style.cursor = "pointer";
-    img.addEventListener("click", () => {
-      const card = img.closest(".menu-card");
-      
-      // Establecer los detalles del platillo en el modal
-      modalImg.src = img.src;  // Establecer la imagen
-      modalTitle.textContent = card.dataset.name || card.querySelector("h3")?.textContent || "Producto";  // Establecer el nombre
-      modalDesc.textContent = card.dataset.desc || "Descripción no disponible.";  // Establecer la descripción
-
-      // Guardar datos del platillo en el botón de agregar al carrito
-      modalAddBtn.dataset.name = card.dataset.name;
-      modalAddBtn.dataset.price = card.dataset.price;
-
-      // Mostrar el modal
-      modal.classList.add("active");
-    });
-  });
-
-  // Cerrar el modal al hacer clic en la X
-  modalClose.addEventListener("click", () => modal.classList.remove("active"));
-
-  // Cerrar el modal si se hace clic fuera del contenido
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) modal.classList.remove("active");
-  });
-
-  // Agregar al carrito cuando se haga clic en el botón "Agregar al Carrito"
-  modalAddBtn.addEventListener("click", () => {
-    const name = modalAddBtn.dataset.name;
-    const card = document.querySelector(
-      `.menu-card[data-name="${CSS.escape(name)}"]`
-    );
-    const addBtn = card?.querySelector(".add-btn");
-    addBtn?.click();
-    modal.classList.remove("active");
-  });
-}
 
 // Estado inicial
 actualizarEstadoVacio();
