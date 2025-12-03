@@ -1542,15 +1542,15 @@ body.dark #themeToggle:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.95);  /* Fondo blanco con algo de transparencia */
+  background: #fff;  /* Fondo blanco para el recuadro */
   border-radius: 20px;
   padding: 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);  /* Sombra suave */
   z-index: 1000;
   width: 80%;
   max-width: 550px;
   display: none; /* Inicialmente oculto */
-  animation: popupOpen 0.3s ease-in-out;  /* Animación más rápida */
+  animation: popupOpen 0.3s ease-in-out;  /* Animación de apertura */
 }
 
 /* Animación de apertura del popup */
@@ -1565,13 +1565,13 @@ body.dark #themeToggle:hover {
   }
 }
 
-/* Fondo difuminado cuando el popup se abre */
+/* Fondo oscuro y difuso detrás del popup */
 #descriptionPopup {
-  background: rgba(0, 0, 0, 0.7);  /* Fondo negro difuminado */
-  animation: fadeIn 0.3s ease-in-out;  /* Animación suave */
+  background: rgba(0, 0, 0, 0.7);  /* Fondo oscuro y difuso */
+  animation: fadeIn 0.3s ease-in-out;  /* Animación suave para el fondo */
 }
 
-/* Animación de fondo difuso */
+/* Animación de desvanecimiento del fondo */
 @keyframes fadeIn {
   from {
     opacity: 0;
