@@ -1542,10 +1542,10 @@ body.dark #themeToggle:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.9); /* Fondo blanco con algo de transparencia */
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+  border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   width: 80%;
   max-width: 500px;
@@ -1559,6 +1559,8 @@ body.dark #themeToggle:hover {
 #popupTitle {
   font-size: 1.5rem;
   margin-bottom: 10px;
+  font-weight: bold;
+  color: #3b2d25;
 }
 
 #popupImage {
@@ -1567,6 +1569,7 @@ body.dark #themeToggle:hover {
   max-height: 300px;
   object-fit: contain;
   margin-bottom: 10px;
+  border-radius: 8px;
 }
 
 #popupDescription {
