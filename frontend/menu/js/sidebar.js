@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       menuList.innerHTML = `  
         <li data-no-translate>
   <a href="/menu/index.html" class="notranslate">
-    <i class="fas fa-utensils"></i> Ver Menú
+    <i class="fas fa-utensils" data-no-translate></i> Ver Menú
   </a>
 </li>
         <li data-no-translate>
