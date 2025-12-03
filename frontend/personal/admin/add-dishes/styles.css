@@ -480,3 +480,15 @@ animation: fadeIn 0.25s ease;
   transform: translateY(1px);
   box-shadow: 0 2px 5px rgba(0,0,0,0.16);
 }
+
+/* === FIX: Empujar botón de cerrar sesión hasta abajo === */
+.menu-dashboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.logout-container {
+    margin-top: auto !important;
+    padding-top: 10px;
+}
+
