@@ -12,44 +12,55 @@
 </head>
 
 <body>
+
+  <!-- SIDEBAR -->
 <div class="menu-dashboard">
-  <div class="top-menu">
-    <div class="logo">
-      <img src="/img/logo_1.png" alt="Logo">
-      <span>Bienvenido</span>
+    <div class="top-menu">
+        <div class="logo">
+            <img src="/img/logo_1.png" alt="Logo">
+            <span>Bienvenido</span>
+        </div>
+        <div class="toggle">
+            <i class='bx bx-menu'></i>
+        </div>
     </div>
-    <div class="toggle">
-      <i class='bx bx-menu'></i>
+
+    <div class="user-box">
+        <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
+
+        <div class="user-info">
+            <span id="sidebarUserName"></span>
+        </div>
     </div>
-  </div>
-  <div class="user-box">
-    <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
-    <div class="user-info">
-      <span id="sidebarUserName"></span>
-      <button id="logoutBtn" class="logout-btn">
-          <i class='bx bx-log-out'></i> Cerrar sesión
-      </button>
+
+    <!-- Menú de navegación -->
+    <div class="menu">
+        <a class="enlace" href="/personal/admin/dashboard/dashboard.html">
+            <i class="bx bx-grid-alt"></i>
+            <span>Dashboard</span>
+        </a>
+        <a class="enlace" href="/personal/admin/employee-management/employee.html">
+            <i class='bx bx-group'></i>
+            <span>Gestión Empleados</span>
+        </a>
+        <a class="enlace" href="/personal/admin/gestioncajas/gestioncajas.html">
+            <i class="bx bx-store"></i>
+            <span>Gestión Cajas</span>
+        </a>
+        <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
+            <i class='bx bx-restaurant'></i>
+            <span>Añadir Platillo</span>
+        </a>
     </div>
-  </div>
-  <div class="menu">
-    <a class="enlace" href="/personal/admin/dashboard/dashboard.html">
-      <i class="bx bx-grid-alt"></i>
-      <span>Dashboard</span>
-    </a>
-    <a class="enlace" href="/personal/admin/employee-management/employee.html">
-      <i class='bx bx-group'></i>
-      <span>Gestión Empleados</span>
-    </a>
-    <a class="enlace" href="/personal/admin/gestioncajas/gestioncajas.html">
-      <i class="bx bx-store"></i>
-      <span>Gestión Cajas</span>
-    </a>
-    <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
-      <i class='bx bx-restaurant'></i>
-      <span>Añadir Platillo</span>
-    </a>
-  </div>
+
+    <!-- Botón de cerrar sesión al final -->
+    <div class="logout-container">
+        <button id="logoutBtn" class="logout-btn">
+            <i class='bx bx-log-out'></i> Cerrar sesión
+        </button>
+    </div>
 </div>
+
 <!-- Overlay -->
 <div class="dish-overlay" id="dishOverlay"></div>
 <!-- Modal -->
