@@ -1536,16 +1536,3 @@ body.dark #themeToggle:hover {
   display: flex;
   align-items: center;
 }
-/* Estilo para la descripción */
-.dish-description {
-  font-size: 1rem;
-  color: #333;
-  margin-top: 10px;
-  font-style: italic;
-  display: none; /* Inicialmente oculta */
-  text-align: left;
-  padding: 10px;
-  background-color: #f9f9f9;  /* Fondo claro */
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  /* Sombra sutil */
-}
