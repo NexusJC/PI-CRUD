@@ -701,47 +701,7 @@ body {
     align-items: flex-start;
   }
 }
-.menu-dashboard {
-    max-width: 150px;
-    height: 100vh;
-    background: var(--bg-menu);
-    padding: 20px;
-    transition: max-width .3s ease;
-}
 
-.menu-dashboard.open {
-    max-width: 300px;
-}
-
-.menu-dashboard.open .top-menu .logo span {
-    display: block;
-}
-
-.menu-dashboard.open .input-search .input {
-    display: block;
-}
-
-.menu-dashboard.open .menu .enlace {
-    padding: 20px;
-}
-
-.menu-dashboard.open .menu .enlace span {
-    opacity: 1;
-}
-.menu-dashboard {
-    position: fixed;
-    top: 0;
-    left: 0;
-    max-width: 150px;
-    height: 100vh;
-    background: var(--bg-menu);
-    padding: 20px;
-    transition: max-width .3s ease;
-    z-index: 10;
-}
-.menu-dashboard.open ~ .seccion-trabajadores-card {
-  transform: translateX(60px);
-}
 .seccion-trabajadores-card {
   padding: 40px 30px;
 }
@@ -906,41 +866,142 @@ input[type="tel"].invalid {
     filter: brightness(.92);
 }
 
-/* === MODO CERRADO === */
-.menu-dashboard:not(.open) .user-info {
-    opacity: 0;
-    width: 0;
-    pointer-events: none;
+
+/* =======================================================
+   === SIDEBAR — AJUSTADO PARA QUE SE VEA COMO DASHBOARD ===
+   ======================================================= */
+
+:root {
+    --sidebar-bg: #f7efe5;
+    --sidebar-text: #2b2b2b;
+    --topbar-highlight: #e36842;
+    --sidebar-hover-bg: #f0d4c0;
+    --active-link-bg: #e36842;
+    --sidebar-border-color: #e4d5c5;
 }
 
-.menu-dashboard:not(.open) .user-box {
-    padding: 10px;
-    justify-content: center;
-    border: none; /* sin borde al cerrar */
-    box-shadow: none; /* sin sombra al cerrar */
+/* Contenedor */
+.menu-dashboard {
+    width: 250px;
+    height: 100vh;
+    background: var(--sidebar-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 2px solid var(--sidebar-border-color);
+    padding: 25px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: max-width .3s ease !important;
+    max-width: 150px;
 }
 
-/* foto más pequeña al cerrar */
-.menu-dashboard:not(.open) .user-photo {
-    width: 36px;
-    height: 36px;
+.menu-dashboard.open {
+    max-width: 300px !important;
 }
-.menu-dashboard:not(.open) .user-box {
-    padding: 0;
-    margin-left: 12px;  
-    width: 48px;
-    height: 48px;
-    background: transparent;
-    border: none;
-    box-shadow: none;
+
+/* Top menu */
+.top-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-menu .logo {
     display: flex;
     align-items: center;
+    gap: 10px;
+}
+
+.top-menu .logo img {
+    width: 40px;
+}
+
+.top-menu .logo span {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.top-menu .toggle i {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* User box */
+.user-box {
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.user-box img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--topbar-highlight);
+}
+
+.user-info {
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sidebar-text);
+}
+
+/* Menú */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.menu a {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: var(--sidebar-text);
+    font-weight: 600;
+    border-radius: 10px;
+    transition: .3s ease;
+}
+
+.menu a:hover {
+    background: var(--sidebar-hover-bg);
+    color: var(--topbar-highlight);
+}
+
+.menu a.active {
+    background: var(--active-link-bg);
+    color: white;
+}
+
+/* Logout */
+.logout-container {
+    margin-top: auto;
+    display: flex;
     justify-content: center;
 }
 
-.menu-dashboard:not(.open) .user-photo {
-    width: 36px;
-    height: 36px;
-    margin: 0 auto;
+.logout-btn {
+    background: var(--topbar-highlight);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .3s ease;
 }
 
+.logout-btn:hover {
+    background: #d95821;
+}
+
+/* Movimiento del contenido */
+.menu-dashboard.open ~ .seccion-trabajadores-card {
+    transform: translateX(60px);
+}
