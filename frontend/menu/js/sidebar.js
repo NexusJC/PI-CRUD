@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       menuList.innerHTML = `  
         <li data-no-translate><a href="/menu/index.html"><i class="fas fa-utensils"data-no-translate></i> Ver Menú</a></li>
         <li data-no-translate><a href="/perfil/perfil.html"><i class="fas fa-user"data-no-translate></i> Mi Perfil</a></li>
-        <li date-no-translate><a href="/shifts/shifts.html"><i class="fas fa-clock icon"date-no-translate></i> Turnos</a></li>
+        <li date-no-translate><a href="/shifts/shifts.html"><i class="fas fa-clock icon"date-no-translate></a></i><a Turnos</a></li>
       `;
     }
   }
