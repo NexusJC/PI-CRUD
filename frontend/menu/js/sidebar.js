@@ -116,10 +116,13 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     } else if (role === "usuario") {
       menuList.innerHTML = `  
-        <li data-no-translate><a href="/menu/index.html"><i class="fas fa-utensils"data-no-translate></i>Ver Menú</a></li>
+<li>
+  <a href="/menu/index.html">
+    <i class="fas fa-utensils" translate="no"></i> Ver Menú
+  </a>
+</li>
         <li data-no-translate><a href="/perfil/perfil.html"><i class="fas fa-user"data-no-translate></i> Mi Perfil</a></li>
-        <li data-no-translate><a href="/shifts/shifts.html"><i class="fas fa-clock icon"data-no-translate></i> Turnos</a>
-        </li>
+        <li data-no-translate><a href="/shifts/shifts.html"><i class="fas fa-clock icon"data-no-translate></i> Turnos</a></li>
       `;
     }
   }
