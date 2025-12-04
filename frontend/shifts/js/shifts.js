@@ -33,8 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
     btnLogin.style.display = "block";
     btnLogout.style.display = "none";
     menuList.innerHTML = `
-      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> Menú</a></li>
-    `;
+      <li data-no-translate>
+        <a href="/menu/index.html" data-no-translate>
+          <i class="fas fa-utensils" data-no-translate></i>
+          <span>Menú</span>
+        </a>
+      </li>
+      `;
     return;
   }
 
@@ -49,19 +54,53 @@ document.addEventListener("DOMContentLoaded", () => {
   /* === MENÚ POR ROL === */
   if (user.role === "usuario") {
     menuList.innerHTML = `
-        <li data-no-translate><a href="/menu/index.html"><i class="fas fa-utensils"data-no-translate></i> Ver Menú</a></li>
-        <li data-no-translate><a href="/perfil/perfil.html" date-no-translte><i class="fas fa-user"data-no-translate></i> Mi Perfil</a></li>
-        <li date-no-translate><a href="/shifts/shifts.html"date-no-translate><i class="fas fa-clock icon" date-no-translate></i> Turnos</a></li>
+        <li data-no-translate>
+          <a href="/menu/index.html" data-no-translate>
+            <i class="fas fa-utensils" data-no-translate></i>
+            <span>Ver Menú</span>
+          </a>
+        </li>
+        <li data-no-translate>
+          <a href="/perfil/perfil.html" data-no-translate>
+            <i class="fas fa-user" data-no-translate></i>
+            <span>Mi Perfil</span>
+          </a>
+        </li>
+        <li data-no-translate>
+          <a href="/shifts/shifts.html" data-no-translate>
+            <i class="fas fa-clock icon" data-no-translate></i>
+            <span>Turnos</span>
+          </a>
+        </li>
     `;
   }
 
   if (user.role === "admin") {
     menuList.innerHTML = `
-      <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a></li>
-      <li><a href="/personal/admin/add-dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Platillos</a></li>
-      <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
-      <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
+      <li data-no-translate>
+        <a href="/personal/admin/dashboard/dashboard.html" data-no-translate>
+          <i class="fas fa-gauge" data-no-translate></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li data-no-translate>
+        <a href="/personal/admin/add-dishes/add_dishes.html" data-no-translate>
+          <i class="fas fa-pizza-slice" data-no-translate></i>
+          <span>Platillos</span>
+        </a>
+      </li>
+      <li data-no-translate>
+        <a href="/personal/admin/employee-management/employee.html" data-no-translate>
+          <i class="fas fa-users" data-no-translate></i>
+          <span>Empleados</span>
+        </a>
+      </li>
+      <li data-no-translate>
+        <a href="/personal/admin/gestioncajas/gestioncajas.html" data-no-translate>
+          <i class="fas fa-cash-register" data-no-translate></i>
+          <span>Cajas</span>
+        </a>
+      </li>
     `;
   }
-
 });
