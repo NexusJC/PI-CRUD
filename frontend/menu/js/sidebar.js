@@ -107,23 +107,47 @@ document.addEventListener("DOMContentLoaded", () => {
       menuList.innerHTML = ``;
     } else if (role === "admin") {
       menuList.innerHTML = `
-        <li><a href="/personal/admin/add-dishes/admin.html"><i class="fas fa-pizza-slice"></i> Gestionar Platillos</a></li>
-        <li><a href="/personal/employees/employee.html"><i class="fas fa-users"></i> Gestionar Empleados</a></li>
+        <li data-no-translate>
+          <a href="/personal/admin/add-dishes/admin.html" data-no-translate>
+            <i class="fas fa-pizza-slice" data-no-translate></i>
+            <span>Gestionar Platillos</span>
+          </a>
+        </li>
+        <li data-no-translate>
+          <a href="/personal/employees/employee.html" data-no-translate>
+            <i class="fas fa-users" data-no-translate></i>
+            <span>Gestionar Empleados</span>
+          </a>
+        </li>
       `;
     } else if (role === "empleado") {
       menuList.innerHTML = `
-        <li><a href="/menu/index.html"><i class="fas fa-pizza-slice"></i> Menú</a></li>
-      `;
+        <li data-no-translate>
+          <a href="/menu/index.html" data-no-translate>
+            <i class="fas fa-pizza-slice" data-no-translate></i>
+            <span>Menú</span>
+          </a>
+        </li>      `;
     } else if (role === "usuario") {
       menuList.innerHTML = `  
-<li data-no-translate>
-  <a href="/menu/index.html" data-no-translate>
-    <i class="fas fa-utensils" data-no-translate></i>
-    <span>Ver Menú</span>
-  </a>
-</li>
-        <li data-no-translate><a href="/perfil/perfil.html"><i class="fas fa-user"data-no-translate></i> Mi Perfil</a></li>
-        <li data-no-translate><a href="/shifts/shifts.html"><i class="fas fa-clock icon"data-no-translate></i> Turnos</a></li>
+        <li data-no-translate>
+          <a href="/menu/index.html" data-no-translate>
+            <i class="fas fa-utensils" data-no-translate></i>
+            <span>Ver Menú</span>
+          </a>
+        </li>
+        <li data-no-translate>
+          <a href="/perfil/perfil.html" data-no-translate>
+            <i class="fas fa-user" data-no-translate></i>
+            <span>Mi Perfil</span>
+          </a>
+        </li>
+        <li data-no-translate>
+          <a href="/shifts/shifts.html" data-no-translate>
+            <i class="fas fa-clock icon" data-no-translate></i>
+            <span>Turnos</span>
+          </a>
+        </li>
       `;
     }
   }
