@@ -2002,5 +2002,5 @@ body.dark .menu-category-title {
   margin: 0 auto;
   padding: 1.5rem 1.5rem 3rem;
   flex: 1 0 auto;
-  min-height: calc(100vh - 260px);  /* ligero empuje, sin cortes */
+  min-height: calc(100vh - 100px);  /* ligero empuje, sin cortes */
 }
