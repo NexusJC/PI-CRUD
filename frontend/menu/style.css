@@ -1995,28 +1995,24 @@ body.dark .menu-category-title {
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
 }
-/* === AJUSTE FINAL DE ALTURA DEL MENÚ Y COLUMNA DERECHA === */
-
-/* El bloque completo del menú ocupa un poco más de alto
-   para que el footer quede fuera de la vista, pero sin irse tan lejos */
+/* Sección principal del menú: más alta para empujar el footer */
 .menu-section {
   max-width: 1200px;
   margin: 0 auto;
-  min-height: calc(100vh - 120px); /* antes 140px: ahora el footer queda un poco más cerca */
-  padding-bottom: 2rem;            /* el propio menú rellena mejor el espacio */
+  /* el bloque del menú ocupa casi toda la ventana (debajo del topbar) */
+  min-height: calc(100vh - 60px);
+  padding-bottom: 3rem; /* rellena un poco más antes del footer */
 }
-
-/* Columna derecha (platillos) más alta,
-   pero conservando el scroll interno con diseño */
+/* Columna derecha (platillos): ocupa bien el alto y mantiene scroll interno */
 .special-menu {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 
-  /* más espacio para que el menú “baje” y ocupe el hueco,
-     pero sigue teniendo límite para que aparezca el scroll interno */
-  max-height: calc(100vh - 170px); /* antes ~190px */
-  min-height: 460px;
+  /* altura fija respecto a la ventana:
+     así el menú llena el hueco y el footer queda fuera de la vista */
+  height: calc(100vh - 190px);
+  min-height: 520px;
 
   overflow-y: auto;
   padding-right: 0.6rem;  /* espacio para la barra de scroll */
