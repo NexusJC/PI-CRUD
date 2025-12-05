@@ -1986,20 +1986,3 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
-/* === OVERRIDES: menú sin cortes, que alargue la página completa === */
-
-.special-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;      /* SIN límite de alto */
-  overflow-y: visible;    /* que use el scroll de la página, no interno */
-  padding-right: 0;       /* quitamos espacio extra de la scrollbar */
-}
-/* El layout ocupa al menos casi toda la pantalla para empujar un poco el footer */
-.layout {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 1.5rem 1.5rem 3rem;
-  flex: 1 0 auto;
-  min-height: calc(100vh - 260px);  /* ligero empuje, sin cortes */
-}
