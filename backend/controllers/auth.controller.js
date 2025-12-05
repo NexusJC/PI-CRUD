@@ -81,13 +81,50 @@ if (!name || name.trim().length < 3) {
 }
 
 // validacion de email
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-if (!emailRegex.test(email)) {
-  return res.status(400).json({
-    message: "Ingresa un correo electrónico válido."
-  });
-}
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Ingresa un correo electrónico válido."
+    });
+  }
+
+  // -----------------------------
+  // VALIDAR USERNAME DEL CORREO (QUE PUEDA EXISTIR)
+  // -----------------------------
+  const namePart = email.split("@")[0];
+  const domainPart = email.split("@")[1];
+
+  // mínimo 3 caracteres antes del @
+  if (namePart.length < 3) {
+    return res.status(400).json({
+      message: "El correo debe tener al menos 3 caracteres antes del @."
+    });
+  }
+
+  // Gmail → mínimo 6 caracteres antes del @
+  if (domainPart === "gmail.com" && namePart.length < 6) {
+    return res.status(400).json({
+      message: "Los correos de Gmail deben tener al menos 6 caracteres antes del @."
+    });
+  }
+
+  // Outlook / Hotmail → mínimo 3
+  if (
+    (domainPart === "outlook.com" || domainPart === "hotmail.com") &&
+    namePart.length < 3
+  ) {
+    return res.status(400).json({
+      message: "Los correos de Outlook/Hotmail deben tener al menos 3 caracteres antes del @."
+    });
+  }
+
+  // Yahoo → mínimo 4
+  if (domainPart === "yahoo.com" && namePart.length < 4) {
+    return res.status(400).json({
+      message: "Los correos de Yahoo deben tener al menos 4 caracteres antes del @."
+    });
+  }
   try {
     // Encriptar contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
