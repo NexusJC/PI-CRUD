@@ -1986,33 +1986,6 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
-.special-menu {
-  text-align: center;
-  padding: 0 1rem 4rem;
-
-  /* scroll interno del menú derecho */
-  max-height: calc(100vh - 230px);
-  overflow-y: auto;
-}
-
-/* Scrollbar con diseño (opcional, pero se ve mejor) */
-.special-menu::-webkit-scrollbar {
-  width: 8px;
-}
-
-.special-menu::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 999px;
-}
-
-.special-menu::-webkit-scrollbar-thumb {
-  background: #9ca3af;
-  border-radius: 999px;
-}
-
-.special-menu::-webkit-scrollbar-thumb:hover {
-  background: #e36842;
-}
 /* Sección principal del menú */
 .menu-section {
   max-width: 1200px;
