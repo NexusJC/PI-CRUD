@@ -30,10 +30,9 @@
     <span class="brand-text">LA PARRILLA AZTECA</span>
   </div>
   <!-- Botón que abre el sidebar (ver orden) -->
-  <button id="open-sidebar-btn" class="open-btn" data-no-translate>
-  <i class="fas fa-shopping-cart" data-no-translate></i>
-  <span>Ver Orden</span>
-</button>
+  <button id="open-sidebar-btn" class="open-btn">
+    <i class="fas fa-shopping-cart"></i> Ver Orden
+  </button>
 </header>
 <style>
  
@@ -94,18 +93,32 @@
       </div>
     </section>
   </main>
-  <!-- Contenedor de platillos (Ya debería estar presente) -->
-<div id="menuGrid"></div>
+    <!-- MODAL DE DETALLES DEL PLATILLO -->
+  <div id="productModal" class="product-modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <!-- Botón X para cerrar -->
+      <button id="modalClose" class="modal-close" aria-label="Cerrar detalles">
+        &times;
+      </button>
 
-<!-- Popup para mostrar la descripción del platillo -->
-<div id="descriptionPopup" class="description-popup" style="display: none;">
-  <div class="popup-content">
-    <h3 id="popupTitle">Nombre del Platillo</h3>
-    <img id="popupImage" src="" alt="Imagen del Platillo">
-    <p id="popupDescription">Descripción del platillo</p>
-    <button id="closePopup" class="close-btn">Cerrar</button>
+      <!-- Imagen del platillo -->
+      <img id="modalImg" src="" alt="Platillo seleccionado">
+
+      <!-- Texto -->
+      <h2 id="modalTitle">Nombre del platillo</h2>
+      <p id="modalDesc">Descripción del platillo.</p>
+      <p id="modalPrice" class="modal-price">$0.00</p>
+
+      <!-- Botón para agregar directo a la orden -->
+      <button id="modalAddBtn" class="add-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M11 5h2v14h-2z" />
+          <path d="M5 11h14v2H5z" />
+        </svg>
+        Agregar a la orden
+      </button>
+    </div>
   </div>
-</div>
 
 
  <!-- FOOTER -->
