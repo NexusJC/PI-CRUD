@@ -74,3 +74,51 @@ button {
 button:hover {
     background: #c5532e;
 }
+/* Contenedor para inputs con icono */
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Icono del ojo */
+.input-container i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    font-size: 18px;
+}
+
+.input-container i:hover {
+    color: #555;
+}
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 14px 18px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 6px;
+    font-size: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(-20px);
+    z-index: 9999;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.success {
+    background-color: #27ae60;
+}
+
+.toast.error {
+    background-color: #e74c3c;
+}
