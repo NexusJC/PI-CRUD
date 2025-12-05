@@ -2188,3 +2188,98 @@ body.dark #themeToggle:hover {
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
 }
+.od-item {
+  display: grid;
+  grid-template-columns: 55px 1fr auto;
+  gap: 12px;
+  background: #f9fafb;           /* más claro */
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
+}
+.od-empty-icon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  background: rgba(234, 88, 12, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.od-empty-icon i {
+  font-size: 2rem;
+  color: var(--accent);
+}
+.od-summary {
+  background: #f9fafb;
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+}
+.line-total,
+#subtotal,
+#total {
+  color: var(--accent) !important;   /* números en naranja */
+  font-weight: 800 !important;
+}
+.od-summary .row span:first-child {
+  color: #6b7280 !important;
+  font-weight: 600 !important;
+}
+body.dark .od-summary .row span:first-child {
+  color: #9ca3af !important;
+}
+.od-controls .price {
+  margin-top: 6px;
+  font-weight: 700;
+  color: var(--accent);
+}
+body.dark .order-details {
+  background: #020617;
+  border: 1px solid #1f2937;
+}
+
+body.dark .od-item {
+  background: #020617;
+  border: 1px solid #1f2937;
+}
+
+body.dark .od-summary {
+  background: #020617;
+  border: 1px solid #1f2937;
+}
+.menu-card-price {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+/* Contenedor principal un poco más ancho */
+.layout {
+  max-width: 1400px;          /* antes: 1280px */
+  margin: 0 auto;
+  padding: 1.5rem 2rem 3rem;  /* un poco más de respiro lateral */
+}
+/* Hero izquierda más compacta, menú de productos más ancho */
+.menu-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.1fr); /* hero / productos */
+  gap: 1.8rem;   /* un poco menos separación entre columnas */
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+.special-menu {
+  width: 100%;
+}
+/* En pantallas grandes, mostrar 4 productos por fila */
+@media (min-width: 1300px) {
+  .menu-category-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
