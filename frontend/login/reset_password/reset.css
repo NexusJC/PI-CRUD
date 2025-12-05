@@ -74,3 +74,23 @@ button {
 button:hover {
     background: #c5532e;
 }
+/* Contenedor para inputs con icono */
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Icono del ojo */
+.input-container i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    font-size: 18px;
+}
+
+.input-container i:hover {
+    color: #555;
+}
