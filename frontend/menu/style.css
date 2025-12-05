@@ -2297,3 +2297,48 @@ body.dark .site-footer {
   border-top: 1px solid #1f2937;
   box-shadow: 0 -1px 0 rgba(148, 163, 184, 0.35);
 }
+/* === SCROLLBAR GLOBAL – PÁGINA ===================== */
+
+/* Firefox */
+body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(227, 104, 66, 0.9) transparent;
+}
+
+/* WebKit (Chrome, Edge, etc.) */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #f97316, #ea580c);
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.2),
+    0 8px 18px rgba(15, 23, 42, 0.45);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.4),
+    0 10px 22px rgba(15, 23, 42, 0.7);
+}
+
+/* Modo oscuro: pista y borde más definidos */
+body.dark {
+  scrollbar-color: #fb923c transparent;
+}
+
+body.dark::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+body.dark::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #fb923c, #f97316);
+  border-color: #020617;
+}
