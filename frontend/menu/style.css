@@ -1990,18 +1990,3 @@ body.dark .menu-category-title {
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
 }
-/* ===== AJUSTE FINAL: MENÚ MÁS LARGO Y FOOTER FUERA DE VISTA ===== */
-
-/* Empuja un poco más el footer hacia abajo */
-.menu-section {
-  margin-bottom: 7rem;
-}
-
-/* Panel derecho “Nuestro menú”:
-   - ocupa casi toda la altura de la ventana
-   - mantiene el scroll interno
-   - hace que el footer quede fuera de vista al inicio */
-.special-menu {
-  max-height: calc(100vh - 80px);  /* ANTES estaba capada en 100vh - 220px */
-  min-height: 580px;
-}
