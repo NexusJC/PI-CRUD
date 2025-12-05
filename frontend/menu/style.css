@@ -1800,3 +1800,47 @@ body.dark .menu-inner {
   background: var(--panel);
   border: none;
 }
+.modal-content h2 {
+  color: #3b2d25;
+  margin-top: 14px;
+  font-size: 1.25rem;
+}
+
+.modal-content p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #5b4a3f;
+}
+/* ===== MODO OSCURO · MODAL DETALLES ===== */
+
+body.dark .product-modal {
+  background: rgba(0, 0, 0, 0.65); /* un poco más oscuro el blur */
+}
+
+body.dark .modal-content {
+  background: #020617; /* tarjeta oscura */
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.85);
+}
+
+body.dark .modal-content h2 {
+  color: #f9fafb;
+}
+
+body.dark .modal-content p {
+  color: #e5e7eb;
+}
+
+body.dark .modal-price {
+  color: var(--accent);
+}
+
+body.dark .modal-close {
+  background: #020617;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+body.dark .modal-close:hover {
+  background: var(--accent);
+  color: #020617;
+}
