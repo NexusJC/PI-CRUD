@@ -1690,3 +1690,51 @@ body.dark #themeToggle {
 body.dark #themeToggle:hover {
   background: #1a2129;
 }
+/* === OVERRIDES: QUITAR FONDO PIEL Y HACER QUE EL MENÚ SEA EL FONDO === */
+
+body {
+  background: #ffffff;
+}
+.layout {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1.5rem 1.5rem 4rem;
+}
+
+.menu-section {
+  max-width: none;
+  margin: 0;
+}
+
+.menu-shell {
+  margin-top: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.menu-inner {
+  border-radius: 0;
+  border: none;
+  background: transparent; 
+  padding: 1.5rem 1.5rem 2.5rem;
+}
+
+.menu-grid {
+  gap: 1rem;
+}
+body.dark {
+  background: #020617;
+}
+
+body.dark .menu-shell {
+  background: transparent;
+  box-shadow: none;
+}
+
+body.dark .menu-inner {
+  background: transparent;
+  border: none;
+}
