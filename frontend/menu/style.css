@@ -1990,29 +1990,3 @@ body.dark .menu-category-title {
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
 }
-/* ===== AJUSTE FINAL LIMPIO: MENÚ MÁS LARGO Y FOOTER FUERA DE VISTA ===== */
-
-/* 1) El bloque del menú ocupa un poco más que la ventana
-      para que el footer NO se vea sin hacer scroll */
-.menu-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: calc(100vh + 40px);   /* un poco más que la altura de pantalla */
-  padding-bottom: 2.5rem;           /* pequeño respiro antes del footer */
-}
-
-/* 2) La columna derecha (Nuestro menú) crece más para
-      llenar el hueco y seguir teniendo scroll interno */
-.special-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-
-  /* más alto que antes → baja las tarjetas
-     y ocupa el espacio vacío que marcaste en rojo */
-  height: calc(100vh - 140px);  /* antes -190px, ahora 50px MÁS ALTO */
-  min-height: 540px;
-
-  overflow-y: auto;
-  padding-right: 0.6rem;   /* espacio para la barra de scroll */
-}
