@@ -1986,33 +1986,21 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
-/* === ARREGLO FINAL: SIN CORTES, MENÚ MÁS LARGO === */
+/* === OVERRIDES: menú sin cortes, que alargue la página completa === */
 
-/* La columna derecha (special-menu) ya no tiene scroll interno ni altura fija */
 .special-menu {
-  max-height: none;
-  overflow-y: visible;
-  padding-right: 0;   /* quitamos el espacio de la barra de scroll */
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-height: none;       /* SIN límite de alto */
+  overflow-y: visible;    /* que use el scroll de la página, no interno */
+  padding-right: 0;       /* quitamos espacio extra de la scrollbar */
 }
-
-/* El layout crece de forma natural y empuja el footer hacia abajo */
+/* El layout ocupa al menos casi toda la pantalla para empujar un poco el footer */
 .layout {
-  max-width: 1280px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 1.5rem 1.5rem 4rem;
-  min-height: auto;   /* anulamos el min-height calc(100vh - 220px) */
+  padding: 1.5rem 1.5rem 3rem;
+  flex: 1 0 auto;
+  min-height: calc(100vh - 260px);  /* ligero empuje, sin cortes */
 }
-
-/* El footer se separa solo un poco del contenido */
-.site-footer {
-  margin-top: 1.8rem; /* si lo ves muy pegado, súbelo a 2rem o 2.2rem */
-}
-/* Ajuste fino de espacio antes del footer */
-.layout {
-  padding-bottom: 3rem;      /* antes estaba en 4rem */
-}
-
-.site-footer {
-  margin-top: 1rem;          /* más cerca del contenido */
-}
-
