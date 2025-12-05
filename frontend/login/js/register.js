@@ -49,8 +49,16 @@ form.addEventListener("submit", async (e) => {
     const result = await resp.json();
 
     if (resp.ok) {
-      showToast("Registro exitoso. Revisa tu correo para confirmar tu cuenta.", "success");
-    } else {
+    showToast("Registro exitoso. Revisa tu correo para confirmar tu cuenta.", "success");
+    // Limpiar el formulario
+    form.reset();
+    // Esperar 2 segundos para que el usuario vea el mensaje
+    setTimeout(() => {
+        // Redirige al login
+        window.location.href = "login.html";
+    }, 2000);
+}
+ else {
       showToast(result.error || result.message || "No se pudo registrar.", "error");
     }
   } catch (err) {
