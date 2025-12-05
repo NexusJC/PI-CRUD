@@ -1294,3 +1294,574 @@ body.dark #themeToggle:hover {
 @media (prefers-reduced-motion: reduce) {
   #menuGrid { transition: none; }
 }
+/* =========================================================
+   NUEVO MAIN – DISEÑO MODERNO (CLARO / OSCURO)
+   ========================================================= */
+
+/* Contenedor general */
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 4rem;
+}
+
+/* Sección principal del menú */
+.menu-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Marco con borde degradado (como card grande del menú) */
+.menu-shell {
+  margin-top: 1rem;
+  border-radius: 32px;
+  padding: 2px;
+  background: linear-gradient(135deg, #ffb88c, #e36842);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+}
+
+/* Contenedor interior blanco / oscuro según el tema */
+.menu-inner {
+  border-radius: 30px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 1.6rem 1.7rem 1.8rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.7fr);
+  gap: 1.9rem;
+}
+
+/* ===================== HERO IZQUIERDO ===================== */
+
+.hero-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.hero-header { position: relative; }
+
+.hero-kicker {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #f97316;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.hero-subtitle {
+  margin-top: 0.55rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* Tarjeta tipo promo */
+.hero-highlight {
+  border-radius: 18px;
+  padding: 1rem 1rem 0.9rem;
+  background: radial-gradient(circle at top left, #fff2e6 0, #ffe8d6 40%, #ffece2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-highlight::after {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(227, 104, 66, 0.18), transparent 65%);
+  right: -30px;
+  top: -40px;
+  opacity: 0.7;
+}
+
+.hero-highlight-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.9);
+  color: #fefefe;
+  font-size: 0.78rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-highlight-badge i {
+  color: #f97316;
+}
+
+.hero-highlight-text {
+  margin: 0.7rem 0 0.4rem;
+  font-size: 0.88rem;
+  color: #433022;
+  max-width: 320px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-highlight-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-highlight-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #374151;
+}
+
+.hero-highlight-meta i {
+  color: #10b981;
+}
+
+/* ===================== CATEGORÍAS (PILLS) ===================== */
+
+.category-section {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.category-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.section-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* barra vertical decorativa */
+.section-title::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f97316, #fb923c);
+}
+
+.category-caption {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+/* Botones de categoría: pills horizontales */
+.category-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f9fafb;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.08s ease;
+}
+
+.category-btn .cat-label {
+  white-space: nowrap;
+}
+
+.category-btn:hover {
+  background: #fffaf3;
+  border-color: #f97316;
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.18);
+  transform: translateY(-1px);
+}
+
+.category-btn.active {
+  background: #f97316;
+  border-color: #f97316;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(249, 115, 22, 0.55);
+}
+
+/* ===================== PANEL DERECHO – MENÚ ===================== */
+
+.special-menu {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.menu-caption {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* Pills informativas de la derecha */
+.menu-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+
+.menu-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.34rem 0.8rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  font-size: 0.78rem;
+  color: #4b5563;
+}
+
+.menu-pill i {
+  color: #10b981;
+}
+
+/* Grid de tarjetas de platillos */
+.menu-grid {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+/* ===================== TARJETAS .menu-card ===================== */
+
+.menu-card {
+  background: #f9fafb;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  padding: 0.75rem 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease,
+    background 0.16s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+  border-color: #f97316;
+  background: #ffffff;
+}
+
+.menu-card img {
+  width: 100%;
+  height: 150px;
+  border-radius: 14px;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.menu-card:hover img {
+  transform: scale(1.03);
+  filter: brightness(0.95);
+}
+
+.menu-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.menu-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.menu-card-title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.menu-card-price {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #f97316;
+  white-space: nowrap;
+}
+
+/* chip de categoría */
+.menu-card-meta {
+  margin: 0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #8b5a3c;
+  background: #fff7ea;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+/* botón Agregar (respeta .add-btn del JS) */
+.add-btn {
+  margin-top: 0.3rem;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 12px;
+  border: none;
+  background: #111827;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.16s ease,
+    filter 0.12s ease;
+}
+
+.add-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.add-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+}
+
+/* Hints de detalles existentes en el JS */
+.menu-card .details-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: rgba(0, 0, 0, 0.65);
+  color: #f9fafb;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  pointer-events: none;
+}
+
+.menu-card .img-cta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 64px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.menu-card .img-cta span {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  background: rgba(255, 255, 255, 0.93);
+  color: #374151;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.menu-card:hover .details-badge,
+.menu-card:focus-within .details-badge,
+.menu-card:hover .img-cta span,
+.menu-card:focus-within .img-cta span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* transición suave al recargar menú */
+#menuGrid {
+  transition: opacity 0.2s ease;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+@media (max-width: 1100px) {
+  .menu-inner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+  }
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 880px) {
+  .menu-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero-column {
+    order: -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .menu-inner {
+    padding: 1.25rem 1.15rem 1.5rem;
+  }
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .menu-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===================== MODO OSCURO ESPECÍFICO DEL MAIN ===================== */
+
+body.dark .menu-shell {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+}
+
+body.dark .menu-inner {
+  background: #020617;
+  border-color: #111827;
+}
+
+body.dark .hero-title {
+  color: #f9fafb;
+}
+
+body.dark .hero-subtitle {
+  color: #9ca3af;
+}
+
+body.dark .hero-highlight {
+  background: radial-gradient(circle at top left, #111827 0, #020617 55%, #020617 100%);
+}
+
+body.dark .hero-highlight-text {
+  color: #e5e7eb;
+}
+
+body.dark .hero-highlight-meta span {
+  background: #0b1120;
+  color: #e5e7eb;
+}
+
+body.dark .category-section {
+  border-top-color: #1f2937;
+}
+
+body.dark .category-btn {
+  background: #020617;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark .category-btn:hover {
+  background: #111827;
+  border-color: var(--accent, #f97316);
+}
+
+body.dark .category-btn.active {
+  background: var(--accent, #f97316);
+  border-color: var(--accent, #f97316);
+}
+
+body.dark .menu-caption {
+  color: #6b7280;
+}
+
+body.dark .menu-pill {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+body.dark .menu-card {
+  background: #020617;
+  border-color: #111827;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.8);
+}
+
+body.dark .menu-card-title {
+  color: #f9fafb;
+}
+
+body.dark .menu-card-meta {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fed7aa;
+}
+
+body.dark .add-btn {
+  background: var(--accent, #16a34a);
+}
+
+body.dark .menu-card .details-badge {
+  background: rgba(15, 23, 42, 0.9);
+}
