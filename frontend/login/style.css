@@ -400,3 +400,35 @@ footer p {
   display: flex;
   align-items: center;
 }
+/* --------------------------- */
+/* TOAST DE NOTIFICACIONES    */
+/* --------------------------- */
+.toast {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  background: #e36842; /* naranja Parrilla */
+  color: white;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  z-index: 9999;
+  transition: all .35s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.success {
+  background: #3cb371; /* Verde éxito */
+}
+
+.toast.error {
+  background: #e36842; /* Naranja error */
+}
