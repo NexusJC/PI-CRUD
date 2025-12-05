@@ -1986,17 +1986,24 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
-/* === AJUSTE FINAL: main más largo y footer un poco más abajo === */
+/* === ARREGLO FINAL: SIN CORTES, MENÚ MÁS LARGO === */
 
-/* El layout del menú ocupa un poco más de alto para empujar el footer */
+/* La columna derecha (special-menu) ya no tiene scroll interno ni altura fija */
+.special-menu {
+  max-height: none;
+  overflow-y: visible;
+  padding-right: 0;   /* quitamos el espacio de la barra de scroll */
+}
+
+/* El layout crece de forma natural y empuja el footer hacia abajo */
 .layout {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1.5rem 1.5rem 3.5rem;     /* un pelín más de padding abajo */
-  min-height: calc(100vh - 220px);   /* hace que el menú sea más largo */
+  padding: 1.5rem 1.5rem 4rem;
+  min-height: auto;   /* anulamos el min-height calc(100vh - 220px) */
 }
 
-/* Footer con margen más suave (sobrescribe el margin-top: 4rem anterior) */
+/* El footer se separa solo un poco del contenido */
 .site-footer {
-  margin-top: 2.5rem;
+  margin-top: 1.8rem; /* si lo ves muy pegado, súbelo a 2rem o 2.2rem */
 }
