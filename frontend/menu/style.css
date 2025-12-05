@@ -1986,3 +1986,39 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
+.special-menu {
+  text-align: center;
+  padding: 0 1rem 4rem;
+
+  /* scroll interno del menú derecho */
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+}
+
+/* Scrollbar con diseño (opcional, pero se ve mejor) */
+.special-menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.special-menu::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 999px;
+}
+
+.special-menu::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 999px;
+}
+
+.special-menu::-webkit-scrollbar-thumb:hover {
+  background: #e36842;
+}
+footer {
+  margin-top:3rem;   /* aquí empujamos el footer un poco hacia abajo */
+  padding:16px 20px;
+  border-top:1px solid rgba(227,104,66,0.2);
+  text-align:center;
+  font-size:0.85rem;
+  color:#333;
+  opacity:0.8;
+}
