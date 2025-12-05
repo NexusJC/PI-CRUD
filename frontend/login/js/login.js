@@ -1,3 +1,22 @@
+function showToast(message, type = "error") {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+
+  toast.className = "toast"; // reset classes
+  toast.classList.add("show");
+
+  if (type === "success") {
+    toast.classList.add("success");
+  } else {
+    toast.classList.add("error");
+  }
+
+  // Ocultar después de 3s
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
 // Mostrar/ocultar contraseña
 const toggleLogin = document.getElementById("togglePassword-login");
 if (toggleLogin) {
@@ -88,11 +107,13 @@ if (loginForm) {
         }
 
       } else {
-        alert(data.message || "Correo o contraseña incorrectos.");
+        showToast(data.message || "Correo o contraseña incorrectos.", "error");
+
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al iniciar sesión.");
+      showToast("Error al iniciar sesión.", "error");
+
     }
   });
 }

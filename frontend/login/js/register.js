@@ -1,3 +1,22 @@
+function showToast(message, type = "error") {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+
+  toast.className = "toast"; // reset classes
+  toast.classList.add("show");
+
+  if (type === "success") {
+    toast.classList.add("success");
+  } else {
+    toast.classList.add("error");
+  }
+
+  // Ocultar después de 3s
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
 const form = document.getElementById("registerForm");
 
 form.addEventListener("submit", async (e) => {
@@ -20,15 +39,15 @@ form.addEventListener("submit", async (e) => {
     const result = await resp.json();
 
     if (resp.ok) {
-      alert("Registro exitoso. Revisa tu correo para confirmar tu cuenta.");
+      showToast("Registro exitoso. Revisa tu correo para confirmar tu cuenta.", "success");
       // opcional: regresar al login
       // document.getElementById("registerFormContainer").style.display = "none";
       // document.getElementById("loginForm").style.display = "block";
     } else {
-      alert("Error: " + (result.error || result.message || "No se pudo registrar."));
+      showToast(result.error || result.message || "No se pudo registrar.", "error");
     }
   } catch (err) {
     console.error("Error en fetch:", err);
-    alert("Error en el registro.");
+    showToast("Error en el registro.", "error");
   }
 });
