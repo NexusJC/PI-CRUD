@@ -11,51 +11,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ----- FILTRO DE CATEGORÍAS (MENÚ) ----- */
-  const norm = (s) => (s || "").toString().trim().toLowerCase();
+  /* ----- FILTRO DE CATEGORÍAS (MENÚ NUEVO) ----- */
 
-  const mapCategory = (name) => {
-    const n = norm(name);
-    if (n.includes("pizza")) return "pizza";
-    if (n.includes("hamburg")) return "hamburguesas";
-    if (["pozole", "sopa", "caldo", "menudo"].some((w) => n.includes(w))) return "sopas";
-    if (["vino", "tinto", "blanco", "rosado"].some((w) => n.includes(w))) return "vinos";
-    if (
-      ["pescado", "marlin", "atun", "atún", "salmon", "salmón", "camaron", "camarón", "mariscos"]
-        .some((w) => n.includes(w))
-    ) return "pescado";
-    return "comida";
-  };
+  const normalize = (s) => (s || "").toString().trim().toLowerCase();
 
-  const cards   = document.querySelectorAll(".menu-card");
-  const buttons = document.querySelectorAll(".category-btn");
+  function initCategoryFilter() {
+    const buttons  = document.querySelectorAll(".category-btn");
+    const sections = document.querySelectorAll(".menu-category-block");
+    const cards    = document.querySelectorAll("#menuGrid .menu-card");
 
-  if (cards.length && buttons.length) {
-    cards.forEach((card) => {
-      if (!card.dataset.category) {
-        const name = card.dataset.name || card.querySelector("h3")?.textContent || "";
-        card.dataset.category = mapCategory(name);
+    // Si no hay botones o no hay platillos, no hacemos nada
+    if (!buttons.length || (!sections.length && !cards.length)) return;
+
+    function aplicarFiltro(category) {
+      const cat = normalize(category);
+
+      // 1) Layout nuevo: secciones por categoría (Entradas, Tacos, etc.)
+      if (sections.length) {
+        sections.forEach((sec) => {
+          const secCat = normalize(sec.dataset.category);
+          const mostrar =
+            !cat ||
+            cat === "todos" ||
+            cat === "todo" ||
+            cat === "all" ||
+            secCat === cat;
+
+          sec.style.display = mostrar ? "" : "none";
+        });
+      } else {
+        // 2) Fallback por si algún día vuelves al layout viejo (tarjetas sueltas)
+        cards.forEach((card) => {
+          const cardCat = normalize(card.dataset.category);
+          const mostrar =
+            !cat ||
+            cat === "todos" ||
+            cat === "todo" ||
+            cat === "all" ||
+            cardCat === cat;
+
+          card.style.display = mostrar ? "" : "none";
+        });
       }
-    });
-
-    function filterMenu(category) {
-      cards.forEach((item) => {
-        const cat = norm(item.getAttribute("data-category"));
-        item.style.display = category === "todos" || cat === category ? "" : "none";
-      });
     }
 
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const category = norm(button.getAttribute("data-category"));
-        buttons.forEach((btn) => btn.classList.remove("active"));
-        button.classList.add("active");
-        filterMenu(category);
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const cat = btn.dataset.category || "todos";
+
+        // marcar botón activo
+        buttons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        aplicarFiltro(cat);
       });
     });
 
-    filterMenu("todos");
+    // Estado inicial: mostrar todo
+    aplicarFiltro("todos");
   }
+
+  document.addEventListener("dishesLoaded", initCategoryFilter);
+
+  setTimeout(initCategoryFilter, 1200);
 
   /* ----- SESIÓN: LOGIN / LOGOUT + NOMBRE ----- */
   const token = localStorage.getItem("token");
