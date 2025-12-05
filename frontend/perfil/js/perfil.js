@@ -4,7 +4,7 @@
   const nombre = document.getElementById('perfilNombreText').value;
   const telefono = document.getElementById('perfilNumeroText').value;
   
-  const response = await fetch("https://www.laparrilaazteca.online/api/profile/update-profile", {
+  const response = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
     method: 'PUT',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
