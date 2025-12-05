@@ -1998,7 +1998,7 @@ body.dark .menu-category-title {
 }
 /* El layout ocupa al menos casi toda la pantalla para empujar un poco el footer */
 .layout {
-  max-width: 1280px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 1.5rem 1.5rem 3rem;
   flex: 1 0 auto;
