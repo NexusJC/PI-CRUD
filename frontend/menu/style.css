@@ -2286,3 +2286,14 @@ body.dark .od-summary {
 .hero-column {
   padding-left: 0;
 }
+/* === Borde de separación entre menú y footer === */
+
+.site-footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+/* En modo oscuro el borde se marca más */
+body.dark .site-footer {
+  border-top: 1px solid #1f2937;
+  box-shadow: 0 -1px 0 rgba(148, 163, 184, 0.35);
+}
