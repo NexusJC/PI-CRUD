@@ -1848,42 +1848,42 @@ body.dark .modal-close:hover {
    AJUSTE LAYOUT: HERO IZQUIERDA / MENÚ DERECHA
    ========================================================= */
 
-/* Contenedor general centrado pero sin que se vea tan "largo" */
+/* Contenedor centrado pero con menos "lado" visual */
 .layout {
   max-width: 1280px;
   margin: 0 auto;
   padding: 1.5rem 1.5rem 3rem;
 }
 
-/* Card principal del menú en dos columnas:
-   izquierda (texto/categorías) / derecha (productos) */
-.menu-section {
+/* Card principal del menú en dos columnas más separadas */
+.menu-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
-  gap: 2.2rem;
-  align-items: flex-start;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr); /* izquierda / derecha */
+  gap: 2.2rem; /* más separación horizontal */
+  padding: 0;  /* quitamos padding extra, ya lo da el contenido */
+  background: transparent;
+  border: none;
 }
 
-/* Columna izquierda un poco más hacia la izquierda visual */
-.hero-column,
-.category-section {
+/* Hero/categorías ligeramente más a la izquierda visualmente */
+.hero-column {
   padding-left: 0.25rem;
 }
 
 /* =========================================================
-   MENÚ DERECHA CON SCROLL INTERNO + SCROLLBAR CUSTOM
+   MENÚ DERECHA CON SCROLL INTERNO + SCROLLBAR PERSONALIZADA
    ========================================================= */
 
 .special-menu {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  max-height: calc(100vh - 220px);  /* para que abajo ya se vea el footer */
+  max-height: calc(100vh - 220px); /* para que abajo ya se vea el footer */
   overflow-y: auto;
-  padding-right: 0.6rem;            /* espacio para la barra de scroll */
+  padding-right: 0.6rem; /* espacio para la barra de scroll */
 }
 
-/* Scrollbar (Firefox) */
+/* Scrollbar general (Firefox) */
 .special-menu {
   scrollbar-width: thin;
   scrollbar-color: #9ca3af transparent;
@@ -1895,7 +1895,7 @@ body.dark .modal-close:hover {
 }
 
 .special-menu::-webkit-scrollbar-track {
-  background: rgba(148,163,184,0.15);
+  background: rgba(148, 163, 184, 0.15);
   border-radius: 999px;
 }
 
@@ -1908,7 +1908,7 @@ body.dark .modal-close:hover {
   background: #d1d5db;
 }
 
-/* Scrollbar en modo oscuro */
+/* En modo oscuro, barra más acorde al fondo */
 body.dark .special-menu::-webkit-scrollbar-track {
   background: #020617;
 }
@@ -1925,7 +1925,7 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
    BLOQUES DE CATEGORÍAS DENTRO DEL MENÚ (TÍTULOS + GRID)
    ========================================================= */
 
-/* Ahora #menuGrid es una columna de secciones por categoría */
+/* Ahora #menuGrid es una columna de secciones */
 .menu-grid {
   display: flex;
   flex-direction: column;
@@ -1939,7 +1939,7 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
   gap: 0.7rem;
 }
 
-/* Título de categoría */
+/* Título de categoría dentro del menú derecho */
 .menu-category-title {
   font-size: 0.85rem;
   font-weight: 700;
@@ -1948,7 +1948,7 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
   color: #9ca3af;
 }
 
-/* Pequeña línea debajo del título */
+/* Separador fino bajo el título (solo visual) */
 .menu-category-title::after {
   content: "";
   display: block;
@@ -1966,7 +1966,7 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
   gap: 1.1rem;
 }
 
-/* Responsivo grids por categoría */
+/* Responsivo para la grid por categoría */
 @media (max-width: 1100px) {
   .menu-category-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1980,7 +1980,7 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 }
 
 /* =========================================================
-   MODO OSCURO: TÍTULOS + AJUSTES
+   MODO OSCURO: TÍTULOS DE CATEGORÍA MÁS LEGIBLES
    ========================================================= */
 
 body.dark .menu-category-title {
