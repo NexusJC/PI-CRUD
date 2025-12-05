@@ -1739,3 +1739,34 @@ body.dark #themeToggle:hover {
   filter:brightness(.95);
   transform:translateY(-1px);
 }
+/* Botón X del modal (más notorio) */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #e36842;         /* naranja del tema */
+  background: #ffffff;
+  color: #e36842;
+  font-size: 1.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              transform 0.15s ease,
+              box-shadow 0.15s ease;
+}
+
+.modal-close:hover {
+  background: #e36842;
+  color: #ffffff;
+  transform: scale(1.05) translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0,0,0,0.25);
+}
