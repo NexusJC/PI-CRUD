@@ -1995,3 +1995,15 @@ body.dark .menu-category-title {
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
 }
+.special-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+
+  /* un poco más alta para ocupar el hueco bajo los platillos */
+  max-height: calc(100vh - 190px);  /* antes: 220px */
+  min-height: 420px;
+
+  overflow-y: auto;
+  padding-right: 0.6rem; /* espacio para la barra de scroll */
+}
