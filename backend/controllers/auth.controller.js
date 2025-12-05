@@ -140,103 +140,43 @@ export const register = async (req, res) => {
   }
 };
 
-// Solicitar recuperación por correo
-export const forgotPassword = async (req, res) => {
-  const { email } = req.body;
-
-  try {
-    const [rows] = await pool.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
-    );
-
-    if (rows.length === 0) {
-      return res.status(404).json({ message: "No existe un usuario con ese correo" });
-    }
-
-    const user = rows[0];
-
-    // generar token
-    const token = crypto.randomBytes(32).toString("hex");
-
-    // guardar token y expiración (1 hora)
-    await pool.query(
-      "UPDATE users SET resetToken = ?, resetTokenExpire = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE id = ?",
-      [token, user.id]
-    );
-
-    // enlace que va en el correo
-    const link = `https://laparrilaazteca.online/login/new_password.html?token=${token}`;
-
-    // configuracion de nodemailer (Brevo)
-    const transporter = nodemailer.createTransport({
-      host: "smtp-relay.brevo.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
-      }
-    });
-
-    // enviar correo
-    await transporter.sendMail({
-      from: `"La Parrilla Azteca" <${process.env.MAIL_USER}>`,
-      to: email,
-      subject: "Recuperación de contraseña",
-      html: `
-        <h2>Restablecer contraseña</h2>
-        <p>Haz clic en el siguiente enlace para crear una nueva contraseña:</p>
-        <a href="${link}">${link}</a>
-        <p>Este enlace expira en 1 hora.</p>
-      `
-    });
-
-    res.json({ message: "Correo enviado. Revisa tu bandeja." });
-
-  } catch (error) {
-    console.error("Error en forgotPassword:", error);
-    res.status(500).json({ message: "Error en el servidor" });
-  }
-};
-// 2) Establecer nueva contraseña
+// Resetear contraseña
 export const resetPassword = async (req, res) => {
-  const { token, password } = req.body;
+    const { token, password } = req.body;
 
-  try {
-    // buscar token en bd
-    const [rows] = await pool.query(
-      "SELECT * FROM users WHERE resetToken = ? AND resetTokenExpire > NOW()",
-      [token]
-    );
+    try {
+        // Buscar token en la base de datos
+        const [rows] = await pool.query(
+            "SELECT * FROM users WHERE resetToken = ? AND resetTokenExpire > NOW()",
+            [token]
+        );
 
-    if (rows.length === 0) {
-      return res.status(400).json({ message: "Token inválido o expirado" });
+        if (rows.length === 0) {
+            return res.status(400).json({ message: "Token inválido o expirado" });
+        }
+
+        const user = rows[0];
+
+        // Encriptar nueva contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Actualizar contraseña y borrar el token
+        await pool.query(
+            "UPDATE users SET password = ?, resetToken = NULL, resetTokenExpire = NULL WHERE id = ?",
+            [hashedPassword, user.id]
+        );
+
+        res.json({ message: "Contraseña actualizada correctamente" });
+
+    } catch (error) {
+        console.error("Error en resetPassword:", error);
+        res.status(500).json({ message: "Error en el servidor" });
     }
-
-    const user = rows[0];
-
-    // encriptar nueva contraseña
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // actualizar contraseña y borrar token
-    await pool.query(
-      "UPDATE users SET password = ?, resetToken = NULL, resetTokenExpire = NULL WHERE id = ?",
-      [hashedPassword, user.id]
-    );
-
-    res.json({ message: "Contraseña actualizada correctamente" });
-
-  } catch (error) {
-    console.error("Error en resetPassword:", error);
-    res.status(500).json({ message: "Error en el servidor" });
-  }
 };
 
 export default { 
   getUsers, 
   login, 
   register, 
-  forgotPassword, 
   resetPassword 
 };

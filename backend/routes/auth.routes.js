@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { pool } from "../db.js";
-import { getUsers, login, register,forgotPassword,resetPassword } from "../controllers/auth.controller.js";
+import { getUsers, login, register,resetPassword } from "../controllers/auth.controller.js";
 
 const router = Router();
 
@@ -13,10 +13,7 @@ router.post("/login", login);
 // ruta para el registro de nuevos usuarios
 router.post("/register", register);
 
-// nueva ruta para solicitar recuperación
-router.post("/forgot-password", forgotPassword);
-
-// nueva ruta para cambiar contraseña con token
+// ruta para el reestablecimiento de contraseña
 router.post("/reset-password", resetPassword);
 
 // ruta para verificar correo electrónico
