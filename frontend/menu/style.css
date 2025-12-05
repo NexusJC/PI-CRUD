@@ -2259,27 +2259,30 @@ body.dark .od-summary {
   color: var(--accent);
   white-space: nowrap;
 }
-/* Contenedor principal un poco más ancho */
+/* LAYOUT A TODO ANCHO, PEGADO A LA IZQUIERDA */
 .layout {
-  max-width: 1400px;          /* antes: 1280px */
-  margin: 0 auto;
-  padding: 1.5rem 2rem 3rem;  /* un poco más de respiro lateral */
+  width: 100%;
+  max-width: none;            /* sin límite, usa todo el ancho */
+  margin: 0;                  /* ya no centrado con margenes laterales grandes */
+  padding: 1.5rem 1.5rem 3rem;/* sólo un margen interno pequeño (≈24px) */
 }
-/* Hero izquierda más compacta, menú de productos más ancho */
+/* Sección principal del menú ocupando todo el ancho del layout */
+.menu-section {
+  width: 100%;
+  max-width: none;                 /* sin límite, se alinea con el layout */
+  margin: 0;
+  min-height: calc(100vh - 90px);  /* sigue empujando el footer hacia abajo */
+}
+/* Hero izquierda más compacto, zona de productos aún más ancha */
 .menu-inner {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.1fr); /* hero / productos */
-  gap: 1.8rem;   /* un poco menos separación entre columnas */
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 2.2fr); /* ≈25% / 75% */
+  gap: 1.6rem;   /* un poco menos separación entre columnas */
   padding: 0;
   background: transparent;
   border: none;
 }
-.special-menu {
-  width: 100%;
-}
-/* En pantallas grandes, mostrar 4 productos por fila */
-@media (min-width: 1300px) {
-  .menu-category-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+/* Hero pegado al margen izquierdo visual */
+.hero-column {
+  padding-left: 0;
 }
