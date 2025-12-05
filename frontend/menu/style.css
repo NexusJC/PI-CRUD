@@ -1738,3 +1738,64 @@ body.dark .menu-inner {
   background: transparent;
   border: none;
 }
+/* Fondo piel de la página */
+body {
+  background: var(--panel);
+}
+
+/* Fondo en modo oscuro */
+body.dark {
+  background: #131920;
+}
+/* === OVERRIDES FINALES: MENÚ A TODO ANCHO CON FONDO PIEL === */
+
+/* El fondo usa la variable --bg (que ya es piel) */
+body {
+  background: var(--bg);
+}
+
+/* El main sigue ocupando toda la ventana debajo del topbar */
+.layout {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1.5rem 1.5rem 4rem;
+}
+
+/* El contenido del menú va centrado, pero sin tarjeta flotante */
+.menu-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Sin marco ni sombra extra */
+.menu-shell {
+  margin-top: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* TODO el bloque del menú (hero + categorías + cards) con color piel */
+.menu-inner {
+  border-radius: 0;
+  border: none;
+  background: var(--panel);   /* = color piel */
+  padding: 1.5rem 1.5rem 2.5rem;
+}
+
+/* Dark mode usa sus propios colores (bg/panel oscuros) */
+body.dark {
+  background: var(--bg);
+}
+
+body.dark .menu-shell {
+  background: transparent;
+  box-shadow: none;
+}
+
+body.dark .menu-inner {
+  background: var(--panel);
+  border: none;
+}
