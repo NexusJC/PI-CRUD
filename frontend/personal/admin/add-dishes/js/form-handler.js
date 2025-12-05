@@ -71,10 +71,11 @@ form.addEventListener('submit', async (e) => {
     alert("Selecciona una imagen.");
     return;
   }
+
   if (!categoria) {
-  alert("Selecciona una categoría para el platillo.");
-  return;
-}
+    alert("Selecciona una categoría para el platillo.");
+    return;
+  }
 
   try {
     // 1) Subir imagen a Cloudinary
@@ -100,9 +101,14 @@ form.addEventListener('submit', async (e) => {
     if (res.ok) {
       alert("Platillo agregado correctamente");
       form.reset();
+      fileText.textContent = "Haz clic para subir imagen del platillo";
 
-      // Recargar la lista de platillos después de agregar uno nuevo
-    await loadDishes(); // Esto asegura que los platillos se recarguen en el frontend
+      // Cerrar modal
+      dishModal.style.display = "none";
+      dishOverlay.style.display = "none";
+
+      // Recargar lista
+      await loadDishes();
     } else {
       alert(result.message || "Error al agregar platillo");
     }
@@ -112,7 +118,6 @@ form.addEventListener('submit', async (e) => {
     alert("Error al agregar platillo");
   }
 });
-
 
 // CARGAR PLATILLOS
 async function loadDishes() {
@@ -129,7 +134,7 @@ async function loadDishes() {
         <td>${dish.nombre}</td>
         <td>$${dish.precio}</td>
         <td>${dish.categoria}</td>
-        <td><img src="${dish.imagen}" width="60"></td>
+        <td><img src="${dish.imagen}" width="60" alt="${dish.nombre}"></td>
         <td><button class="delete-btn" data-id="${dish.id}">Eliminar</button></td>
       `;
 
@@ -150,6 +155,7 @@ async function loadDishes() {
     tableBody.innerHTML = "<tr><td colspan='6'>Error al cargar platillos</td></tr>";
   }
 }
+
 // ELIMINAR PLATILLO
 async function deleteDish(id) {
   try {
@@ -163,7 +169,7 @@ async function deleteDish(id) {
       alert("Platillo eliminado");
       loadDishes();
     } else {
-      alert("No se pudo eliminar");
+      alert(result.message || "No se pudo eliminar");
     }
 
   } catch (err) {
@@ -171,3 +177,6 @@ async function deleteDish(id) {
     alert("Error eliminando platillo");
   }
 }
+
+// Cargar platillos al abrir la página
+loadDishes();
