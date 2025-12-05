@@ -1994,16 +1994,20 @@ body.dark .menu-category-title {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  /* MENÚ MÁS LARGO: aprovecha el espacio antes del footer */
-  max-height: calc(100vh - 160px); /* antes: 220px */
+  /* MENÚ AÚN MÁS LARGO: casi hasta el footer */
+  max-height: calc(100vh - 110px); /* antes: 160px */
   overflow-y: auto;
   padding-right: 0.6rem;
 }
-/* Sección principal del menú */
-.menu-section {
-  max-width: 1200px;
+.layout {
+  max-width: 1280px;
   margin: 0 auto;
-
-  /* bloque del menú más largo, footer un poco más abajo */
-  min-height: calc(100vh - 80px); /* antes: 140px */
+  /* menos padding abajo para que el footer suba */
+  padding: 1.5rem 1.5rem 1.25rem;
+}
+.site-footer {
+  margin-top: 0.75rem; /* antes: 2rem */
+  background: radial-gradient(circle at top left, #0b1120 0, #020617 60%, #020617 100%);
+  color: #e5e7eb;
+  padding: 2.2rem 8vw 1.4rem;
 }
