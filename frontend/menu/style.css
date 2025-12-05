@@ -1990,3 +1990,36 @@ body.dark .menu-category-title {
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
 }
+/* ===== AJUSTE FINAL: MENÚ MÁS LARGO Y FOOTER FUERA DE VISTA ===== */
+
+/* El layout completo del menú ocupa un poco más que la pantalla
+   para que el footer NO se vea sin hacer scroll */
+.layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+  /* hace que el bloque del menú sea más alto que el viewport */
+  min-height: calc(100vh + 80px);
+}
+
+/* La sección del menú sigue centrada, sin tocar el diseño lateral */
+.menu-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Columna derecha: mantiene SU scroll interno,
+   pero nos aseguramos de que sea alta y rellene mejor el espacio */
+.special-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-right: 0.6rem;
+
+  /* scroll interno del menú (lo que ya tenías) */
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+
+  /* altura mínima decente para que se vea lleno aunque haya pocos platillos */
+  min-height: 520px;
+}
