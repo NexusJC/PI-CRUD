@@ -72,25 +72,97 @@
     </div>
 
     <form id="dish-form">
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required>
+  <!-- NOMBRE -->
+  <div class="dish-form-group">
+    <label for="dishName">Nombre:</label>
+    <input
+      id="dishName"
+      type="text"
+      name="nombre"
+      placeholder="Ej. Arrachera a la parrilla"
+      required
+    >
+  </div>
 
-        <label>Descripción:</label>
-        <textarea name="descripcion" required></textarea>
+  <!-- DESCRIPCIÓN -->
+  <div class="dish-form-group">
+    <label for="dishDescription">Descripción:</label>
+    <textarea
+      id="dishDescription"
+      name="descripcion"
+      placeholder="Ej. Arrachera marinada con nopales y cebollitas."
+      required
+    ></textarea>
+  </div>
 
-        <label>Precio:</label>
-        <input type="number" name="precio" required>
+  <!-- PRECIO + CATEGORÍA EN DOS COLUMNAS -->
+  <div class="dish-form-row">
+    <div class="dish-form-group">
+      <label for="dishPrice">Precio:</label>
+      <div class="dish-input-prefix">
+        <span>$</span>
+        <input
+          id="dishPrice"
+          type="number"
+          name="precio"
+          min="0"
+          step="0.01"
+          placeholder="199.00"
+          required
+        >
+      </div>
+    </div>
 
-        <label>Categoría:</label>
-        <input type="text" name="categoria" required>
+    <div class="dish-form-group">
+      <label for="dishCategory">Categoría:</label>
+      <select id="dishCategory" name="categoria" required>
+        <option value="" disabled selected>Selecciona una categoría</option>
 
-        <label>Imagen:</label>
-        <input type="file" name="imagen" accept="image/*" required>
+        <!-- CATEGORÍAS FIJAS PARA PARRILLA MEXICANA -->
+        <option value="entradas">Entradas & botanas</option>
+        <option value="tacos">Tacos a la parrilla</option>
+        <option value="parrilladas">Parrilladas para compartir</option>
+        <option value="cortes">Cortes de res</option>
+        <option value="pollo">Pollo a la parrilla</option>
+        <option value="mariscos">Mariscos a la parrilla</option>
+        <option value="burgers">Hamburguesas</option>
+        <option value="antojitos">Antojitos mexicanos</option>
+        <option value="guarniciones">Guarniciones & acompañamientos</option>
+        <option value="ensaladas">Ensaladas</option>
+        <option value="sopas">Sopas & caldos</option>
+        <option value="infantil">Menú infantil</option>
+        <option value="postres">Postres</option>
+        <option value="bebidas">Bebidas sin alcohol</option>
+        <option value="cervezas">Cervezas</option>
+        <option value="cocteles">Cocteles</option>
+        <option value="vinos">Vinos</option>
+        <option value="especialidades">Especialidades de la casa</option>
+      </select>
+    </div>
+  </div>
 
-        <button type="submit">Agregar Platillo</button>
-    </form>
-</div>
+  <!-- IMAGEN CON INPUT CUSTOM -->
+  <div class="dish-form-group">
+    <label for="dishImage">Imagen:</label>
+    <label class="dish-file-input">
+      <i class="fa-regular fa-image"></i>
+      <span id="dishFileText">Haz clic para subir imagen del platillo</span>
+      <input
+        id="dishImage"
+        type="file"
+        name="imagen"
+        accept="image/*"
+        required
+      >
+    </label>
+  </div>
 
+  <!-- BOTÓN SUBMIT BONITO -->
+  <button type="submit" class="dish-submit-btn">
+    <i class="fa-solid fa-check"></i>
+    Agregar platillo
+  </button>
+</form>
 
 <div class="dishes-title-row">
     <h2>Platillos Actuales</h2>

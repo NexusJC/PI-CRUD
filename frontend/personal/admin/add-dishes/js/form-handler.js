@@ -6,7 +6,20 @@ const openDishModal = document.getElementById("openDishModal");
 const closeDishModal = document.getElementById("closeDishModal");
 const dishModal = document.getElementById("dishModal");
 const dishOverlay = document.getElementById("dishOverlay");
+// Inputs del nuevo diseño
+const fileInput = document.getElementById("dishImage");
+const fileText  = document.getElementById("dishFileText");
 
+// Mostrar el nombre del archivo seleccionado
+if (fileInput && fileText) {
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files && fileInput.files[0]) {
+      fileText.textContent = fileInput.files[0].name;
+    } else {
+      fileText.textContent = "Haz clic para subir imagen del platillo";
+    }
+  });
+}
 // ABRIR MODAL
 openDishModal.addEventListener("click", () => {
   dishModal.style.display = "block";
