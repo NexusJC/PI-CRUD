@@ -2,14 +2,16 @@
    VARIABLES & RESETEO
    ========================================================= */
 :root {
-  --topbar: #e36842;
-  --bg: #fffcf7;     
-  --panel: #fffcf7;   
-  --text: #2b2b2b;
-  --card: #ffffff;    
-  --border: #e5e5e5;
-  --accent: #f97316;
+  /* PALETA CLARO · tipo naranja + crema */
+  --topbar: #f97316;      /* barra superior */
+  --bg: #fff7ed;          /* fondo general piel */
+  --panel: #fff7ed;       /* panel principal menú */
+  --text: #111827;        /* texto casi negro */
+  --card: #ffffff;        /* tarjetas blancas */
+  --border: #e5e7eb;      /* bordes suaves */
+  --accent: #ea580c;      /* acento naranja (precios, botones) */
 }
+
 
 
 * {
@@ -2010,4 +2012,179 @@ body.dark .menu-category-title {
   background: radial-gradient(circle at top left, #0b1120 0, #020617 60%, #020617 100%);
   color: #e5e7eb;
   padding: 2.2rem 8vw 1.4rem;
+}
+body.dark {
+  /* PALETA OSCURA · fondo casi negro + naranja brillante */
+  --topbar: #020617;
+  --bg: #020617;
+  --panel: #020617;
+  --text: #f9fafb;
+  --card: #020617;
+  --border: #1f2937;
+  --accent: #fb923c;
+
+  background: var(--bg);
+  color: var(--text);
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  background: var(--topbar);
+  color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1100;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.25);
+}
+.open-btn {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  font-size: 1.02rem;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+  z-index: 1001;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
+}
+
+.open-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.45);
+}
+
+.open-btn.hidden {
+  display: none;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff7eb 0%, #ffe4d5 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.25);
+  border-right: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  transition: all 0.6s ease;
+  z-index: 999;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 28px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #1f2933; /* antes #3b2d25 */
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+.theme-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+body.dark .sidebar {
+  background: #020617;
+  border-right: 1px solid #1f2937;
+}
+body.dark .sidebar-profile {
+  background: #020617 !important;
+  border-bottom: 1px solid #1f2937;
+}
+
+body.dark .sidebar-profile p {
+  color: #9ca3af;
+}
+
+body.dark .sidebar ul li a {
+  color: #e5e7eb;
+}
+
+body.dark .sidebar ul li a:hover {
+  background: #111827;
+  transform: translateX(8px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.9);
+}
+
+body.dark .sidebar-footer {
+  color: #9ca3af;
+}
+
+body.dark .sidebar-footer span {
+  color: var(--accent);
+}
+body.dark #themeToggle {
+  background: #111827;
+  color: #e5e7eb;
+  border: 1px solid #1f2937;
+}
+
+body.dark #themeToggle:hover {
+  background: #020617;
+}
+.order-details {
+  position: fixed;
+  top: 85px;
+  right: 20px;
+  width: 420px;
+  max-width: 95vw;
+  background: var(--card);
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.28);
+  padding: 20px 18px 18px;
+  display: none;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  z-index: 2000;
+  animation: slideIn 0.25s ease-out;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+}
+.od-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
 }
