@@ -97,7 +97,7 @@
               Especialidad a la parrilla
             </div>
             <p class="hero-highlight-text">
-              Menú digital pensado para que el mesero o cajero arme la cuenta rápido y el ticket salga claro.
+              Menú digital dirfrute se compra, aqui somos como una familia.
             </p>
             <div class="hero-highlight-meta">
               <span><i class="fa-regular fa-clock"></i> Servicio ágil</span>
@@ -218,54 +218,6 @@
     </div>
   </section>
 </main>
-
-    <!-- MODAL DE DETALLES DEL PLATILLO -->
-  <div id="productModal" class="product-modal" aria-hidden="true">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <!-- Botón X para cerrar -->
-      <button id="modalClose" class="modal-close" aria-label="Cerrar detalles">
-        &times;
-      </button>
-
-      <!-- Imagen del platillo -->
-      <img id="modalImg" src="" alt="Platillo seleccionado">
-
-      <!-- Texto -->
-      <h2 id="modalTitle">Nombre del platillo</h2>
-      <p id="modalDesc">Descripción del platillo.</p>
-      <p id="modalPrice" class="modal-price">$0.00</p>
-
-      <!-- Botón para agregar directo a la orden -->
-      <button id="modalAddBtn" class="add-btn">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M11 5h2v14h-2z" />
-          <path d="M5 11h14v2H5z" />
-        </svg>
-        Agregar a la orden
-      </button>
-    </div>
-  </div>
-
-
- <!-- FOOTER -->
-  <footer>
-    <div class="footer-container">
-      <div class="contact-section">
-        <h3>Contacto</h3>
-<div class="social-icons">
-  <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank">
-    <i class="fab fa-facebook-f"></i>
-  </a>
-  <a href="https://x.com/LaParrillazteca" target="_blank">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-  <a href="https://www.tiktok.com/@laparrillazteca" target="_blank">
-    <i class="fab fa-tiktok"></i>
-  </a>
-  <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank">
-    <i class="fab fa-instagram"></i>
-  </a>
-</div>
   <!-- MODAL DE DETALLES DEL PLATILLO -->
   <div id="productModal" class="product-modal" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -293,7 +245,7 @@
     </div>
   </div>
 
-  <!-- PANEL DE ORDEN (FUERA DEL FOOTER) -->
+  <!-- === PANEL DE ORDEN (FUERA DEL FOOTER) === -->
   <aside id="orderDetails" class="order-details">
     <div class="od-header">
       <h2>Tu orden</h2>
@@ -336,67 +288,32 @@
     </div>
   </aside>
 
-  <!-- FOOTER NUEVO ÚNICO -->
-  <footer class="site-footer">
-    <div class="footer-main">
-      <!-- Columna izquierda: marca -->
-      <div class="footer-col footer-brand">
-        <div class="footer-logo">
-          <img src="../img/logo_1.png" alt="La Parrilla Azteca">
-          <span>La Parrilla Azteca</span>
-        </div>
-        <p>
-          Restaurante de parrilla mexicana con cortes, tacos, mariscos y bebidas
-          diseñados para disfrutarse en familia.
-        </p>
-      </div>
-
-      <!-- Columna centro: enlaces -->
-      <div class="footer-col footer-links">
-        <h3>Explora</h3>
-        <ul>
-          <li><a href="#menuGrid">Ver menú</a></li>
-          <li><a href="../login/login.html">Iniciar sesión</a></li>
-          <li><a href="../perfil/perfil.html">Mi perfil</a></li>
-          <li><a href="../shifts/shifts.html">Turnos</a></li>
-        </ul>
-      </div>
-
-      <!-- Columna derecha: contacto + redes + newsletter -->
-      <div class="footer-col footer-contact">
+  <!-- FOOTER LIMPIO (SIN PANEL NI CONTACTO EXTRA ARRIBA) -->
+  <footer>
+    <div class="footer-container">
+      <div class="contact-section">
         <h3>Contacto</h3>
-        <p class="footer-contact-text">
-          ¿Dudas o reservaciones? Escríbenos o síguenos en redes sociales.
-        </p>
-
-        <div class="footer-social">
-          <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank" aria-label="Facebook">
+        <div class="social-icons">
+          <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank">
             <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="https://x.com/LaParrillazteca" target="_blank" aria-label="X">
+          <a href="https://x.com/LaParrillazteca" target="_blank">
             <i class="fab fa-x-twitter"></i>
           </a>
-          <a href="https://www.tiktok.com/@laparrillazteca" target="_blank" aria-label="TikTok">
+          <a href="https://www.tiktok.com/@laparrillazteca" target="_blank">
             <i class="fab fa-tiktok"></i>
           </a>
-          <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank" aria-label="Instagram">
+          <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank">
             <i class="fab fa-instagram"></i>
           </a>
         </div>
-
-        <form class="footer-newsletter" action="#" onsubmit="return false;">
-          <label for="footer-email">Recibe novedades y promociones</label>
-          <div class="footer-newsletter-row">
-            <input id="footer-email" type="email" placeholder="Tu correo electrónico">
-            <button type="submit">Suscribirme</button>
-          </div>
-        </form>
       </div>
-    </div>
 
-    <div class="footer-bottom">
-      <p>© 2025 Innovatech · La Parrilla Azteca · Versión 1.0.1</p>
-      <div class="footer-bottom-links">
+      <div class="copyright-section">
+        <p>&copy; 2025 Innovatech | Versión 1.0.1</p>
+      </div>
+
+      <div class="legal-section">
         <a href="../login/politicas.html">Política de Privacidad</a>
         <a href="../login/politicas.html">Términos y Condiciones</a>
       </div>

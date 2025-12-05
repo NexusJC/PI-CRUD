@@ -1738,3 +1738,12 @@ body.dark .menu-inner {
   background: transparent;
   border: none;
 }
+/* Fondo piel de la página */
+body {
+  background: var(--panel);   /* usa #fff7ea que ya tienes en :root */
+}
+
+/* Fondo en modo oscuro */
+body.dark {
+  background: #131920;
+}
