@@ -3,13 +3,13 @@
    ========================================================= */
 :root {
   /* PALETA CLARO · tipo naranja + crema */
-  --topbar: #f97316;      /* barra superior */
+  --topbar: #e36842;      /* barra superior */
   --bg: #fff7ed;          /* fondo general piel */
   --panel: #fff7ed;       /* panel principal menú */
   --text: #111827;        /* texto casi negro */
   --card: #ffffff;        /* tarjetas blancas */
   --border: #e5e7eb;      /* bordes suaves */
-  --accent: #ea580c;      /* acento naranja (precios, botones) */
+  --accent: #e36842;      /* acento naranja (precios, botones) */
 }
 
 
@@ -2297,48 +2297,62 @@ body.dark .site-footer {
   border-top: 1px solid #1f2937;
   box-shadow: 0 -1px 0 rgba(148, 163, 184, 0.35);
 }
-/* === SCROLLBAR GLOBAL – PÁGINA ===================== */
+/* === SCROLLBAR GLOBAL (CUERPO DE LA PÁGINA) === */
 
 /* Firefox */
 body {
   scrollbar-width: thin;
-  scrollbar-color: rgba(227, 104, 66, 0.9) transparent;
+  scrollbar-color: var(--accent) transparent;
 }
 
 /* WebKit (Chrome, Edge, etc.) */
 body::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 
 body::-webkit-scrollbar-track {
-  background: transparent;
+  background-color: rgba(0, 0, 0, 0.04);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+  border-radius: 10px;
 }
 
 body::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #f97316, #ea580c);
-  border-radius: 999px;
-  border: 2px solid rgba(0, 0, 0, 0.08);
-  box-shadow:
-    0 0 0 1px rgba(15, 23, 42, 0.2),
-    0 8px 18px rgba(15, 23, 42, 0.45);
+  border-radius: 10px;
+  background-color: var(--accent);
+  background-image: -webkit-linear-gradient(45deg,
+    rgba(255, 255, 255, .28) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, .28) 50%,
+    rgba(255, 255, 255, .28) 75%,
+    transparent 75%,
+    transparent);
 }
 
+/* Hover de la barrita */
 body::-webkit-scrollbar-thumb:hover {
-  box-shadow:
-    0 0 0 1px rgba(15, 23, 42, 0.4),
-    0 10px 22px rgba(15, 23, 42, 0.7);
+  -webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
 }
 
-/* Modo oscuro: pista y borde más definidos */
+/* Modo oscuro: pista más oscura pero con la misma barra naranja */
 body.dark {
-  scrollbar-color: #fb923c transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) #05080d;
 }
 
 body.dark::-webkit-scrollbar-track {
-  background: #020617;
+  background-color: #05080d;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9);
 }
 
 body.dark::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #fb923c, #f97316);
-  border-color: #020617;
+  background-color: var(--accent);
+  background-image: -webkit-linear-gradient(45deg,
+    rgba(0, 0, 0, .35) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(0, 0, 0, .35) 50%,
+    rgba(0, 0, 0, .35) 75%,
+    transparent 75%,
+    transparent);
 }
