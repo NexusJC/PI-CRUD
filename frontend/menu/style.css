@@ -1990,3 +1990,27 @@ body.dark .menu-category-title {
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
 }
+/* =========================================
+   LAYOUT ESPECÍFICO PARA LA PÁGINA DE MENÚ
+   ========================================= */
+
+/* 1) El body de la página de menú se comporta como layout */
+body.menu-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;   /* altura mínima pantalla completa */
+}
+
+/* 2) El <main> que contiene el menú es el layout central */
+.menu-layout {
+  flex: 1 0 auto;           /* ocupa el espacio disponible entre topbar y footer */
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3.5rem; /* padding extra abajo para "alargar" el menú */
+}
+
+/* 3) Empujamos el footer un poco más abajo SOLO en el menú */
+body.menu-page footer {
+  margin-top: 90px;   /* si lo quieres más abajo, súbelo a 110px o 120px */
+}
