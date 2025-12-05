@@ -165,7 +165,7 @@ export const requestPasswordReset = async (req, res) => {
       [token, expires, email]
     );
 
-    const resetURL = `https://laparrilaazteca.online/api/auth/reset-password/verify?token=${token}`;
+    const resetURL = `https://www.laparrilaazteca.online/api/auth/reset-password/verify?token=${token}`;
 
     // Usamos BREVO igual que en register
     const client = SibApiV3Sdk.ApiClient.instance;
