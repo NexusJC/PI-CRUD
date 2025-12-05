@@ -1978,11 +1978,6 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
     grid-template-columns: minmax(0, 1fr);
   }
 }
-
-/* =========================================================
-   MODO OSCURO: TÍTULOS DE CATEGORÍA MÁS LEGIBLES
-   ========================================================= */
-
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
@@ -1995,22 +1990,24 @@ body.dark .menu-category-title {
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
 }
-/* Sección principal del menú: más alta para empujar el footer */
+/* ===== AJUSTE FINAL: MENU MÁS LARGO Y FOOTER FUERA DE VISTA ===== */
+
+/* El bloque del menú ocupa un poco más de alto que la ventana
+   para que el footer no se asome sin hacer scroll */
 .menu-section {
   max-width: 1200px;
   margin: 0 auto;
-  /* el bloque del menú ocupa casi toda la ventana (debajo del topbar) */
-  min-height: calc(100vh - 60px);
-  padding-bottom: 3rem; /* rellena un poco más antes del footer */
+  min-height: calc(100vh + 70px);  /* antes estaba cerca de 100vh, ahora lo bajamos un poco más */
+  padding-bottom: 3rem;
 }
-/* Columna derecha (platillos): ocupa bien el alto y mantiene scroll interno */
+
+/* La columna derecha mantiene su scroll interno como lo tienes ahora */
 .special-menu {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 
-  /* altura fija respecto a la ventana:
-     así el menú llena el hueco y el footer queda fuera de la vista */
+  /* alto fijo respecto a la ventana para que el scroll interno siga funcionando */
   height: calc(100vh - 190px);
   min-height: 520px;
 
