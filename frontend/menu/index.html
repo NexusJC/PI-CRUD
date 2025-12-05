@@ -266,7 +266,7 @@
     <i class="fab fa-instagram"></i>
   </a>
 </div>
-<!-- === ORDER DETAILS PANEL=== -->
+<!-- === PANEL DE ORDEN (MISMOS IDS/CLASES) === -->
 <aside id="orderDetails" class="order-details">
 
   <div class="od-header">
@@ -284,6 +284,7 @@
     </div>
     <p>Tu orden está vacía.<br>Agrega un platillo para comenzar </p>
   </div>
+
   <div class="od-summary">
     <div class="row">
       <span>Subtotal:</span>
@@ -298,6 +299,7 @@
       <span id="total">$0.00</span>
     </div>
   </div>
+
   <div id="actionButtons" class="od-actions">
     <button id="confirm-btn" class="od-btn od-confirm" disabled>
       Confirmar Pedido
@@ -308,16 +310,72 @@
   </div>
 </aside>
 
+<!-- === FOOTER NUEVO === -->
+<footer class="site-footer">
+  <div class="footer-main">
+    <!-- Columna izquierda: marca -->
+    <div class="footer-col footer-brand">
+      <div class="footer-logo">
+        <img src="../img/logo_1.png" alt="La Parrilla Azteca">
+        <span>La Parrilla Azteca</span>
       </div>
-      <div class="copyright-section">
-        <p>&copy; 2025 Innovatech | Versión 1.0.1</p>
-      </div>
-      <div class="legal-section">
-        <a href="../login/politicas.html">Política de Privacidad</a>
-        <a href="../login/politicas.html">Términos y Condiciones</a>
-      </div>
+      <p>
+        Restaurante de parrilla mexicana con cortes, tacos, mariscos y bebidas
+        diseñados para disfrutarse en familia.
+      </p>
     </div>
-  </footer>
+
+    <!-- Columna centro: enlaces -->
+    <div class="footer-col footer-links">
+      <h3>Explora</h3>
+      <ul>
+        <li><a href="#menuGrid">Ver menú</a></li>
+        <li><a href="../login/login.html">Iniciar sesión</a></li>
+        <li><a href="../perfil/perfil.html">Mi perfil</a></li>
+        <li><a href="../shifts/shifts.html">Turnos</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna derecha: contacto + redes + newsletter -->
+    <div class="footer-col footer-contact">
+      <h3>Contacto</h3>
+      <p class="footer-contact-text">
+        ¿Dudas o reservaciones? Escríbenos o síguenos en redes sociales.
+      </p>
+
+      <div class="footer-social">
+        <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://x.com/LaParrillazteca" target="_blank" aria-label="X">
+          <i class="fab fa-x-twitter"></i>
+        </a>
+        <a href="https://www.tiktok.com/@laparrillazteca" target="_blank" aria-label="TikTok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+
+      <form class="footer-newsletter" action="#" onsubmit="return false;">
+        <label for="footer-email">Recibe novedades y promociones</label>
+        <div class="footer-newsletter-row">
+          <input id="footer-email" type="email" placeholder="Tu correo electrónico">
+          <button type="submit">Suscribirme</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Innovatech · La Parrilla Azteca · Versión 1.0.1</p>
+    <div class="footer-bottom-links">
+      <a href="../login/politicas.html">Política de Privacidad</a>
+      <a href="../login/politicas.html">Términos y Condiciones</a>
+    </div>
+  </div>
+</footer>
   <script src="js/load-dishes.js"defer></script>
   <script src="js/orderDetails.js"defer></script>
   <script src="js/sidebar.js" defer></script>
