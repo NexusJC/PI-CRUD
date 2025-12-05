@@ -14,13 +14,13 @@ export const updateProfilePicture = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const { name, telefono } = req.body;
+  const { name, telefono, gender } = req.body;
   const userId = req.user.id; // Tomamos el id del usuario logueado
 
   try {
     await pool.query(
-      'UPDATE users SET name = ?, telefono = ? WHERE id = ?',
-      [name, telefono, userId]
+      'UPDATE users SET name = ?, telefono = ?, gender = ? WHERE id = ?',
+      [name, telefono, gender, userId]
     );
     res.json({ message: 'Perfil actualizado correctamente' });
   } catch (error) {
