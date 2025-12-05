@@ -74,26 +74,151 @@
       <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
     </div>
   </nav>
+<!-- MAIN · NUEVO DISEÑO -->
+<main class="layout">
+  <section class="menu-section">
+    <div class="menu-shell">
+      <div class="menu-inner">
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="layout">
-    <section class="menu-section">
-      <div class="category-section">
-        <h2 class="section-title">Categorías</h2>
-        <div class="category-grid">
-          <!-- Aquí van las categorías -->
-        </div>
-      </div>
+        <!-- COLUMNA IZQUIERDA: HERO + CATEGORÍAS -->
+        <section class="hero-column">
+          <header class="hero-header">
+            <p class="hero-kicker">Bienvenido a</p>
+            <h1 class="hero-title">La Parrilla Azteca</h1>
+            <p class="hero-subtitle">
+              Explora nuestras entradas, parrilladas, carnes, mariscos y más. 
+              Tu orden se actualiza al instante en el panel de la derecha.
+            </p>
+          </header>
 
-      <div class="special-menu">
-        <h2 class="section-title">Menú Especial</h2>
-        <div class="menu-grid" id="menuGrid">
-          <!-- Aquí se cargarán los platillos -->
-        </div>
+          <div class="hero-highlight">
+            <div class="hero-highlight-badge">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+              Especialidad a la parrilla
+            </div>
+            <p class="hero-highlight-text">
+              Menú digital; dirfrute de compra, aqui somos como una familia.
+            </p>
+            <div class="hero-highlight-meta">
+              <span><i class="fa-regular fa-clock"></i> Servicio ágil</span>
+              <span><i class="fa-solid fa-bowl-food"></i> Cocina mexicana</span>
+            </div>
+          </div>
+
+          <!-- CATEGORÍAS (TODAS LAS QUE ME PASASTE) -->
+          <section class="category-section">
+            <div class="category-header">
+              <h2 class="section-title">Categorías</h2>
+              <p class="category-caption">Toca una categoría para filtrar el menú.</p>
+            </div>
+
+            <div class="category-grid">
+              <!-- "Todos" -->
+              <button class="category-btn active" data-category="todos">
+                <span class="cat-label">Todo</span>
+              </button>
+
+              <!-- Coinciden con los valores de tu BD -->
+              <button class="category-btn" data-category="entradas">
+                <span class="cat-label">Entradas</span>
+              </button>
+
+              <button class="category-btn" data-category="tacos">
+                <span class="cat-label">Tacos</span>
+              </button>
+
+              <button class="category-btn" data-category="parrilladas">
+                <span class="cat-label">Parrilladas</span>
+              </button>
+
+              <button class="category-btn" data-category="carnes">
+                <span class="cat-label">Carnes</span>
+              </button>
+
+              <button class="category-btn" data-category="mariscos">
+                <span class="cat-label">Mariscos</span>
+              </button>
+
+              <button class="category-btn" data-category="burgers">
+                <span class="cat-label">Hamburguesas</span>
+              </button>
+
+              <button class="category-btn" data-category="antojitos">
+                <span class="cat-label">Antojitos</span>
+              </button>
+
+              <button class="category-btn" data-category="guarniciones">
+                <span class="cat-label">Guarniciones</span>
+              </button>
+
+              <button class="category-btn" data-category="ensaladas">
+                <span class="cat-label">Ensaladas</span>
+              </button>
+
+              <button class="category-btn" data-category="sopas">
+                <span class="cat-label">Sopas</span>
+              </button>
+
+              <button class="category-btn" data-category="infantil">
+                <span class="cat-label">Infantil</span>
+              </button>
+
+              <button class="category-btn" data-category="postres">
+                <span class="cat-label">Postres</span>
+              </button>
+
+              <button class="category-btn" data-category="bebidas">
+                <span class="cat-label">Bebidas</span>
+              </button>
+
+              <button class="category-btn" data-category="cervezas">
+                <span class="cat-label">Cervezas</span>
+              </button>
+
+              <button class="category-btn" data-category="cocteles">
+                <span class="cat-label">Cocteles</span>
+              </button>
+
+              <button class="category-btn" data-category="vinos">
+                <span class="cat-label">Vinos</span>
+              </button>
+
+              <button class="category-btn" data-category="especialidades">
+                <span class="cat-label">Especialidades</span>
+              </button>
+            </div>
+          </section>
+        </section>
+
+        <!-- COLUMNA DERECHA: MENÚ / GRID DE PLATILLOS -->
+        <section class="special-menu">
+          <header class="menu-header">
+            <div>
+              <h2 class="section-title">Nuestro menú</h2>
+              <p class="menu-caption">
+                Toca la foto de un platillo para ver sus detalles y agregar comentarios.
+              </p>
+            </div>
+            <div class="menu-pills">
+              <span class="menu-pill">
+                <i class="fa-solid fa-receipt"></i> Ticket listo para caja
+              </span>
+              <span class="menu-pill">
+                <i class="fa-solid fa-cart-plus"></i> Revisa tu orden a la derecha
+              </span>
+            </div>
+          </header>
+
+          <div class="menu-grid" id="menuGrid">
+            <!-- load-dishes.js sigue inyectando aquí las .menu-card -->
+          </div>
+        </section>
+
       </div>
-    </section>
-  </main>
-    <!-- MODAL DE DETALLES DEL PLATILLO -->
+    </div>
+  </section>
+</main>
+  <!-- MODAL DE DETALLES DEL PLATILLO -->
   <div id="productModal" class="product-modal" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <!-- Botón X para cerrar -->
@@ -120,80 +245,122 @@
     </div>
   </div>
 
+  <!-- === PANEL DE ORDEN (FUERA DEL FOOTER) === -->
+  <aside id="orderDetails" class="order-details">
+    <div class="od-header">
+      <h2>Tu orden</h2>
+      <button id="closeOrderDetailsBtn" class="od-close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
 
- <!-- FOOTER -->
-  <footer>
-    <div class="footer-container">
-      <div class="contact-section">
+    <div id="orderList" class="od-items"></div>
+
+    <div id="empty-cart-msg" class="od-empty">
+      <div class="od-empty-icon">
+        <i class="fa-solid fa-bowl-food"></i>
+      </div>
+      <p>Tu orden está vacía.<br>Agrega un platillo para comenzar </p>
+    </div>
+
+    <div class="od-summary">
+      <div class="row">
+        <span>Subtotal:</span>
+        <span id="subtotal">$0.00</span>
+      </div>
+      <div class="row">
+        <span>Impuestos:</span>
+        <span>$0.00</span>
+      </div>
+      <div class="row total">
+        <span>Total:</span>
+        <span id="total">$0.00</span>
+      </div>
+    </div>
+
+    <div id="actionButtons" class="od-actions">
+      <button id="confirm-btn" class="od-btn od-confirm" disabled>
+        Confirmar Pedido
+      </button>
+      <button id="print-btn" class="od-btn od-print" disabled>
+        Imprimir Ticket
+      </button>
+    </div>
+  </aside>
+
+  <!-- FOOTER MODERNO -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <!-- Columna 1: Marca -->
+      <div class="footer-col footer-brand">
+        <div class="footer-logo">
+          <img src="../img/logo_1.png" alt="La Parrilla Azteca">
+          <span>La Parrilla Azteca</span>
+        </div>
+        <p>
+          Restaurante de parrilla mexicana con cortes, tacos, mariscos y bebidas
+          diseñados para disfrutarse en familia.
+        </p>
+      </div>
+
+      <!-- Columna 2: Enlaces -->
+      <div class="footer-col footer-links">
+        <h3>Explora</h3>
+        <ul>
+          <li><a href="/menu/index.html">Ver menú</a></li>
+          <li><a href="../login/login.html">Iniciar sesión</a></li>
+          <li><a href="../perfil/perfil.html">Mi perfil</a></li>
+          <li><a href="../turnos/turnos.html">Turnos</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Contacto + redes + newsletter -->
+      <div class="footer-col">
         <h3>Contacto</h3>
-<div class="social-icons">
-  <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank">
-    <i class="fab fa-facebook-f"></i>
-  </a>
-  <a href="https://x.com/LaParrillazteca" target="_blank">
-    <i class="fab fa-x-twitter"></i>
-  </a>
-  <a href="https://www.tiktok.com/@laparrillazteca" target="_blank">
-    <i class="fab fa-tiktok"></i>
-  </a>
-  <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank">
-    <i class="fab fa-instagram"></i>
-  </a>
-</div>
-<!-- === ORDER DETAILS PANEL=== -->
-<aside id="orderDetails" class="order-details">
+        <p class="footer-contact-text">
+          ¿Dudas o reservaciones? Escríbenos o síguenos en redes sociales.
+        </p>
 
-  <div class="od-header">
-    <h2>Tu orden</h2>
-    <button id="closeOrderDetailsBtn" class="od-close">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/profile.php?id=61580022222986" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://x.com/LaParrillazteca" target="_blank">
+            <i class="fab fa-x-twitter"></i>
+          </a>
+          <a href="https://www.tiktok.com/@laparrillazteca" target="_blank">
+            <i class="fab fa-tiktok"></i>
+          </a>
+          <a href="https://www.instagram.com/la_parrilla_azteca/" target="_blank">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
 
-  <div id="orderList" class="od-items"></div>
-
-  <div id="empty-cart-msg" class="od-empty">
-    <div class="od-empty-icon">
-      <i class="fa-solid fa-bowl-food"></i>
-    </div>
-    <p>Tu orden está vacía.<br>Agrega un platillo para comenzar </p>
-  </div>
-  <div class="od-summary">
-    <div class="row">
-      <span>Subtotal:</span>
-      <span id="subtotal">$0.00</span>
-    </div>
-    <div class="row">
-      <span>Impuestos:</span>
-      <span>$0.00</span>
-    </div>
-    <div class="row total">
-      <span>Total:</span>
-      <span id="total">$0.00</span>
-    </div>
-  </div>
-  <div id="actionButtons" class="od-actions">
-    <button id="confirm-btn" class="od-btn od-confirm" disabled>
-      Confirmar Pedido
-    </button>
-    <button id="print-btn" class="od-btn od-print" disabled>
-      Imprimir Ticket
-    </button>
-  </div>
-</aside>
-
+        <form class="footer-newsletter" onsubmit="event.preventDefault();">
+          <label for="footer-email">Recibe novedades y promociones</label>
+          <div class="footer-newsletter-row">
+            <input
+              id="footer-email"
+              type="email"
+              placeholder="Tu correo electrónico"
+              autocomplete="email"
+            >
+            <button type="submit">Suscribirme</button>
+          </div>
+        </form>
       </div>
-      <div class="copyright-section">
-        <p>&copy; 2025 Innovatech | Versión 1.0.1</p>
-      </div>
-      <div class="legal-section">
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Innovatech · La Parrilla Azteca · Versión 1.0.1</span>
+      <div class="footer-bottom-links">
         <a href="../login/politicas.html">Política de Privacidad</a>
         <a href="../login/politicas.html">Términos y Condiciones</a>
       </div>
     </div>
   </footer>
-  <script src="js/load-dishes.js"defer></script>
-  <script src="js/orderDetails.js"defer></script>
+  <script src="js/load-dishes.js" defer></script>
+  <script src="js/orderDetails.js" defer></script>
   <script src="js/sidebar.js" defer></script>
   <script src="../login/js/translate.js"></script>
 </body>
