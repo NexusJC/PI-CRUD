@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { pool } from "../db.js";
-import { getUsers, login, register,resetPassword } from "../controllers/auth.controller.js";
+import { getUsers, login, register,requestPasswordReset,verifyResetToken,resetPassword } from "../controllers/auth.controller.js";
 
 const router = Router();
 
@@ -14,7 +14,15 @@ router.post("/login", login);
 router.post("/register", register);
 
 // ruta para el reestablecimiento de contraseña
-router.post("/reset-password", resetPassword);
+// solicitar restablecimiento de contraseña (envía correo)
+router.post("/reset-password/request", requestPasswordReset);
+
+// validar token desde el correo y redirigir al formulario
+router.get("/reset-password/verify", verifyResetToken);
+
+// guardar la nueva contraseña
+router.post("/reset-password/confirm", resetPassword);
+
 
 // ruta para verificar correo electrónico
 router.get("/verify", async (req, res) => {

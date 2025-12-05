@@ -20,9 +20,28 @@
     <h2>Enviar Correo</h2>
 
     <form id="resetForm">
-        <input type="password" id="password" placeholder="Correo electrónico" required>
+        <input type="email" id="email" placeholder="Correo electrónico" required>
+
         <button type="submit">Enviar Correo</button>
     </form>
 </div>
+
+<script>
+document.getElementById("resetForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+
+    const res = await fetch("/api/auth/reset-password/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+
+    alert(data.message || "Solicitud enviada");
+});
+</script>
 </body>
 </html>
