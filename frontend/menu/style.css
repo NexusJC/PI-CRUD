@@ -1986,8 +1986,17 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
-/* Empujar el footer más abajo para que no se vea tan rápido */
-.site-footer {
-  margin-top: 4rem;   /* prueba con 5rem o 6rem si quieres aún más espacio */
+/* === AJUSTE FINAL: main más largo y footer un poco más abajo === */
+
+/* El layout del menú ocupa un poco más de alto para empujar el footer */
+.layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3.5rem;     /* un pelín más de padding abajo */
+  min-height: calc(100vh - 220px);   /* hace que el menú sea más largo */
 }
 
+/* Footer con margen más suave (sobrescribe el margin-top: 4rem anterior) */
+.site-footer {
+  margin-top: 2.5rem;
+}
