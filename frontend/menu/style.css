@@ -2013,12 +2013,12 @@ body.dark .menu-category-title {
 .special-menu::-webkit-scrollbar-thumb:hover {
   background: #e36842;
 }
-footer {
-  margin-top:3rem;   /* aquí empujamos el footer un poco hacia abajo */
-  padding:16px 20px;
-  border-top:1px solid rgba(227,104,66,0.2);
-  text-align:center;
-  font-size:0.85rem;
-  color:#333;
-  opacity:0.8;
+/* Sección principal del menú */
+.menu-section {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  /* hace que el bloque del menú sea un poco más largo
+     y empuje el footer hacia abajo sin exagerar */
+  min-height: calc(100vh - 140px);
 }
