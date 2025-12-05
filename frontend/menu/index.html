@@ -1,50 +1,42 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <meta name="keywords" content="Restaurante, Mexicano, Comida, Turnos, Reservaciones, La Parrilla Azteca" />
   <meta name="description" content="Bienvenido a La Parrilla Azteca, tu restaurante mexicano favorito. Toma tu turno y disfruta de nuestra deliciosa comida." />
-
-  <title>La Parrilla Azteca · Menú</title>
-
+  <title>La Parrilla Azteca · Inicio</title>
   <link rel="icon" href="../img/logo_1.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
-  <!-- Iconos -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
-
-  <!-- Estilos principales -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="menu-page">
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
-
-    <div class="brand">
-      <a href="index.html" class="logo-link">
-        <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
-      </a>
-
-      <div class="idiomaToggle">
+<body>
+ <!-- TOPBAR -->
+<header class="topbar">
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+  <div class="brand">
+    <a href="index.html" class="logo-link">
+      <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+    </a>
+    <div class="idiomaToggle">
         <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
-          <div class="bandera-container"></div>
+            <div class="bandera-container">
+            </div>
         </button>
-      </div>
-
-      <span class="brand-text">LA PARRILLA AZTECA</span>
     </div>
-
-    <!-- Botón que abre el sidebar (ver orden) -->
-    <button id="open-sidebar-btn" class="open-btn">
-      <i class="fas fa-shopping-cart"></i> Ver Orden
-    </button>
-  </header>
+    <span class="brand-text">LA PARRILLA AZTECA</span>
+  </div>
+  <!-- Botón que abre el sidebar (ver orden) -->
+  <button id="open-sidebar-btn" class="open-btn">
+    <i class="fas fa-shopping-cart"></i> Ver Orden
+  </button>
+</header>
+<style>
+ 
+</style>
 
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
@@ -57,7 +49,6 @@
       <img src="../img/user.deflt.png" alt="Avatar">
       <h4>Bienvenido</h4>
       <p>¡Explora el menú!</p>
-
       <div class="sidebar-login-btn">
         <a href="../login/login.html" class="btn-login" id="btn-login">
           Iniciar sesión
@@ -70,169 +61,163 @@
 
     <hr>
 
-    <ul id="menuList" data-no-translate>
+    <ul id="menuList"data-no-translate>
       <!-- El contenido del menú cambiará según el rol -->
     </ul>
 
     <hr>
-
     <div class="sidebar-footer">
       <button id="themeToggle" class="theme-toggle-btn">
-        <i class="fas fa-moon"></i>
-        <span>Modo oscuro</span>
-      </button>
-      <p>
-        © 2025 <span>Innovatech</span><br>
-        Versión 1.0.1
-      </p>
+    <i class="fas fa-moon"></i>
+    <span>Modo oscuro</span>
+    </button>
+      <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
     </div>
   </nav>
+<!-- MAIN · NUEVO DISEÑO -->
+<main class="layout">
+  <section class="menu-section">
+    <div class="menu-shell">
+      <div class="menu-inner">
 
-  <!-- MAIN · EL MENÚ COMO LAYOUT -->
-  <main class="layout menu-layout">
-    <section class="menu-section">
-      <div class="menu-shell">
-        <div class="menu-inner">
+        <!-- COLUMNA IZQUIERDA: HERO + CATEGORÍAS -->
+        <section class="hero-column">
+          <header class="hero-header">
+            <p class="hero-kicker">Bienvenido a</p>
+            <h1 class="hero-title">La Parrilla Azteca</h1>
+            <p class="hero-subtitle">
+              Explora nuestras entradas, parrilladas, carnes, mariscos y más. 
+              Tu orden se actualiza al instante en el panel de la derecha.
+            </p>
+          </header>
 
-          <!-- COLUMNA IZQUIERDA: HERO + CATEGORÍAS -->
-          <section class="hero-column">
-            <header class="hero-header">
-              <p class="hero-kicker">Bienvenido a</p>
-              <h1 class="hero-title">La Parrilla Azteca</h1>
-              <p class="hero-subtitle">
-                Explora nuestras entradas, parrilladas, carnes, mariscos y más.
-                Tu orden se actualiza al instante en el panel de la derecha.
-              </p>
-            </header>
+          <div class="hero-highlight">
+            <div class="hero-highlight-badge">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+              Especialidad a la parrilla
+            </div>
+            <p class="hero-highlight-text">
+              Menú digital; dirfrute de compra, aqui somos como una familia.
+            </p>
+            <div class="hero-highlight-meta">
+              <span><i class="fa-regular fa-clock"></i> Servicio ágil</span>
+              <span><i class="fa-solid fa-bowl-food"></i> Cocina mexicana</span>
+            </div>
+          </div>
 
-            <div class="hero-highlight">
-              <div class="hero-highlight-badge">
-                <i class="fa-solid fa-fire-flame-curved"></i>
-                Especialidad a la parrilla
-              </div>
-              <p class="hero-highlight-text">
-                Menú digital; dirfrute de compra, aquí somos como una familia.
-              </p>
-              <div class="hero-highlight-meta">
-                <span><i class="fa-regular fa-clock"></i> Servicio ágil</span>
-                <span><i class="fa-solid fa-bowl-food"></i> Cocina mexicana</span>
-              </div>
+          <!-- CATEGORÍAS (TODAS LAS QUE ME PASASTE) -->
+          <section class="category-section">
+            <div class="category-header">
+              <h2 class="section-title">Categorías</h2>
+              <p class="category-caption">Toca una categoría para filtrar el menú.</p>
             </div>
 
-            <!-- CATEGORÍAS -->
-            <section class="category-section">
-              <div class="category-header">
-                <h2 class="section-title">Categorías</h2>
-                <p class="category-caption">Toca una categoría para filtrar el menú.</p>
-              </div>
+            <div class="category-grid">
+              <!-- "Todos" -->
+              <button class="category-btn active" data-category="todos">
+                <span class="cat-label">Todo</span>
+              </button>
 
-              <div class="category-grid">
-                <!-- "Todo" -->
-                <button class="category-btn active" data-category="todos">
-                  <span class="cat-label">Todo</span>
-                </button>
+              <!-- Coinciden con los valores de tu BD -->
+              <button class="category-btn" data-category="entradas">
+                <span class="cat-label">Entradas</span>
+              </button>
 
-                <!-- Coinciden con los valores de tu BD -->
-                <button class="category-btn" data-category="entradas">
-                  <span class="cat-label">Entradas</span>
-                </button>
+              <button class="category-btn" data-category="tacos">
+                <span class="cat-label">Tacos</span>
+              </button>
 
-                <button class="category-btn" data-category="tacos">
-                  <span class="cat-label">Tacos</span>
-                </button>
+              <button class="category-btn" data-category="parrilladas">
+                <span class="cat-label">Parrilladas</span>
+              </button>
 
-                <button class="category-btn" data-category="parrilladas">
-                  <span class="cat-label">Parrilladas</span>
-                </button>
+              <button class="category-btn" data-category="carnes">
+                <span class="cat-label">Carnes</span>
+              </button>
 
-                <button class="category-btn" data-category="carnes">
-                  <span class="cat-label">Carnes</span>
-                </button>
+              <button class="category-btn" data-category="mariscos">
+                <span class="cat-label">Mariscos</span>
+              </button>
 
-                <button class="category-btn" data-category="mariscos">
-                  <span class="cat-label">Mariscos</span>
-                </button>
+              <button class="category-btn" data-category="burgers">
+                <span class="cat-label">Hamburguesas</span>
+              </button>
 
-                <button class="category-btn" data-category="burgers">
-                  <span class="cat-label">Hamburguesas</span>
-                </button>
+              <button class="category-btn" data-category="antojitos">
+                <span class="cat-label">Antojitos</span>
+              </button>
 
-                <button class="category-btn" data-category="antojitos">
-                  <span class="cat-label">Antojitos</span>
-                </button>
+              <button class="category-btn" data-category="guarniciones">
+                <span class="cat-label">Guarniciones</span>
+              </button>
 
-                <button class="category-btn" data-category="guarniciones">
-                  <span class="cat-label">Guarniciones</span>
-                </button>
+              <button class="category-btn" data-category="ensaladas">
+                <span class="cat-label">Ensaladas</span>
+              </button>
 
-                <button class="category-btn" data-category="ensaladas">
-                  <span class="cat-label">Ensaladas</span>
-                </button>
+              <button class="category-btn" data-category="sopas">
+                <span class="cat-label">Sopas</span>
+              </button>
 
-                <button class="category-btn" data-category="sopas">
-                  <span class="cat-label">Sopas</span>
-                </button>
+              <button class="category-btn" data-category="infantil">
+                <span class="cat-label">Infantil</span>
+              </button>
 
-                <button class="category-btn" data-category="infantil">
-                  <span class="cat-label">Infantil</span>
-                </button>
+              <button class="category-btn" data-category="postres">
+                <span class="cat-label">Postres</span>
+              </button>
 
-                <button class="category-btn" data-category="postres">
-                  <span class="cat-label">Postres</span>
-                </button>
+              <button class="category-btn" data-category="bebidas">
+                <span class="cat-label">Bebidas</span>
+              </button>
 
-                <button class="category-btn" data-category="bebidas">
-                  <span class="cat-label">Bebidas</span>
-                </button>
+              <button class="category-btn" data-category="cervezas">
+                <span class="cat-label">Cervezas</span>
+              </button>
 
-                <button class="category-btn" data-category="cervezas">
-                  <span class="cat-label">Cervezas</span>
-                </button>
+              <button class="category-btn" data-category="cocteles">
+                <span class="cat-label">Cocteles</span>
+              </button>
 
-                <button class="category-btn" data-category="cocteles">
-                  <span class="cat-label">Cocteles</span>
-                </button>
+              <button class="category-btn" data-category="vinos">
+                <span class="cat-label">Vinos</span>
+              </button>
 
-                <button class="category-btn" data-category="vinos">
-                  <span class="cat-label">Vinos</span>
-                </button>
-
-                <button class="category-btn" data-category="especialidades">
-                  <span class="cat-label">Especialidades</span>
-                </button>
-              </div>
-            </section>
-          </section>
-
-          <!-- COLUMNA DERECHA: MENÚ / GRID DE PLATILLOS -->
-          <section class="special-menu">
-            <header class="menu-header">
-              <div>
-                <h2 class="section-title">Nuestro menú</h2>
-                <p class="menu-caption">
-                  Toca la foto de un platillo para ver sus detalles y agregar comentarios.
-                </p>
-              </div>
-              <div class="menu-pills">
-                <span class="menu-pill">
-                  <i class="fa-solid fa-receipt"></i> Ticket listo para caja
-                </span>
-                <span class="menu-pill">
-                  <i class="fa-solid fa-cart-plus"></i> Revisa tu orden a la derecha
-                </span>
-              </div>
-            </header>
-
-            <div class="menu-grid" id="menuGrid">
-              <!-- load-dishes.js inyecta aquí las .menu-card -->
+              <button class="category-btn" data-category="especialidades">
+                <span class="cat-label">Especialidades</span>
+              </button>
             </div>
           </section>
+        </section>
 
-        </div>
+        <!-- COLUMNA DERECHA: MENÚ / GRID DE PLATILLOS -->
+        <section class="special-menu">
+          <header class="menu-header">
+            <div>
+              <h2 class="section-title">Nuestro menú</h2>
+              <p class="menu-caption">
+                Toca la foto de un platillo para ver sus detalles y agregar comentarios.
+              </p>
+            </div>
+            <div class="menu-pills">
+              <span class="menu-pill">
+                <i class="fa-solid fa-receipt"></i> Ticket listo para caja
+              </span>
+              <span class="menu-pill">
+                <i class="fa-solid fa-cart-plus"></i> Revisa tu orden a la derecha
+              </span>
+            </div>
+          </header>
+
+          <div class="menu-grid" id="menuGrid">
+            <!-- load-dishes.js sigue inyectando aquí las .menu-card -->
+          </div>
+        </section>
+
       </div>
-    </section>
-  </main>
-
+    </div>
+  </section>
+</main>
   <!-- MODAL DE DETALLES DEL PLATILLO -->
   <div id="productModal" class="product-modal" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -260,7 +245,7 @@
     </div>
   </div>
 
-  <!-- PANEL DE ORDEN -->
+  <!-- === PANEL DE ORDEN (FUERA DEL FOOTER) === -->
   <aside id="orderDetails" class="order-details">
     <div class="od-header">
       <h2>Tu orden</h2>
@@ -275,7 +260,7 @@
       <div class="od-empty-icon">
         <i class="fa-solid fa-bowl-food"></i>
       </div>
-      <p>Tu orden está vacía.<br>Agrega un platillo para comenzar</p>
+      <p>Tu orden está vacía.<br>Agrega un platillo para comenzar </p>
     </div>
 
     <div class="od-summary">
@@ -374,11 +359,9 @@
       </div>
     </div>
   </footer>
-
-  <!-- SCRIPTS -->
   <script src="js/load-dishes.js" defer></script>
   <script src="js/orderDetails.js" defer></script>
   <script src="js/sidebar.js" defer></script>
-  <script src="../login/js/translate.js" defer></script>
+  <script src="../login/js/translate.js"></script>
 </body>
 </html>
