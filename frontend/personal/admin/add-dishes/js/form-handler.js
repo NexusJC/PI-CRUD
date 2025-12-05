@@ -6,6 +6,18 @@ const openDishModal = document.getElementById("openDishModal");
 const closeDishModal = document.getElementById("closeDishModal");
 const dishModal = document.getElementById("dishModal");
 const dishOverlay = document.getElementById("dishOverlay");
+const fileInput = document.getElementById("dishImage");
+const fileText  = document.getElementById("dishFileText");
+
+if (fileInput && fileText) {
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files && fileInput.files[0]) {
+      fileText.textContent = fileInput.files[0].name;
+    } else {
+      fileText.textContent = "Haz clic para subir imagen del platillo";
+    }
+  });
+}
 
 // ABRIR MODAL
 openDishModal.addEventListener("click", () => {
@@ -59,6 +71,10 @@ form.addEventListener('submit', async (e) => {
     alert("Selecciona una imagen.");
     return;
   }
+  if (!categoria) {
+  alert("Selecciona una categoría para el platillo.");
+  return;
+}
 
   try {
     // 1) Subir imagen a Cloudinary

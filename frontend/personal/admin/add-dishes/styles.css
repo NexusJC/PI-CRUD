@@ -492,3 +492,168 @@ animation: fadeIn 0.25s ease;
     padding-top: 10px;
 }
 
+/* FORMULARIO MODAL: AGREGAR PLATILLO */
+
+#dish-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Cada campo */
+.dish-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dish-form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6b5242;
+}
+
+/* Inputs, textarea y select dentro del modal */
+.dish-form-group input,
+.dish-form-group textarea,
+.dish-form-group select {
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1px solid #decab6;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fff;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.dish-form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.dish-form-group input:focus,
+.dish-form-group textarea:focus,
+.dish-form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.25);
+  background:#fffdfa;
+}
+
+/* Fila Precio + Categoría */
+.dish-form-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.dish-form-row .dish-form-group {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* Prefijo de precio $ */
+.dish-input-prefix {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background:#fff;
+  border-radius:10px;
+  border:1px solid #decab6;
+  padding:0 10px;
+}
+
+.dish-input-prefix span {
+  font-weight:700;
+  color:#b36a3b;
+}
+
+.dish-input-prefix input {
+  border:none;
+  padding-left:0;
+  flex:1;
+}
+
+.dish-input-prefix input:focus {
+  box-shadow:none;
+}
+
+/* Select categoría */
+.dish-form-group select {
+  cursor:pointer;
+}
+
+/* Input de archivo custom */
+.dish-file-input {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:2px dashed var(--primary);
+  border-radius:14px;
+  padding:10px 14px;
+  background:#fffdfa;
+  cursor:pointer;
+  transition:background 0.2s ease, border-color 0.2s ease, transform 0.08s ease;
+}
+
+.dish-file-input i {
+  font-size:1.3rem;
+  color:var(--primary);
+}
+
+.dish-file-input span {
+  font-size:0.9rem;
+  color:#5b4a3f;
+  font-weight:500;
+}
+
+.dish-file-input input {
+  display:none;
+}
+
+.dish-file-input:hover {
+  background:#ffe9d5;
+  border-color:var(--naranja-oscuro);
+  transform:translateY(-1px);
+}
+
+/* Botón submit dentro del modal */
+.dish-submit-btn {
+  margin-top:8px;
+  width:100%;
+  background-color:var(--primary);
+  color:#fff;
+  border:none;
+  padding:0.9rem;
+  border-radius:999px;
+  font-size:0.95rem;
+  font-weight:700;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.14);
+  transition:background 0.2s ease, transform 0.08s ease, box-shadow 0.1s ease;
+}
+
+.dish-submit-btn i {
+  font-size:1rem;
+}
+
+.dish-submit-btn:hover {
+  background-color:var(--naranja-oscuro);
+  transform:translateY(-1px);
+}
+
+.dish-submit-btn:active {
+  transform:translateY(1px);
+  box-shadow:0 2px 6px rgba(0,0,0,0.16);
+}
+
+/* Responsive: en pantallas pequeñas, la fila se apila */
+@media (max-width: 520px) {
+  .dish-form-row {
+    flex-direction: column;
+  }
+}
