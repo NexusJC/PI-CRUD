@@ -9,186 +9,190 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="/PI-CRUD/frontend/img/logo_1.png" type="image/png">
-<link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
 </head>
 
 <body>
 
   <!-- SIDEBAR -->
-<div class="menu-dashboard">
+  <div class="menu-dashboard">
     <div class="top-menu">
-        <div class="logo">
-            <img src="/img/logo_1.png" alt="Logo">
-            <span>Bienvenido</span>
-        </div>
-        <div class="toggle">
-            <i class='bx bx-menu'></i>
-        </div>
+      <div class="logo">
+        <img src="/img/logo_1.png" alt="Logo">
+        <span>Bienvenido</span>
+      </div>
+      <div class="toggle">
+        <i class='bx bx-menu'></i>
+      </div>
     </div>
 
     <div class="user-box">
-        <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
-
-        <div class="user-info">
-            <span id="sidebarUserName"></span>
-        </div>
+      <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
+      <div class="user-info">
+        <span id="sidebarUserName"></span>
+      </div>
     </div>
 
     <!-- Menú de navegación -->
     <div class="menu">
-        <a class="enlace" href="/personal/admin/dashboard/dashboard.html">
-            <i class="bx bx-grid-alt"></i>
-            <span>Dashboard</span>
-        </a>
-        <a class="enlace" href="/personal/admin/employee-management/employee.html">
-            <i class='bx bx-group'></i>
-            <span>Gestión Empleados</span>
-        </a>
-        <a class="enlace" href="/personal/admin/gestioncajas/gestioncajas.html">
-            <i class="bx bx-store"></i>
-            <span>Gestión Cajas</span>
-        </a>
-        <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
-            <i class='bx bx-restaurant'></i>
-            <span>Añadir Platillo</span>
-        </a>
+      <a class="enlace" href="/personal/admin/dashboard/dashboard.html">
+        <i class="bx bx-grid-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a class="enlace" href="/personal/admin/employee-management/employee.html">
+        <i class='bx bx-group'></i>
+        <span>Gestión Empleados</span>
+      </a>
+      <a class="enlace" href="/personal/admin/gestioncajas/gestioncajas.html">
+        <i class="bx bx-store"></i>
+        <span>Gestión Cajas</span>
+      </a>
+      <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
+        <i class='bx bx-restaurant'></i>
+        <span>Añadir Platillo</span>
+      </a>
     </div>
 
     <!-- Botón de cerrar sesión al final -->
     <div class="logout-container">
-        <button id="logoutBtn" class="logout-btn">
-            <i class='bx bx-log-out'></i> Cerrar sesión
-        </button>
+      <button id="logoutBtn" class="logout-btn">
+        <i class='bx bx-log-out'></i> Cerrar sesión
+      </button>
     </div>
-</div>
+  </div>
 
-<!-- Overlay -->
-<div class="dish-overlay" id="dishOverlay"></div>
-<!-- Modal -->
-<div class="dish-modal" id="dishModal">
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="dishes-main">
+    <div class="dishes-title-row">
+      <h2>Platillos Actuales</h2>
+      <button class="btn-add-dish" id="openDishModal">
+        <i class="fa-solid fa-utensils"></i>
+        Agregar nuevo platillo
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table id="dishes-table">
+        <thead>
+          <tr>
+            <th>Numero</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Categoría</th>
+            <th>Imagen</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Se llena desde form-handler.js -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- OVERLAY DEL MODAL -->
+  <div class="dish-overlay" id="dishOverlay"></div>
+
+  <!-- MODAL: SOLO FORMULARIO -->
+  <div class="dish-modal" id="dishModal">
     <div class="dish-modal-header">
-        <h3 class="dish-modal-title">Agregar nuevo platillo</h3>
-        <button class="dish-close-btn" id="closeDishModal">&times;</button>
+      <h3 class="dish-modal-title">Agregar nuevo platillo</h3>
+      <button class="dish-close-btn" id="closeDishModal">&times;</button>
     </div>
 
     <form id="dish-form">
-  <!-- NOMBRE -->
-  <div class="dish-form-group">
-    <label for="dishName">Nombre:</label>
-    <input
-      id="dishName"
-      type="text"
-      name="nombre"
-      placeholder="Ej. Arrachera a la parrilla"
-      required
-    >
-  </div>
-
-  <!-- DESCRIPCIÓN -->
-  <div class="dish-form-group">
-    <label for="dishDescription">Descripción:</label>
-    <textarea
-      id="dishDescription"
-      name="descripcion"
-      placeholder="Ej. Arrachera marinada con nopales y cebollitas."
-      required
-    ></textarea>
-  </div>
-
-  <!-- PRECIO + CATEGORÍA EN DOS COLUMNAS -->
-  <div class="dish-form-row">
-    <div class="dish-form-group">
-      <label for="dishPrice">Precio:</label>
-      <div class="dish-input-prefix">
-        <span>$</span>
+      <!-- NOMBRE -->
+      <div class="dish-form-group">
+        <label for="dishName">Nombre:</label>
         <input
-          id="dishPrice"
-          type="number"
-          name="precio"
-          min="0"
-          step="0.01"
-          placeholder="199.00"
+          id="dishName"
+          type="text"
+          name="nombre"
+          placeholder="Ej. Arrachera a la parrilla"
           required
         >
       </div>
-    </div>
 
-    <!-- AQUÍ VA EL SELECT CON LAS CATEGORÍAS -->
-    <div class="dish-form-group">
-      <label for="dishCategory">Categoría:</label>
-      <select id="dishCategory" name="categoria" required>
-        <option value="" disabled selected>Selecciona una categoría</option>
+      <!-- DESCRIPCIÓN -->
+      <div class="dish-form-group">
+        <label for="dishDescription">Descripción:</label>
+        <textarea
+          id="dishDescription"
+          name="descripcion"
+          placeholder="Ej. Arrachera marinada con nopales y cebollitas."
+          required
+        ></textarea>
+      </div>
 
-        <option value="entradas">Entradas</option>
-        <option value="tacos">Tacos</option>
-        <option value="parrilladas">Parrilladas</option>
-        <option value="carnes">Carnes</option>
-        <option value="mariscos">Mariscos</option>
-        <option value="burgers">Hamburguesas</option>
-        <option value="antojitos">Antojitos</option>
-        <option value="guarniciones">Guarniciones</option>
-        <option value="ensaladas">Ensaladas</option>
-        <option value="sopas">Sopas</option>
-        <option value="infantil">Infantil</option>
-        <option value="postres">Postres</option>
-        <option value="bebidas">Bebidas</option>
-        <option value="cervezas">Cervezas</option>
-        <option value="cocteles">Cocteles</option>
-        <option value="vinos">Vinos</option>
-        <option value="especialidades">Especialidades</option>
-      </select>
-    </div>
+      <!-- PRECIO + CATEGORÍA EN DOS COLUMNAS -->
+      <div class="dish-form-row">
+        <div class="dish-form-group">
+          <label for="dishPrice">Precio:</label>
+          <div class="dish-input-prefix">
+            <span>$</span>
+            <input
+              id="dishPrice"
+              type="number"
+              name="precio"
+              min="0"
+              step="0.01"
+              placeholder="199.00"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="dish-form-group">
+          <label for="dishCategory">Categoría:</label>
+          <select id="dishCategory" name="categoria" required>
+            <option value="" disabled selected>Selecciona una categoría</option>
+
+            <option value="entradas">Entradas</option>
+            <option value="tacos">Tacos</option>
+            <option value="parrilladas">Parrilladas</option>
+            <option value="carnes">Carnes</option>
+            <option value="mariscos">Mariscos</option>
+            <option value="burgers">Hamburguesas</option>
+            <option value="antojitos">Antojitos</option>
+            <option value="guarniciones">Guarniciones</option>
+            <option value="ensaladas">Ensaladas</option>
+            <option value="sopas">Sopas</option>
+            <option value="infantil">Infantil</option>
+            <option value="postres">Postres</option>
+            <option value="bebidas">Bebidas</option>
+            <option value="cervezas">Cervezas</option>
+            <option value="cocteles">Cocteles</option>
+            <option value="vinos">Vinos</option>
+            <option value="especialidades">Especialidades</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- IMAGEN -->
+      <div class="dish-form-group">
+        <label for="dishImage">Imagen:</label>
+        <label class="dish-file-input">
+          <i class="fa-regular fa-image"></i>
+          <span id="dishFileText">Haz clic para subir imagen del platillo</span>
+          <input
+            id="dishImage"
+            type="file"
+            name="imagen"
+            accept="image/*"
+            required
+          >
+        </label>
+      </div>
+
+      <!-- BOTÓN SUBMIT -->
+      <button type="submit" class="dish-submit-btn">
+        <i class="fa-solid fa-check"></i>
+        Agregar platillo
+      </button>
+    </form>
   </div>
 
-  <!-- IMAGEN CON INPUT CUSTOM -->
-  <div class="dish-form-group">
-    <label for="dishImage">Imagen:</label>
-    <label class="dish-file-input">
-      <i class="fa-regular fa-image"></i>
-      <span id="dishFileText">Haz clic para subir imagen del platillo</span>
-      <input
-        id="dishImage"
-        type="file"
-        name="imagen"
-        accept="image/*"
-        required
-      >
-    </label>
-  </div>
-
-  <!-- BOTÓN SUBMIT BONITO -->
-  <button type="submit" class="dish-submit-btn">
-    <i class="fa-solid fa-check"></i>
-    Agregar platillo
-  </button>
-</form>
-
-
-
-<div class="dishes-title-row">
-    <h2>Platillos Actuales</h2>
-    <button class="btn-add-dish" id="openDishModal">
-    <i class="fa-solid fa-utensils"></i> Agregar nuevo platillo
-</button>
-
-</div>
-<div class="table-responsive">
-  <table id="dishes-table">
-    <thead>
-      <tr>
-        <th>Numero</th>
-        <th>Nombre</th>
-        <th>Precio</th>
-        <th>Categoria</th>
-        <th>Imagen</th>
-        <th>Acción</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-</div>
-<script src="js/form-handler.js"></script>
-<script src="../employee-management/js/menu.js"></script>
+  <script src="js/form-handler.js"></script>
+  <script src="../employee-management/js/menu.js"></script>
 </body>
 </html>

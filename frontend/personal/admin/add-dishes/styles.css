@@ -12,7 +12,7 @@
   --bg-main: #f5f0e9;
 }
 
-* { box-sizing: border-box;}
+* { box-sizing: border-box; }
 
 body {
   font-family: 'Poppins', system-ui, Arial, sans-serif;
@@ -37,6 +37,9 @@ body {
   transition: all 0.35s ease;
   overflow: hidden;
   z-index: 100;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .top-menu {
@@ -152,7 +155,7 @@ body {
   opacity: 1;
 }
 
-/* ---------------- FORMULARIO ---------------- */
+/* FORM GENERICO (no el modal) */
 form:not(#dish-form) {
   background-color: white;
   padding: 2rem;
@@ -196,7 +199,18 @@ form button:hover {
   background-color: #d3542e;
 }
 
-/* ---------------- TABLA DE PLATILLOS ---------------- */
+/* CONTENIDO PRINCIPAL */
+.dishes-main {
+  padding: 2.5rem 2.5rem 3rem;
+}
+
+/* TABLA DE PLATILLOS */
+.table-responsive {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 table {
   width: 95%;
   margin: 0 auto 3rem;
@@ -239,9 +253,10 @@ button.delete-btn:hover {
 h2 {
   text-align: center;
   color: var(--primary);
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
+/* USER BOX */
 .user-box {
   width: 100%;
   margin: 25px 0 25px;
@@ -324,6 +339,7 @@ h2 {
   margin: 0 auto;
 }
 
+/* RESPONSIVE */
 @media (max-width: 1024px) {
   body {
     padding-left: 70px;
@@ -383,6 +399,7 @@ h2 {
   }
 }
 
+/* OVERLAY + MODAL */
 .dish-overlay {
   display: none;
   position: fixed;
@@ -404,7 +421,7 @@ h2 {
   z-index: 1000;
   max-height: 85vh;
   overflow-y: auto;
-animation: fadeIn 0.25s ease;
+  animation: fadeIn 0.25s ease;
 }
 
 @keyframes fadeIn {
@@ -439,18 +456,21 @@ animation: fadeIn 0.25s ease;
   color: #4a4a4a;
 }
 
+/* TÍTULO + BOTÓN SUPERIOR */
 .dishes-title-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 1.5rem;
 }
 
 .dishes-title-row .btn-add-dish {
-    position: absolute;
-    right: 30px;
+  position: absolute;
+  right: 30px;
 }
 
+/* BOTÓN AGREGAR PLATILLO */
 .btn-add-dish {
   background: #e36842;
   color: white;
@@ -481,18 +501,13 @@ animation: fadeIn 0.25s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.16);
 }
 
-/* === FIX: Empujar botón de cerrar sesión hasta abajo === */
-.menu-dashboard {
-    display: flex;
-    flex-direction: column;
-}
-
+/* Empujar botón de cerrar sesión hasta abajo */
 .logout-container {
-    margin-top: auto !important;
-    padding-top: 10px;
+  margin-top: auto !important;
+  padding-top: 10px;
 }
 
-/* FORMULARIO MODAL: AGREGAR PLATILLO */
+/* === FORMULARIO MODAL: AGREGAR PLATILLO === */
 
 #dish-form {
   display: flex;
@@ -603,7 +618,7 @@ animation: fadeIn 0.25s ease;
 
 .dish-file-input span {
   font-size:0.9rem;
-  color:#5b4a3f;
+  color: #5b4a3f;
   font-weight:500;
 }
 
@@ -651,9 +666,14 @@ animation: fadeIn 0.25s ease;
   box-shadow:0 2px 6px rgba(0,0,0,0.16);
 }
 
-/* Responsive: en pantallas pequeñas, la fila se apila */
+/* Responsive para el modal */
 @media (max-width: 520px) {
   .dish-form-row {
     flex-direction: column;
+  }
+
+  .dish-modal {
+    width: 94%;
+    padding: 20px;
   }
 }
