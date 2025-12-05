@@ -26,7 +26,17 @@ form.addEventListener("submit", async (e) => {
   const email = form.email.value;
   const password = form.password.value;
   const confirm = form.password2.value; 
-
+  
+  // Validar longitud mínima del nombre
+  if (name.trim().length < 3) {
+      showToast("El nombre debe tener al menos 3 caracteres.", "error");
+      return;
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+      showToast("Ingresa un correo electrónico válido.", "error");
+      return;
+  }
   //valida si son iguales
   if (password !== confirm) {
     showToast("Las contraseñas no coinciden.", "error");

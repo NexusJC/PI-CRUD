@@ -73,6 +73,21 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
+// validacion de nombre (mínimo 3 caracteres)
+if (!name || name.trim().length < 3) {
+  return res.status(400).json({
+    message: "El nombre debe tener al menos 3 caracteres."
+  });
+}
+
+// validacion de email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailRegex.test(email)) {
+  return res.status(400).json({
+    message: "Ingresa un correo electrónico válido."
+  });
+}
   try {
     // Encriptar contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
