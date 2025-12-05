@@ -3,13 +3,14 @@
    ========================================================= */
 :root {
   --topbar: #e36842;
-  --bg: #fdf7ee;        /* Fondo piel suave */
-  --panel: #fff7ea;
+  --bg: #fffcf7;     
+  --panel: #fffcf7;   
   --text: #2b2b2b;
-  --card: #ffffff;
+  --card: #ffffff;    
   --border: #e5e5e5;
   --accent: #f97316;
 }
+
 
 * {
   box-sizing: border-box;
