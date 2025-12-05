@@ -1983,10 +1983,24 @@ body.dark .menu-category-title {
 }
 /* Sección principal del menú */
 .menu-section {
-  max-width: 2000px;
+  max-width: 1200px;
   margin: 0 auto;
 
   /* hace que el bloque del menú sea un poco más largo
      y empuje el footer hacia abajo sin exagerar */
   min-height: calc(100vh - 140px);
+}
+/* ===== AJUSTE DEFINITIVO: MENÚ MÁS LARGO Y FOOTER FUERA DE VISTA ===== */
+
+/* El bloque completo del menú ocupa más alto
+   para que el footer NO se vea sin hacer scroll */
+.menu-section {
+  margin-bottom: 8rem;      /* separa el footer hacia abajo */
+}
+
+/* La columna derecha (Nuestro menú) crece un poco más
+   pero mantiene su scroll interno */
+.special-menu {
+  height: calc(100vh - 120px);  /* más alta que antes */
+  min-height: 560px;            /* asegura buen alto en pantallas bajas */
 }
