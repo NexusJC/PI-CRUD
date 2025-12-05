@@ -41,21 +41,38 @@ window.addEventListener("DOMContentLoaded", async () => {
       const card = document.createElement("div");
       card.classList.add("menu-card");
 
+      const precioNum       = Number(dish.precio) || 0;
+      const precioFormateado = `$${precioNum.toFixed(2)}`;
+
       // Data attributes para otros scripts (orderDetails, filtros, etc.)
       card.setAttribute("data-name", dish.nombre);
-      card.setAttribute("data-price", dish.precio);
+      card.setAttribute("data-price", String(precioNum));
       card.setAttribute("data-desc", dish.descripcion || "");
+      if (dish.categoria) {
+        card.setAttribute("data-category", dish.categoria);
+      }
 
+      // === Tarjeta más estética: imagen + nombre + precio + botón ===
       card.innerHTML = `
         <img src="${dish.imagen}" alt="${dish.nombre}">
-        <h3>${dish.nombre}</h3>
-        <button class="add-btn">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M11 5h2v14h-2z"></path>
-            <path d="M5 11h14v2H5z"></path>
-          </svg>
-          Agregar
-        </button>
+        <div class="menu-card-body">
+          <div class="menu-card-header">
+            <h3 class="menu-card-title">${dish.nombre}</h3>
+            <span class="menu-card-price">${precioFormateado}</span>
+          </div>
+          ${
+            dish.categoria
+              ? `<p class="menu-card-meta">${dish.categoria}</p>`
+              : ""
+          }
+          <button class="add-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M11 5h2v14h-2z"></path>
+              <path d="M5 11h14v2H5z"></path>
+            </svg>
+            Agregar
+          </button>
+        </div>
       `;
 
       // ===== HINT VISUAL: "Haz clic para ver detalles" =====
