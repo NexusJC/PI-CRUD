@@ -1844,3 +1844,145 @@ body.dark .modal-close:hover {
   background: var(--accent);
   color: #020617;
 }
+/* =========================================================
+   AJUSTE LAYOUT: HERO IZQUIERDA / MENÚ DERECHA
+   ========================================================= */
+
+/* Contenedor general centrado pero sin que se vea tan "largo" */
+.layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+/* Card principal del menú en dos columnas:
+   izquierda (texto/categorías) / derecha (productos) */
+.menu-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
+  gap: 2.2rem;
+  align-items: flex-start;
+}
+
+/* Columna izquierda un poco más hacia la izquierda visual */
+.hero-column,
+.category-section {
+  padding-left: 0.25rem;
+}
+
+/* =========================================================
+   MENÚ DERECHA CON SCROLL INTERNO + SCROLLBAR CUSTOM
+   ========================================================= */
+
+.special-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-height: calc(100vh - 220px);  /* para que abajo ya se vea el footer */
+  overflow-y: auto;
+  padding-right: 0.6rem;            /* espacio para la barra de scroll */
+}
+
+/* Scrollbar (Firefox) */
+.special-menu {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent;
+}
+
+/* Scrollbar WebKit (Chrome/Edge) */
+.special-menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.special-menu::-webkit-scrollbar-track {
+  background: rgba(148,163,184,0.15);
+  border-radius: 999px;
+}
+
+.special-menu::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 999px;
+}
+
+.special-menu::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+/* Scrollbar en modo oscuro */
+body.dark .special-menu::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+body.dark .special-menu::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+body.dark .special-menu::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* =========================================================
+   BLOQUES DE CATEGORÍAS DENTRO DEL MENÚ (TÍTULOS + GRID)
+   ========================================================= */
+
+/* Ahora #menuGrid es una columna de secciones por categoría */
+.menu-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/* Bloque por categoría (Sopas, Postres, etc.) */
+.menu-category-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* Título de categoría */
+.menu-category-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+}
+
+/* Pequeña línea debajo del título */
+.menu-category-title::after {
+  content: "";
+  display: block;
+  margin-top: 0.25rem;
+  width: 60px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f97316, transparent);
+}
+
+/* Grid real de tarjetas dentro de cada categoría */
+.menu-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+/* Responsivo grids por categoría */
+@media (max-width: 1100px) {
+  .menu-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .menu-category-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* =========================================================
+   MODO OSCURO: TÍTULOS + AJUSTES
+   ========================================================= */
+
+body.dark .menu-category-title {
+  color: #e5e7eb;
+}
