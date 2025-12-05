@@ -2007,3 +2007,12 @@ body.dark .menu-category-title {
 .site-footer {
   margin-top: 1.8rem; /* si lo ves muy pegado, súbelo a 2rem o 2.2rem */
 }
+/* Ajuste fino de espacio antes del footer */
+.layout {
+  padding-bottom: 3rem;      /* antes estaba en 4rem */
+}
+
+.site-footer {
+  margin-top: 1rem;          /* más cerca del contenido */
+}
+
