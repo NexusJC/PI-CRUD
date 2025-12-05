@@ -1986,3 +1986,7 @@ body.dark .special-menu::-webkit-scrollbar-thumb:hover {
 body.dark .menu-category-title {
   color: #e5e7eb;
 }
+/* Empujar el footer más abajo para que no se vea tan rápido */
+.site-footer {
+  margin-top: 4rem;   /* prueba con 5rem o 6rem si quieres aún más espacio */
+}
