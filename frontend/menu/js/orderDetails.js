@@ -18,6 +18,24 @@ const closeOrderBtn = document.getElementById("closeOrderDetailsBtn");
 const token = localStorage.getItem("token");
 const user  = JSON.parse(localStorage.getItem("user") || "null");
 
+function mostrarAlertaLogin() {
+  const modal = document.createElement("div");
+  modal.className = "login-alert-modal";
+  modal.innerHTML = `
+    <div class="login-alert-box">
+      <h2>Debes iniciar sesión</h2>
+      <p>Para poder agregar platillos a tu pedido necesitas iniciar sesión.</p>
+      <div class="login-alert-actions">
+        <a href="../login/login.html" class="login-alert-btn login">Iniciar sesión</a>
+        <button class="login-alert-btn close">Cerrar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.querySelector(".close").onclick = () => modal.remove();
+}
+
 // Estado del pedido
 let subtotal   = 0;
 let orderCount = 1;
@@ -101,6 +119,12 @@ function actualizarTotales() {
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".add-btn");
   if (!btn || !orderPanel || !orderList) return;
+
+  // ❗ VALIDAR LOGIN AQUÍ
+ if (!token || !user) {
+    mostrarAlertaLogin();
+    return;
+}
 
   // Si tienes una función global addToCart, la respetamos
   if (typeof addToCart === "function") {

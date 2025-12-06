@@ -2643,3 +2643,49 @@ body.dark .hero-column {
 body.dark .qty-input {
   color: #000;
 }
+.login-alert-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.login-alert-box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.login-alert-box h2 {
+  margin: 0 0 10px;
+  color: #d9534f;
+}
+
+.login-alert-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.login-alert-btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+}
+
+.login-alert-btn.login {
+  background: #ff7f32;
+  color: white;
+}
+
+.login-alert-btn.close {
+  background: #ccc;
+}
