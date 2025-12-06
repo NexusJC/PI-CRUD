@@ -18,6 +18,12 @@ const closeOrderBtn = document.getElementById("closeOrderDetailsBtn");
 const token = localStorage.getItem("token");
 const user  = JSON.parse(localStorage.getItem("user") || "null");
 
+// Estado del pedido
+let subtotal   = 0;
+let orderCount = 1;
+// Límite máximo de cantidad por producto (para TODOS los casos)
+const MAX_QTY  = 99;
+
 function mostrarAlertaLogin() {
   const modal = document.createElement("div");
   modal.className = "login-alert-modal";
@@ -35,10 +41,6 @@ function mostrarAlertaLogin() {
 
   modal.querySelector(".close").onclick = () => modal.remove();
 }
-
-// Estado del pedido
-let subtotal   = 0;
-let orderCount = 1;
 
 /* ============ ABRIR / CERRAR PANEL ============ */
 function abrirOrderPanel() {
@@ -91,6 +93,7 @@ function actualizarEstadoVacio() {
     if (taxEl)      taxEl.textContent      = "$0.00";   
   }
 }
+
 /* ============ CALCULAR TOTALES ============ */
 function actualizarTotales() {
   if (!orderList || !subtotalEl || !totalEl) return;
@@ -113,6 +116,7 @@ function actualizarTotales() {
   if (taxEl) taxEl.textContent = `$${iva.toFixed(2)}`;   // monto de impuestos
   totalEl.textContent    = `$${subtotal.toFixed(2)}`;
 }
+
 /* ============ AGREGAR PRODUCTOS DESDE LAS CARDS ============ */
 /* Mantengo el sistema de "addToCart" SI existe, para animaciones, etc. */
 
@@ -121,10 +125,10 @@ document.addEventListener("click", (e) => {
   if (!btn || !orderPanel || !orderList) return;
 
   // ❗ VALIDAR LOGIN AQUÍ
- if (!token || !user) {
+  if (!token || !user) {
     mostrarAlertaLogin();
     return;
-}
+  }
 
   // Si tienes una función global addToCart, la respetamos
   if (typeof addToCart === "function") {
@@ -148,12 +152,12 @@ document.addEventListener("click", (e) => {
   if (!existing) {
     // Crear item nuevo (DISEÑO POS PREMIUM)
     const li = document.createElement("li");
-    li.className    = "od-item";
+    li.className     = "od-item";
     li.dataset.name  = name;
     li.dataset.price = price;
     li.dataset.qty   = "1";
 
-li.innerHTML = `
+    li.innerHTML = `
       <div class="od-thumb">
         ${img ? `<img src="${img}" alt="${name}">` : ""}
       </div>
@@ -183,27 +187,30 @@ li.innerHTML = `
       </div>
     `;
     orderList.appendChild(li);
+
   } else {
-    // Ya existe → incrementar cantidad
+    // Ya existe → incrementar cantidad (AQUÍ ESTABA EL ERROR)
     let qty = parseInt(existing.dataset.qty || "0", 10);
     qty++;
+
+    // Respetar límite máximo 99
+    if (qty > MAX_QTY) qty = MAX_QTY;
+
     existing.dataset.qty = String(qty);
 
-    const qtySpan = existing.querySelector(".qty");
-    const line    = existing.querySelector(".line-total");
-    if (qtySpan) qtySpan.textContent = String(qty);
-    if (line)    line.textContent    = `$${(price * qty).toFixed(2)}`;
+    // AHORA se actualiza el INPUT, no un <span class="qty"> que ya no existe
+    const qtyInput = existing.querySelector(".qty-input");
+    const line     = existing.querySelector(".line-total");
+    if (qtyInput) qtyInput.value = String(qty);
+    if (line)     line.textContent = `$${(price * qty).toFixed(2)}`;
   }
 
   actualizarTotales();
   actualizarEstadoVacio();
 });
 
-/* ============ + / − / ELIMINAR PRODUCTO ============ */
 /* ============ + / − / INPUT / ELIMINAR PRODUCTO ============ */
 if (orderList) {
-
-  const MAX_QTY = 99;
 
   /* 1) INPUT: mientras escribes */
   orderList.addEventListener("input", (e) => {
@@ -260,13 +267,13 @@ if (orderList) {
       const li = input.closest(".od-item");
       if (!li) return;
 
-      const raw = input.value.trim();
+      const raw  = input.value.trim();
       const unit = parseFloat(li.dataset.price || "0");
 
       // Si quedó vacío → corregir a 1
       if (raw === "") {
         li.dataset.qty = "1";
-        input.value = "1";
+        input.value    = "1";
 
         const line = li.querySelector(".line-total");
         if (line) line.textContent = `$${(unit * 1).toFixed(2)}`;
@@ -287,7 +294,7 @@ if (orderList) {
     if (!li) return;
 
     const unit = parseFloat(li.dataset.price || "0");
-    let qty = parseInt(li.dataset.qty || "0", 10);
+    let qty    = parseInt(li.dataset.qty || "0", 10);
 
     // Botón eliminar
     if (btn.classList.contains("od-delete")) {
@@ -317,15 +324,16 @@ if (orderList) {
     li.dataset.qty = String(qty);
 
     const qtyInput = li.querySelector(".qty-input");
-    const line = li.querySelector(".line-total");
+    const line     = li.querySelector(".line-total");
 
     if (qtyInput) qtyInput.value = String(qty);
-    if (line) line.textContent = `$${(unit * qty).toFixed(2)}`;
+    if (line)     line.textContent = `$${(unit * qty).toFixed(2)}`;
 
     actualizarTotales();
     actualizarEstadoVacio();
   });
 }
+
 /* ============ IMPRIMIR TICKET ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
@@ -605,6 +613,7 @@ if (printBtn && orderList) {
     };
   });
 }
+
 /* ============ CONFIRMAR PEDIDO (ENVÍO A BACKEND) ============ */
 if (confirmBtn && orderList) {
   confirmBtn.addEventListener("click", async () => {
@@ -636,22 +645,21 @@ if (confirmBtn && orderList) {
 
     // Obtener nombre del cliente (si está logueado)
     const user = JSON.parse(localStorage.getItem("user") || "null");
-    const customerName = user?.name || "Cliente"
+    const customerName = user?.name || "Cliente";
 
     try {
       const res = await fetch("/api/orders/create", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer " + localStorage.getItem("token")
-      },
-      body: JSON.stringify({
-        customerName,
-        items,
-        total
-      })
-    });
-
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        body: JSON.stringify({
+          customerName,
+          items,
+          total
+        })
+      });
 
       const data = await res.json();
 
