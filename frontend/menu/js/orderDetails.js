@@ -206,7 +206,7 @@ if (orderList) {
   });
 }
 
-/* ============ IMPRIMIR TICKET (LOGO + IVA 8% INCLUIDO + POLÍTICAS) ============ */
+/* ============ IMPRIMIR TICKET ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
     if (!orderList.children.length) {
@@ -219,7 +219,7 @@ if (printBtn && orderList) {
     const items = Array.from(orderList.children).map(li => {
       const name    = li.dataset.name || "Producto";
       const qty     = parseInt(li.dataset.qty || "0", 10);
-      const unit    = parseFloat(li.dataset.price || "0"); // precio con IVA
+      const unit    = parseFloat(li.dataset.price || "0"); // precio con IVA incluido
       const comment = li.querySelector(".comment")?.value?.trim() || "";
       return { name, qty, unit, comment };
     });
@@ -234,15 +234,14 @@ if (printBtn && orderList) {
     const folio    = `#${String(orderCount).padStart(4, "0")}`;
     const IVA_RATE = 0.08; // 8%
 
-    // IVA incluido: precio ya trae IVA. Calculamos base e IVA a partir del total.
     let subtotalCalc = 0; // base sin IVA
     let ivaCalc      = 0; // IVA incluido
-    let totalGeneral = 0; // total con IVA (coincide con suma de precios)
+    let totalGeneral = 0; // total con IVA
 
     items.forEach(i => {
-      const lineTotal    = i.unit * i.qty;             // total con IVA
-      const ivaProducto  = lineTotal * IVA_RATE;       // parte que es IVA
-      const baseProducto = lineTotal - ivaProducto;    // base sin IVA
+      const lineTotal    = i.unit * i.qty;          // total con IVA
+      const ivaProducto  = lineTotal * IVA_RATE;    // 8% del total
+      const baseProducto = lineTotal - ivaProducto; // base sin IVA
 
       subtotalCalc += baseProducto;
       ivaCalc      += ivaProducto;
@@ -291,7 +290,6 @@ if (printBtn && orderList) {
             height: 72px;
             border-radius: 999px;
             object-fit: cover;
-            filter: grayscale(100%) contrast(1.15);
           }
 
           .title {
