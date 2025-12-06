@@ -2617,3 +2617,29 @@ body.dark .hero-column {
     justify-content: center;
     pointer-events: none;
 }
+.qty-input {
+  width: 32px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #000;          /* número negro sobre la píldora blanca */
+  outline: none;
+}
+
+/* Quitar flechas de los number */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.qty-input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* En modo oscuro se mantiene negro porque el fondo sigue siendo blanco */
+body.dark .qty-input {
+  color: #000;
+}

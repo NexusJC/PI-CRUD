@@ -20,6 +20,29 @@ const closeOrderBtn = document.getElementById("closeOrderDetailsBtn");
 let subtotal   = 0;
 let orderCount = 1;
 
+  // Permitir cambiar la cantidad escribiendo números
+  orderList.addEventListener("input", (e) => {
+    const input = e.target.closest(".qty-input");
+    if (!input) return;
+
+    const li = input.closest(".od-item");
+    if (!li) return;
+
+    let value = parseInt(input.value || "0", 10);
+    const unit = parseFloat(li.dataset.price || "0");
+
+    // Solo cantidades positivas; 0 o vacío elimina el producto
+    if (isNaN(value) || value <= 0) {
+      li.remove();
+    } else {
+      li.dataset.qty = String(value);
+      const line = li.querySelector(".line-total");
+      if (line) line.textContent = `$${(unit * value).toFixed(2)}`;
+    }
+
+    actualizarTotales();
+    actualizarEstadoVacio();
+  });
 /* ============ ABRIR / CERRAR PANEL ============ */
 function abrirOrderPanel() {
   if (!orderPanel) return;
@@ -127,7 +150,7 @@ document.addEventListener("click", (e) => {
     li.dataset.price = price;
     li.dataset.qty   = "1";
 
-    li.innerHTML = `
+li.innerHTML = `
       <div class="od-thumb">
         ${img ? `<img src="${img}" alt="${name}">` : ""}
       </div>
@@ -143,13 +166,19 @@ document.addEventListener("click", (e) => {
       <div class="od-controls">
         <div class="qty-controls">
           <button class="qty-btn minus">−</button>
-          <span class="qty">1</span>
+          <input
+            type="number"
+            class="qty-input"
+            min="1"
+            value="1"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          />
           <button class="qty-btn plus">+</button>
         </div>
         <div class="price line-total">$${price.toFixed(2)}</div>
       </div>
     `;
-
     orderList.appendChild(li);
   } else {
     // Ya existe → incrementar cantidad
@@ -201,12 +230,13 @@ if (orderList) {
       return;
     }
 
-    li.dataset.qty = String(qty);
+li.dataset.qty = String(qty);
 
-    const qtySpan = li.querySelector(".qty");
-    const line    = li.querySelector(".line-total");
-    if (qtySpan) qtySpan.textContent = String(qty);
-    if (line)    line.textContent    = `$${(unit * qty).toFixed(2)}`;
+const qtyInput = li.querySelector(".qty-input");
+const line     = li.querySelector(".line-total");
+
+if (qtyInput) qtyInput.value = String(qty);
+if (line)     line.textContent = `$${(unit * qty).toFixed(2)}`;
 
     actualizarTotales();
     actualizarEstadoVacio();
