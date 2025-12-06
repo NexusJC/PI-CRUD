@@ -1,17 +1,17 @@
 import { Router } from "express";
 import { getDashboardStats } from "../controllers/dashboard.controller.js";
-import pool from "../db.js";
+import { pool } from "../db.js"; // ← IMPORTACIÓN CORRECTA
 
 const router = Router();
 
-// Ruta existente (NO SE BORRA)
+// ===== Ruta que ya existía (NO SE TOCA) =====
 router.get("/stats", getDashboardStats);
 
-// Nueva ruta para platillos más vendidos
+// ===== NUEVA RUTA: Platillos más vendidos =====
 router.get("/top-dishes", async (req, res) => {
     try {
         const [rows] = await pool.query(`
-            SELECT d.name AS dish, 
+            SELECT d.name AS dish,
                    SUM(od.quantity) AS total_sold
             FROM order_details od
             INNER JOIN dishes d ON d.id = od.dish_id
@@ -21,6 +21,7 @@ router.get("/top-dishes", async (req, res) => {
         `);
 
         res.json(rows);
+
     } catch (error) {
         console.error("Error al obtener platillos más vendidos:", error);
         res.status(500).json({ error: "Error al obtener datos" });
