@@ -580,3 +580,12 @@ logoutBtn?.addEventListener("click", () => {
         window.location.href = loginUrl;
     }
 });
+//  AUTO-REFRESH CADA 2 SEGUNDOS
+setInterval(async () => {
+    const pedidoAnterior = pedidoActivo;
+    await cargarPedidos();
+
+    if (pedidoAnterior && pedidosData[pedidoAnterior]) {
+        seleccionarPedido(pedidoAnterior);
+    }
+}, 2000); 
