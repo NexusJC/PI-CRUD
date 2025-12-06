@@ -2601,3 +2601,11 @@ body.dark .open-btn {
 body.dark .hero-column {
   border-right-color: rgba(148, 163, 184, 0.5);
 }
+/* Igualar estilo de impuestos con subtotal y total */
+#line-total,
+#subtotal,
+#total,
+#tax {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
