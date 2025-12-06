@@ -571,3 +571,51 @@ body {
   position: relative;
   z-index: 5000 !important;
 }
+
+/* alertas */
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 22px;
+  background: #e36842;
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.35s ease;
+  z-index: 3000;
+}
+
+.alert.success {
+  background: #4CAF50;
+}
+
+.alert.error {
+  background: #e74c3c;
+}
+
+.alert.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alert.hidden {
+  display: none;
+}
+
+.alert.success::before {
+  content: "✔";
+  margin-right: 10px;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.alert.error::before {
+  content: "✖";
+  margin-right: 10px;
+  font-weight: 800;
+  font-size: 1.1rem;
+}

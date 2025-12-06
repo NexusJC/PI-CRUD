@@ -1,5 +1,21 @@
-const token = localStorage.getItem("token");
+function showAlert(message, type = "success") {
+  const alertBox = document.getElementById("alertBox");
+  const alertMessage = document.getElementById("alertMessage");
 
+  alertMessage.textContent = message;
+
+  alertBox.className = "alert " + type;
+  alertBox.classList.add("show");
+
+  alertBox.classList.remove("hidden");
+
+  setTimeout(() => {
+    alertBox.classList.remove("show");
+    setTimeout(() => alertBox.classList.add("hidden"), 300);
+  }, 2500);
+}
+
+const token = localStorage.getItem("token");
 
 if (!token) {
   alert("No estás autenticado. Inicia sesión de nuevo.");
@@ -15,7 +31,6 @@ const imgPerfil   = document.getElementById("perfilImg");
 const MAX_PHONE_LENGTH = 10;
 
 inputNumero.addEventListener("input", () => {
-  // quitar todo lo que no sea número
   inputNumero.value = inputNumero.value.replace(/\D/g, "");
 
   if (inputNumero.value.length > MAX_PHONE_LENGTH) {
@@ -47,7 +62,7 @@ const getProfileData = async () => {
     );
 
     if (response.status === 401 || response.status === 403) {
-      alert("Tu sesión ha expirado. Inicia sesión de nuevo.");
+      showAlert("Tu sesión ha expirado. Inicia sesión de nuevo.", "error");
       window.location.href = "../login/login.html";
       return;
     }
@@ -82,7 +97,7 @@ const getProfileData = async () => {
     }
   } catch (error) {
     console.error("Error al obtener datos del perfil", error);
-    alert("Error al obtener datos del perfil");
+    showAlert("Error al obtener datos del perfil", "error");
   }
   
   let user = JSON.parse(localStorage.getItem("user") || "null");
@@ -121,12 +136,12 @@ document
     const gender = generoInput ? generoInput.value : null;
     
     if (!name) {
-      alert("El nombre es obligatorio.");
+      showAlert("El nombre es obligatorio.", "error");
       return;
     }
 
     if (telefono.length !== MAX_PHONE_LENGTH) {
-      alert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`);
+      showAlert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`, "error");
       return;
     }
 
@@ -150,15 +165,15 @@ document
       const result = await response.json();
 
       if (response.ok) {
-        alert(result.message || "Perfil actualizado correctamente");
+        showAlert(result.message || "Perfil actualizado correctamente", "success");
         // Volvemos a leer desde la BD para tener los datos frescos
         getProfileData();
       } else {
-        alert(result.message || "Error al actualizar el perfil");
+        showAlert(result.message || "Error al actualizar el perfil", "error");
       }
     } catch (error) {
       console.error("Error al enviar los cambios:", error);
-      alert("Error al enviar los cambios");
+      showAlert("Error al enviar los cambios", "error");
     }
   });
 
@@ -205,10 +220,10 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
         sidebarAvatar.src = newUrl;
       }
 
-      alert(result.message || "Foto actualizada correctamente");
+      showAlert(result.message || "Foto actualizada correctamente", "success");
     } else {
 
-      alert(result.message || "Error al subir la imagen");
+      showAlert(result.message || "Error al subir la imagen", "error");
     }
   } catch (error) {
     console.error("Error al subir imagen", error);
