@@ -2594,6 +2594,7 @@ body.dark .open-btn {
 /* ==== BARRA VERTICAL ENTRE COLUMNA IZQUIERDA Y MENÚ ==== */
 .hero-column {
   border-right: 2px solid rgba(148, 163, 184, 0.7); /* línea clara en modo claro */
+  padding-right: 20px
 }
 
 /* Modo oscuro: línea un poco más clara para que se vea sobre el fondo oscuro */
