@@ -20,7 +20,7 @@ const user  = JSON.parse(localStorage.getItem("user") || "null");
 
 if (!token || !user) {
   alert("Debes iniciar sesión para hacer un pedido.");
-  window.location.href = "/frontend/login/login.html";
+  window.location.href = "/login/login.html";
 }
 
 // Estado del pedido
