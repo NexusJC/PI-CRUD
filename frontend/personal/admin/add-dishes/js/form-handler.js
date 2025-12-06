@@ -15,14 +15,23 @@ const dishOverlay = document.getElementById("dishOverlay");
 const fileInput = document.getElementById("dishImage");
 const fileText  = document.getElementById("dishFileText");
 
-// 🔹 NUEVO: referencia directa al input de precio
+// 🔹 Input de precio
 const priceInput = document.getElementById("dishPrice");
 
+// 🔹 NUEVO: elementos para FILTRO
+const filterToggleBtn  = document.getElementById("filterToggleBtn");
+const filterDropdown   = document.getElementById("filterDropdown");
+
+// Estado de edición
 let editingDishId = null;          // id del platillo que se está editando
 let editingDishImageUrl = null;    // url de la imagen actual del platillo
 
 // Cache local de platillos (id -> objeto platillo)
 const dishesMap = new Map();
+
+// 🔹 NUEVO: lista completa de platillos y filtro actual
+let dishesList = [];
+let currentFilter = "__all"; // "__all" = todas las categorías
 
 /* ==========================================================
    PREVISUALIZACIÓN DE NOMBRE DE ARCHIVO
@@ -35,7 +44,7 @@ if (fileInput && fileText) {
 }
 
 /* ==========================================================
-   RESTRICCIONES DE PRECIO (NUEVO)
+   RESTRICCIONES DE PRECIO
    - No negativos
    - No 0
    - Máx 4 dígitos en la parte entera
@@ -153,7 +162,7 @@ if (form) {
     const categoria   = form.categoria.value;
     const file        = fileInput.files[0];
 
-    // 🔹 NUEVO: validaciones de precio
+    // Validaciones de precio
     const precioNum = Number(precio);
 
     if (!precio || isNaN(precioNum)) {
@@ -182,12 +191,11 @@ if (form) {
       const body = {
         nombre,
         descripcion,
-        // usamos el número validado
         precio: precioNum,
         categoria,
       };
 
-      // ================= MODO EDITAR =================
+      // =============== MODO EDITAR ===============
       if (editingDishId) {
         // si no se sube nueva, usamos la que ya tenía
         body.imagen = imageUrl || editingDishImageUrl;
@@ -212,7 +220,7 @@ if (form) {
 
         alert("Platillo actualizado correctamente");
       } else {
-        // ================= MODO CREAR =================
+        // =============== MODO CREAR ===============
         if (!imageUrl) {
           alert("Selecciona una imagen para el platillo.");
           return;
@@ -250,13 +258,126 @@ if (form) {
 }
 
 /* ==========================================================
-   CARGAR PLATILLOS EN TABLA
+   🔸 RENDER TABLA (con filtro aplicado)
+========================================================== */
+function renderDishesTable() {
+  if (!tableBody) return;
+
+  tableBody.innerHTML = "";
+  dishesMap.clear();
+
+  // Aplicar filtro
+  const filtered = currentFilter === "__all"
+    ? dishesList
+    : dishesList.filter((dish) => String(dish.categoria) === String(currentFilter));
+
+  if (!filtered.length) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center; padding:14px;">
+          No hay platillos para la categoría seleccionada.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  filtered.forEach((dish) => {
+    const precioNum = Number(dish.precio || 0);
+    const idKey = String(dish.id);
+
+    // guardamos el platillo en cache (para edición)
+    dishesMap.set(idKey, dish);
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${dish.id}</td>
+
+      <td>
+        <div class="table-img-wrapper">
+          <img src="${dish.imagen}" alt="${dish.nombre}">
+        </div>
+      </td>
+
+      <td class="table-name">${dish.nombre}</td>
+
+      <td>
+        <span class="badge badge-category">${dish.categoria}</span>
+      </td>
+
+      <td class="table-price">$${precioNum.toFixed(2)}</td>
+
+      <td class="table-actions">
+        <button class="btn-icon btn-edit" data-id="${dish.id}">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+        <button class="btn-icon btn-delete" data-id="${dish.id}">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </td>
+    `;
+
+    tableBody.appendChild(row);
+  });
+
+  attachDeleteEvents();
+  attachEditEvents();
+}
+
+/* ==========================================================
+   🔸 CONSTRUIR OPCIONES DEL FILTRO (dropdown)
+========================================================== */
+function buildCategoryFilterOptions() {
+  if (!filterDropdown) return;
+
+  filterDropdown.innerHTML = "";
+
+  // Obtener categorías únicas desde los platillos cargados
+  const categoriesSet = new Set();
+  dishesList.forEach((dish) => {
+    if (dish.categoria) {
+      categoriesSet.add(String(dish.categoria));
+    }
+  });
+
+  // Opción "todas"
+  const allBtn = document.createElement("button");
+  allBtn.type = "button";
+  allBtn.className = "filter-option";
+  allBtn.dataset.category = "__all";
+  allBtn.textContent = "Todas las categorías";
+  if (currentFilter === "__all") {
+    allBtn.classList.add("active");
+  }
+  filterDropdown.appendChild(allBtn);
+
+  // Una opción por categoría
+  categoriesSet.forEach((cat) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "filter-option";
+    btn.dataset.category = cat;
+    // Capitalizar un poco visualmente
+    const label = cat.charAt(0).toUpperCase() + cat.slice(1);
+    btn.textContent = label;
+
+    if (currentFilter === cat) {
+      btn.classList.add("active");
+    }
+
+    filterDropdown.appendChild(btn);
+  });
+}
+
+/* ==========================================================
+   CARGAR PLATILLOS DESDE BACKEND
 ========================================================== */
 async function loadDishes() {
   if (!tableBody) return;
 
   tableBody.innerHTML = "";
   dishesMap.clear();
+  dishesList = [];
 
   try {
     const res = await fetch("/api/dishes");
@@ -276,46 +397,15 @@ async function loadDishes() {
       return;
     }
 
-    dishes.forEach((dish) => {
-      const precioNum = Number(dish.precio || 0);
-      const idKey = String(dish.id);
+    // Guardamos lista completa
+    dishesList = dishes;
 
-      // guardamos el platillo en cache (para edición)
-      dishesMap.set(idKey, dish);
+    // Construimos las opciones de filtro en base a los datos
+    buildCategoryFilterOptions();
 
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${dish.id}</td>
+    // Renderizamos tabla con el filtro actual
+    renderDishesTable();
 
-        <td>
-          <div class="table-img-wrapper">
-            <img src="${dish.imagen}" alt="${dish.nombre}">
-          </div>
-        </td>
-
-        <td class="table-name">${dish.nombre}</td>
-
-        <td>
-          <span class="badge badge-category">${dish.categoria}</span>
-        </td>
-
-        <td class="table-price">$${precioNum.toFixed(2)}</td>
-
-        <td class="table-actions">
-          <button class="btn-icon btn-edit" data-id="${dish.id}">
-            <i class="fa-solid fa-pen"></i>
-          </button>
-          <button class="btn-icon btn-delete" data-id="${dish.id}">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </td>
-      `;
-
-      tableBody.appendChild(row);
-    });
-
-    attachDeleteEvents();
-    attachEditEvents();
   } catch (err) {
     console.error("Error cargando platillos:", err);
     tableBody.innerHTML =
@@ -349,6 +439,8 @@ function attachDeleteEvents() {
         }
 
         alert("Platillo eliminado");
+
+        // Recargamos todo para actualizar lista + filtro
         await loadDishes();
       } catch (err) {
         console.error("Excepción al eliminar platillo:", err);
@@ -392,6 +484,44 @@ function attachEditEvents() {
       // Abrir modal en modo edición
       openModal(true);
     };
+  });
+}
+
+/* ==========================================================
+   🔸 EVENTOS DEL BOTÓN FILTRO
+========================================================== */
+if (filterToggleBtn && filterDropdown) {
+  // Abrir / cerrar dropdown
+  filterToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    filterDropdown.classList.toggle("open");
+  });
+
+  // Cerrar si haces click fuera
+  document.addEventListener("click", (e) => {
+    if (!filterDropdown.contains(e.target) && !filterToggleBtn.contains(e.target)) {
+      filterDropdown.classList.remove("open");
+    }
+  });
+
+  // Click en una opción de filtro
+  filterDropdown.addEventListener("click", (e) => {
+    const optionBtn = e.target.closest(".filter-option");
+    if (!optionBtn) return;
+
+    const category = optionBtn.dataset.category || "__all";
+    currentFilter = category;
+
+    // Marcar activa visualmente
+    filterDropdown.querySelectorAll(".filter-option").forEach((btn) => {
+      btn.classList.toggle("active", btn === optionBtn);
+    });
+
+    // Volver a pintar la tabla con el filtro elegido
+    renderDishesTable();
+
+    // Cerrar dropdown
+    filterDropdown.classList.remove("open");
   });
 }
 
