@@ -177,7 +177,9 @@ li.innerHTML = `
 /* ============ + / − / INPUT / ELIMINAR PRODUCTO ============ */
 if (orderList) {
 
-  // 1) Mientras escribes: solo actualiza si hay número; vacío = no tocar nada
+  const MAX_QTY = 99;
+
+  /* 1) INPUT: mientras escribes */
   orderList.addEventListener("input", (e) => {
     const input = e.target.closest(".qty-input");
     if (!input) return;
@@ -188,20 +190,22 @@ if (orderList) {
     const raw  = input.value.trim();
     const unit = parseFloat(li.dataset.price || "0");
 
-    // Si está vacío, es porque el usuario borró para escribir otro número.
-    // No cambiamos dataset ni totales todavía.
-    if (raw === "") {
-      return;
-    }
+    // Si está vacío (borraste para escribir), NO tocar nada aún
+    if (raw === "") return;
 
     let value = parseInt(raw, 10);
 
-    // Si pone algo raro (texto, etc.), forzamos a 1
+    // Si no es número, regresarlo a 1
     if (isNaN(value)) {
       value = 1;
     }
 
-    // 0 o negativo → eliminar producto
+    // Límite máximo
+    if (value > MAX_QTY) {
+      value = MAX_QTY;
+    }
+
+    // 0 o negativo → eliminar el item
     if (value <= 0) {
       li.remove();
       actualizarTotales();
@@ -209,9 +213,9 @@ if (orderList) {
       return;
     }
 
-    // Cantidad válida
+    // Aplicar cambios
     li.dataset.qty = String(value);
-    input.value    = String(value);
+    input.value = String(value);
 
     const line = li.querySelector(".line-total");
     if (line) line.textContent = `$${(unit * value).toFixed(2)}`;
@@ -220,32 +224,35 @@ if (orderList) {
     actualizarEstadoVacio();
   });
 
-  // 2) Si el usuario deja el campo vacío y sale del input → volver a 1
-  orderList.addEventListener("blur", (e) => {
-    const input = e.target.closest(".qty-input");
-    if (!input) return;
+  /* 2) BLUR: si saliste del input y quedó vacío → poner 1 */
+  orderList.addEventListener(
+    "blur",
+    (e) => {
+      const input = e.target.closest(".qty-input");
+      if (!input) return;
 
-    const li = input.closest(".od-item");
-    if (!li) return;
+      const li = input.closest(".od-item");
+      if (!li) return;
 
-    const raw = input.value.trim();
-    // Si no está vacío, ya lo manejó el 'input'
-    if (raw !== "") return;
+      const raw = input.value.trim();
+      const unit = parseFloat(li.dataset.price || "0");
 
-    const unit  = parseFloat(li.dataset.price || "0");
-    const value = 1;
+      // Si quedó vacío → corregir a 1
+      if (raw === "") {
+        li.dataset.qty = "1";
+        input.value = "1";
 
-    li.dataset.qty = "1";
-    input.value    = "1";
+        const line = li.querySelector(".line-total");
+        if (line) line.textContent = `$${(unit * 1).toFixed(2)}`;
 
-    const line = li.querySelector(".line-total");
-    if (line) line.textContent = `$${(unit * value).toFixed(2)}`;
+        actualizarTotales();
+        actualizarEstadoVacio();
+      }
+    },
+    true
+  );
 
-    actualizarTotales();
-    actualizarEstadoVacio();
-  }, true); // 👈 uso capture para que 'blur' funcione
-
-  // 3) Click en + / − / eliminar (tu código, solo ajustado a qty-input)
+  /* 3) CLICK: botones + / − / eliminar */
   orderList.addEventListener("click", (e) => {
     const btn = e.target.closest("button");
     if (!btn) return;
@@ -254,18 +261,20 @@ if (orderList) {
     if (!li) return;
 
     const unit = parseFloat(li.dataset.price || "0");
-    let qty    = parseInt(li.dataset.qty || "0", 10);
+    let qty = parseInt(li.dataset.qty || "0", 10);
 
-    // Botón X (eliminar producto)
-    if (btn.classList.contains("od-delete") || btn.classList.contains("remove-btn")) {
+    // Botón eliminar
+    if (btn.classList.contains("od-delete")) {
       li.remove();
       actualizarTotales();
       actualizarEstadoVacio();
       return;
     }
 
+    // Incrementar / Decrementar
     if (btn.classList.contains("plus")) {
       qty++;
+      if (qty > MAX_QTY) qty = MAX_QTY;
     } else if (btn.classList.contains("minus")) {
       qty--;
       if (qty <= 0) {
@@ -278,13 +287,14 @@ if (orderList) {
       return;
     }
 
+    // Aplicar cambios
     li.dataset.qty = String(qty);
 
     const qtyInput = li.querySelector(".qty-input");
-    const line     = li.querySelector(".line-total");
+    const line = li.querySelector(".line-total");
 
     if (qtyInput) qtyInput.value = String(qty);
-    if (line)     line.textContent = `$${(unit * qty).toFixed(2)}`;
+    if (line) line.textContent = `$${(unit * qty).toFixed(2)}`;
 
     actualizarTotales();
     actualizarEstadoVacio();
