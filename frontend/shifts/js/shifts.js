@@ -47,13 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (sidebarAvatar && user) {
     let avatarUrl = user.image_url || user.profile_picture;
     if (avatarUrl) {
+      if (avatarUrl.includes("cloudinary")) {
+        sidebarAvatar.src = avatarUrl;
+        return;
+      }
       if (!avatarUrl.startsWith("http")) {
         avatarUrl = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
       }
       sidebarAvatar.src = avatarUrl;
     }
   }
-
 
   /* === CERRAR SESIÓN === */
   btnLogout.addEventListener("click", () => {
