@@ -156,11 +156,11 @@ document
       const result = await response.json();
 
       if (response.ok) {
-        alert(result.message || "Perfil actualizado correctamente");
+        showAlert(result.message || "Perfil actualizado correctamente", "success");
         // Volvemos a leer desde la BD para tener los datos frescos
         getProfileData();
       } else {
-        alert(result.message || "Error al actualizar el perfil");
+        showAlert(result.message || "Error al actualizar el perfil", "error");
       }
     } catch (error) {
       console.error("Error al enviar los cambios:", error);
