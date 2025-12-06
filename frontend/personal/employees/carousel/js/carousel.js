@@ -110,7 +110,7 @@ function renderizarCarrusel() {
         card.innerHTML = `
             <div class="turno-header">
                 <h3>#${num}</h3>
-                <span class="costo">$${p.total.toFixed(2)}</span>
+                <span class="costo">$${Number(p.total).toFixed(2)}</span>
             </div>
             <p class="cliente">${p.cliente}</p>
             <div class="estado-${p.estado === "pendiente" ? "pendiente" : "activo"}">
@@ -341,3 +341,16 @@ logoutBtn?.addEventListener("click", () => {
         window.location.href = loginUrl;
     }
 });
+function manejarCancelar() {
+    if (!pedidoActivo) return;
+    if (!confirm("¿Cancelar este pedido?")) return;
+
+    eliminarPedido(pedidoActivo);
+}
+
+function manejarEntregar() {
+    if (!pedidoActivo) return;
+    entregarPedido(pedidoActivo);
+}
+
+
