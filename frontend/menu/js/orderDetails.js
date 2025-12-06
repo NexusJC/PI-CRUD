@@ -18,11 +18,6 @@ const closeOrderBtn = document.getElementById("closeOrderDetailsBtn");
 const token = localStorage.getItem("token");
 const user  = JSON.parse(localStorage.getItem("user") || "null");
 
-if (!token || !user) {
-  alert("Debes iniciar sesión para hacer un pedido.");
-  window.location.href = "/login/login.html";
-}
-
 // Estado del pedido
 let subtotal   = 0;
 let orderCount = 1;
