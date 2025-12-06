@@ -2586,3 +2586,65 @@ body.dark .open-btn {
   color: #020617;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.9);
 }
+/* =========================================================
+   BORDES · SEPARAR TOPBAR / CONTENIDO Y CATEGORÍAS / MENÚ
+   (SIN CAMBIAR TAMAÑOS NI GRID)
+   ========================================================= */
+
+/* Card general del área de menú */
+.menu-section {
+  position: relative;                  /* para los pseudo-elementos */
+  background: var(--card);             /* se nota sobre el fondo */
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
+  overflow: hidden;                    /* para que los bordes sean limpios */
+}
+
+/* Franja fina arriba para separarla del topbar */
+.menu-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--topbar), #ff7a45);
+  pointer-events: none;
+}
+
+/* Bloque de categorías con una línea de separación abajo */
+.category-section {
+  position: relative;                  /* para la línea decorativa */
+}
+
+/* Línea sutil bajo "Categorías" sin modificar el layout */
+.category-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.4rem;                     /* cae justo en la parte baja del bloque */
+  height: 1px;
+  background: var(--border);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Ajuste visual para que la línea funcione bien con el margin-bottom existente */
+.category-section {
+  margin-bottom: 2.6rem;               /* era ~2.2rem, sólo un pelín más para que no se tape */
+}
+
+/* --------- DARK MODE --------- */
+
+body.dark .menu-section {
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+}
+
+body.dark .category-section::after {
+  background: var(--border);
+  opacity: 0.9;
+}
