@@ -22,6 +22,30 @@ function isIconButton(el) {
   );
 }
 
+// Botones estructurales que NO deben tocarse nunca (X de cierres, etc.)
+function isStructuralButton(el) {
+  if (el.tagName !== 'BUTTON') return false;
+
+  const id = el.id || '';
+  const classes = el.classList || [];
+
+  // Botones de cierre explícitos
+  if (
+    id === 'modalClose' ||
+    id === 'closeOrderDetailsBtn' ||
+    classes.contains('modal-close') ||
+    classes.contains('od-close')
+  ) {
+    return true;
+  }
+
+  // Botón que solo tiene "X" o "×" como contenido visible
+  const text = (el.innerText || '').trim();
+  if (text === 'X' || text === '×') return true;
+
+  return false;
+}
+
 // Decide si un elemento debe quedar SIN traducir
 function shouldSkipElement(el) {
   if (!el) return true;
@@ -64,6 +88,9 @@ function getTranslatableContent() {
       // No traducir el CONTENIDO de botones que tienen iconos dentro
       // (open-sidebar-btn, btn-logout, modalAddBtn, themeToggle, etc.)
       if (isIconButton(el)) return;
+
+      // No traducir botones estructurales como las X de cierre
+      if (isStructuralButton(el)) return;
 
       const id = `${tag}-${counter++}`;
       elementsMap[id] = {
@@ -165,7 +192,7 @@ function updateLanguageUI(targetLanguage) {
     );
   }
 
-  // Botón de modo oscuro del sidebar (ya tiene <span>, pero por si acaso):
+  // Botón de modo oscuro del sidebar
   const themeToggleBtn = document.getElementById('themeToggle');
   if (themeToggleBtn) {
     const spanText = themeToggleBtn.querySelector('span');
