@@ -3,6 +3,7 @@ import { pool } from "../db.js";
 export const createOrder = async (req, res) => {
   try {
     const { customerName, items, total } = req.body;
+    const userId = req.user?.id || null;
 
     // Obtener último número
     const [last] = await pool.query(
@@ -13,9 +14,11 @@ export const createOrder = async (req, res) => {
 
     // Crear encabezado
     const [orderResult] = await pool.query(
-      "INSERT INTO orders (order_number, customer_name, total) VALUES (?, ?, ?)",
-      [nextOrder, customerName || "Cliente", total]
-    );
+    `INSERT INTO orders (order_number, customer_name, total, user_id)
+    VALUES (?, ?, ?, ?)`,
+    [nextOrder, customerName || "Cliente", total, userId]
+  );
+
 
     const orderId = orderResult.insertId;
 

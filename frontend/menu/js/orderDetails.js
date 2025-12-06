@@ -15,6 +15,13 @@ const emptyMsg     = document.getElementById("empty-cart-msg");
 // Botones para abrir / cerrar el panel (NO usamos nada del sidebar.js)
 const openOrderBtn  = document.getElementById("open-sidebar-btn");
 const closeOrderBtn = document.getElementById("closeOrderDetailsBtn");
+const token = localStorage.getItem("token");
+const user  = JSON.parse(localStorage.getItem("user") || "null");
+
+if (!token || !user) {
+  alert("Debes iniciar sesión para hacer un pedido.");
+  window.location.href = "/frontend/login/login.html";
+}
 
 // Estado del pedido
 let subtotal   = 0;
@@ -614,14 +621,18 @@ if (confirmBtn && orderList) {
 
     try {
       const res = await fetch("/api/orders/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customerName,
-          items,
-          total
-        })
-      });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + localStorage.getItem("token")
+      },
+      body: JSON.stringify({
+        customerName,
+        items,
+        total
+      })
+    });
+
 
       const data = await res.json();
 
