@@ -234,6 +234,10 @@ if (printBtn && orderList) {
     const folio    = `#${String(orderCount).padStart(4, "0")}`;
     const IVA_RATE = 0.08; // 8%
 
+    // logo: tomamos el mismo src que el logo del header
+    const headerLogo = document.querySelector(".logo");
+    const logoSrc    = headerLogo ? headerLogo.src : "../img/logo_1.png";
+
     let subtotalCalc = 0; // base sin IVA
     let ivaCalc      = 0; // IVA incluido
     let totalGeneral = 0; // total con IVA
@@ -403,7 +407,7 @@ if (printBtn && orderList) {
         <div class="ticket">
           <div class="ticket-header">
             <div class="logo-wrapper">
-              <img src="/img/logo_1.png" alt="La Parrilla Azteca" class="ticket-logo">
+              <img src="${logoSrc}" alt="La Parrilla Azteca" class="ticket-logo">
             </div>
             <div class="title">La Parrilla Azteca</div>
             <div class="subtitle">Ticket de consumo</div>
@@ -477,6 +481,7 @@ if (printBtn && orderList) {
     vent.print();
   });
 }
+
 /* ============ CONFIRMAR PEDIDO ============ */
 if (confirmBtn && orderList) {
   confirmBtn.addEventListener("click", () => {
