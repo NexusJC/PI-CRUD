@@ -13,6 +13,15 @@ const translatableElements = [
 // UTILIDADES
 // =====================================================================
 
+// Botones con iconos (para NO traducirlos con el sistema genérico,
+// y no romper su estructura). A estos les pondremos el texto a mano.
+function isIconButton(el) {
+  return (
+    el.tagName === 'BUTTON' &&
+    el.querySelector('i, svg')
+  );
+}
+
 // Decide si un elemento debe quedar SIN traducir
 function shouldSkipElement(el) {
   if (!el) return true;
@@ -52,6 +61,10 @@ function getTranslatableContent() {
     document.querySelectorAll(tag).forEach(el => {
       if (shouldSkipElement(el)) return;
 
+      // No traducir el CONTENIDO de botones que tienen iconos dentro
+      // (open-sidebar-btn, btn-logout, modalAddBtn, themeToggle, etc.)
+      if (isIconButton(el)) return;
+
       const id = `${tag}-${counter++}`;
       elementsMap[id] = {
         element: el,
@@ -70,7 +83,24 @@ function decodeHTMLEntities(text) {
   return textarea.value;
 }
 
-// Actualiza textos de algunos elementos de UI auxiliares (banner, toggles…)
+// Cambia SOLO el texto de un botón que tiene icono,
+// sin borrar el <i> o <svg> y sin deformar el botón.
+function setButtonLabelWithIcon(btn, label) {
+  if (!btn) return;
+  const textNodes = Array.from(btn.childNodes).filter(
+    node => node.nodeType === Node.TEXT_NODE
+  );
+  let textNode = textNodes[textNodes.length - 1];
+
+  if (!textNode) {
+    textNode = document.createTextNode('');
+    btn.appendChild(textNode);
+  }
+
+  textNode.textContent = ' ' + label;
+}
+
+// Actualiza textos de algunos elementos de UI auxiliares (banner, toggles, botones con iconos…)
 function updateLanguageUI(targetLanguage) {
   // Banner superior (si existe en alguna página)
   const banner = document.getElementById('language-banner');
@@ -105,10 +135,48 @@ function updateLanguageUI(targetLanguage) {
       toggleText.innerText = '¿Cambiar idioma?';
     }
   }
+
+  // --------- Botones con iconos del menú ---------
+
+  // Botón "Ver Orden" / "View Order"
+  const openOrderBtn = document.getElementById('open-sidebar-btn');
+  if (openOrderBtn) {
+    setButtonLabelWithIcon(
+      openOrderBtn,
+      targetLanguage === 'en' ? 'View Order' : 'Ver Orden'
+    );
+  }
+
+  // Botón "Cerrar sesión" / "Log out"
+  const logoutBtn = document.getElementById('btn-logout');
+  if (logoutBtn) {
+    setButtonLabelWithIcon(
+      logoutBtn,
+      targetLanguage === 'en' ? 'Log out' : 'Cerrar sesión'
+    );
+  }
+
+  // Botón del modal "Agregar a la orden" / "Add to order"
+  const modalAddBtn = document.getElementById('modalAddBtn');
+  if (modalAddBtn) {
+    setButtonLabelWithIcon(
+      modalAddBtn,
+      targetLanguage === 'en' ? 'Add to order' : 'Agregar a la orden'
+    );
+  }
+
+  // Botón de modo oscuro del sidebar (ya tiene <span>, pero por si acaso):
+  const themeToggleBtn = document.getElementById('themeToggle');
+  if (themeToggleBtn) {
+    const spanText = themeToggleBtn.querySelector('span');
+    if (spanText) {
+      spanText.textContent = targetLanguage === 'en' ? 'Dark Mode' : 'Modo oscuro';
+    }
+  }
 }
 
 // =====================================================================
-// FUNCIÓN PRINCIPAL DE TRADUCCIÓN
+// FUNCIÓN PRINCIPAL DE TRADUCCIÓN (toda la página)
 // =====================================================================
 
 /**
@@ -124,7 +192,6 @@ async function translateContent(targetLanguage) {
   const entries = Object.entries(elements);
 
   if (!entries.length) {
-    // Aunque no haya nada que traducir, actualizamos el estado de idioma
     currentLanguage = targetLanguage;
     document.documentElement.lang = targetLanguage;
     localStorage.setItem('preferredLanguage', targetLanguage);
@@ -157,7 +224,7 @@ async function translateContent(targetLanguage) {
         body: JSON.stringify({
           q: textsToTranslate,
           target: targetLanguage
-          // No enviamos "source": dejamos que Google detecte el idioma
+          // Dejamos que Google detecte el idioma origen
         })
       });
 
@@ -173,7 +240,6 @@ async function translateContent(targetLanguage) {
         throw new Error('No se recibieron traducciones válidas');
       }
 
-      // Aplicar traducciones a los elementos correspondientes
       data.data.translations.forEach((tr, index) => {
         const [, info] = batch[index];
         const translatedText = decodeHTMLEntities(tr.translatedText);
@@ -196,13 +262,47 @@ async function translateContent(targetLanguage) {
 }
 
 // =====================================================================
+// TRADUCCIÓN DE UN SOLO ELEMENTO (para la descripción del modal)
+// =====================================================================
+
+async function translateElementText(el, targetLanguage) {
+  if (!el) return;
+  const text = (el.innerText || '').trim();
+  if (!text) return;
+
+  const url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        q: [text],
+        target: targetLanguage
+      })
+    });
+
+    if (!response.ok) {
+      console.error('Error al traducir elemento específico:', await response.text());
+      return;
+    }
+
+    const data = await response.json();
+    if (data.data && data.data.translations && data.data.translations[0]) {
+      el.innerText = decodeHTMLEntities(data.data.translations[0].translatedText);
+    }
+  } catch (err) {
+    console.error('Error en translateElementText:', err);
+  }
+}
+
+// Hacemos accesible la función desde otros archivos (load-dishes.js)
+window.translateElementText = translateElementText;
+
+// =====================================================================
 // FUNCIONES PARA LOS BOTONES / SELECTOR DE IDIOMA
 // =====================================================================
 
-/**
- * Cambio de idioma cuando se usa un menú con opciones "ingles"/"espanol".
- * @param {string} idioma - 'ingles' o 'espanol'
- */
 function cambiarIdioma(idioma) {
   const banderaPrincipal = document.getElementById('banderaIdioma');
   const banderaIngles = document.querySelector('.ingles');
@@ -224,14 +324,9 @@ function cambiarIdioma(idioma) {
   translateContent(targetLang);
 
   const opciones = document.getElementById('idiomasOpciones');
-  if (opciones) {
-    opciones.style.display = 'none';
-  }
+  if (opciones) opciones.style.display = 'none';
 }
 
-/**
- * Alterna entre español e inglés con un solo botón (bandera en el menú).
- */
 function alternarIdioma() {
   const bandera = document.getElementById('banderaIdioma');
   if (!bandera) return;
