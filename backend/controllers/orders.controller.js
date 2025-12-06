@@ -9,7 +9,7 @@ export const createOrder = async (req, res) => {
       "SELECT order_number FROM orders ORDER BY id DESC LIMIT 1"
     );
 
-    const nextOrder = last.length ? last[0].order_number + 1 : 401;
+    const nextOrder = last.length ? last[0].order_number + 1 : 1;
 
     // Crear encabezado
     const [orderResult] = await pool.query(
