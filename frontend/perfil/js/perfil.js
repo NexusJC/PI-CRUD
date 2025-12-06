@@ -226,6 +226,17 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
 //aviso de restablecer contraseña
 const btnReset = document.getElementById("btnRestablecer");
 
+btnReset.addEventListener("click", () => {
+  showConfirmCustom(
+    "¿Deseas continuar y cambiar tu contraseña?",
+    () => {
+      setTimeout(() => {
+        window.location.href = "#";
+      }, 800);
+    },
+  );
+});
+
 function showConfirmCustom(message, onYes, onNo) {
 
   const overlay = document.createElement("div");
