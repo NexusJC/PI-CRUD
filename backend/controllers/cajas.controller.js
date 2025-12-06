@@ -35,12 +35,16 @@ export const createCaja = async (req, res) => {
 export const deleteCaja = async (req, res) => {
     try {
         const { id } = req.params;
+
         await pool.query("DELETE FROM cajas WHERE id = ?", [id]);
-        res.json({ success: true });
+
+        res.json({ success: true, message: "Caja eliminada correctamente" });
     } catch (error) {
-        res.status(500).json({ message: "Error al eliminar caja" });
+        console.error("Error deleteCaja:", error);
+        res.status(500).json({ message: "Error al eliminar la caja" });
     }
 };
+
 // Editar caja
 export const updateCaja = async (req, res) => {
     try {

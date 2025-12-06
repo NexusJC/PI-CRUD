@@ -82,18 +82,18 @@ function renderCajas() {
         div.classList.add("tarjeta-caja");
 
         div.innerHTML = `
-    <i class='bx bx-store icono-caja'></i>
-
-    <h3>Caja ${caja.numero_caja}</h3>
-
-    <p class="empleado-asignado">${caja.empleado_nombre || "Sin empleado asignado"}</p>
-
-    <div class="caja-estado caja-estado--${caja.estado}">
-        ${caja.estado === "activa" ? "Activa" : "Inactiva"}
-    </div>
-
-    <button class="btn-editar-caja" onclick="editarCaja(${caja.id})">
-        <i class='bx bx-edit'></i> Editar
+        <i class='bx bx-store icono-caja'></i>
+        <h3>Caja ${caja.numero_caja}</h3>
+        <p class="empleado-asignado">${caja.empleado_nombre || "Sin empleado asignado"}</p>
+        <div class="caja-estado caja-estado--${caja.estado}">
+            ${caja.estado === "activa" ? "Activa" : "Inactiva"}
+        </div>
+        <button class="btn-editar-caja" onclick="editarCaja(${caja.id})">
+            <i class='bx bx-edit'></i> Editar
+        </button>
+        
+      <button class="btn-eliminar-caja" onclick="confirmarEliminarCaja(${caja.id})">
+        <i class='bx bx-trash'></i> Eliminar
     </button>
 `;
 
@@ -117,6 +117,30 @@ function cerrarModalCaja() {
     overlayCaja.classList.remove("activa");
     formCaja.reset();
     cajaEditando = null;
+}
+function confirmarEliminarCaja(id) {
+    const confirmar = confirm("¿Seguro que deseas eliminar esta caja?\nEsta acción no se puede deshacer.");
+
+    if (confirmar) {
+        eliminarCaja(id);
+    }
+}
+async function eliminarCaja(id) {
+    try {
+        const res = await fetch(`/api/cajas/${id}`, {
+            method: "DELETE"
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            await cargarCajas();
+        } else {
+            alert("Error al eliminar la caja.");
+        }
+    } catch (error) {
+        console.error("Error eliminando la caja:", error);
+    }
 }
 
 
