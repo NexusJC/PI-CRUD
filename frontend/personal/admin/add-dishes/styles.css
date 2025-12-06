@@ -1158,3 +1158,93 @@ body.admin-body.admin-dark {
   transform: translateX(-8px);
   pointer-events: none;
 }
+/* Ajuste de columnas tabla de platillos */
+.admin-table th:nth-child(1) {
+  width: 60px;
+  text-align: center;
+}
+
+.admin-table th:nth-child(2) {
+  width: 90px;
+}
+
+.admin-table th:nth-child(6) {
+  width: 120px;
+  text-align: center; /* Alinea título "Acciones" con los botones */
+}
+
+/* Primera columna (id) centrada y más tenue */
+.admin-table td:first-child {
+  text-align: center;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+/* Columna de imagen con menos padding a la derecha */
+.admin-table td:nth-child(2) {
+  padding-right: 6px;
+}
+
+/* Columna de acciones centrada */
+.admin-table td:nth-child(6) {
+  text-align: center;
+}
+
+.table-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* centra los botones bajo "Acciones" */
+  gap: 8px;
+}
+/* Títulos y nombres en blanco en modo oscuro */
+.admin-dark .dishes-header-text h1,
+.admin-dark .dishes-card-header h2 {
+  color: #f9fafb;
+}
+
+/* Nombre del platillo en la tabla */
+.admin-dark .table-name {
+  color: #f9fafb;
+}
+
+/* Precio más legible en oscuro */
+.admin-dark .table-price {
+  color: #e5e7eb;
+}
+/* quitar zebra en oscuro y usar fondo limpio */
+.admin-dark .admin-table tbody tr:nth-child(odd),
+.admin-dark .admin-table tbody tr:nth-child(even) {
+  background: transparent;
+}
+
+/* Bordes suaves y alineados */
+.admin-dark .admin-table thead {
+  background: #111827;
+  border-bottom: 1px solid #111827;
+}
+
+.admin-dark .admin-table td {
+  border-bottom-color: #111827;
+}
+
+/* Hover sutil en filas */
+.admin-dark .admin-table tbody tr:hover {
+  background: rgba(15, 23, 42, 0.85);
+}
+/* Estilo de categorías y pill en modo oscuro */
+.admin-dark .badge-category {
+  background: rgba(15, 23, 42, 0.9);
+  color: #fbbf24; /* dorado */
+  border: 1px solid rgba(251, 191, 36, 0.55);
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1);
+}
+
+.admin-dark .pill {
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border: 1px solid #111827;
+}
+
+.admin-dark .pill i {
+  color: #f97316;
+}
