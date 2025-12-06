@@ -2356,3 +2356,36 @@ body.dark::-webkit-scrollbar-thumb {
     transparent 75%,
     transparent);
 }
+body.dark .od-info .name {
+  color: #ffffff !important;
+}
+
+body.dark .qty {
+  color: #ffffff !important;
+}
+
+body.dark .sidebar-profile h4,
+body.dark .sidebar-profile p {
+  color: #ffffff !important;
+}
+
+/* si quieres también el precio en oscuro más visible */
+body.dark .od-controls .price {
+  color: #ffb280 !important;
+}
+
+/* separadores de categorías solo en modo claro */
+body:not(.dark) #menuGrid .category-separator,
+body:not(.dark) #menuGrid .menu-category-header,
+body:not(.dark) #menuGrid > h3,
+body:not(.dark) #menuGrid > h4 {
+  color: #111827;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  display: inline-block;
+  padding-bottom: 0.2rem;
+  margin: 1.6rem 0 0.8rem;
+  border-bottom: 3px solid rgba(227, 104, 66, 0.9);
+}
