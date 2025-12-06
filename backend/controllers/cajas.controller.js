@@ -1,4 +1,5 @@
 import { pool } from "../db.js";
+export { deleteCaja };
 
 // Obtener todas las cajas
 export const getCajas = async (req, res) => {
@@ -32,7 +33,7 @@ export const createCaja = async (req, res) => {
 };
 
 // Eliminar caja
-export const deleteCaja = async (req, res) => {
+export const deleteCaja  = async (req, res) => {
     try {
         const { id } = req.params;
 
