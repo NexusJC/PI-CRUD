@@ -221,3 +221,27 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
     alert("Error al subir la imagen");
   }
 });
+
+
+//aviso de restablecer contraseña
+const btnReset = document.getElementById("btnRestablecer");
+
+btnReset.addEventListener("click", () => {
+  
+  showAlert("¿Seguro que quieres cambiar tu contraseña?", "success");
+  
+  setTimeout(() => {
+    const confirmacion = confirm("¿Deseas continuar y cambiar tu contraseña?");
+    if (confirmacion) {
+      showAlert("Redirigiendo para cambiar contraseña…", "success");
+
+      setTimeout(() => {
+        window.location.href = "#";
+      }, 800);
+
+    } else {
+      showAlert("Operación cancelada", "error");
+    }
+
+  }, 800);
+});
