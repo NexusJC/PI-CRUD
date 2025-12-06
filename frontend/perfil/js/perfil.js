@@ -5,15 +5,16 @@ function showAlert(message, type = "success") {
   alertMessage.textContent = message;
 
   alertBox.className = "alert " + type;
-  alertBox.classList.add("show");
-
   alertBox.classList.remove("hidden");
+
+  setTimeout(() => alertBox.classList.add("show"), 10);
 
   setTimeout(() => {
     alertBox.classList.remove("show");
     setTimeout(() => alertBox.classList.add("hidden"), 300);
   }, 2500);
 }
+
 
 const token = localStorage.getItem("token");
 
@@ -31,6 +32,7 @@ const imgPerfil   = document.getElementById("perfilImg");
 const MAX_PHONE_LENGTH = 10;
 
 inputNumero.addEventListener("input", () => {
+  // quitar todo lo que no sea número
   inputNumero.value = inputNumero.value.replace(/\D/g, "");
 
   if (inputNumero.value.length > MAX_PHONE_LENGTH) {
@@ -48,6 +50,7 @@ document.getElementById("btnEditarNumero").addEventListener("click", () => {
   if (!inputNumero.readOnly) inputNumero.focus();
 });
 
+
 const getProfileData = async () => {
   try {
     const response = await fetch(
@@ -61,7 +64,7 @@ const getProfileData = async () => {
     );
 
     if (response.status === 401 || response.status === 403) {
-      showAlert("Tu sesión ha expirado. Inicia sesión de nuevo.", "error");
+      alert("Tu sesión ha expirado. Inicia sesión de nuevo.");
       window.location.href = "../login/login.html";
       return;
     }
@@ -72,6 +75,8 @@ const getProfileData = async () => {
 
       inputNombre.value = data.name || "";
       inputNumero.value = data.telefono || "";
+
+
       spanEmail.textContent = data.email || "";
 
       if (data.gender === "masculino") {
@@ -81,49 +86,46 @@ const getProfileData = async () => {
       }
 
       if (data.image_url) {
+
         imgPerfil.src = data.image_url;
       } else if (data.profile_picture) {
+
         imgPerfil.src = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
       } else {
         imgPerfil.src = "../img/default.png";
       }
-
-      // 🔥 AQUI COLOCA EL LOCALSTORAGE (DENTRO del try donde data SÍ existe)
-      let user = JSON.parse(localStorage.getItem("user") || "null");
-
-      if (user) {
-        if (data.image_url) {
-          user.image_url = data.image_url;
-          if (data.profile_picture) {
-            user.profile_picture = data.profile_picture;
-          }
-        } else if (data.profile_picture) {
-          user.profile_picture = data.profile_picture;
-          user.image_url = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
-        }
-
-        localStorage.setItem("user", JSON.stringify(user));
-
-        const sidebarAvatar = document.getElementById("sidebarAvatar");
-        if (sidebarAvatar) {
-          sidebarAvatar.src =
-            user.image_url ||
-            (user.profile_picture
-              ? `https://www.laparrilaazteca.online/uploads/${user.profile_picture}`
-              : sidebarAvatar.src);
-        }
-      }
-
     } else {
-      showAlert(data.message || "No se pudo obtener el perfil", "error");
+      alert(data.message || "No se pudo obtener el perfil");
     }
-
   } catch (error) {
     console.error("Error al obtener datos del perfil", error);
-    showAlert("Error al obtener datos del perfil", "error");
+    alert("Error al obtener datos del perfil");
   }
-};
+  
+  let user = JSON.parse(localStorage.getItem("user") || "null");
+  if (user) {
+    if (data.image_url) {
+      user.image_url = data.image_url;
+      if (data.profile_picture) {
+        user.profile_picture = data.profile_picture;
+      }
+    } else if (data.profile_picture) {
+      user.profile_picture = data.profile_picture;
+      user.image_url = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
+    }
 
+    localStorage.setItem("user", JSON.stringify(user));
+    
+    const sidebarAvatar = document.getElementById("sidebarAvatar");
+    if (sidebarAvatar) {
+      sidebarAvatar.src =
+      user.image_url ||
+      (user.profile_picture
+        ? `https://www.laparrilaazteca.online/uploads/${user.profile_picture}`
+        : sidebarAvatar.src);
+      }
+    }
+};
 
 window.addEventListener("load", getProfileData);
 
@@ -136,12 +138,12 @@ document
     const gender = generoInput ? generoInput.value : null;
     
     if (!name) {
-      showAlert("El nombre es obligatorio.", "error");
+      alert("El nombre es obligatorio.");
       return;
     }
 
     if (telefono.length !== MAX_PHONE_LENGTH) {
-      showAlert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`, "error");
+      alert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`);
       return;
     }
 
@@ -165,15 +167,15 @@ document
       const result = await response.json();
 
       if (response.ok) {
-        showAlert(result.message || "Perfil actualizado correctamente", "success");
+        alert(result.message || "Perfil actualizado correctamente");
         // Volvemos a leer desde la BD para tener los datos frescos
         getProfileData();
       } else {
-        showAlert(result.message || "Error al actualizar el perfil", "error");
+        alert(result.message || "Error al actualizar el perfil");
       }
     } catch (error) {
       console.error("Error al enviar los cambios:", error);
-      showAlert("Error al enviar los cambios", "error");
+      alert("Error al enviar los cambios");
     }
   });
 
@@ -215,15 +217,16 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
         localStorage.setItem("user", JSON.stringify(user));
       }
 
+      // Actualizar avatar del sidebar
       const sidebarAvatar = document.getElementById("sidebarAvatar");
       if (sidebarAvatar) {
         sidebarAvatar.src = newUrl;
       }
 
-      showAlert(result.message || "Foto actualizada correctamente", "success");
+      alert(result.message || "Foto actualizada correctamente");
     } else {
 
-      showAlert(result.message || "Error al subir la imagen", "error");
+      alert(result.message || "Error al subir la imagen");
     }
   } catch (error) {
     console.error("Error al subir imagen", error);
