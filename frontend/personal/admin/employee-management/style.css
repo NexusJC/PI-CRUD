@@ -1005,3 +1005,35 @@ input[type="tel"].invalid {
 .menu-dashboard.open ~ .seccion-trabajadores-card {
     transform: translateX(60px);
 }
+/* ==============================
+   INPUT GRUPO (Diseño moderno)
+============================== */
+.input-grupo {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-grupo input {
+    width: 100%;
+    padding: 10px 38px 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #decab6;
+    font-size: 14px;
+    background: #fff;
+}
+
+.input-grupo input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.25);
+}
+
+.icono-input {
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    color: #a88974;
+    cursor: pointer;
+}
+
+.pointer { cursor: pointer; }

@@ -122,8 +122,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log("Top dishes:", data);
 
         // Preparar datos para Chart.js
+        if (!Array.isArray(data)) {
+        console.error("❌ La API no devolvió un arreglo:", data);
+        return; // Evita que truene el dashboard
+        }
+
         const labels = data.map(item => item.dish);
         const values = data.map(item => item.total_sold);
+
 
         // Crear gráfica
         new Chart(ctxTop, {
