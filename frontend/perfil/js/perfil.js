@@ -221,3 +221,49 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
     alert("Error al subir la imagen");
   }
 });
+
+
+//aviso de restablecer contraseña
+const btnReset = document.getElementById("btnRestablecer");
+
+btnReset.addEventListener("click", () => {
+  showConfirmCustom(
+    "¿Deseas continuar y cambiar tu contraseña?",
+    () => {
+      setTimeout(() => {
+        window.location.href = "#";
+      }, 800);
+    },
+  );
+});
+
+function showConfirmCustom(message, onYes, onNo) {
+
+  const overlay = document.createElement("div");
+  overlay.className = "custom-confirm-overlay";
+
+  overlay.innerHTML = `
+    <div class="custom-confirm-box">
+      <h3>${message}</h3>
+      <div class="confirm-btn-row">
+        <button class="confirm-btn confirm-no">Cancelar</button>
+        <button class="confirm-btn confirm-yes">Sí, continuar</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const btnNo = overlay.querySelector(".confirm-no");
+  const btnYes = overlay.querySelector(".confirm-yes");
+
+  btnNo.addEventListener("click", () => {
+    overlay.remove();
+    if (onNo) onNo();
+  });
+
+  btnYes.addEventListener("click", () => {
+    overlay.remove();
+    if (onYes) onYes();
+  });
+}
