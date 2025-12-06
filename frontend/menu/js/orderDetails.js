@@ -20,29 +20,6 @@ const closeOrderBtn = document.getElementById("closeOrderDetailsBtn");
 let subtotal   = 0;
 let orderCount = 1;
 
-  // Permitir cambiar la cantidad escribiendo números
-  orderList.addEventListener("input", (e) => {
-    const input = e.target.closest(".qty-input");
-    if (!input) return;
-
-    const li = input.closest(".od-item");
-    if (!li) return;
-
-    let value = parseInt(input.value || "0", 10);
-    const unit = parseFloat(li.dataset.price || "0");
-
-    // Solo cantidades positivas; 0 o vacío elimina el producto
-    if (isNaN(value) || value <= 0) {
-      li.remove();
-    } else {
-      li.dataset.qty = String(value);
-      const line = li.querySelector(".line-total");
-      if (line) line.textContent = `$${(unit * value).toFixed(2)}`;
-    }
-
-    actualizarTotales();
-    actualizarEstadoVacio();
-  });
 /* ============ ABRIR / CERRAR PANEL ============ */
 function abrirOrderPanel() {
   if (!orderPanel) return;
@@ -197,7 +174,78 @@ li.innerHTML = `
 });
 
 /* ============ + / − / ELIMINAR PRODUCTO ============ */
+/* ============ + / − / INPUT / ELIMINAR PRODUCTO ============ */
 if (orderList) {
+
+  // 1) Mientras escribes: solo actualiza si hay número; vacío = no tocar nada
+  orderList.addEventListener("input", (e) => {
+    const input = e.target.closest(".qty-input");
+    if (!input) return;
+
+    const li = input.closest(".od-item");
+    if (!li) return;
+
+    const raw  = input.value.trim();
+    const unit = parseFloat(li.dataset.price || "0");
+
+    // Si está vacío, es porque el usuario borró para escribir otro número.
+    // No cambiamos dataset ni totales todavía.
+    if (raw === "") {
+      return;
+    }
+
+    let value = parseInt(raw, 10);
+
+    // Si pone algo raro (texto, etc.), forzamos a 1
+    if (isNaN(value)) {
+      value = 1;
+    }
+
+    // 0 o negativo → eliminar producto
+    if (value <= 0) {
+      li.remove();
+      actualizarTotales();
+      actualizarEstadoVacio();
+      return;
+    }
+
+    // Cantidad válida
+    li.dataset.qty = String(value);
+    input.value    = String(value);
+
+    const line = li.querySelector(".line-total");
+    if (line) line.textContent = `$${(unit * value).toFixed(2)}`;
+
+    actualizarTotales();
+    actualizarEstadoVacio();
+  });
+
+  // 2) Si el usuario deja el campo vacío y sale del input → volver a 1
+  orderList.addEventListener("blur", (e) => {
+    const input = e.target.closest(".qty-input");
+    if (!input) return;
+
+    const li = input.closest(".od-item");
+    if (!li) return;
+
+    const raw = input.value.trim();
+    // Si no está vacío, ya lo manejó el 'input'
+    if (raw !== "") return;
+
+    const unit  = parseFloat(li.dataset.price || "0");
+    const value = 1;
+
+    li.dataset.qty = "1";
+    input.value    = "1";
+
+    const line = li.querySelector(".line-total");
+    if (line) line.textContent = `$${(unit * value).toFixed(2)}`;
+
+    actualizarTotales();
+    actualizarEstadoVacio();
+  }, true); // 👈 uso capture para que 'blur' funcione
+
+  // 3) Click en + / − / eliminar (tu código, solo ajustado a qty-input)
   orderList.addEventListener("click", (e) => {
     const btn = e.target.closest("button");
     if (!btn) return;
@@ -230,19 +278,18 @@ if (orderList) {
       return;
     }
 
-li.dataset.qty = String(qty);
+    li.dataset.qty = String(qty);
 
-const qtyInput = li.querySelector(".qty-input");
-const line     = li.querySelector(".line-total");
+    const qtyInput = li.querySelector(".qty-input");
+    const line     = li.querySelector(".line-total");
 
-if (qtyInput) qtyInput.value = String(qty);
-if (line)     line.textContent = `$${(unit * qty).toFixed(2)}`;
+    if (qtyInput) qtyInput.value = String(qty);
+    if (line)     line.textContent = `$${(unit * qty).toFixed(2)}`;
 
     actualizarTotales();
     actualizarEstadoVacio();
   });
 }
-
 /* ============ IMPRIMIR TICKET ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
