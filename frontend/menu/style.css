@@ -2643,3 +2643,115 @@ body.dark .hero-column {
 body.dark .qty-input {
   color: #000;
 }
+/*alerta logeo*/
+/* ============================
+   MODAL DE INICIAR SESIÓN · ESTILO MENÚ
+   ============================ */
+
+.login-alert-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn .25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.login-alert-box {
+  background: #ffffff;
+  padding: 28px 30px;
+  border-radius: 18px;
+  width: 360px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+  animation: popIn .28s ease-out;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.86); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.login-alert-box h2 {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+  color: #e25b3d;
+  font-weight: 800;
+}
+
+.login-alert-box p {
+  color: #4b4b4b;
+  margin-bottom: 22px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.login-alert-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.login-alert-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  font-weight: 700;
+  transition: all .2s ease;
+}
+
+/* Botón de iniciar sesión */
+.login-alert-btn.login {
+  background: #ff6b32;
+  color: white;
+  box-shadow: 0 4px 12px rgba(255,107,50,0.35);
+}
+
+.login-alert-btn.login:hover {
+  transform: translateY(-2px);
+  background: #ff5c18;
+}
+
+/* Botón de cerrar */
+.login-alert-btn.close {
+  background: #e6e6e6;
+  color: #3d3d3d;
+}
+
+.login-alert-btn.close:hover {
+  background: #d5d5d5;
+}
+
+/* MODO OSCURO */
+body.dark .login-alert-box {
+  background: #0f172a;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+}
+
+body.dark .login-alert-box h2 {
+  color: #ff6b32;
+}
+
+body.dark .login-alert-box p {
+  color: #d1d5db;
+}
+
+body.dark .login-alert-btn.close {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+body.dark .login-alert-btn.close:hover {
+  background: #334155;
+}
