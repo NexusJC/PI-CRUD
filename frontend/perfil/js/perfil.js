@@ -6,12 +6,22 @@ if (!token) {
   window.location.href = "../login/login.html";
 }
 
-
 const inputNombre = document.getElementById("perfilNombreText");
 const inputNumero = document.getElementById("perfilNumeroText");
 const spanEmail   = document.getElementById("perfilEmail");
 const imgPerfil   = document.getElementById("perfilImg");
 
+// Máximo de dígitos permitidos
+const MAX_PHONE_LENGTH = 10;
+
+inputNumero.addEventListener("input", () => {
+  // quitar todo lo que no sea número
+  inputNumero.value = inputNumero.value.replace(/\D/g, "");
+
+  if (inputNumero.value.length > MAX_PHONE_LENGTH) {
+    inputNumero.value = inputNumero.value.slice(0, MAX_PHONE_LENGTH);
+  }
+});
 
 document.getElementById("btnEditarNombre").addEventListener("click", () => {
   inputNombre.readOnly = !inputNombre.readOnly;
@@ -58,9 +68,15 @@ const getProfileData = async () => {
         document.getElementById("femenino").checked = true;
       }
 
-      imgPerfil.src = data.profile_picture
-        ? `/uploads/${data.profile_picture}`
-        : "../img/default.png";
+      if (data.image_url) {
+
+        imgPerfil.src = data.image_url;
+      } else if (data.profile_picture) {
+
+        imgPerfil.src = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
+      } else {
+        imgPerfil.src = "../img/default.png";
+      }
     } else {
       alert(data.message || "No se pudo obtener el perfil");
     }
@@ -79,9 +95,14 @@ document
     let telefono = inputNumero.value.trim();
     const generoInput = document.querySelector('input[name="genero"]:checked');
     const gender = generoInput ? generoInput.value : null;
-
+    
     if (!name) {
       alert("El nombre es obligatorio.");
+      return;
+    }
+
+    if (telefono.length !== MAX_PHONE_LENGTH) {
+      alert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`);
       return;
     }
 
@@ -145,7 +166,7 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
     const result = await response.json();
 
     if (response.ok) {
-      imgPerfil.src = `/uploads/${result.image}`;
+      imgPerfil.src = `https://www.laparrilaazteca.online/uploads/${result.image}`;
       alert(result.message || "Foto actualizada correctamente");
     } else {
       alert(result.message || "Error al subir la imagen");

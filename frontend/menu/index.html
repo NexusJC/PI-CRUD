@@ -16,23 +16,33 @@
 <body>
  <!-- TOPBAR -->
 <header class="topbar">
-  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
-  <div class="brand">
-    <a href="index.html" class="logo-link">
+  <div class="topbar-left">
+    <!-- Botón menú lateral -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+      ☰
+    </button>
+
+    <!-- Logo + nombre -->
+    <a href="index.html" class="brand">
       <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+      <span class="brand-text">LA PARRILLA AZTECA</span>
     </a>
-    <div class="idiomaToggle">
-        <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
-            <div class="bandera-container">
-            </div>
-        </button>
-    </div>
-    <span class="brand-text">LA PARRILLA AZTECA</span>
   </div>
-  <!-- Botón que abre el sidebar (ver orden) -->
-  <button id="open-sidebar-btn" class="open-btn">
-    <i class="fas fa-shopping-cart"></i> Ver Orden
-  </button>
+
+  <div class="topbar-right">
+    <!-- Idioma -->
+    <div class="idiomaToggle">
+      <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
+        <div class="bandera-container"></div>
+      </button>
+    </div>
+
+    <!-- Ver orden -->
+    <button id="open-sidebar-btn" class="open-btn">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Ver Orden</span>
+    </button>
+  </div>
 </header>
 <style>
  
@@ -112,81 +122,65 @@
               <p class="category-caption">Toca una categoría para filtrar el menú.</p>
             </div>
 
-            <div class="category-grid">
-              <!-- "Todos" -->
-              <button class="category-btn active" data-category="todos">
-                <span class="cat-label">Todo</span>
-              </button>
+           <div class="category-grid">
+  <!-- "Todo" -->
+  <button class="category-btn active" data-category="todos">
+    <span class="cat-label">Todo</span>
+  </button>
 
-              <!-- Coinciden con los valores de tu BD -->
-              <button class="category-btn" data-category="entradas">
-                <span class="cat-label">Entradas</span>
-              </button>
-
-              <button class="category-btn" data-category="tacos">
-                <span class="cat-label">Tacos</span>
-              </button>
-
-              <button class="category-btn" data-category="parrilladas">
-                <span class="cat-label">Parrilladas</span>
-              </button>
-
-              <button class="category-btn" data-category="carnes">
-                <span class="cat-label">Carnes</span>
-              </button>
-
-              <button class="category-btn" data-category="mariscos">
-                <span class="cat-label">Mariscos</span>
-              </button>
-
-              <button class="category-btn" data-category="burgers">
-                <span class="cat-label">Hamburguesas</span>
-              </button>
-
-              <button class="category-btn" data-category="antojitos">
-                <span class="cat-label">Antojitos</span>
-              </button>
-
-              <button class="category-btn" data-category="guarniciones">
-                <span class="cat-label">Guarniciones</span>
-              </button>
-
-              <button class="category-btn" data-category="ensaladas">
-                <span class="cat-label">Ensaladas</span>
-              </button>
-
-              <button class="category-btn" data-category="sopas">
-                <span class="cat-label">Sopas</span>
-              </button>
-
-              <button class="category-btn" data-category="infantil">
-                <span class="cat-label">Infantil</span>
-              </button>
-
-              <button class="category-btn" data-category="postres">
-                <span class="cat-label">Postres</span>
-              </button>
-
-              <button class="category-btn" data-category="bebidas">
-                <span class="cat-label">Bebidas</span>
-              </button>
-
-              <button class="category-btn" data-category="cervezas">
-                <span class="cat-label">Cervezas</span>
-              </button>
-
-              <button class="category-btn" data-category="cocteles">
-                <span class="cat-label">Cocteles</span>
-              </button>
-
-              <button class="category-btn" data-category="vinos">
-                <span class="cat-label">Vinos</span>
-              </button>
-
-              <button class="category-btn" data-category="especialidades">
-                <span class="cat-label">Especialidades</span>
-              </button>
-            </div>
+  <!-- Mismas keys que usa el menú -->
+  <button class="category-btn" data-category="entradas">
+    <span class="cat-label">Entradas</span>
+  </button>
+  <button class="category-btn" data-category="tacos">
+    <span class="cat-label">Tacos</span>
+  </button>
+  <button class="category-btn" data-category="parrilladas">
+    <span class="cat-label">Parrilladas</span>
+  </button>
+  <button class="category-btn" data-category="carnes">
+    <span class="cat-label">Carnes</span>
+  </button>
+  <button class="category-btn" data-category="mariscos">
+    <span class="cat-label">Mariscos</span>
+  </button>
+  <button class="category-btn" data-category="burgers">
+    <span class="cat-label">Hamburguesas</span>
+  </button>
+  <button class="category-btn" data-category="antojitos">
+    <span class="cat-label">Antojitos</span>
+  </button>
+  <button class="category-btn" data-category="guarniciones">
+    <span class="cat-label">Guarniciones</span>
+  </button>
+  <button class="category-btn" data-category="ensaladas">
+    <span class="cat-label">Ensaladas</span>
+  </button>
+  <button class="category-btn" data-category="sopas">
+    <span class="cat-label">Sopas</span>
+  </button>
+  <button class="category-btn" data-category="infantil">
+    <span class="cat-label">Infantil</span>
+  </button>
+  <button class="category-btn" data-category="postres">
+    <span class="cat-label">Postres</span>
+  </button>
+  <button class="category-btn" data-category="bebidas">
+    <span class="cat-label">Bebidas</span>
+  </button>
+  <button class="category-btn" data-category="cervezas">
+    <span class="cat-label">Cervezas</span>
+  </button>
+  <button class="category-btn" data-category="cocteles">
+    <span class="cat-label">Cocteles</span>
+  </button>
+  <button class="category-btn" data-category="vinos">
+    <span class="cat-label">Vinos</span>
+  </button>
+  <button class="category-btn" data-category="especialidades">
+    <span class="cat-label">Especialidades</span>
+  </button>
+</div>
           </section>
         </section>
 
