@@ -3,7 +3,6 @@
 Sistema web tipo CRUD para la gestión completa de un restaurante mexicano: turnos, órdenes, platillos, empleados, cajas y usuarios.
 
 ---
-https://railway.com/invite/eFQPGdF4AWM
 ##  Descripción
 
 **La Parrilla Azteca** es una aplicación web desarrollada como parte de un proyecto académico que simula el funcionamiento de un sistema de gestión de restaurante. Permite a clientes ver el menú y a administradores agregar platillos, gestionar empleados y monitorear el estado de la caja.
