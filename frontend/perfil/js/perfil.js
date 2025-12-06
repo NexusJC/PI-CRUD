@@ -227,21 +227,43 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
 const btnReset = document.getElementById("btnRestablecer");
 
 btnReset.addEventListener("click", () => {
-  
-  showAlert("¿Seguro que quieres cambiar tu contraseña?", "success");
-  
-  setTimeout(() => {
-    const confirmacion = confirm("¿Deseas continuar y cambiar tu contraseña?");
-    if (confirmacion) {
-      showAlert("Redirigiendo para cambiar contraseña…", "success");
-
+  showConfirmCustom(
+    "¿Deseas continuar y cambiar tu contraseña?",
+    () => {
       setTimeout(() => {
         window.location.href = "#";
       }, 800);
-
-    } else {
-      showAlert("Operación cancelada", "error");
-    }
-
-  }, 800);
+    },
+  );
 });
+
+function showConfirmCustom(message, onYes, onNo) {
+
+  const overlay = document.createElement("div");
+  overlay.className = "custom-confirm-overlay";
+
+  overlay.innerHTML = `
+    <div class="custom-confirm-box">
+      <h3>${message}</h3>
+      <div class="confirm-btn-row">
+        <button class="confirm-btn confirm-no">Cancelar</button>
+        <button class="confirm-btn confirm-yes">Sí, continuar</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const btnNo = overlay.querySelector(".confirm-no");
+  const btnYes = overlay.querySelector(".confirm-yes");
+
+  btnNo.addEventListener("click", () => {
+    overlay.remove();
+    if (onNo) onNo();
+  });
+
+  btnYes.addEventListener("click", () => {
+    overlay.remove();
+    if (onYes) onYes();
+  });
+}
