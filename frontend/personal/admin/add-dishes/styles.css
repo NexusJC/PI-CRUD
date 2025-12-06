@@ -1358,3 +1358,12 @@ body.admin-body.admin-dark {
   background: rgba(248, 113, 113, 0.2);
   color: #fecaca;
 }
+.dishes-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  /* antes: overflow: hidden; */
+  overflow: visible;   /* deja salir el menú de categorías */
+  padding: 0;
+}
