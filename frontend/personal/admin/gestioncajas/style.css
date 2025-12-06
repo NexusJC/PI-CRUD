@@ -619,3 +619,20 @@ input[type="tel"].invalid {
     align-items: flex-start;
   }
 }
+.btn-editar-caja {
+    margin-top: 10px;
+    background: #ffb27a;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s ease;
+}
+
+.btn-editar-caja:hover {
+    background: #ff964d;
+}

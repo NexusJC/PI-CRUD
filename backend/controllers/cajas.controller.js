@@ -41,3 +41,21 @@ export const deleteCaja = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar caja" });
     }
 };
+// Editar caja
+export const updateCaja = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { numero_caja, empleado_id, estado } = req.body;
+
+        await pool.query(`
+            UPDATE cajas
+            SET numero_caja = ?, empleado_id = ?, estado = ?
+            WHERE id = ?
+        `, [numero_caja, empleado_id || null, estado, id]);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error al actualizar caja" });
+    }
+};

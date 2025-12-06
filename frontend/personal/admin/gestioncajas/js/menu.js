@@ -82,13 +82,21 @@ function renderCajas() {
         div.classList.add("tarjeta-caja");
 
         div.innerHTML = `
-            <i class='bx bx-store icono-caja'></i>
-            <h3>Caja ${caja.numero_caja}</h3>
-            <p class="empleado-asignado">${caja.empleado_nombre || "Sin empleado asignado"}</p>
-            <div class="caja-estado caja-estado--${caja.estado}">
-                ${caja.estado === "activa" ? "Activa" : "Inactiva"}
-            </div>
-        `;
+    <i class='bx bx-store icono-caja'></i>
+
+    <h3>Caja ${caja.numero_caja}</h3>
+
+    <p class="empleado-asignado">${caja.empleado_nombre || "Sin empleado asignado"}</p>
+
+    <div class="caja-estado caja-estado--${caja.estado}">
+        ${caja.estado === "activa" ? "Activa" : "Inactiva"}
+    </div>
+
+    <button class="btn-editar-caja" onclick="editarCaja(${caja.id})">
+        <i class='bx bx-edit'></i> Editar
+    </button>
+`;
+
 
         contenedorCajas.appendChild(div);
     });
@@ -108,7 +116,9 @@ function cerrarModalCaja() {
     modalCaja.classList.remove("activa");
     overlayCaja.classList.remove("activa");
     formCaja.reset();
+    cajaEditando = null;
 }
+
 
 btnAbrirModalCaja.onclick = abrirModalCaja;
 btnCerrarModalCaja.onclick = cerrarModalCaja;
@@ -122,25 +132,36 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarModalC
 formCaja.addEventListener("submit", async e => {
     e.preventDefault();
 
-    const nuevaCaja = {
+    const datosCaja = {
         numero_caja: numCaja.value,
-        empleado_id: empleadoCaja.value,
+        empleado_id: empleadoCaja.value === "Seleccionar empleado" ? null : empleadoCaja.value,
         estado: estadoCaja.value
     };
 
-    const res = await fetch("/api/cajas", {
-        method: "POST",
+    let url = "/api/cajas";
+    let method = "POST";
+
+    // Si estamos editando, usar PUT
+    if (cajaEditando) {
+        url = `/api/cajas/${cajaEditando.id}`;
+        method = "PUT";
+    }
+
+    const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevaCaja)
+        body: JSON.stringify(datosCaja)
     });
 
     const data = await res.json();
 
     if (data.success) {
         cerrarModalCaja();
+        cajaEditando = null;
         await cargarCajas();
     }
 });
+
 
 /* =============================
    FILTRO
@@ -193,3 +214,23 @@ logoutBtn?.addEventListener("click", () => {
     localStorage.clear();
     window.location.href = getLoginUrl();
 });
+let cajaEditando = null;
+
+async function editarCaja(id) {
+    // Buscar caja por ID
+    cajaEditando = cajas.find(c => c.id === id);
+
+    if (!cajaEditando) return;
+
+    // Cargar empleados en el select
+    await cargarEmpleados();
+
+    // Rellenar datos actuales
+    numCaja.value = cajaEditando.numero_caja;
+    empleadoCaja.value = cajaEditando.empleado_id || "";
+    estadoCaja.value = cajaEditando.estado;
+
+    // Abrir modal
+    modalCaja.classList.add("activa");
+    overlayCaja.classList.add("activa");
+}
