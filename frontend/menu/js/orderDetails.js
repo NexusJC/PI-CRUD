@@ -352,7 +352,7 @@ if (printBtn && orderList) {
           }
 
           .totals {
-            font-size: 15px;
+            font-size: 14px;
             margin-top: 16px;
           }
 
@@ -363,29 +363,30 @@ if (printBtn && orderList) {
           }
 
           .totals .total-final {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: bold;
             margin-top: 10px;
           }
 
-          /* POLÍTICAS CENTRADAS ABAJO */
+          /* POLÍTICAS ABAJO, CON MISMO tamaño/estilo QUE EL RESTO */
           .policy-summary {
-            margin-top: 20px;
-            font-size: 11px;
+            margin-top: 22px;
+            font-size: 14px;
             line-height: 1.4;
-            color: #555;
+            color: #444;
             text-align: center;
           }
 
           .policy-summary ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0 auto;
-            max-width: 340px;
+            list-style: disc;
+            padding-left: 20px;
+            margin: 4px auto 0;
+            max-width: 360px;
+            text-align: left;
           }
 
           .policy-summary li {
-            margin-bottom: 3px;
+            margin-bottom: 4px;
           }
 
           .footer {
