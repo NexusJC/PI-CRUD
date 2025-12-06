@@ -598,12 +598,10 @@ body {
 
 .alert.success {
   background: #3CCF4E;
-  box-shadow: 0 6px 16px rgba(60, 207, 78, 0.45);
 }
 
 .alert.error {
   background: #E74C3C;
-  box-shadow: 0 6px 16px rgba(231, 76, 60, 0.45);
 }
 
 .alert.hidden {

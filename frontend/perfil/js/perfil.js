@@ -132,7 +132,7 @@ document
     }
 
     if (telefono.length !== MAX_PHONE_LENGTH) {
-      showAlert("El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.", "error");
+      showAlert("El número debe tener exactamente 10 dígitos.", "error");
       return;
     }
 
@@ -211,10 +211,10 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
         sidebarAvatar.src = newUrl;
       }
 
-      alert(result.message || "Foto actualizada correctamente");
+      showAlert(result.message || "Foto actualizada correctamente", "success");
     } else {
 
-      alert(result.message || "Error al subir la imagen");
+      showAlert(result.message || "Error al subir la imagen", "error");
     }
   } catch (error) {
     console.error("Error al subir imagen", error);
