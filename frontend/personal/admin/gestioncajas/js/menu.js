@@ -15,18 +15,11 @@ toggle?.addEventListener("click", () => {
   }
 });
 
-/* =========================
-   GESTIÓN DE CAJAS
-========================= */
-let cajas = [];
-let idCaja = 1;
+/* =============================
+   GESTIÓN DE CAJAS — DINÁMICO
+=============================*/
 
-const empleadosDemo = [
-  { id: 1, nombre: "Juan Pérez" },
-  { id: 2, nombre: "Maria Lopez" },
-  { id: 3, nombre: "Carlos Ruiz" }
-];
-
+// Referencias
 const contenedorCajas = document.getElementById("contenedorCajas");
 const btnAbrirModalCaja = document.getElementById("btnAbrirModalCaja");
 const overlayCaja = document.getElementById("overlayCaja");
@@ -40,88 +33,125 @@ const empleadoCaja = document.getElementById("empleadoCaja");
 const estadoCaja = document.getElementById("estadoCaja");
 const filtroEstadoCaja = document.getElementById("filtroEstadoCaja");
 
-function cargarEmpleados() {
-  empleadoCaja.innerHTML = `<option disabled selected>Seleccionar empleado</option>`;
-  empleadosDemo.forEach(emp => {
-    let op = document.createElement("option");
-    op.value = emp.id;
-    op.textContent = emp.nombre;
-    empleadoCaja.appendChild(op);
-  });
+let cajas = [];
+let numeroSiguienteCaja = 1;
+
+/* =============================
+   CARGAR EMPLEADOS (desde BACKEND)
+=============================*/
+async function cargarEmpleados() {
+    const res = await fetch("/api/users?role=empleado");
+    const empleados = await res.json();
+
+    empleadoCaja.innerHTML = `<option disabled selected>Seleccionar empleado</option>`;
+
+    empleados.forEach(emp => {
+        const op = document.createElement("option");
+        op.value = emp.id;
+        op.textContent = emp.name;
+        empleadoCaja.appendChild(op);
+    });
 }
 
+/* =============================
+   CARGAR CAJAS DESDE EL SERVIDOR
+=============================*/
+async function cargarCajas() {
+    const res = await fetch("/api/cajas");
+    cajas = await res.json();
+
+    // Sacar siguiente número disponible
+    numeroSiguienteCaja = cajas.length > 0
+        ? Math.max(...cajas.map(c => c.numero_caja)) + 1
+        : 1;
+
+    renderCajas();
+}
+
+/* =============================
+   MOSTRAR CAJAS
+=============================*/
+function renderCajas() {
+    contenedorCajas.innerHTML = "";
+    const filtro = filtroEstadoCaja.value;
+
+    cajas.forEach(caja => {
+        if (filtro !== "todas" && caja.estado !== filtro) return;
+
+        const div = document.createElement("div");
+        div.classList.add("tarjeta-caja");
+
+        div.innerHTML = `
+            <i class='bx bx-store icono-caja'></i>
+            <h3>Caja ${caja.numero_caja}</h3>
+            <p class="empleado-asignado">${caja.empleado_nombre || "Sin empleado asignado"}</p>
+            <div class="caja-estado caja-estado--${caja.estado}">
+                ${caja.estado === "activa" ? "Activa" : "Inactiva"}
+            </div>
+        `;
+
+        contenedorCajas.appendChild(div);
+    });
+}
+
+/* =============================
+   ABRIR / CERRAR MODAL
+=============================*/
 function abrirModalCaja() {
-  numCaja.value = idCaja;
-  cargarEmpleados();
-  modalCaja.classList.add("activa");
-  overlayCaja.classList.add("activa");
+    numCaja.value = numeroSiguienteCaja;
+    cargarEmpleados();
+    modalCaja.classList.add("activa");
+    overlayCaja.classList.add("activa");
 }
 
 function cerrarModalCaja() {
-  modalCaja.classList.remove("activa");
-  overlayCaja.classList.remove("activa");
-  formCaja.reset();
+    modalCaja.classList.remove("activa");
+    overlayCaja.classList.remove("activa");
+    formCaja.reset();
 }
 
-btnAbrirModalCaja?.addEventListener("click", abrirModalCaja);
-btnCerrarModalCaja?.addEventListener("click", cerrarModalCaja);
-btnCancelarCaja?.addEventListener("click", cerrarModalCaja);
-overlayCaja?.addEventListener("click", e => {
-  if (e.target === overlayCaja) cerrarModalCaja();
+btnAbrirModalCaja.onclick = abrirModalCaja;
+btnCerrarModalCaja.onclick = cerrarModalCaja;
+btnCancelarCaja.onclick = cerrarModalCaja;
+overlayCaja.onclick = e => { if (e.target === overlayCaja) cerrarModalCaja(); }
+document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarModalCaja(); });
+
+/* =============================
+   GUARDAR CAJA EN BACKEND
+=============================*/
+formCaja.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const nuevaCaja = {
+        numero_caja: numCaja.value,
+        empleado_id: empleadoCaja.value,
+        estado: estadoCaja.value
+    };
+
+    const res = await fetch("/api/cajas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevaCaja)
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+        cerrarModalCaja();
+        await cargarCajas();
+    }
 });
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") cerrarModalCaja();
-});
+/* =============================
+   FILTRO
+=============================*/
+filtroEstadoCaja.onchange = renderCajas;
 
-/* ===== RENDER ===== */
-function renderCajas() {
-  contenedorCajas.innerHTML = "";
+/* =============================
+   INICIAR
+=============================*/
+cargarCajas();
 
-  const filtro = filtroEstadoCaja.value;
-
-  cajas.forEach(caja => {
-    if (filtro !== "todas" && caja.estado !== filtro) return;
-
-    const div = document.createElement("div");
-    div.classList.add("tarjeta-caja");
-
-    div.innerHTML = `
-      <i class='bx bx-store icono-caja'></i>
-      <h3>Caja ${caja.numero}</h3>
-      <p class="empleado-asignado">${caja.empleadoNombre}</p>
-      <div class="caja-estado caja-estado--${caja.estado}">
-        ${caja.estado === "activa" ? "Activa" : "Inactiva"}
-      </div>
-    `;
-
-    contenedorCajas.appendChild(div);
-  });
-}
-
-/* ===== GUARDAR ===== */
-formCaja?.addEventListener("submit", e => {
-  e.preventDefault();
-
-  const empleadoId = empleadoCaja.value;
-  const empleadoNombre = empleadosDemo.find(e => e.id == empleadoId)?.nombre;
-
-  cajas.push({
-    numero: idCaja++,
-    empleadoId,
-    empleadoNombre,
-    estado: estadoCaja.value
-  });
-
-  renderCajas();
-  cerrarModalCaja();
-});
-
-/* ===== FILTRO ===== */
-filtroEstadoCaja?.addEventListener("change", renderCajas);
-
-/* ===== Inicial ===== */
-renderCajas();
 
 // =========================
 // SESIÓN / LOGOUT (MISMO QUE EN INDEX)

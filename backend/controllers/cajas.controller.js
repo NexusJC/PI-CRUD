@@ -1,36 +1,43 @@
 import { pool } from "../db.js";
 
+// Obtener todas las cajas
 export const getCajas = async (req, res) => {
-  try {
-    const [rows] = await pool.query("SELECT * FROM cajas");
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-export const createCaja = async (req, res) => {
-  const { nombre, numero_de_caja, estado } = req.body;
-  try {
-    const [result] = await pool.query(
-      "INSERT INTO cajas (nombre, numero_de_caja, estado) VALUES (?, ?, ?)",
-      [nombre, numero_de_caja, estado]
-    );
-    res.status(201).json({ message: "Caja creada", id: result.insertId });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-export const deleteCaja = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const [result] = await pool.query("DELETE FROM cajas WHERE id = ?", [id]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Caja no encontrada" });
+    try {
+        const [rows] = await pool.query(`
+            SELECT c.*, u.name AS empleado_nombre
+            FROM cajas c
+            LEFT JOIN users u ON c.empleado_id = u.id
+        `);
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener cajas" });
     }
-    res.json({ message: "Caja eliminada" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+};
+
+// Crear caja
+export const createCaja = async (req, res) => {
+    try {
+        const { numero_caja, empleado_id, estado } = req.body;
+
+        await pool.query(`
+            INSERT INTO cajas (numero_caja, empleado_id, estado)
+            VALUES (?, ?, ?)
+        `, [numero_caja, empleado_id || null, estado]);
+
+        res.json({ success: true, message: "Caja registrada exitosamente" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error al crear la caja" });
+    }
+};
+
+// Eliminar caja
+export const deleteCaja = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await pool.query("DELETE FROM cajas WHERE id = ?", [id]);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ message: "Error al eliminar caja" });
+    }
 };

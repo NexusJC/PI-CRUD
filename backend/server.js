@@ -10,7 +10,7 @@ import dishesRoutes from "./routes/dishes.route.js";
 import authRouter from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import usersRouter from "./routes/users.routes.js";
-
+import cajasRoutes from "./routes/cajas.routes.js";
 const app = express();
 
 app.use(express.json());
@@ -37,7 +37,7 @@ app.use("/api/users", usersRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/orders", ordersRoutes);
-
+app.use("/api", cajasRoutes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const FRONT_ROOT = path.join(__dirname, "..", "frontend");
