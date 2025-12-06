@@ -394,3 +394,20 @@ logoutBtn?.addEventListener("click", () => {
     localStorage.clear();
     window.location.href = getLoginUrl();
 });
+// =========================
+// MOSTRAR / OCULTAR CONTRASEÑA
+// =========================
+const passInput = document.getElementById("passwordEmpleado");
+const togglePass = document.getElementById("togglePass");
+
+if (togglePass && passInput) {
+    togglePass.addEventListener("click", () => {
+        if (passInput.type === "password") {
+            passInput.type = "text";
+            togglePass.classList.replace("bx-hide", "bx-show");
+        } else {
+            passInput.type = "password";
+            togglePass.classList.replace("bx-show", "bx-hide");
+        }
+    });
+}

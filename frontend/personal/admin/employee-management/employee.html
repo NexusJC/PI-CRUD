@@ -136,16 +136,37 @@
                     <input type="tel" id="telefonoEmpleado" placeholder="Ej. 3141234567" required>
                 </div>
                 <!-- CORREO -->
-                <div class="form-row">
-                    <label for="emailEmpleado">Correo electrónico</label>
-                    <input type="email" id="emailEmpleado" placeholder="usuario@correo.com" required>
-                </div>
+               <!-- =========================
+     CORREO ELECTRÓNICO
+========================= -->
+<div class="form-row">
+    <label for="emailEmpleado">Correo electrónico</label>
+    <div class="input-grupo">
+        <input 
+            type="email" 
+            id="emailEmpleado" 
+            placeholder="usuario@correo.com" 
+            required
+        >
+        <i class='bx bx-envelope icono-input'></i>
+    </div>
+</div>
 
-                <!-- CONTRASEÑA -->
-                <div class="form-row">
-                    <label for="passwordEmpleado">Contraseña</label>
-                    <input type="password" id="passwordEmpleado" placeholder="********" required>
-                </div>
+<!-- =========================
+     CONTRASEÑA
+========================= -->
+<div class="form-row">
+    <label for="passwordEmpleado">Contraseña</label>
+    <div class="input-grupo">
+        <input 
+            type="password" 
+            id="passwordEmpleado" 
+            placeholder="**********" 
+            required
+        >
+        <i id="togglePass" class='bx bx-hide icono-input pointer'></i>
+    </div>
+</div>
 
                 <!-- SOLO SUBIR ARCHIVO -->
                 <div class="tabs-imagen">
