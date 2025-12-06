@@ -172,73 +172,52 @@ document.getElementById("btnEditarImg").addEventListener("click", () => {
   document.getElementById("inputImg").click();
 });
 
-
-const CLOUD_NAME = "TU_CLOUD_NAME";
-const UPLOAD_PRESET = "TU_PRESET";
-
-// Función para subir a Cloudinary
-async function uploadImageToCloudinary(file) {
-  const fd = new FormData();
-  fd.append("file", file);
-  fd.append("upload_preset", UPLOAD_PRESET);
-
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-    method: "POST",
-    body: fd
-  });
-
-  if (!res.ok) throw new Error("Error al subir imagen");
-
-  const data = await res.json();
-  return data.secure_url;
-}
-
 document.getElementById("inputImg").addEventListener("change", async (e) => {
-
   const file = e.target.files[0];
-  if (!file) return;
+  if (!file) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("profile", file);
 
   try {
-    // 1. Subir a Cloudinary
-    const secureUrl = await uploadImageToCloudinary(file);
-
-    // 2. Mostrar en vista de perfil
-    imgPerfil.src = secureUrl;
-
-    // 3. Guardar URL en base de datos (backend)
     const response = await fetch(
-      "https://www.laparrilaazteca.online/api/profile/update-image",
+      "https://www.laparrilaazteca.online/api/profile/upload-profile",
       {
-        method: "PUT",
+        method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ image_url: secureUrl }),
+        body: formData,
       }
     );
-
+    
     const result = await response.json();
+    if (response.ok) {
+      const newUrl = `https://www.laparrilaazteca.online/uploads/${result.image}`;
 
-    if (!response.ok) {
-      showAlert(result.message || "Error al guardar la imagen", "error");
-      return;
+      imgPerfil.src = newUrl;
+
+      let user = JSON.parse(localStorage.getItem("user") || "null");
+      if (user) {
+        user.profile_picture = result.image;
+        user.image_url = newUrl;
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+
+      const sidebarAvatar = document.getElementById("sidebarAvatar");
+      if (sidebarAvatar) {
+        sidebarAvatar.src = newUrl;
+      }
+
+      showAlert(result.message || "Foto actualizada correctamente", "success");
+    } else {
+
+      showAlert(result.message || "Error al subir la imagen", "error");
     }
-
-    // 4. Actualizar localStorage
-    let user = JSON.parse(localStorage.getItem("user"));
-    user.image_url = secureUrl;
-    delete user.profile_picture; // ya no se usa
-    localStorage.setItem("user", JSON.stringify(user));
-
-    // 5. Actualizar sidebar inmediatamente
-    const sidebarAvatar = document.getElementById("sidebarAvatar");
-    if (sidebarAvatar) sidebarAvatar.src = secureUrl;
-
-    showAlert("Imagen actualizada correctamente", "success");
-
   } catch (error) {
-    console.error(error);
-    showAlert("Error subiendo imagen", "error");
+    console.error("Error al subir imagen", error);
+    alert("Error al subir la imagen");
   }
 });
