@@ -81,3 +81,84 @@ export const getOrderDetails = async (req, res) => {
     res.status(500).json({ error: "Error obteniendo detalles" });
   }
 };
+//entregar pedido
+export const deliverOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await pool.query(
+      "UPDATE orders SET status = 'entregado' WHERE id = ?",
+      [id]
+    );
+
+    res.json({ success: true, message: "Pedido entregado" });
+  } catch (error) {
+    console.log("ERROR deliverOrder:", error);
+    res.status(500).json({ error: "Error entregando el pedido" });
+  }
+};
+//cancelar pedido
+export const cancelOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await pool.query(
+      "UPDATE orders SET status = 'cancelado' WHERE id = ?",
+      [id]
+    );
+
+    res.json({ success: true, message: "Pedido cancelado" });
+  } catch (error) {
+    console.log("ERROR cancelOrder:", error);
+    res.status(500).json({ error: "Error cancelando el pedido" });
+  }
+};
+
+//editar pedido
+export const updateOrder = async (req, res) => {
+  const { id } = req.params;
+  const { items, comments } = req.body;
+
+  try {
+    // Validación mínima
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: "El pedido debe tener items" });
+    }
+
+    // 1. Eliminar detalles anteriores
+    await pool.query("DELETE FROM order_details WHERE order_id = ?", [id]);
+
+    // 2. Insertar nuevos detalles
+    for (const item of items) {
+      await pool.query(
+        `INSERT INTO order_details (order_id, dish_name, quantity, price, comments)
+        VALUES (?, ?, ?, ?, ?)`,
+        [
+          id,
+          item.nombre,
+          item.cantidad,
+          item.precio,
+          comments || ""
+        ]
+      );
+    }
+
+    // 3. Calcular y actualizar total
+    const total = items.reduce((acc, it) => acc + it.cantidad * it.precio, 0);
+
+    await pool.query(
+      "UPDATE orders SET total = ? WHERE id = ?",
+      [total, id]
+    );
+
+    res.json({
+      success: true,
+      message: "Pedido actualizado",
+      total
+    });
+
+  } catch (error) {
+    console.log("ERROR updateOrder:", error);
+    res.status(500).json({ error: "Error actualizando el pedido" });
+  }
+};
