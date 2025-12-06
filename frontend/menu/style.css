@@ -2608,3 +2608,12 @@ body.dark .hero-column {
   color: var(--accent) !important;   /* mismos colores en claro/oscuro */
   font-weight: 800 !important;
 }
+.menu-card .img-cta {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 135px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
