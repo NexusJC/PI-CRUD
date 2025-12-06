@@ -104,3 +104,52 @@ logoutBtn?.addEventListener("click", () => {
     localStorage.clear();
     window.location.href = getLoginUrl();
 });
+
+// =========================================================
+// GRÁFICA REAL: Platillos más vendidos
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const ctxTop = document.getElementById("chartTopDishes");
+
+    if (!ctxTop) return;
+
+    try {
+        // Llamar al backend
+        const res = await fetch("/api/dashboard/top-dishes");
+        const data = await res.json();
+
+        console.log("Top dishes:", data);
+
+        // Preparar datos para Chart.js
+        const labels = data.map(item => item.dish);
+        const values = data.map(item => item.total_sold);
+
+        // Crear gráfica
+        new Chart(ctxTop, {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [{
+                    label: "Ventas",
+                    data: values,
+                    backgroundColor: "rgba(227, 104, 66, 0.75)", // Color naranja del dashboard
+                    borderRadius: 10,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false }},
+                scales: {
+                    x: { ticks: { color: "#2b2b2b" }},
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+    } catch (err) {
+        console.error("Error al generar gráfica de top dishes:", err);
+    }
+});
+
