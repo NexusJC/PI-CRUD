@@ -206,9 +206,10 @@ if (orderList) {
   });
 }
 
-/* ============ IMPRIMIR TICKET (LOGO + RESUMEN POLÍTICAS) ============ */
+/* ============ IMPRIMIR TICKET (FIX 0's + IVA 16% INDIVIDUAL) ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
+
     if (!orderList.children.length) {
       alert("No hay productos para imprimir.");
       return;
@@ -235,14 +236,14 @@ if (printBtn && orderList) {
 
     const folio = `#${String(orderCount).padStart(4, "0")}`;
 
-    // SUBTOTAL + IVA 16% POR PRODUCTO
+    // ========= CÁLCULO DE SUBTOTAL + IVA 16% POR PRODUCTO =========
     let subtotalCalc = 0;
     let ivaCalc      = 0;
 
     items.forEach(i => {
-      const lineSubtotal = i.unit * i.qty;
-      const ivaUnit      = i.unit * 0.16;
-      const ivaProducto  = ivaUnit * i.qty;
+      const lineSubtotal = i.unit * i.qty;       // precioUnit * cantidad
+      const ivaUnit      = i.unit * 0.16;        // 16% de CADA unidad
+      const ivaProducto  = ivaUnit * i.qty;      // IVA total de ese producto
 
       subtotalCalc += lineSubtotal;
       ivaCalc      += ivaProducto;
@@ -272,129 +273,94 @@ if (printBtn && orderList) {
             width: 400px;
             margin: 0 auto;
             padding: 20px;
-            border: 1px solid #ddd;
+            border: 1px solid ${"#ddd"};
             border-radius: 12px;
             background: #fafafa;
           }
 
-          .ticket-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
-          }
-
-          .logo-wrapper {
-            text-align: center;
-          }
-
-          .ticket-logo {
-            width: 72px;
-            height: 72px;
-            border-radius: 999px;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(1.15);
-          }
-
           .title {
             text-align: center;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
+            margin-bottom: 4px;
           }
 
           .subtitle {
             text-align: center;
             font-size: 14px;
-            margin-top: 2px;
+            margin-bottom: 10px;
             color: #666;
           }
 
           .meta {
-            font-size: 14px;
-            margin: 10px 0 14px;
+            font-size: 15px;
+            margin-bottom: 15px;
           }
 
           hr {
             border: none;
             border-top: 1.5px dashed #555;
-            margin: 10px 0;
+            margin: 12px 0;
           }
 
+          /* AJUSTE DE COLUMNAS PARA QUE NO SE CORTEN LOS 00 */
           .items-header,
           .item-row {
             display: flex;
             justify-content: space-between;
-            font-size: 14px;
+            font-size: 15px;
             width: 100%;
           }
 
+          /* Cantidad un poco más ancha y alineada a la derecha */
           .item-qty {
             width: 12%;
             text-align: right;
           }
 
+          /* Nombre con un poco menos de ancho para darle más espacio al importe */
           .item-name {
             width: 48%;
             text-align: left;
           }
 
+          /* Importe con MÁS ancho para que entren bien todos los decimales */
           .item-price {
             width: 40%;
             text-align: right;
             font-weight: bold;
           }
 
+          /* Comentario en otra línea, sin tapar nada */
           .item-comment {
-            font-size: 12px;
+            font-size: 13px;
             color: #555;
             margin-top: 2px;
             margin-bottom: 4px;
-            padding-left: 12%;
+            padding-left: 12%; /* alineado con el texto, sin tocar columnas */
           }
 
           .totals {
-            font-size: 15px;
-            margin-top: 16px;
+            font-size: 16px;
+            margin-top: 20px;
           }
 
           .totals div {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
           }
 
           .totals .total-final {
-            font-size: 19px;
+            font-size: 20px;
             font-weight: bold;
-            margin-top: 10px;
-          }
-
-          .policy-summary {
-            margin-top: 16px;
-            font-size: 11px;
-            line-height: 1.35;
-            color: #555;
-          }
-
-          .policy-summary strong {
-            display: block;
-            margin-bottom: 3px;
-          }
-
-          .policy-summary ul {
-            margin: 0;
-            padding-left: 16px;
-          }
-
-          .policy-summary li {
-            margin-bottom: 2px;
+            margin-top: 15px;
           }
 
           .footer {
-            margin-top: 18px;
+            margin-top: 25px;
             text-align: center;
-            font-size: 13px;
+            font-size: 15px;
             color: #444;
           }
 
@@ -413,13 +379,9 @@ if (printBtn && orderList) {
 
       <body>
         <div class="ticket">
-          <div class="ticket-header">
-            <div class="logo-wrapper">
-              <img src="/img/logo_1.png" alt="La Parrilla Azteca" class="ticket-logo">
-            </div>
-            <div class="title">La Parrilla Azteca</div>
-            <div class="subtitle">Ticket de consumo</div>
-          </div>
+          
+          <div class="title">La Parrilla Azteca</div>
+          <div class="subtitle">Ticket de consumo</div>
 
           <div class="meta">
             <strong>Fecha:</strong> ${fechaStr}<br>
@@ -444,7 +406,7 @@ if (printBtn && orderList) {
               <span class="item-price">$${(i.qty * i.unit).toFixed(2)}</span>
             </div>
             ${i.comment
-              ? `<div class="item-comment">${i.comment}</div>`
+              ? `<div class="item-comment"> ${i.comment}</div>`
               : ""
             }
           `).join("")}
@@ -457,21 +419,11 @@ if (printBtn && orderList) {
             <div class="total-final"><span>Total:</span> <span>$${totalGeneral.toFixed(2)}</span></div>
           </div>
 
-          <div class="policy-summary">
-            <strong>Resumen de políticas:</strong>
-            <ul>
-              <li>Los turnos y reservaciones dependen de disponibilidad; se recomienda llegar con anticipación.</li>
-              <li>Las cancelaciones de pedidos solo son válidas antes de que la orden entre en preparación.</li>
-              <li>El pago se realiza antes de recibir el pedido (efectivo y tarjeta).</li>
-              <li>Tus datos personales se usan solo para gestión interna y no se comparten sin tu consentimiento.</li>
-              <li>Las políticas pueden actualizarse; la versión completa está disponible en nuestro sitio o en caja.</li>
-            </ul>
-          </div>
-
           <div class="footer">
             ¡Gracias por su preferencia!<br>
             Vuelva pronto
           </div>
+
         </div>
       </body>
       </html>
