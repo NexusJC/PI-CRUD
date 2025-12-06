@@ -15,27 +15,25 @@
   <!-- Favicon -->
   <link rel="icon" href="../../../img/logo_1.png" type="image/png">
 
-  <!-- Estilos de esta vista -->
+  <!-- Estilos específicos -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="admin-body">
+
   <!-- ================= SIDEBAR ================= -->
   <aside class="menu-dashboard open" id="adminSidebar">
-    <!-- TOP: logo + botón hamburguesa -->
     <div class="top-menu">
       <div class="logo">
-        <img src="../../../img/logo_1.png" alt="Logo La Parrilla Azteca">
+        <img src="../../../img/logo_1.png" alt="Logo">
         <span>Panel Admin</span>
       </div>
 
-      <!-- Botón SIEMPRE visible (abierto / cerrado) -->
-      <button class="toggle" id="sidebarToggle" aria-label="Contraer o expandir menú">
+      <button class="toggle" id="sidebarToggle" aria-label="Contraer menú">
         <i class="bx bx-menu"></i>
       </button>
     </div>
 
-    <!-- Usuario -->
     <div class="user-box">
       <img id="sidebarUserImg" class="user-photo" src="../../../img/userplaceholder.png" alt="Usuario">
       <div class="user-info">
@@ -43,7 +41,6 @@
       </div>
     </div>
 
-    <!-- Menú lateral -->
     <nav class="menu">
       <span class="menu-label">MENÚ PRINCIPAL</span>
 
@@ -68,7 +65,6 @@
       </a>
     </nav>
 
-    <!-- Parte inferior fija -->
     <div class="sidebar-bottom">
       <button id="adminThemeToggle" class="sidebar-theme-toggle">
         <i class="bx bx-moon"></i>
@@ -82,13 +78,13 @@
     </div>
   </aside>
 
-  <!-- =============== CONTENIDO PRINCIPAL =============== -->
+  <!-- ================= CONTENIDO ================= -->
   <main class="dishes-main">
-    <!-- Header -->
+
     <header class="dishes-header">
       <div class="dishes-header-text">
         <h1>Gestión de platillos</h1>
-        <p>Administra el menú de La Parrilla Azteca: crea, edita y organiza tus platillos.</p>
+        <p>Administra el menú: crea, edita y organiza tus platillos.</p>
       </div>
 
       <button class="btn-add-dish" id="openDishModal">
@@ -97,12 +93,13 @@
       </button>
     </header>
 
-    <!-- Tarjeta tabla -->
+    <!-- TARJETA -->
     <section class="dishes-card">
+
       <div class="dishes-card-header">
         <div>
           <h2>Platillos actuales</h2>
-          <p>Listado de todos los platillos registrados en el sistema.</p>
+          <p>Listado de todos los platillos registrados.</p>
         </div>
 
         <div class="dishes-card-meta">
@@ -113,6 +110,7 @@
         </div>
       </div>
 
+      <!-- TABLA -->
       <div class="table-responsive">
         <table id="dishes-table" class="admin-table">
           <thead>
@@ -122,73 +120,55 @@
               <th>Nombre</th>
               <th>Categoría</th>
               <th>Precio</th>
-              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
+
           <tbody>
-            <!-- Se llena con JS -->
+            <!-- Se llena dinámicamente -->
           </tbody>
         </table>
       </div>
+
     </section>
   </main>
 
-  <!-- Overlay -->
+  <!-- OVERLAY -->
   <div class="dish-overlay" id="dishOverlay"></div>
 
-  <!-- Modal agregar / editar platillo -->
+  <!-- ========== MODAL ========== -->
   <section class="dish-modal" id="dishModal" aria-hidden="true">
     <div class="dish-modal-header">
-      <h3 class="dish-modal-title" id="dishModalTitle">Agregar nuevo platillo</h3>
-      <button class="dish-close-btn" id="closeDishModal" aria-label="Cerrar formulario">&times;</button>
+      <h3 class="dish-modal-title">Agregar nuevo platillo</h3>
+      <button class="dish-close-btn" id="closeDishModal">&times;</button>
     </div>
 
     <form id="dish-form">
       <input type="hidden" id="dishId" />
 
       <div class="dish-form-group">
-        <label for="dishName">Nombre</label>
-        <input
-          id="dishName"
-          type="text"
-          name="nombre"
-          placeholder="Ej. Arrachera a la parrilla"
-          required
-        />
+        <label>Nombre</label>
+        <input id="dishName" type="text" name="nombre" required>
       </div>
 
       <div class="dish-form-group">
-        <label for="dishDescription">Descripción</label>
-        <textarea
-          id="dishDescription"
-          name="descripcion"
-          placeholder="Ej. Arrachera marinada con nopales y cebollitas."
-          required
-        ></textarea>
+        <label>Descripción</label>
+        <textarea id="dishDescription" name="descripcion" required></textarea>
       </div>
 
       <div class="dish-form-row">
         <div class="dish-form-group">
-          <label for="dishPrice">Precio</label>
+          <label>Precio</label>
           <div class="dish-input-prefix">
             <span>$</span>
-            <input
-              id="dishPrice"
-              type="number"
-              name="precio"
-              min="0"
-              step="0.01"
-              placeholder="199.00"
-              required
-            />
+            <input id="dishPrice" type="number" name="precio" min="0" step="0.01" required>
           </div>
         </div>
 
         <div class="dish-form-group">
-          <label for="dishCategory">Categoría</label>
+          <label>Categoría</label>
           <select id="dishCategory" name="categoria" required>
-            <option value="" disabled selected>Selecciona una categoría</option>
+            <option value="" selected disabled>Selecciona una categoría</option>
             <option value="entradas">Entradas</option>
             <option value="tacos">Tacos</option>
             <option value="parrilladas">Parrilladas</option>
@@ -211,17 +191,16 @@
       </div>
 
       <div class="dish-form-group">
-        <label for="dishImage">Imagen</label>
+        <label>Imagen</label>
         <label class="dish-file-input">
           <i class="fa-regular fa-image"></i>
           <span id="dishFileText">Haz clic para subir imagen</span>
-          <input id="dishImage" type="file" name="imagen" accept="image/*" />
+          <input id="dishImage" type="file" accept="image/*">
         </label>
       </div>
 
-      <button type="submit" class="dish-submit-btn" id="dishSubmitBtn">
-        <i class="fa-solid fa-check"></i>
-        Guardar platillo
+      <button type="submit" class="dish-submit-btn">
+        <i class="fa-solid fa-check"></i> Guardar platillo
       </button>
     </form>
   </section>
@@ -229,5 +208,6 @@
   <!-- JS -->
   <script src="js/form-handler.js"></script>
   <script src="js/admin_theme.js"></script>
+
 </body>
 </html>
