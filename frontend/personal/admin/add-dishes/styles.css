@@ -1364,6 +1364,6 @@ body.admin-body.admin-dark {
   box-shadow: var(--shadow-soft);
   border: 1px solid rgba(148, 163, 184, 0.2);
   /* antes: overflow: hidden; */
-  overflow: visible;   /* deja salir el menú de categorías */
+  overflow: visible;   /* deja salir el menú de categorías  */
   padding: 0;
 }
