@@ -163,6 +163,19 @@ function inicializarBotones() {
 
     btnEntregar?.addEventListener('click', manejarEntregar);
 }
+function inicializarModal() {
+    // Por ahora solo usamos el botón Editar para mostrar que funciona.
+    const btnEditar = document.getElementById("btnEditar");
+    if (!btnEditar) return;
+
+    btnEditar.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!pedidoActivo) return;
+
+        alert(`Aquí iría la lógica para EDITAR el pedido #${pedidoActivo}.
+(De momento solo es un placeholder para que no truene.)`);
+    });
+}
 
 /* ============================================================
    🔄 ACTUALIZAR VISTA PRINCIPAL DEL PEDIDO
@@ -177,18 +190,16 @@ function actualizarVista() {
     actualizarPrecioCarrusel(pedidoActivo, pedido.total);
 }
 
-/* ============================================================
-   ✏️ PANEL DE DETALLES DEL PEDIDO
-============================================================ */
+/* PANEL DE DETALLES DEL PEDIDO */
 function actualizarDetallesPanel(pedido) {
     const detallesPanel = document.getElementById('detallesPanel');
-
+    
     detallesPanel.innerHTML = `
         <div class="detalles-header">
             <h3>Pedido #${pedidoActivo} - ${pedido.cliente}</h3>
-            <span class="total-pedido">Total: $${pedido.total.toFixed(2)}</span>
+            <span class="total-pedido">Total: $${Number(pedido.total).toFixed(2)}</span>
         </div>
-
+        
         <div class="ordenes-container">
             <h4>Órdenes de Comida</h4>
             <div class="ordenes-lista">
@@ -196,9 +207,9 @@ function actualizarDetallesPanel(pedido) {
                     <div class="orden-item">
                         <span class="orden-nombre">${orden.nombre}</span>
                         <span class="orden-cantidad">x${orden.cantidad}</span>
-                        <span class="orden-precio">$${orden.precio.toFixed(2)}</span>
+                        <span class="orden-precio">$${Number(orden.precio).toFixed(2)}</span>
                     </div>
-                `).join("")}
+                `).join('')}
             </div>
         </div>
 
@@ -217,9 +228,10 @@ function actualizarDetallesPanel(pedido) {
     `;
 }
 
-/* ============================================================
-   🧮 CALCULAR TIEMPO RESTANTE
-============================================================ */
+
+
+
+/*CALCULAR TIEMPO RESTANTE*/
 function calcularTiempoRestante(horaEstimada) {
     const ahora = new Date();
     const [hr, min] = horaEstimada.split(":").map(Number);
@@ -233,9 +245,7 @@ function calcularTiempoRestante(horaEstimada) {
     return `${mins} min`;
 }
 
-/* ============================================================
-   📤 ENTREGAR O CANCELAR PEDIDOS
-============================================================ */
+/*ENTREGAR O CANCELAR PEDIDOS */
 function eliminarPedido(pedidoId) {
     const card = document.querySelector(`[data-pedido="${pedidoId}"]`);
     if (!card) return;
@@ -263,9 +273,7 @@ function entregarPedido(pedidoId) {
     eliminarPedido(pedidoId);
 }
 
-/* ============================================================
-   🧭 SIDEBAR CORRECTO (EL QUE TE HACÍA FALTA)
-============================================================ */
+/*SIDEBAR CORRECTO*/
 function setupSidebarDashboard() {
 
     const sidebar = document.querySelector(".menu-dashboard");
@@ -294,9 +302,7 @@ function setupSidebarDashboard() {
     });
 }
 
-/* ============================================================
-   🔐 VALIDACIÓN DE LOGIN
-============================================================ */
+/*VALIDACIÓN DE LOGIN */
 function findLoginPath() {
     const paths = [
         "../../login/login.html",
@@ -352,5 +358,10 @@ function manejarEntregar() {
     if (!pedidoActivo) return;
     entregarPedido(pedidoActivo);
 }
+function manejarEditar() {
+    if (!pedidoActivo) return;
 
+    alert(`Esta es la función EDITAR para el pedido #${pedidoActivo}.
+Pronto se podrá editar los platillos, cantidades y comentarios.`);
+}
 
