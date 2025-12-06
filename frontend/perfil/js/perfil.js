@@ -1,3 +1,20 @@
+function showAlert(message, type = "success") {
+  const alertBox = document.getElementById("alertBox");
+  const alertMessage = document.getElementById("alertMessage");
+
+  alertMessage.textContent = message;
+
+  alertBox.className = "alert " + type;
+  alertBox.classList.remove("hidden");
+
+  setTimeout(() => alertBox.classList.add("show"), 10);
+
+  setTimeout(() => {
+    alertBox.classList.remove("show");
+    setTimeout(() => alertBox.classList.add("hidden"), 300);
+  }, 2500);
+}
+
 const token = localStorage.getItem("token");
 
 if (!token) {
