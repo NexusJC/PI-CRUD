@@ -234,8 +234,9 @@ if (printBtn && orderList) {
     const folio    = `#${String(orderCount).padStart(4, "0")}`;
     const IVA_RATE = 0.08; // 8%
 
-    // logo desde la carpeta /img del proyecto
-    const logoSrc = `${window.location.origin}/img/logo_1.png`;
+    // usamos el mismo logo que en el header, ya resuelto a URL absoluta
+    const headerLogo = document.querySelector(".logo");
+    const logoSrc = headerLogo ? headerLogo.src : `${window.location.origin}/img/logo_1.png`;
 
     let subtotalCalc = 0; // base sin IVA
     let ivaCalc      = 0; // IVA incluido
@@ -474,12 +475,17 @@ if (printBtn && orderList) {
     `;
 
     const vent = window.open("", "_blank", "width=600,height=800");
+    vent.document.open();
     vent.document.write(ticketHTML);
     vent.document.close();
-    vent.focus();
-    vent.print();
+
+    vent.onload = () => {
+      vent.focus();
+      vent.print();
+    };
   });
 }
+
 /* ============ CONFIRMAR PEDIDO ============ */
 if (confirmBtn && orderList) {
   confirmBtn.addEventListener("click", () => {
