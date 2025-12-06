@@ -621,8 +621,9 @@ body {
   font-size: 1.1rem;
 }
 
-.boton-restablecer{
-  margin-top: 10px;
+.boton-restablecer {
+  margin-top: 5px;
+   color: #e36842;
   background: none;
   border: none;
   padding: 0;
