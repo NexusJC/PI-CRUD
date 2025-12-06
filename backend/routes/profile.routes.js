@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import { updateProfilePicture } from "../controllers/profile.controller.js";
 import { updateProfile } from "../controllers/profile.controller.js"; 
-import { verifyToken } from "../middlewares/verifyToken.js"; // si ya tienes middleware
+import { verifyToken } from "../middlewares/verifyToken.js";
 import { pool } from "../db.js";
 
 const router = Router();
@@ -18,13 +18,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// ruta para actualizar datos
 router.put("/update-profile", verifyToken, updateProfile);
 
-// ruta para imagen
 router.post("/upload-profile", verifyToken, upload.single("profile"), updateProfilePicture);
 
-// ruta para obtener perfil
 router.get("/get-profile", verifyToken, async (req, res) => {
   const { id } = req.user;
 
@@ -34,12 +31,21 @@ router.get("/get-profile", verifyToken, async (req, res) => {
       [id]
     );
 
-    if (rows.length === 0)
+    if (rows.length === 0) {
       return res.status(404).json({ message: "Usuario no encontrado" });
+    }
 
-    res.json(rows[0]);
+    const user = rows[0];
+
+    // Construir URL completa de la imagen para que el frontend no tenga que armarla
+    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
+    if (user.profile_picture) {
+      user.image_url = `${baseUrl}/uploads/${user.profile_picture}`;
+    }
+
+    res.json(user);
   } catch (error) {
-    console.error(error);
+    console.error("Error al obtener el perfil:", error);
     res.status(500).json({ message: "Error al obtener el perfil" });
   }
 });
