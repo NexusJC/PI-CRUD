@@ -1,3 +1,6 @@
+/* ==========================================================
+   ALERTA EMERGENTE BONITA (success/error)
+========================================================== */
 function showAlert(message, type = "success") {
   const alertBox = document.getElementById("alertBox");
   const alertMessage = document.getElementById("alertMessage");
@@ -15,11 +18,14 @@ function showAlert(message, type = "success") {
   }, 2500);
 }
 
+/* ==========================================================
+   LÓGICA ORIGINAL DEL PERFIL
+========================================================== */
 
 const token = localStorage.getItem("token");
 
 if (!token) {
-  alert("No estás autenticado. Inicia sesión de nuevo.");
+  showAlert("No estás autenticado. Inicia sesión de nuevo.", "error");
   window.location.href = "../login/login.html";
 }
 
@@ -32,7 +38,6 @@ const imgPerfil   = document.getElementById("perfilImg");
 const MAX_PHONE_LENGTH = 10;
 
 inputNumero.addEventListener("input", () => {
-  // quitar todo lo que no sea número
   inputNumero.value = inputNumero.value.replace(/\D/g, "");
 
   if (inputNumero.value.length > MAX_PHONE_LENGTH) {
@@ -64,7 +69,7 @@ const getProfileData = async () => {
     );
 
     if (response.status === 401 || response.status === 403) {
-      alert("Tu sesión ha expirado. Inicia sesión de nuevo.");
+      showAlert("Tu sesión ha expirado. Inicia sesión de nuevo.", "error");
       window.location.href = "../login/login.html";
       return;
     }
@@ -75,8 +80,6 @@ const getProfileData = async () => {
 
       inputNombre.value = data.name || "";
       inputNumero.value = data.telefono || "";
-
-
       spanEmail.textContent = data.email || "";
 
       if (data.gender === "masculino") {
@@ -86,108 +89,114 @@ const getProfileData = async () => {
       }
 
       if (data.image_url) {
-
         imgPerfil.src = data.image_url;
       } else if (data.profile_picture) {
-
         imgPerfil.src = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
       } else {
         imgPerfil.src = "../img/default.png";
       }
-    } else {
-      alert(data.message || "No se pudo obtener el perfil");
-    }
-  } catch (error) {
-    console.error("Error al obtener datos del perfil", error);
-    alert("Error al obtener datos del perfil");
-  }
-  
-  let user = JSON.parse(localStorage.getItem("user") || "null");
-  if (user) {
-    if (data.image_url) {
-      user.image_url = data.image_url;
-      if (data.profile_picture) {
-        user.profile_picture = data.profile_picture;
+
+      /* ================================
+         ACTUALIZAR LOCALSTORAGE AQUÍ
+      ================================= */
+      let user = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (user) {
+        if (data.image_url) {
+          user.image_url = data.image_url;
+          if (data.profile_picture) user.profile_picture = data.profile_picture;
+
+        } else if (data.profile_picture) {
+          user.profile_picture = data.profile_picture;
+          user.image_url = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
+        }
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        const sidebarAvatar = document.getElementById("sidebarAvatar");
+        if (sidebarAvatar) {
+          sidebarAvatar.src =
+            user.image_url ||
+            (user.profile_picture
+              ? `https://www.laparrilaazteca.online/uploads/${user.profile_picture}`
+              : sidebarAvatar.src
+            );
+        }
       }
-    } else if (data.profile_picture) {
-      user.profile_picture = data.profile_picture;
-      user.image_url = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
+
+    } else {
+      showAlert(data.message || "No se pudo obtener el perfil", "error");
     }
 
-    localStorage.setItem("user", JSON.stringify(user));
-    
-    const sidebarAvatar = document.getElementById("sidebarAvatar");
-    if (sidebarAvatar) {
-      sidebarAvatar.src =
-      user.image_url ||
-      (user.profile_picture
-        ? `https://www.laparrilaazteca.online/uploads/${user.profile_picture}`
-        : sidebarAvatar.src);
-      }
-    }
+  } catch (error) {
+    console.error("Error al obtener datos del perfil", error);
+    showAlert("Error al obtener datos del perfil", "error");
+  }
 };
 
 window.addEventListener("load", getProfileData);
 
-document
-  .getElementById("guardarCambios")
-  .addEventListener("click", async () => {
-    let name = inputNombre.value.trim();
-    let telefono = inputNumero.value.trim();
-    const generoInput = document.querySelector('input[name="genero"]:checked');
-    const gender = generoInput ? generoInput.value : null;
-    
-    if (!name) {
-      alert("El nombre es obligatorio.");
-      return;
-    }
 
-    if (telefono.length !== MAX_PHONE_LENGTH) {
-      alert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`);
-      return;
-    }
+/* ==========================================================
+   GUARDAR CAMBIOS
+========================================================== */
+document.getElementById("guardarCambios").addEventListener("click", async () => {
+  let name = inputNombre.value.trim();
+  let telefono = inputNumero.value.trim();
+  const generoInput = document.querySelector('input[name="genero"]:checked');
+  const gender = generoInput ? generoInput.value : null;
 
-    if (telefono === "") {
-      telefono = null;
-    }
+  if (!name) {
+    showAlert("El nombre es obligatorio.", "error");
+    return;
+  }
 
-    try {
-      const response = await fetch(
-        "https://www.laparrilaazteca.online/api/profile/update-profile",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ name, telefono, gender }),
-        }
-      );
+  if (telefono.length !== MAX_PHONE_LENGTH) {
+    showAlert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`, "error");
+    return;
+  }
 
-      const result = await response.json();
+  if (telefono === "") telefono = null;
 
-      if (response.ok) {
-        alert(result.message || "Perfil actualizado correctamente");
-        // Volvemos a leer desde la BD para tener los datos frescos
-        getProfileData();
-      } else {
-        alert(result.message || "Error al actualizar el perfil");
+  try {
+    const response = await fetch(
+      "https://www.laparrilaazteca.online/api/profile/update-profile",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name, telefono, gender }),
       }
-    } catch (error) {
-      console.error("Error al enviar los cambios:", error);
-      alert("Error al enviar los cambios");
-    }
-  });
+    );
 
+    const result = await response.json();
+
+    if (response.ok) {
+      showAlert(result.message || "Perfil actualizado correctamente", "success");
+      getProfileData();
+    } else {
+      showAlert(result.message || "Error al actualizar el perfil", "error");
+    }
+
+  } catch (error) {
+    console.error("Error al enviar los cambios:", error);
+    showAlert("Error al enviar los cambios", "error");
+  }
+});
+
+
+/* ==========================================================
+   SUBIR IMAGEN DE PERFIL
+========================================================== */
 document.getElementById("btnEditarImg").addEventListener("click", () => {
   document.getElementById("inputImg").click();
 });
 
 document.getElementById("inputImg").addEventListener("change", async (e) => {
   const file = e.target.files[0];
-  if (!file) {
-    return;
-  }
+  if (!file) return;
 
   const formData = new FormData();
   formData.append("profile", file);
@@ -197,14 +206,13 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
       "https://www.laparrilaazteca.online/api/profile/upload-profile",
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       }
     );
-    
+
     const result = await response.json();
+
     if (response.ok) {
       const newUrl = `https://www.laparrilaazteca.online/uploads/${result.image}`;
 
@@ -217,19 +225,16 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
         localStorage.setItem("user", JSON.stringify(user));
       }
 
-      // Actualizar avatar del sidebar
       const sidebarAvatar = document.getElementById("sidebarAvatar");
-      if (sidebarAvatar) {
-        sidebarAvatar.src = newUrl;
-      }
+      if (sidebarAvatar) sidebarAvatar.src = newUrl;
 
-      alert(result.message || "Foto actualizada correctamente");
+      showAlert(result.message || "Foto actualizada correctamente", "success");
     } else {
-
-      alert(result.message || "Error al subir la imagen");
+      showAlert(result.message || "Error al subir la imagen", "error");
     }
+
   } catch (error) {
     console.error("Error al subir imagen", error);
-    alert("Error al subir la imagen");
+    showAlert("Error al subir la imagen", "error");
   }
 });
