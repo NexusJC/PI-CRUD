@@ -62,3 +62,22 @@ export const getOrders = async (_req, res) => {
     });
   }
 };
+export const getOrderDetails = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+
+    const [[order]] = await pool.query(
+      "SELECT * FROM orders WHERE id = ?",
+      [orderId]
+    );
+
+    const [items] = await pool.query(
+      "SELECT dish_name, quantity, price, comments FROM order_details WHERE order_id = ?",
+      [orderId]
+    );
+
+    res.json({ order, items });
+  } catch (error) {
+    res.status(500).json({ error: "Error obteniendo detalles" });
+  }
+};

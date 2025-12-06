@@ -1,82 +1,55 @@
-let pedidoActivo = '401';
+let pedidoActivo = null;
 
-const pedidosData = {
-    '401': {
-        cliente: 'Ana López',
-        total: 248.00,
-        ordenes: [
-            { nombre: 'Hamburguesa Azteca', cantidad: 1, precio: 110.00 },
-            { nombre: 'Papas Crujientes', cantidad: 1, precio: 60.00 },
-            { nombre: 'Refresco', cantidad: 2, precio: 78.00 }
-        ],
-        comentario: 'Por favor, sin cebolla y con extra de salsa. Que la hamburguesa esté bien cocida.',
-        horaPedido: '16:45',
-        horaEstimada: '17:05',
-        estado: 'proceso'
-    },
-    '402': {
-        cliente: 'Juan Pérez',
-        total: 156.50,
-        ordenes: [
-            { nombre: 'Tacos al Pastor', cantidad: 3, precio: 117.00 },
-            { nombre: 'Agua de Jamaica', cantidad: 1, precio: 39.50 }
-        ],
-        comentario: 'Poco picante, por favor.',
-        horaPedido: '16:50',
-        horaEstimada: '17:10',
-        estado: 'pendiente'
-    },
-    '403': {
-        cliente: 'Laura García',
-        total: 189.00,
-        ordenes: [
-            { nombre: 'Ensalada César', cantidad: 1, precio: 95.00 },
-            { nombre: 'Limonada Natural', cantidad: 2, precio: 94.00 }
-        ],
-        comentario: 'Agregar aderezo aparte.',
-        horaPedido: '17:00',
-        horaEstimada: '17:20',
-        estado: 'pendiente'
-    },
-    '404': {
-        cliente: 'Sofía Ramírez',
-        total: 275.50,
-        ordenes: [
-            { nombre: 'Pizza Mexicana', cantidad: 1, precio: 180.00 },
-            { nombre: 'Refresco de Manzana', cantidad: 1, precio: 95.50 }
-        ],
-        comentario: 'Agregar piña extra.',
-        horaPedido: '17:10',
-        horaEstimada: '17:30',
-        estado: 'pendiente'
-    },
-    '405': {
-        cliente: 'Carlos Mendoza',
-        total: 320.00,
-        ordenes: [
-            { nombre: 'Burrito de Carne Asada', cantidad: 2, precio: 200.00 },
-            { nombre: 'Nachos con Queso', cantidad: 1, precio: 70.00 },
-            { nombre: 'Agua Mineral', cantidad: 1, precio: 50.00 }
-        ],
-        comentario: 'Sin cilantro, por favor.',
-        horaPedido: '17:15',
-        horaEstimada: '17:35',
-        estado: 'pendiente'
-    },
-    '406': {
-        cliente: 'Miguel Torres',
-        total: 195.75,
-        ordenes: [
-            { nombre: 'Quesadillas', cantidad: 4, precio: 120.00 },
-            { nombre: 'Sopa de Tortilla', cantidad: 1, precio: 45.75 },
-            { nombre: 'Refresco de Cola', cantidad: 1, precio: 30.00 }
-        ],
-        comentario: 'Para llevar.',
-        horaPedido: '17:20',
-        horaEstimada: '17:40',
-        estado: 'pendiente'
+
+let pedidosData = {}; // se llenará desde el backend
+
+async function cargarPedidos() {
+    try {
+        const res = await fetch("/api/orders/list");
+        const pedidos = await res.json();
+
+        pedidosData = {};
+
+        pedidos.forEach(p => {
+            pedidosData[p.order_number] = {
+                id: p.id,
+                cliente: p.customer_name,
+                total: p.total,
+                estado: p.status,
+                horaPedido: p.created_at.substring(11, 16),
+                horaEstimada: p.created_at.substring(11, 16), 
+                ordenes: [],
+                comentario: ""
+            };
+
+        });
+
+        await cargarDetallesDeCadaPedido();
+        renderizarCarrusel();
+        const first = Object.keys(pedidosData)[0];
+    if (first) seleccionarPedido(first);
+    } catch (err) {
+        console.error("Error cargando pedidos:", err);
     }
-};
+}
+async function cargarDetallesDeCadaPedido() {
+    const numeros = Object.keys(pedidosData);
+
+    for (let num of numeros) {
+        const idReal = pedidosData[num].id;
+
+        const res = await fetch(`/api/orders/${idReal}/details`);
+        const data = await res.json();
+
+        pedidosData[num].ordenes = data.items.map(i => ({
+            nombre: i.dish_name,
+            cantidad: i.quantity,
+            precio: i.price
+        }));
+
+        pedidosData[num].comentario = data.items[0]?.comments || "";
+    }
+}
 
 const menuItems = [
     "Pizza Mexicana",
@@ -99,30 +72,19 @@ const menuItems = [
     "Refresco de Cola"
 ];
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (!localStorage.getItem('preferredLanguage')) {
-        localStorage.setItem('preferredLanguage', 'es');
-    }
-    
-    inicializarCarrusel();
+document.addEventListener("DOMContentLoaded", async () => {
+
+    // Cargar pedidos reales desde el backend
+    await cargarPedidos();
+
+    // Inicializar botones, modal y sidebar
     inicializarBotones();
     inicializarModal();
-    actualizarVista();
     inicializarSidebar();
-    
-    console.log('Aplicación completamente inicializada');
+
+    console.log("Panel de cocina listo con pedidos reales");
 });
 
-function inicializarCarrusel() {
-    const cards = document.querySelectorAll('.turno-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const pedidoId = card.getAttribute('data-pedido');
-            seleccionarPedido(pedidoId);
-        });
-    });
-}
 
 function seleccionarPedido(pedidoId) {
     document.querySelectorAll('.turno-card').forEach(card => {
@@ -196,12 +158,8 @@ function actualizarVista() {
     const pedido = pedidosData[pedidoActivo];
     const btnEntregar = document.getElementById('btnEntregar');
     
-    const esPrimerPedido = pedidoActivo === '401';
-    if (esPrimerPedido) {
-        btnEntregar.classList.add('activo');
-    } else {
-        btnEntregar.classList.remove('activo');
-    }
+   btnEntregar.classList.add('activo'); 
+
     
     actualizarDetallesPanel(pedido);
     

@@ -3,7 +3,7 @@
 const API_KEY = 'AIzaSyBiGgFnc2QGkD5V51p45TTM9sPLHqUZn58';
 let currentLanguage = 'es'; // Idioma original del sitio: español
 
-// Etiquetas HTML que intentaremos traducir
+// Etiquetas HTML que intentaremos traducir de forma genérica
 const translatableElements = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
   'p', 'a', 'span', 'li', 'strong', 'button'
@@ -22,6 +22,30 @@ function isIconButton(el) {
   );
 }
 
+// Botones estructurales que NO deben tocarse nunca (X de cierres, etc.)
+function isStructuralButton(el) {
+  if (el.tagName !== 'BUTTON') return false;
+
+  const id = el.id || '';
+  const classes = el.classList || [];
+
+  // Botones de cierre explícitos
+  if (
+    id === 'modalClose' ||
+    id === 'closeOrderDetailsBtn' ||
+    classes.contains('modal-close') ||
+    classes.contains('od-close')
+  ) {
+    return true;
+  }
+
+  // Botón que solo tiene "X" o "×" como contenido visible
+  const text = (el.innerText || '').trim();
+  if (text === 'X' || text === '×') return true;
+
+  return false;
+}
+
 // Decide si un elemento debe quedar SIN traducir
 function shouldSkipElement(el) {
   if (!el) return true;
@@ -31,22 +55,29 @@ function shouldSkipElement(el) {
     return true;
   }
 
-  // 2) Textos vacíos o sólo espacios
+  // 2) *** PROTEGER COMPLETAMENTE EL PANEL DE ORDEN ***
+  // Nada dentro de #orderDetails se traduce de forma genérica,
+  // para no destruir la estructura de los items del carrito.
+  if (el.closest('#orderDetails')) {
+    return true;
+  }
+
+  // 3) Textos vacíos o sólo espacios
   const text = (el.innerText || '').trim();
   if (!text) return true;
 
   const lower = text.toLowerCase();
 
-  // 3) Nombre del restaurante: nunca traducirlo
+  // 4) Nombre del restaurante: nunca traducirlo
   if (lower === 'la parrilla azteca') return true;
 
-  // 4) Nombre de los platillos en las tarjetas del menú
+  // 5) Nombre de los platillos en las tarjetas del menú
   if (el.classList.contains('menu-card-title')) return true;
 
-  // 5) Nombre de los platillos dentro del panel de orden
+  // 6) Nombre de los platillos dentro del panel de orden
   if (el.classList.contains('name') && el.closest('.od-info')) return true;
 
-  // 6) Título del modal de producto (muestra el nombre del platillo)
+  // 7) Título del modal de producto (muestra el nombre del platillo)
   if (el.id === 'modalTitle') return true;
 
   return false;
@@ -64,6 +95,9 @@ function getTranslatableContent() {
       // No traducir el CONTENIDO de botones que tienen iconos dentro
       // (open-sidebar-btn, btn-logout, modalAddBtn, themeToggle, etc.)
       if (isIconButton(el)) return;
+
+      // No traducir botones estructurales como las X de cierre
+      if (isStructuralButton(el)) return;
 
       const id = `${tag}-${counter++}`;
       elementsMap[id] = {
@@ -100,9 +134,12 @@ function setButtonLabelWithIcon(btn, label) {
   textNode.textContent = ' ' + label;
 }
 
-// Actualiza textos de algunos elementos de UI auxiliares (banner, toggles, botones con iconos…)
+// =====================================================================
+// ACTUALIZAR TEXTOS FIJOS SEGÚN IDIOMA (UI extra)
+// =====================================================================
+
 function updateLanguageUI(targetLanguage) {
-  // Banner superior (si existe en alguna página)
+  // -------- Banner superior (si existe en alguna página) --------
   const banner = document.getElementById('language-banner');
   if (banner) {
     const bannerText = banner.querySelector('p');
@@ -119,7 +156,7 @@ function updateLanguageUI(targetLanguage) {
     }
   }
 
-  // Botones flotantes de idioma en artículos (si existen)
+  // -------- Botones flotantes de idioma en artículos (si existen) --------
   const btnEs = document.getElementById('btn-es');
   const btnEn = document.getElementById('btn-en');
   const toggleText = document.getElementById('toggle-text');
@@ -136,7 +173,7 @@ function updateLanguageUI(targetLanguage) {
     }
   }
 
-  // --------- Botones con iconos del menú ---------
+  // -------- Botones con iconos del menú/topbar --------
 
   // Botón "Ver Orden" / "View Order"
   const openOrderBtn = document.getElementById('open-sidebar-btn');
@@ -165,13 +202,69 @@ function updateLanguageUI(targetLanguage) {
     );
   }
 
-  // Botón de modo oscuro del sidebar (ya tiene <span>, pero por si acaso):
+  // Botón de modo oscuro del sidebar
   const themeToggleBtn = document.getElementById('themeToggle');
   if (themeToggleBtn) {
     const spanText = themeToggleBtn.querySelector('span');
     if (spanText) {
       spanText.textContent = targetLanguage === 'en' ? 'Dark Mode' : 'Modo oscuro';
     }
+  }
+
+  // =====================================================================
+  //  PANEL DE ORDEN (#orderDetails) – textos fijos traducidos A MANO
+  // =====================================================================
+
+  // Título "Tu orden" / "Your order"
+  const orderTitle = document.querySelector('#orderDetails .od-header h2');
+  if (orderTitle) {
+    orderTitle.textContent = targetLanguage === 'en' ? 'Your order' : 'Su pedido';
+  }
+
+  // Mensaje vacío
+  const emptyMsgP = document.querySelector('#empty-cart-msg p');
+  if (emptyMsgP) {
+    emptyMsgP.innerHTML = targetLanguage === 'en'
+      ? 'Your order is empty.<br>Add a dish to start'
+      : 'Tu orden está vacía.<br>Agrega un platillo para comenzar';
+  }
+
+  // Labels de Subtotal / Impuestos / Total
+  const summaryRows = document.querySelectorAll('#orderDetails .od-summary .row');
+  if (summaryRows[0]) {
+    const label = summaryRows[0].querySelector('span:first-child');
+    if (label) {
+      // En español lo tienes como "Total parcial:"
+      label.textContent = targetLanguage === 'en' ? 'Subtotal:' : 'Total parcial:';
+    }
+  }
+  if (summaryRows[1]) {
+    const label = summaryRows[1].querySelector('span:first-child');
+    if (label) {
+      label.textContent = targetLanguage === 'en' ? 'Taxes:' : 'Impuestos:';
+    }
+  }
+  if (summaryRows[2]) {
+    const label = summaryRows[2].querySelector('span:first-child');
+    if (label) {
+      label.textContent = targetLanguage === 'en' ? 'Total:' : 'Total:';
+    }
+  }
+
+  // Botón Confirmar pedido / Confirm Order
+  const confirmBtn = document.getElementById('confirm-btn');
+  if (confirmBtn) {
+    confirmBtn.textContent = targetLanguage === 'en'
+      ? 'Confirm Order'
+      : 'Confirmar pedido';
+  }
+
+  // Botón Imprimir ticket / Print Ticket
+  const printBtn = document.getElementById('print-btn');
+  if (printBtn) {
+    printBtn.textContent = targetLanguage === 'en'
+      ? 'Print Ticket'
+      : 'Imprimir ticket';
   }
 }
 

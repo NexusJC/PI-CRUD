@@ -44,127 +44,28 @@
   <main class="layout">
     
     <section class="carrusel-section">
-      <div class="turnos-carousel" id="turnosCarousel">
-
-        <article class="turno-card activo" data-pedido="401">
-          <div class="turno-header">
-            <h3>#401</h3>
-            <span class="costo">$248.00</span>
-          </div>
-          <p class="cliente">Ana López</p>
-          <div class="estado-activo" data-translate="true">En Proceso</div>
-        </article>
-
-        <article class="turno-card" data-pedido="402">
-          <div class="turno-header">
-            <h3>#402</h3>
-            <span class="costo">$156.50</span>
-          </div>
-          <p class="cliente">Juan Pérez</p>
-          <div class="estado-pendiente" data-translate="true">Pendiente</div>
-        </article>
-
-        <article class="turno-card" data-pedido="403">
-          <div class="turno-header">
-            <h3>#403</h3>
-            <span class="costo">$189.00</span>
-          </div>
-          <p class="cliente">Laura García</p>
-          <div class="estado-pendiente" data-translate="true">Pendiente</div>
-        </article>
-
-        <article class="turno-card" data-pedido="404">
-          <div class="turno-header">
-            <h3>#404</h3>
-            <span class="costo">$275.50</span>
-          </div>
-          <p class="cliente">Sofía Ramírez</p>
-          <div class="estado-pendiente" data-translate="true">Pendiente</div>
-        </article>
-
-        <article class="turno-card" data-pedido="405">
-          <div class="turno-header">
-            <h3>#405</h3>
-            <span class="costo">$320.00</span>
-          </div>
-          <p class="cliente">Carlos Mendoza</p>
-          <div class="estado-pendiente" data-translate="true">Pendiente</div>
-        </article>
-
-        <article class="turno-card" data-pedido="406">
-          <div class="turno-header">
-            <h3>#406</h3>
-            <span class="costo">$195.75</span>
-          </div>
-          <p class="cliente">Miguel Torres</p>
-          <div class="estado-pendiente" data-translate="true">Pendiente</div>
-        </article>
-
-      </div>
+      <div class="turnos-carousel" id="turnosCarousel"></div>
     </section>
-
     <section class="panel-inferior">
-      
-      <div class="detalles-panel" id="detallesPanel">
-        <div class="detalles-header">
-          <h3 data-translate="true">Pedido #401 - Ana López</h3>
-          <span class="total-pedido" data-translate="true">Total: $248.00</span>
-        </div>
-        
-        <div class="ordenes-container">
-          <h4 data-translate="true">Órdenes de Comida</h4>
-          <div class="ordenes-lista">
-            <div class="orden-item">
-              <span class="orden-nombre">Hamburguesa Azteca</span>
-              <span class="orden-cantidad">x1</span>
-              <span class="orden-precio">$110.00</span>
-            </div>
-            <div class="orden-item">
-              <span class="orden-nombre">Papas Crujientes</span>
-              <span class="orden-cantidad">x1</span>
-              <span class="orden-precio">$60.00</span>
-            </div>
-            <div class="orden-item">
-              <span class="orden-nombre">Refresco</span>
-              <span class="orden-cantidad">x2</span>
-              <span class="orden-precio">$78.00</span>
-            </div>
-          </div>
-        </div>
 
-        <div class="comentarios-section">
-          <h4 data-translate="true">Comentarios del Cliente</h4>
-          <div class="comentario-texto">
-            "Por favor, sin cebolla y con extra de salsa. Que la hamburguesa esté bien cocida."
-          </div>
-        </div>
+    <!-- Panel donde se cargan los detalles del pedido -->
+    <div class="detalles-panel" id="detallesPanel"></div>
 
-        <div class="info-adicional">
-          <div class="info-item">
-            <strong data-translate="true:">Hora del pedido:</strong> 16:45
-          </div>
-          <div class="info-item">
-            <strong data-translate="true">Hora estimada:</strong> 17:05
-          </div>
-          <div class="info-item">
-            <strong data-translate="true">Tiempo restante:</strong> <span class="tiempo-restante">20 min</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="acciones-panel">
+    <!-- Panel de acciones -->
+    <div class="acciones-panel">
         <button class="btn btn-cancelar" id="btnCancelar">
-          <i class="fa-solid fa-xmark"></i> <span data-translate="true">Cancelar</span>
+            <i class="fa-solid fa-xmark"></i> <span data-translate="true">Cancelar</span>
         </button>
         <button class="btn btn-editar" id="btnEditar">
-          <i class="fa-solid fa-pen"></i> <span data-translate="true">Editar</span>
+            <i class="fa-solid fa-pen"></i> <span data-translate="true">Editar</span>
         </button>
         <button class="btn btn-entregar activo" id="btnEntregar">
-          <i class="fa-solid fa-check"></i> <span data-translate="true">Entregar</span>
+            <i class="fa-solid fa-check"></i> <span data-translate="true">Entregar</span>
         </button>
-      </div>
+    </div>
 
-    </section>
+</section>
+
 
   </main>
 
