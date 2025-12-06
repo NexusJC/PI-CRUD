@@ -1,45 +1,28 @@
-// frontend/menu/js/orderDetails.js
-
 /* ==========================
    ORDER DETAILS – PANEL DERECHA
    ========================== */
 
-// Elementos principales del panel
+// Elementos principales
 const orderPanel   = document.getElementById("orderDetails");
 const orderList    = document.getElementById("orderList");
 const subtotalEl   = document.getElementById("subtotal");
 const totalEl      = document.getElementById("total");
+const printBtn     = document.getElementById("print-btn");
+const confirmBtn   = document.getElementById("confirm-btn");
+const emptyMsg     = document.getElementById("empty-cart-msg");
 
-// Span de impuestos: intenta con id="tax" y si no existe toma el 2º renglón
-const taxEl =
-  document.getElementById("tax") ||
-  document.querySelector(".od-summary .row:nth-child(2) span:last-child");
-
-const printBtn   = document.getElementById("print-btn");
-const confirmBtn = document.getElementById("confirm-btn");
-const emptyMsg   = document.getElementById("empty-cart-msg");
-
-// Botones para abrir / cerrar el panel
+// Botones para abrir / cerrar el panel (NO usamos nada del sidebar.js)
 const openOrderBtn  = document.getElementById("open-sidebar-btn");
 const closeOrderBtn = document.getElementById("closeOrderDetailsBtn");
-
-// Referencias al modal de producto (para "Agregar a la orden" desde el modal)
-const productModal = document.getElementById("productModal");
-const modalImg     = document.getElementById("modalImg");
-const modalTitle   = document.getElementById("modalTitle");
-const modalAddBtn  = document.getElementById("modalAddBtn");
-
-// Contenedor de tarjetas del menú
-const menuGrid = document.getElementById("menuGrid");
 
 // Estado del pedido
 let subtotal   = 0;
 let orderCount = 1;
-const IVA_RATE = 0.08; // 8% incluido en los precios
 
 /* ============ ABRIR / CERRAR PANEL ============ */
 function abrirOrderPanel() {
   if (!orderPanel) return;
+  orderPanel.style.display = "block";
   orderPanel.classList.add("open");
   actualizarEstadoVacio();
 }
@@ -47,12 +30,30 @@ function abrirOrderPanel() {
 function cerrarOrderPanel() {
   if (!orderPanel) return;
   orderPanel.classList.remove("open");
+  orderPanel.style.display = "none";
 }
 
-if (openOrderBtn)  openOrderBtn.addEventListener("click", abrirOrderPanel);
-if (closeOrderBtn) closeOrderBtn.addEventListener("click", cerrarOrderPanel);
+// Botón "Ver Orden" → ahora hace TOGGLE (abrir/cerrar)
+if (openOrderBtn) {
+  openOrderBtn.addEventListener("click", () => {
+    if (!orderPanel) return;
+    const isOpen = orderPanel.classList.contains("open");
+    if (isOpen) {
+      cerrarOrderPanel();
+    } else {
+      abrirOrderPanel();
+    }
+  });
+}
 
-/* ============ ESTADO VACÍO ============ */
+// Botón X dentro del panel
+if (closeOrderBtn) {
+  closeOrderBtn.addEventListener("click", () => {
+    cerrarOrderPanel();
+  });
+}
+
+/* ============ ESTADO: VACÍO / NO VACÍO ============ */
 function actualizarEstadoVacio() {
   const isEmpty = !orderList || orderList.children.length === 0;
 
@@ -65,195 +66,141 @@ function actualizarEstadoVacio() {
 
   if (isEmpty) {
     if (subtotalEl) subtotalEl.textContent = "$0.00";
-    if (taxEl)      taxEl.textContent      = "$0.00";
     if (totalEl)    totalEl.textContent    = "$0.00";
   }
 }
 
-/* ============ CÁLCULO DE TOTALES (IVA INCLUIDO) ============ */
+/* ============ CALCULAR TOTALES ============ */
 function actualizarTotales() {
   if (!orderList || !subtotalEl || !totalEl) return;
 
-  // totalConIVA = suma de (precio con IVA incluido * cantidad)
-  let totalConIVA = 0;
-  Array.from(orderList.children).forEach((item) => {
-    const unit = parseFloat(item.dataset.price || "0");
-    const qty  = parseInt(item.dataset.qty || "0", 10);
-    totalConIVA += unit * qty;
+  let suma = 0;
+  Array.from(orderList.children).forEach(li => {
+    const unit = parseFloat(li.dataset.price || "0");
+    const qty  = parseInt(li.dataset.qty || "0", 10);
+    suma += unit * qty;
   });
 
-  if (totalConIVA < 0) totalConIVA = 0;
-
-  const iva  = totalConIVA * IVA_RATE; // parte que es IVA
-  const base = totalConIVA - iva;      // base sin IVA
-
-  subtotal = base;
-
-  subtotalEl.textContent = `$${base.toFixed(2)}`;
-  if (taxEl) taxEl.textContent = `$${iva.toFixed(2)}`;
-  totalEl.textContent = `$${totalConIVA.toFixed(2)}`;
+  subtotal = suma;
+  subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+  totalEl.textContent    = `$${subtotal.toFixed(2)}`;
 }
 
-/* ============ CREAR ÍTEM EN LA ORDEN ============ */
-function crearItemPedido({ name, price, imgSrc }) {
-  if (!orderList) return;
+/* ============ AGREGAR PRODUCTOS DESDE LAS CARDS ============ */
+/* Mantengo el sistema de "addToCart" SI existe, para animaciones, etc. */
 
-  const priceNum = Number(price) || 0;
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".add-btn");
+  if (!btn || !orderPanel || !orderList) return;
 
-  // Si ya existe un ítem con el mismo nombre/precio, solo aumentamos cantidad
-  const existente = Array.from(orderList.children).find(
-    (el) =>
-      el.dataset.name === name &&
-      el.dataset.price === String(priceNum)
-  );
-
-  if (existente) {
-    let qty = parseInt(existente.dataset.qty || "1", 10);
-    qty += 1;
-    existente.dataset.qty = String(qty);
-
-    const qtySpan   = existente.querySelector(".qty");
-    const priceSpan = existente.querySelector(".price");
-
-    if (qtySpan)   qtySpan.textContent   = qty;
-    if (priceSpan) priceSpan.textContent = `$${(priceNum * qty).toFixed(2)}`;
-
-    actualizarTotales();
-    actualizarEstadoVacio();
-    return;
+  // Si tienes una función global addToCart, la respetamos
+  if (typeof addToCart === "function") {
+    try { addToCart(e); } catch (_) {}
   }
 
-  const item = document.createElement("div");
-  item.className = "od-item";
-  item.dataset.name  = name;
-  item.dataset.price = String(priceNum);
-  item.dataset.qty   = "1";
+  const card  = btn.closest(".menu-card");
+  if (!card) return;
 
-  const safeImg = imgSrc || "../img/fondo-login-1.png";
+  const name  = card.dataset.name || card.querySelector("h3")?.textContent || "Producto";
+  const price = parseFloat(card.dataset.price || "0");
+  const imgEl = card.querySelector("img");
+  const img   = imgEl ? imgEl.src : "";
 
-  item.innerHTML = `
-    <div class="od-thumb">
-      <img src="${safeImg}" alt="${name}">
-    </div>
-    <div class="od-info">
-      <div class="od-name-row">
-        <span class="name">${name}</span>
-        <button class="od-delete" type="button" aria-label="Quitar ${name}">
-          <i class="fas fa-times"></i>
-        </button>
+  // Abrir el panel al agregar algo
+  abrirOrderPanel();
+
+  // Buscar si ya existe en la lista
+  let existing = Array.from(orderList.children).find(li => li.dataset.name === name);
+
+  if (!existing) {
+    // Crear item nuevo (DISEÑO POS PREMIUM)
+    const li = document.createElement("li");
+    li.className    = "od-item";
+    li.dataset.name  = name;
+    li.dataset.price = price;
+    li.dataset.qty   = "1";
+
+    li.innerHTML = `
+      <div class="od-thumb">
+        ${img ? `<img src="${img}" alt="${name}">` : ""}
       </div>
-      <textarea class="comment" placeholder="Comentarios adicionales..."></textarea>
-    </div>
-    <div class="od-controls">
-      <div class="qty-controls">
-        <button class="qty-btn minus" type="button">-</button>
-        <span class="qty">1</span>
-        <button class="qty-btn plus" type="button">+</button>
+
+      <div class="od-info">
+        <div class="od-name-row">
+          <span class="name">${name}</span>
+          <button class="od-delete" aria-label="Eliminar producto">✕</button>
+        </div>
+        <textarea class="comment" placeholder="Comentarios adicionales..."></textarea>
       </div>
-      <div class="price">$${priceNum.toFixed(2)}</div>
-    </div>
-  `;
 
-  const minusBtn  = item.querySelector(".qty-btn.minus");
-  const plusBtn   = item.querySelector(".qty-btn.plus");
-  const qtySpan   = item.querySelector(".qty");
-  const priceSpan = item.querySelector(".price");
-  const delBtn    = item.querySelector(".od-delete");
+      <div class="od-controls">
+        <div class="qty-controls">
+          <button class="qty-btn minus">−</button>
+          <span class="qty">1</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+        <div class="price line-total">$${price.toFixed(2)}</div>
+      </div>
+    `;
 
-  function actualizarLinea() {
-    let qty = parseInt(item.dataset.qty || "1", 10);
-    if (qty < 1 || Number.isNaN(qty)) qty = 1;
-    item.dataset.qty = String(qty);
+    orderList.appendChild(li);
+  } else {
+    // Ya existe → incrementar cantidad
+    let qty = parseInt(existing.dataset.qty || "0", 10);
+    qty++;
+    existing.dataset.qty = String(qty);
 
-    if (qtySpan)   qtySpan.textContent   = qty;
-    if (priceSpan) priceSpan.textContent = `$${(priceNum * qty).toFixed(2)}`;
-    actualizarTotales();
+    const qtySpan = existing.querySelector(".qty");
+    const line    = existing.querySelector(".line-total");
+    if (qtySpan) qtySpan.textContent = String(qty);
+    if (line)    line.textContent    = `$${(price * qty).toFixed(2)}`;
   }
 
-  if (minusBtn) {
-    minusBtn.addEventListener("click", () => {
-      let qty = parseInt(item.dataset.qty || "1", 10);
-      qty = Math.max(1, qty - 1);
-      item.dataset.qty = String(qty);
-      actualizarLinea();
-    });
-  }
-
-  if (plusBtn) {
-    plusBtn.addEventListener("click", () => {
-      let qty = parseInt(item.dataset.qty || "1", 10);
-      qty += 1;
-      item.dataset.qty = String(qty);
-      actualizarLinea();
-    });
-  }
-
-  if (delBtn) {
-    delBtn.addEventListener("click", () => {
-      item.remove();
-      actualizarTotales();
-      actualizarEstadoVacio();
-    });
-  }
-
-  orderList.appendChild(item);
   actualizarTotales();
   actualizarEstadoVacio();
-}
+});
 
-/* ============ EVENTOS: AGREGAR DESDE TARJETA DEL MENÚ ============ */
-if (menuGrid) {
-  menuGrid.addEventListener("click", (e) => {
-    const btn = e.target.closest(".add-btn");
+/* ============ + / − / ELIMINAR PRODUCTO ============ */
+if (orderList) {
+  orderList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
     if (!btn) return;
 
-    const card = btn.closest(".menu-card");
-    if (!card) return;
+    const li = e.target.closest(".od-item");
+    if (!li) return;
 
-    const name =
-      card.getAttribute("data-name") ||
-      (card.querySelector(".menu-card-title")?.textContent || "").trim();
+    const unit = parseFloat(li.dataset.price || "0");
+    let qty    = parseInt(li.dataset.qty || "0", 10);
 
-    const price = parseFloat(
-      card.getAttribute("data-price") || btn.dataset.price || "0"
-    );
-
-    const imgEl  = card.querySelector("img");
-    const imgSrc = imgEl ? imgEl.src : "";
-
-    if (!name || Number.isNaN(price)) return;
-
-    crearItemPedido({ name, price, imgSrc });
-    abrirOrderPanel();
-  });
-}
-
-/* ============ EVENTO: AGREGAR DESDE EL MODAL DE DETALLES ============ */
-if (modalAddBtn) {
-  modalAddBtn.addEventListener("click", () => {
-    const name  = modalAddBtn.dataset.name;
-    const price = parseFloat(modalAddBtn.dataset.price || "0");
-    const img   = modalImg ? modalImg.src : "";
-
-    if (!name || Number.isNaN(price)) return;
-
-    crearItemPedido({ name, price, imgSrc: img });
-    abrirOrderPanel();
-
-    if (productModal) {
-      productModal.classList.remove("active");
+    // Botón X (eliminar producto)
+    if (btn.classList.contains("od-delete") || btn.classList.contains("remove-btn")) {
+      li.remove();
+      actualizarTotales();
+      actualizarEstadoVacio();
+      return;
     }
-  });
-}
 
-/* ============ CONFIRMAR PEDIDO (LÓGICA SIMPLE) ============ */
-if (confirmBtn) {
-  confirmBtn.addEventListener("click", () => {
-    if (!orderList || !orderList.children.length) return;
+    if (btn.classList.contains("plus")) {
+      qty++;
+    } else if (btn.classList.contains("minus")) {
+      qty--;
+      if (qty <= 0) {
+        li.remove();
+        actualizarTotales();
+        actualizarEstadoVacio();
+        return;
+      }
+    } else {
+      return;
+    }
 
-    alert("Pedido confirmado. ¡Gracias!");
+    li.dataset.qty = String(qty);
 
-    orderList.innerHTML = "";
+    const qtySpan = li.querySelector(".qty");
+    const line    = li.querySelector(".line-total");
+    if (qtySpan) qtySpan.textContent = String(qty);
+    if (line)    line.textContent    = `$${(unit * qty).toFixed(2)}`;
+
     actualizarTotales();
     actualizarEstadoVacio();
   });
@@ -269,7 +216,7 @@ if (printBtn && orderList) {
 
     actualizarTotales();
 
-    const items = Array.from(orderList.children).map((li) => {
+    const items = Array.from(orderList.children).map(li => {
       const name    = li.dataset.name || "Producto";
       const qty     = parseInt(li.dataset.qty || "0", 10);
       const unit    = parseFloat(li.dataset.price || "0"); // precio con IVA incluido
@@ -284,17 +231,18 @@ if (printBtn && orderList) {
       minute: "2-digit",
     });
 
-    const folio = `#${String(orderCount).padStart(4, "0")}`;
+    const folio    = `#${String(orderCount).padStart(4, "0")}`;
+    const IVA_RATE = 0.08; // 8%
 
+    // usamos el mismo logo que en el header, ya resuelto a URL absoluta
     const headerLogo = document.querySelector(".logo");
-    const logoSrc =
-      headerLogo?.src || `${window.location.origin}/img/logo_1.png`;
+    const logoSrc = headerLogo ? headerLogo.src : `${window.location.origin}/img/logo_1.png`;
 
     let subtotalCalc = 0; // base sin IVA
     let ivaCalc      = 0; // IVA incluido
     let totalGeneral = 0; // total con IVA
 
-    items.forEach((i) => {
+    items.forEach(i => {
       const lineTotal    = i.unit * i.qty;          // total con IVA
       const ivaProducto  = lineTotal * IVA_RATE;    // 8% del total
       const baseProducto = lineTotal - ivaProducto; // base sin IVA
@@ -405,7 +353,7 @@ if (printBtn && orderList) {
           }
 
           .totals {
-            font-size: 14px;
+            font-size: 15px;
             margin-top: 16px;
           }
 
@@ -416,29 +364,25 @@ if (printBtn && orderList) {
           }
 
           .totals .total-final {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: bold;
             margin-top: 10px;
           }
 
           .policy-summary {
-            margin-top: 22px;
-            font-size: 14px;
-            line-height: 1.4;
-            color: #444;
-            text-align: center;
+            margin-top: 16px;
+            font-size: 11px;
+            line-height: 1.35;
+            color: #555;
           }
 
           .policy-summary ul {
-            list-style: disc;
-            padding-left: 20px;
-            margin: 4px auto 0;
-            max-width: 360px;
-            text-align: left;
+            margin: 0;
+            padding-left: 16px;
           }
 
           .policy-summary li {
-            margin-bottom: 4px;
+            margin-bottom: 2px;
           }
 
           .footer {
@@ -485,22 +429,14 @@ if (printBtn && orderList) {
 
           <hr>
 
-          ${items
-            .map(
-              (i) => `
+          ${items.map(i => `
             <div class="item-row">
               <span class="item-qty">${i.qty}</span>
               <span class="item-name">${i.name}</span>
               <span class="item-price">$${(i.qty * i.unit).toFixed(2)}</span>
             </div>
-            ${
-              i.comment
-                ? `<div class="item-comment">${i.comment}</div>`
-                : ""
-            }
-          `
-            )
-            .join("")}
+            ${i.comment ? `<div class="item-comment">${i.comment}</div>` : ""}
+          `).join("")}
 
           <hr>
 
@@ -549,6 +485,114 @@ if (printBtn && orderList) {
     };
   });
 }
+/* ============ CONFIRMAR PEDIDO ============ */
+if (confirmBtn && orderList) {
+  confirmBtn.addEventListener("click", () => {
+    const items = Array.from(orderList.children).map(li => {
+      const comentario = li.querySelector(".comment")?.value?.trim() || "";
+      return {
+        producto: li.dataset.name,
+        cantidad: parseInt(li.dataset.qty || "0", 10),
+        comentario: comentario || null,
+      };
+    });
 
-// Inicializamos estado vacío al cargar
+    const itemsParaBackend = items.map(i => {
+      if (i.comentario === null) {
+        const { comentario, ...resto } = i;
+        return resto;
+      }
+      return i;
+    });
+
+    console.log("🧾 Items a enviar:", itemsParaBackend);
+    alert("✅ Pedido confirmado con éxito");
+
+    orderCount++;
+    const orderIdEl = document.getElementById("orderId");
+    if (orderIdEl) {
+      orderIdEl.textContent = `#${String(orderCount).padStart(4, "0")}`;
+    }
+
+    orderList.innerHTML = "";
+    subtotal = 0;
+    actualizarTotales();
+    actualizarEstadoVacio();
+    cerrarOrderPanel();
+  });
+}
+
+/* ============ MODAL DETALLES DE PRODUCTO (se mantiene) ============ */
+const modal      = document.getElementById("productModal");
+const modalImg   = document.getElementById("modalImg");
+const modalTitle = document.getElementById("modalTitle");
+const modalDesc  = document.getElementById("modalDesc");
+const modalAddBtn= document.getElementById("modalAddBtn");
+const modalClose = document.getElementById("modalClose");
+
+if (modal && modalImg && modalTitle && modalDesc && modalAddBtn && modalClose) {
+  document.querySelectorAll(".menu-card img").forEach(img => {
+    img.style.cursor = "pointer";
+    img.addEventListener("click", () => {
+      const card = img.closest(".menu-card");
+      modalImg.src = img.src;
+      modalTitle.textContent =
+        card.dataset.name || card.querySelector("h3")?.textContent || "Producto";
+      modalDesc.textContent =
+        card.dataset.desc || "Descripción no disponible.";
+      modalAddBtn.dataset.name  = card.dataset.name;
+      modalAddBtn.dataset.price = card.dataset.price;
+      modal.classList.add("active");
+    });
+  });
+
+  modalClose.addEventListener("click", () => modal.classList.remove("active"));
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.remove("active");
+  });
+
+  modalAddBtn.addEventListener("click", () => {
+    const name = modalAddBtn.dataset.name;
+    const card = document.querySelector(
+      `.menu-card[data-name="${CSS.escape(name)}"]`
+    );
+    const addBtn = card?.querySelector(".add-btn");
+    addBtn?.click();
+    modal.classList.remove("active");
+  });
+}
+
+/* ============ HINTS VISUALES PARA DETALLES (se mantiene) ============ */
+document.querySelectorAll(".menu-card").forEach(card => {
+  if (!card.querySelector(".details-badge")) {
+    const badge = document.createElement("div");
+    badge.className = "details-badge";
+    badge.innerHTML = '<i class="fas fa-info-circle"></i><span>Detalles</span>';
+    card.appendChild(badge);
+  }
+
+  if (!card.querySelector(".img-cta")) {
+    const cta = document.createElement("div");
+    cta.className = "img-cta";
+    cta.innerHTML = "<span>Haz clic para ver detalles</span>";
+    card.appendChild(cta);
+  }
+
+  const img = card.querySelector("img");
+  if (img) {
+    img.setAttribute("role", "button");
+    img.setAttribute("tabindex", "0");
+    const name = card.dataset.name || card.querySelector("h3")?.textContent || "producto";
+    img.setAttribute("aria-label", `Ver detalles de ${name}`);
+
+    img.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        img.click();
+      }
+    });
+  }
+});
+
+// Estado inicial
 actualizarEstadoVacio();
