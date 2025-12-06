@@ -127,7 +127,7 @@ document.addEventListener("click", (e) => {
     li.dataset.price = price;
     li.dataset.qty   = "1";
 
-    li.innerHTML = `
+li.innerHTML = `
       <div class="od-thumb">
         ${img ? `<img src="${img}" alt="${name}">` : ""}
       </div>
@@ -143,13 +143,19 @@ document.addEventListener("click", (e) => {
       <div class="od-controls">
         <div class="qty-controls">
           <button class="qty-btn minus">−</button>
-          <span class="qty">1</span>
+          <input
+            type="number"
+            class="qty-input"
+            min="1"
+            value="1"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          />
           <button class="qty-btn plus">+</button>
         </div>
         <div class="price line-total">$${price.toFixed(2)}</div>
       </div>
     `;
-
     orderList.appendChild(li);
   } else {
     // Ya existe → incrementar cantidad
@@ -168,7 +174,85 @@ document.addEventListener("click", (e) => {
 });
 
 /* ============ + / − / ELIMINAR PRODUCTO ============ */
+/* ============ + / − / INPUT / ELIMINAR PRODUCTO ============ */
 if (orderList) {
+
+  const MAX_QTY = 99;
+
+  /* 1) INPUT: mientras escribes */
+  orderList.addEventListener("input", (e) => {
+    const input = e.target.closest(".qty-input");
+    if (!input) return;
+
+    const li = input.closest(".od-item");
+    if (!li) return;
+
+    const raw  = input.value.trim();
+    const unit = parseFloat(li.dataset.price || "0");
+
+    // Si está vacío (borraste para escribir), NO tocar nada aún
+    if (raw === "") return;
+
+    let value = parseInt(raw, 10);
+
+    // Si no es número, regresarlo a 1
+    if (isNaN(value)) {
+      value = 1;
+    }
+
+    // Límite máximo
+    if (value > MAX_QTY) {
+      value = MAX_QTY;
+    }
+
+    // 0 o negativo → eliminar el item
+    if (value <= 0) {
+      li.remove();
+      actualizarTotales();
+      actualizarEstadoVacio();
+      return;
+    }
+
+    // Aplicar cambios
+    li.dataset.qty = String(value);
+    input.value = String(value);
+
+    const line = li.querySelector(".line-total");
+    if (line) line.textContent = `$${(unit * value).toFixed(2)}`;
+
+    actualizarTotales();
+    actualizarEstadoVacio();
+  });
+
+  /* 2) BLUR: si saliste del input y quedó vacío → poner 1 */
+  orderList.addEventListener(
+    "blur",
+    (e) => {
+      const input = e.target.closest(".qty-input");
+      if (!input) return;
+
+      const li = input.closest(".od-item");
+      if (!li) return;
+
+      const raw = input.value.trim();
+      const unit = parseFloat(li.dataset.price || "0");
+
+      // Si quedó vacío → corregir a 1
+      if (raw === "") {
+        li.dataset.qty = "1";
+        input.value = "1";
+
+        const line = li.querySelector(".line-total");
+        if (line) line.textContent = `$${(unit * 1).toFixed(2)}`;
+
+        actualizarTotales();
+        actualizarEstadoVacio();
+      }
+    },
+    true
+  );
+
+  /* 3) CLICK: botones + / − / eliminar */
   orderList.addEventListener("click", (e) => {
     const btn = e.target.closest("button");
     if (!btn) return;
@@ -177,18 +261,20 @@ if (orderList) {
     if (!li) return;
 
     const unit = parseFloat(li.dataset.price || "0");
-    let qty    = parseInt(li.dataset.qty || "0", 10);
+    let qty = parseInt(li.dataset.qty || "0", 10);
 
-    // Botón X (eliminar producto)
-    if (btn.classList.contains("od-delete") || btn.classList.contains("remove-btn")) {
+    // Botón eliminar
+    if (btn.classList.contains("od-delete")) {
       li.remove();
       actualizarTotales();
       actualizarEstadoVacio();
       return;
     }
 
+    // Incrementar / Decrementar
     if (btn.classList.contains("plus")) {
       qty++;
+      if (qty > MAX_QTY) qty = MAX_QTY;
     } else if (btn.classList.contains("minus")) {
       qty--;
       if (qty <= 0) {
@@ -201,18 +287,19 @@ if (orderList) {
       return;
     }
 
+    // Aplicar cambios
     li.dataset.qty = String(qty);
 
-    const qtySpan = li.querySelector(".qty");
-    const line    = li.querySelector(".line-total");
-    if (qtySpan) qtySpan.textContent = String(qty);
-    if (line)    line.textContent    = `$${(unit * qty).toFixed(2)}`;
+    const qtyInput = li.querySelector(".qty-input");
+    const line = li.querySelector(".line-total");
+
+    if (qtyInput) qtyInput.value = String(qty);
+    if (line) line.textContent = `$${(unit * qty).toFixed(2)}`;
 
     actualizarTotales();
     actualizarEstadoVacio();
   });
 }
-
 /* ============ IMPRIMIR TICKET ============ */
 if (printBtn && orderList) {
   printBtn.addEventListener("click", () => {
