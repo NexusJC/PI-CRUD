@@ -234,7 +234,6 @@ if (printBtn && orderList) {
     const folio    = `#${String(orderCount).padStart(4, "0")}`;
     const IVA_RATE = 0.08; // 8%
 
-    // usamos el mismo logo que en el header, ya resuelto a URL absoluta
     const headerLogo = document.querySelector(".logo");
     const logoSrc = headerLogo ? headerLogo.src : `${window.location.origin}/img/logo_1.png`;
 
@@ -369,20 +368,24 @@ if (printBtn && orderList) {
             margin-top: 10px;
           }
 
+          /* POLÍTICAS CENTRADAS ABAJO */
           .policy-summary {
-            margin-top: 16px;
+            margin-top: 20px;
             font-size: 11px;
-            line-height: 1.35;
+            line-height: 1.4;
             color: #555;
+            text-align: center;
           }
 
           .policy-summary ul {
-            margin: 0;
-            padding-left: 16px;
+            list-style: none;
+            padding-left: 0;
+            margin: 0 auto;
+            max-width: 340px;
           }
 
           .policy-summary li {
-            margin-bottom: 2px;
+            margin-bottom: 3px;
           }
 
           .footer {
