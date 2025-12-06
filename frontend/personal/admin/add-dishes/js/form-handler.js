@@ -1,43 +1,69 @@
+/* ==========================================================
+   VARIABLES PRINCIPALES
+========================================================== */
 const form = document.getElementById('dish-form');
 const tableBody = document.querySelector('#dishes-table tbody');
+
 const CLOUD_NAME = "dwwaxrr6r";
 const UPLOAD_PRESET = "unsigned_preset";
+
 const openDishModal = document.getElementById("openDishModal");
 const closeDishModal = document.getElementById("closeDishModal");
 const dishModal = document.getElementById("dishModal");
 const dishOverlay = document.getElementById("dishOverlay");
+
 const fileInput = document.getElementById("dishImage");
 const fileText  = document.getElementById("dishFileText");
 
+// ⬅ Para saber si estamos editando
+let editingDishId = null;
+
+
+/* ==========================================================
+   PREVISUALIZACIÓN DE NOMBRE DE ARCHIVO
+========================================================== */
 if (fileInput && fileText) {
   fileInput.addEventListener("change", () => {
-    if (fileInput.files && fileInput.files[0]) {
-      fileText.textContent = fileInput.files[0].name;
-    } else {
-      fileText.textContent = "Haz clic para subir imagen del platillo";
-    }
+    fileText.textContent = fileInput.files?.[0]?.name || "Haz clic para subir imagen";
   });
 }
 
-// ABRIR MODAL
-openDishModal.addEventListener("click", () => {
+
+/* ==========================================================
+   FUNCIONES PARA MOSTRAR Y OCULTAR MODAL
+========================================================== */
+function openModal(isEditing = false) {
   dishModal.style.display = "block";
   dishOverlay.style.display = "block";
-});
 
-// CERRAR MODAL
-closeDishModal.addEventListener("click", () => {
+  document.querySelector(".dish-modal-title").textContent = isEditing
+    ? "Editar platillo"
+    : "Agregar nuevo platillo";
+
+  document.querySelector(".dish-submit-btn").innerHTML = isEditing
+    ? `<i class="fa-solid fa-check"></i> Guardar cambios`
+    : `<i class="fa-solid fa-check"></i> Agregar platillo`;
+}
+
+function closeModal() {
   dishModal.style.display = "none";
   dishOverlay.style.display = "none";
-});
+  form.reset();
+  fileText.textContent = "Haz clic para subir imagen";
+  editingDishId = null;
+}
 
-// CERRAR SI HACEN CLICK FUERA
-dishOverlay.addEventListener("click", () => {
-  dishModal.style.display = "none";
-  dishOverlay.style.display = "none";
-});
+// Abrir modal (modo crear)
+openDishModal.addEventListener("click", () => openModal(false));
 
-// SUBIR IMAGEN A CLOUDINARY
+// Cerrar modal
+closeDishModal.addEventListener("click", closeModal);
+dishOverlay.addEventListener("click", closeModal);
+
+
+/* ==========================================================
+   SUBIDA DE IMAGEN A CLOUDINARY
+========================================================== */
 async function uploadImageToCloudinary(file) {
   const fd = new FormData();
   fd.append("file", file);
@@ -48,50 +74,56 @@ async function uploadImageToCloudinary(file) {
     body: fd
   });
 
-  if (!res.ok) {
-    console.error(await res.text());
-    throw new Error("Error al subir la imagen");
-  }
+  if (!res.ok) throw new Error("Error al subir la imagen");
 
   const data = await res.json();
-  return data.secure_url; 
+  return data.secure_url;
 }
 
-// AGREGAR PLATILLO
-form.addEventListener('submit', async (e) => {
+
+/* ==========================================================
+   GUARDAR / EDITAR PLATILLO
+========================================================== */
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const nombre = form.nombre.value.trim();
   const descripcion = form.descripcion.value.trim();
   const precio = form.precio.value;
-  const categoria = form.categoria.value.trim();
-  const file = form.imagen.files[0];
+  const categoria = form.categoria.value;
+  const file = fileInput.files[0];
 
-  if (!file) {
-    alert("Selecciona una imagen.");
-    return;
-  }
-
-  if (!categoria) {
-    alert("Selecciona una categoría para el platillo.");
-    return;
-  }
+  let imageUrl = null;
 
   try {
-    // 1) Subir imagen a Cloudinary
-    const imageUrl = await uploadImageToCloudinary(file);
+    // Si hay archivo nuevo → subirlo
+    if (file) {
+      imageUrl = await uploadImageToCloudinary(file);
+    }
 
-    // 2) Enviar datos al backend (SOLO JSON)
     const body = {
       nombre,
       descripcion,
       precio,
       categoria,
-      imagen: imageUrl
     };
 
-    const res = await fetch('/api/dishes', {
-      method: 'POST',
+    // Si estamos editando, conservar imagen previa si no hay nueva
+    if (editingDishId) {
+      if (imageUrl) body.imagen = imageUrl;
+    } else {
+      if (!imageUrl) return alert("Selecciona una imagen.");
+      body.imagen = imageUrl;
+    }
+
+    const url = editingDishId
+      ? `/api/dishes/${editingDishId}`
+      : `/api/dishes`;
+
+    const method = editingDishId ? "PUT" : "POST";
+
+    const res = await fetch(url, {
+      method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
@@ -99,84 +131,140 @@ form.addEventListener('submit', async (e) => {
     const result = await res.json();
 
     if (res.ok) {
-      alert("Platillo agregado correctamente");
-      form.reset();
-      fileText.textContent = "Haz clic para subir imagen del platillo";
-
-      // Cerrar modal
-      dishModal.style.display = "none";
-      dishOverlay.style.display = "none";
-
-      // Recargar lista
-      await loadDishes();
+      alert(editingDishId ? "Platillo actualizado" : "Platillo agregado");
+      closeModal();
+      loadDishes();
     } else {
-      alert(result.message || "Error al agregar platillo");
+      alert(result.message || "Error al guardar");
     }
 
   } catch (err) {
     console.error(err);
-    alert("Error al agregar platillo");
+    alert("Error en el proceso");
   }
 });
 
-// CARGAR PLATILLOS
+
+/* ==========================================================
+   CARGAR PLATILLOS EN TABLA
+========================================================== */
 async function loadDishes() {
-  tableBody.innerHTML = '';
+  tableBody.innerHTML = "";
+
   try {
-    const res = await fetch('/api/dishes');
+    const res = await fetch("/api/dishes");
     const dishes = await res.json();
 
     dishes.forEach(dish => {
-      const row = document.createElement('tr');
+      const precioNum = Number(dish.precio || 0);
 
+      const row = document.createElement("tr");
       row.innerHTML = `
         <td>${dish.id}</td>
-        <td>${dish.nombre}</td>
-        <td>$${dish.precio}</td>
-        <td>${dish.categoria}</td>
-        <td><img src="${dish.imagen}" width="60" alt="${dish.nombre}"></td>
-        <td><button class="delete-btn" data-id="${dish.id}">Eliminar</button></td>
+
+        <td>
+          <div class="table-img-wrapper">
+            <img src="${dish.imagen}" alt="${dish.nombre}">
+          </div>
+        </td>
+
+        <td class="table-name">${dish.nombre}</td>
+
+        <td><span class="badge badge-category">${dish.categoria}</span></td>
+
+        <td class="table-price">$${precioNum.toFixed(2)}</td>
+
+        <td><span class="badge badge-status">Activo</span></td>
+
+        <td class="table-actions">
+          <button class="btn-icon btn-edit" data-id="${dish.id}">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+          <button class="btn-icon btn-delete" data-id="${dish.id}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
       `;
 
       tableBody.appendChild(row);
     });
 
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const id = btn.dataset.id;
-        if (confirm("¿Eliminar?")) {
-          await deleteDish(id);
-        }
-      });
-    });
-
-  } catch (err) {
-    console.error("Error al cargar platillos:", err);
-    tableBody.innerHTML = "<tr><td colspan='6'>Error al cargar platillos</td></tr>";
-  }
-}
-
-// ELIMINAR PLATILLO
-async function deleteDish(id) {
-  try {
-    const res = await fetch(`/api/dishes/${id}`, {
-      method: "DELETE"
-    });
-
-    const result = await res.json();
-
-    if (res.ok) {
-      alert("Platillo eliminado");
-      loadDishes();
-    } else {
-      alert(result.message || "No se pudo eliminar");
-    }
+    // Eventos de acciones
+    attachDeleteEvents();
+    attachEditEvents();
 
   } catch (err) {
     console.error(err);
-    alert("Error eliminando platillo");
+    tableBody.innerHTML = "<tr><td colspan='7'>Error al cargar platillos</td></tr>";
   }
 }
 
-// Cargar platillos al abrir la página
+
+/* ==========================================================
+   ELIMINAR PLATILLO
+========================================================== */
+function attachDeleteEvents() {
+  document.querySelectorAll(".btn-delete").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+
+      if (!confirm("¿Eliminar platillo?")) return;
+
+      try {
+        const res = await fetch(`/api/dishes/${id}`, { method: "DELETE" });
+        const result = await res.json();
+
+        if (res.ok) {
+          alert("Platillo eliminado");
+          loadDishes();
+        } else {
+          alert(result.message || "Error al eliminar");
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert("Error eliminando platillo");
+      }
+    });
+  });
+}
+
+
+/* ==========================================================
+   EDITAR PLATILLO
+========================================================== */
+function attachEditEvents() {
+  document.querySelectorAll(".btn-edit").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      editingDishId = id;
+
+      try {
+        const res = await fetch(`/api/dishes/${id}`);
+        const dish = await res.json();
+
+        if (!res.ok) return alert("Error al obtener datos");
+
+        // Rellenar modal
+        form.nombre.value = dish.nombre;
+        form.descripcion.value = dish.descripcion;
+        form.precio.value = dish.precio;
+        form.categoria.value = dish.categoria;
+
+        fileText.textContent = "Selecciona una imagen solo si deseas cambiarla";
+
+        openModal(true);
+
+      } catch (err) {
+        console.error(err);
+        alert("Error cargando platillo");
+      }
+    });
+  });
+}
+
+
+/* ==========================================================
+   Cargar al iniciar
+========================================================== */
 loadDishes();
