@@ -1,5 +1,21 @@
-const token = localStorage.getItem("token");
+function showAlert(message, type = "success") {
+  const alertBox = document.getElementById("alertBox");
+  const alertMessage = document.getElementById("alertMessage");
 
+  alertMessage.textContent = message;
+
+  alertBox.className = "alert " + type;
+  alertBox.classList.add("show");
+
+  alertBox.classList.remove("hidden");
+
+  setTimeout(() => {
+    alertBox.classList.remove("show");
+    setTimeout(() => alertBox.classList.add("hidden"), 300);
+  }, 2500);
+}
+
+const token = localStorage.getItem("token");
 
 if (!token) {
   alert("No estás autenticado. Inicia sesión de nuevo.");
@@ -15,7 +31,6 @@ const imgPerfil   = document.getElementById("perfilImg");
 const MAX_PHONE_LENGTH = 10;
 
 inputNumero.addEventListener("input", () => {
-  // quitar todo lo que no sea número
   inputNumero.value = inputNumero.value.replace(/\D/g, "");
 
   if (inputNumero.value.length > MAX_PHONE_LENGTH) {
@@ -33,7 +48,6 @@ document.getElementById("btnEditarNumero").addEventListener("click", () => {
   if (!inputNumero.readOnly) inputNumero.focus();
 });
 
-
 const getProfileData = async () => {
   try {
     const response = await fetch(
@@ -47,7 +61,7 @@ const getProfileData = async () => {
     );
 
     if (response.status === 401 || response.status === 403) {
-      alert("Tu sesión ha expirado. Inicia sesión de nuevo.");
+      showAlert("Tu sesión ha expirado. Inicia sesión de nuevo.", "error");
       window.location.href = "../login/login.html";
       return;
     }
@@ -58,8 +72,6 @@ const getProfileData = async () => {
 
       inputNombre.value = data.name || "";
       inputNumero.value = data.telefono || "";
-
-
       spanEmail.textContent = data.email || "";
 
       if (data.gender === "masculino") {
@@ -69,46 +81,49 @@ const getProfileData = async () => {
       }
 
       if (data.image_url) {
-
         imgPerfil.src = data.image_url;
       } else if (data.profile_picture) {
-
         imgPerfil.src = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
       } else {
         imgPerfil.src = "../img/default.png";
       }
-    } else {
-      alert(data.message || "No se pudo obtener el perfil");
-    }
-  } catch (error) {
-    console.error("Error al obtener datos del perfil", error);
-    alert("Error al obtener datos del perfil");
-  }
-  
-  let user = JSON.parse(localStorage.getItem("user") || "null");
-  if (user) {
-    if (data.image_url) {
-      user.image_url = data.image_url;
-      if (data.profile_picture) {
-        user.profile_picture = data.profile_picture;
+
+      // 🔥 AQUI COLOCA EL LOCALSTORAGE (DENTRO del try donde data SÍ existe)
+      let user = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (user) {
+        if (data.image_url) {
+          user.image_url = data.image_url;
+          if (data.profile_picture) {
+            user.profile_picture = data.profile_picture;
+          }
+        } else if (data.profile_picture) {
+          user.profile_picture = data.profile_picture;
+          user.image_url = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
+        }
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        const sidebarAvatar = document.getElementById("sidebarAvatar");
+        if (sidebarAvatar) {
+          sidebarAvatar.src =
+            user.image_url ||
+            (user.profile_picture
+              ? `https://www.laparrilaazteca.online/uploads/${user.profile_picture}`
+              : sidebarAvatar.src);
+        }
       }
-    } else if (data.profile_picture) {
-      user.profile_picture = data.profile_picture;
-      user.image_url = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
+
+    } else {
+      showAlert(data.message || "No se pudo obtener el perfil", "error");
     }
 
-    localStorage.setItem("user", JSON.stringify(user));
-    
-    const sidebarAvatar = document.getElementById("sidebarAvatar");
-    if (sidebarAvatar) {
-      sidebarAvatar.src =
-      user.image_url ||
-      (user.profile_picture
-        ? `https://www.laparrilaazteca.online/uploads/${user.profile_picture}`
-        : sidebarAvatar.src);
-      }
-    }
+  } catch (error) {
+    console.error("Error al obtener datos del perfil", error);
+    showAlert("Error al obtener datos del perfil", "error");
+  }
 };
+
 
 window.addEventListener("load", getProfileData);
 
@@ -121,12 +136,12 @@ document
     const gender = generoInput ? generoInput.value : null;
     
     if (!name) {
-      alert("El nombre es obligatorio.");
+      showAlert("El nombre es obligatorio.", "error");
       return;
     }
 
     if (telefono.length !== MAX_PHONE_LENGTH) {
-      alert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`);
+      showAlert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`, "error");
       return;
     }
 
@@ -150,15 +165,15 @@ document
       const result = await response.json();
 
       if (response.ok) {
-        alert(result.message || "Perfil actualizado correctamente");
+        showAlert(result.message || "Perfil actualizado correctamente", "success");
         // Volvemos a leer desde la BD para tener los datos frescos
         getProfileData();
       } else {
-        alert(result.message || "Error al actualizar el perfil");
+        showAlert(result.message || "Error al actualizar el perfil", "error");
       }
     } catch (error) {
       console.error("Error al enviar los cambios:", error);
-      alert("Error al enviar los cambios");
+      showAlert("Error al enviar los cambios", "error");
     }
   });
 
@@ -205,10 +220,10 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
         sidebarAvatar.src = newUrl;
       }
 
-      alert(result.message || "Foto actualizada correctamente");
+      showAlert(result.message || "Foto actualizada correctamente", "success");
     } else {
 
-      alert(result.message || "Error al subir la imagen");
+      showAlert(result.message || "Error al subir la imagen", "error");
     }
   } catch (error) {
     console.error("Error al subir imagen", error);

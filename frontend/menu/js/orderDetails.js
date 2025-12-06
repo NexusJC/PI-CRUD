@@ -7,6 +7,7 @@ const orderPanel   = document.getElementById("orderDetails");
 const orderList    = document.getElementById("orderList");
 const subtotalEl   = document.getElementById("subtotal");
 const totalEl      = document.getElementById("total");
+const taxEl        = document.getElementById("tax");   
 const printBtn     = document.getElementById("print-btn");
 const confirmBtn   = document.getElementById("confirm-btn");
 const emptyMsg     = document.getElementById("empty-cart-msg");
@@ -67,9 +68,9 @@ function actualizarEstadoVacio() {
   if (isEmpty) {
     if (subtotalEl) subtotalEl.textContent = "$0.00";
     if (totalEl)    totalEl.textContent    = "$0.00";
+    if (taxEl)      taxEl.textContent      = "$0.00";   
   }
 }
-
 /* ============ CALCULAR TOTALES ============ */
 function actualizarTotales() {
   if (!orderList || !subtotalEl || !totalEl) return;
@@ -82,10 +83,16 @@ function actualizarTotales() {
   });
 
   subtotal = suma;
+
+  // 👉 IVA del 8% YA INCLUIDO en los precios
+  const IVA_RATE = 0.08;
+  const iva = subtotal * IVA_RATE;
+
+  // Subtotal y total muestran el total con IVA (como antes)
   subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+  if (taxEl) taxEl.textContent = `$${iva.toFixed(2)}`;   // monto de impuestos
   totalEl.textContent    = `$${subtotal.toFixed(2)}`;
 }
-
 /* ============ AGREGAR PRODUCTOS DESDE LAS CARDS ============ */
 /* Mantengo el sistema de "addToCart" SI existe, para animaciones, etc. */
 
