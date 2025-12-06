@@ -424,7 +424,6 @@ body {
   box-shadow: 10px 0 40px rgba(0,0,0,0.4);
 }
 
-/* ENCABEZADO */
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -620,4 +619,25 @@ body {
   margin-right: 10px;
   font-weight: 800;
   font-size: 1.1rem;
+}
+
+.btn-reset-pass {
+  background: #e36842;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s ease;
+}
+
+.btn-reset-pass:hover {
+  background: #cf542b;
+  transform: scale(1.05);
 }
