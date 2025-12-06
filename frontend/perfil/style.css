@@ -621,23 +621,17 @@ body {
   font-size: 1.1rem;
 }
 
-.btn-reset-pass {
-  background: #e36842;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 12px;
-  border: none;
-  font-weight: 700;
+.reset-pass-link {
   font-size: 1rem;
+  font-weight: 700;
+  color: var(--topbar);
+  text-decoration: none;
   cursor: pointer;
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  transition: 0.3s ease;
+  align-self: center;
+  transition: 0.2s ease;
 }
 
-.btn-reset-pass:hover {
-  background: #cf542b;
-  transform: scale(1.05);
+.reset-pass-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
 }
