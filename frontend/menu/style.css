@@ -2389,14 +2389,3 @@ body:not(.dark) #menuGrid > h4 {
   margin: 1.6rem 0 0.8rem;
   border-bottom: 3px solid rgba(227, 104, 66, 0.9);
 }
-.menu-card .img-cta {
-  position: absolute;
-  left: 0;
-  right: 0;
-  /* centrado sobre la foto, no debajo */
-  top: 95px;              /* aprox. mitad de la imagen de 150px */
-  display: flex;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 2;             /* por encima de la imagen */
-}
