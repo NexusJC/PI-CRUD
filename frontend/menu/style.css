@@ -2586,19 +2586,20 @@ body.dark .open-btn {
   color: #020617;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.9);
 }
-/* Línea de separación entre CATEGORÍAS y el MENÚ */
+/* =========================================================
+   LÍNEA DE SEPARACIÓN VISUAL ENTRE CATEGORÍAS Y MENÚ
+   ========================================================= */
+
 .menu-inner::after {
   content: "";
   display: block;
   width: 100%;
-  height: 1px;
-  background: var(--border);
-  margin: 1.5rem 0; /* espacio arriba y abajo de la línea */
-  opacity: 0.7;
+  height: 2px; /* más gruesa */
+  background: rgba(255, 255, 255, 0.18); /* visible en modo oscuro */
+  margin: 1.8rem 0 1.6rem 0; /* espacio arriba/abajo */
 }
 
-/* Modo oscuro */
-body.dark .menu-inner::after {
-  background: var(--border);
-  opacity: 0.5;
+/* MODO CLARO — más oscura para que se note */
+body:not(.dark) .menu-inner::after {
+  background: rgba(0, 0, 0, 0.22);
 }
