@@ -2587,19 +2587,27 @@ body.dark .open-btn {
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.9);
 }
 /* =========================================================
-   LÍNEA DE SEPARACIÓN VISUAL ENTRE CATEGORÍAS Y MENÚ
+   LÍNEA VERTICAL ENTRE HERO/CATEGORÍAS Y EL MENÚ DERECHO
    ========================================================= */
 
-.menu-inner::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 2px; /* más gruesa */
-  background: rgba(255, 255, 255, 0.18); /* visible en modo oscuro */
-  margin: 1.8rem 0 1.6rem 0; /* espacio arriba/abajo */
+.menu-inner {
+  position: relative;
 }
 
-/* MODO CLARO — más oscura para que se note */
-body:not(.dark) .menu-inner::after {
-  background: rgba(0, 0, 0, 0.22);
+/* Línea vertical */
+.menu-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(1.1fr + 1rem); /* NO IMPORTA EL GRID: se ajusta a la columna */
+  width: 2px;
+  background: rgba(0, 0, 0, 0.18);
+  transform: translateX(calc(50% + 0.5rem)); /* la coloca EXACTO entre columnas */
+  pointer-events: none;
+}
+
+/* MODO OSCURO — línea más clara */
+body.dark .menu-inner::before {
+  background: rgba(255, 255, 255, 0.14);
 }
