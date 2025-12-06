@@ -577,29 +577,33 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
-  padding: 15px 22px;
-  background: #e36842;
-  color: white;
-  font-weight: 600;
+  padding: 14px 22px;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: white;
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-15px);
   transition: all 0.35s ease;
-  z-index: 3000;
-}
-
-.alert.success {
-  background: #4CAF50;
-}
-
-.alert.error {
-  background: #e74c3c;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .alert.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+.alert.success {
+  background: #3CCF4E;
+  box-shadow: 0 6px 16px rgba(60, 207, 78, 0.45);
+}
+
+.alert.error {
+  background: #E74C3C;
+  box-shadow: 0 6px 16px rgba(231, 76, 60, 0.45);
 }
 
 .alert.hidden {
