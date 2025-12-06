@@ -1,6 +1,8 @@
 import { pool } from '../db.js';
 
-// Crear un nuevo platillo (imagen ya viene como URL desde el front)
+// ==========================================================
+//  CREAR PLATILLO
+// ==========================================================
 export const saveDish = async (req, res) => {
   try {
     console.log('Datos recibidos en /api/dishes:', req.body);
@@ -35,7 +37,9 @@ export const saveDish = async (req, res) => {
   }
 };
 
-// Obtener todos los platillos
+// ==========================================================
+//  OBTENER TODOS LOS PLATILLOS
+// ==========================================================
 export const getAllDishes = async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM platillos ORDER BY created_at DESC');
@@ -46,7 +50,9 @@ export const getAllDishes = async (req, res) => {
   }
 };
 
-// Borrar platillo
+// ==========================================================
+//  ELIMINAR PLATILLO
+// ==========================================================
 export const deleteDish = async (req, res) => {
   try {
     const { id } = req.params;
@@ -55,5 +61,57 @@ export const deleteDish = async (req, res) => {
   } catch (err) {
     console.error('Error deleting dish:', err);
     res.status(500).json({ message: 'Error deleting dish' });
+  }
+};
+
+// ==========================================================
+//  ACTUALIZAR PLATILLO (CORRECCIÓN COMPLETA)
+// ==========================================================
+export const updateDish = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      nombre,
+      descripcion,
+      precio,
+      categoria,
+      imagen // puede ser nueva o la anterior
+    } = req.body;
+
+    if (!nombre || !descripcion || !precio || !categoria || !imagen) {
+      return res.status(400).json({
+        message: "Faltan campos requeridos",
+        data: { nombre, descripcion, precio, categoria, imagen }
+      });
+    }
+
+    const sql = `
+      UPDATE platillos
+      SET nombre = ?, descripcion = ?, precio = ?, categoria = ?, imagen = ?
+      WHERE id = ?
+    `;
+
+    const [result] = await pool.query(sql, [
+      nombre,
+      descripcion,
+      precio,
+      categoria,
+      imagen,
+      id
+    ]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Platillo no encontrado" });
+    }
+
+    res.json({ message: "Dish updated successfully" });
+
+  } catch (err) {
+    console.error("Error updating dish:", err);
+    res.status(500).json({
+      message: "Error updating dish",
+      error: err.message
+    });
   }
 };
