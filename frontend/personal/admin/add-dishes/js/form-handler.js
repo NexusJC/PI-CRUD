@@ -15,6 +15,9 @@ const dishOverlay = document.getElementById("dishOverlay");
 const fileInput = document.getElementById("dishImage");
 const fileText  = document.getElementById("dishFileText");
 
+// 🔹 NUEVO: referencia directa al input de precio
+const priceInput = document.getElementById("dishPrice");
+
 let editingDishId = null;          // id del platillo que se está editando
 let editingDishImageUrl = null;    // url de la imagen actual del platillo
 
@@ -28,6 +31,44 @@ if (fileInput && fileText) {
   fileInput.addEventListener("change", () => {
     fileText.textContent =
       fileInput.files?.[0]?.name || "Haz clic para subir imagen";
+  });
+}
+
+/* ==========================================================
+   RESTRICCIONES DE PRECIO (NUEVO)
+   - No negativos
+   - No 0
+   - Máx 4 dígitos en la parte entera
+========================================================== */
+if (priceInput) {
+  priceInput.addEventListener("input", () => {
+    let value = priceInput.value;
+
+    // Quitar todo lo que no sea número o punto
+    value = value.replace(/[^0-9.]/g, "");
+
+    // Evitar más de un punto decimal
+    const parts = value.split(".");
+    if (parts.length > 2) {
+      value = parts[0] + "." + parts.slice(1).join("");
+    }
+
+    // Limitar la parte entera a 4 dígitos
+    const [intPart, decPart] = value.split(".");
+    let newInt = intPart || "";
+    if (newInt.length > 4) {
+      newInt = newInt.slice(0, 4);
+    }
+
+    // Reconstruir el valor
+    value = decPart !== undefined ? `${newInt}.${decPart}` : newInt;
+
+    // Evitar que el valor sea 0 exacto
+    if (value === "0" || value === "0." || value === "00") {
+      value = "";
+    }
+
+    priceInput.value = value;
   });
 }
 
@@ -108,9 +149,27 @@ if (form) {
 
     const nombre      = form.nombre.value.trim();
     const descripcion = form.descripcion.value.trim();
-    const precio      = form.precio.value;
+    const precio      = form.precio.value;     // string como viene del input
     const categoria   = form.categoria.value;
     const file        = fileInput.files[0];
+
+    // 🔹 NUEVO: validaciones de precio
+    const precioNum = Number(precio);
+
+    if (!precio || isNaN(precioNum)) {
+      alert("Ingresa un precio válido.");
+      return;
+    }
+
+    if (precioNum <= 0) {
+      alert("El precio debe ser mayor que 0.");
+      return;
+    }
+
+    if (precioNum > 9999) {
+      alert("El precio no puede tener más de 4 dígitos (máx. 9999).");
+      return;
+    }
 
     let imageUrl = null;
 
@@ -123,7 +182,8 @@ if (form) {
       const body = {
         nombre,
         descripcion,
-        precio,
+        // usamos el número validado
+        precio: precioNum,
         categoria,
       };
 
