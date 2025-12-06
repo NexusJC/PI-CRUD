@@ -621,7 +621,8 @@ body {
   font-size: 1.1rem;
 }
 
-.reset-pass-link {
+.boton-restablecer{
+  margin-top: 10px;
   background: none;
   border: none;
   padding: 0;
@@ -633,7 +634,7 @@ body {
   transition: 0.2s ease;
 }
 
-.reset-pass-link:hover {
+.boton-restablecer:hover {
   text-decoration: underline;
   opacity: 0.8;
 }
