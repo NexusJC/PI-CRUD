@@ -1,3 +1,26 @@
+// ===============================================
+// PROTECCIÓN CONTRA BACK NAVIGATION (bfcache)
+// ===============================================
+window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+        // La página está siendo restaurada desde caché
+        localStorage.clear();
+        window.location.replace("/login/login.html");
+    }
+});
+
+// ===============================================
+// VALIDACIÓN DE SESIÓN AL CARGAR
+// ===============================================
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (!token || !user || user.role !== "admin") {
+        window.location.replace("/login/login.html");
+        return;
+    }
+});
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.querySelector(".menu-dashboard");
     const toggle = document.querySelector(".toggle");
