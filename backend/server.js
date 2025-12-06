@@ -5,8 +5,7 @@ import { pool } from "./db.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import dashboardRoutes from "./routes/dashboard.routes.js";
-
-
+import ordersRoutes from "./routes/orders.routes.js";
 import dishesRoutes from "./routes/dishes.route.js";
 import authRouter from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
@@ -37,7 +36,7 @@ app.use("/api/dishes", dishesRoutes);
 app.use("/api/users", usersRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/dashboard", dashboardRoutes);
-
+app.use("/api/orders", ordersRoutes);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
