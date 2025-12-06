@@ -1020,3 +1020,15 @@ body {
     background: var(--danger);
     color: var(--white);
 }
+/* Estado en_proceso (turno actual) */
+.estado-en_proceso {
+  display: inline-block;
+  background: var(--info);
+  color: var(--white);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

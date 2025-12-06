@@ -48,20 +48,23 @@ export const createOrder = async (req, res) => {
     });
   }
 };
-
-export const getOrders = async (_req, res) => {
+//ordenes pendientes y en proceso
+export const getOrders = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM orders ORDER BY created_at DESC"
+      `SELECT id, order_number, customer_name, total, status, created_at
+       FROM orders
+       WHERE status IN ('pendiente', 'en_proceso')
+       ORDER BY order_number ASC`
     );
+
     res.json(rows);
   } catch (error) {
     console.log("ERROR getOrders:", error);
-    res.status(500).json({
-      error: "Error al obtener pedidos"
-    });
+    res.status(500).json({ error: "Error obteniendo pedidos" });
   }
 };
+//detalles del pedido
 export const getOrderDetails = async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -86,26 +89,66 @@ export const deliverOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await pool.query(
-      "UPDATE orders SET status = 'entregado' WHERE id = ?",
+    // 1) Marcar como ENTREGADO solo si estaba en_proceso
+    const [result] = await pool.query(
+      "UPDATE orders SET status = 'entregado' WHERE id = ? AND status = 'en_proceso'",
       [id]
     );
 
-    res.json({ success: true, message: "Pedido entregado" });
+    if (result.affectedRows === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Solo se pueden entregar pedidos en proceso" });
+    }
+
+    // 2) Buscar el siguiente pendiente (por número de orden)
+    const [next] = await pool.query(
+      "SELECT id FROM orders WHERE status = 'pendiente' ORDER BY order_number ASC LIMIT 1"
+    );
+
+    if (next.length > 0) {
+      await pool.query(
+        "UPDATE orders SET status = 'en_proceso' WHERE id = ?",
+        [next[0].id]
+      );
+    }
+
+    res.json({ success: true, message: "Pedido entregado y turno avanzado" });
   } catch (error) {
     console.log("ERROR deliverOrder:", error);
     res.status(500).json({ error: "Error entregando el pedido" });
   }
 };
+
 //cancelar pedido
 export const cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // 1) Cancelar el pedido
     await pool.query(
       "UPDATE orders SET status = 'cancelado' WHERE id = ?",
       [id]
     );
+
+    // 2) Ver si todavía hay un pedido en_proceso
+    const [procesos] = await pool.query(
+      "SELECT id FROM orders WHERE status = 'en_proceso' LIMIT 1"
+    );
+
+    if (procesos.length === 0) {
+      // 3) Si NO hay en_proceso, tomamos el siguiente pendiente y lo ponemos en_proceso
+      const [next] = await pool.query(
+        "SELECT id FROM orders WHERE status = 'pendiente' ORDER BY order_number ASC LIMIT 1"
+      );
+
+      if (next.length > 0) {
+        await pool.query(
+          "UPDATE orders SET status = 'en_proceso' WHERE id = ?",
+          [next[0].id]
+        );
+      }
+    }
 
     res.json({ success: true, message: "Pedido cancelado" });
   } catch (error) {
@@ -113,6 +156,7 @@ export const cancelOrder = async (req, res) => {
     res.status(500).json({ error: "Error cancelando el pedido" });
   }
 };
+
 
 //editar pedido
 export const updateOrder = async (req, res) => {

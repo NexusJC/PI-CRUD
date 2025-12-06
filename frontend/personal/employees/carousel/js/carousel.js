@@ -19,21 +19,24 @@ async function cargarPedidos() {
         const res = await fetch("/api/orders/list");
         const pedidos = await res.json();
 
-        pedidosData = {};
+       pedidosData = {};
 
-        pedidos.forEach(p => {
+            pedidos
+            .filter(p => p.status === "pendiente" || p.status === "en_proceso")
+            .forEach(p => {
             pedidosData[p.order_number] = {
-                id: p.id,
-                cliente: p.customer_name,
-                total: Number(p.total),
-                estado: p.status,
-                createdAt: p.created_at,
-                horaPedido: p.created_at.substring(11, 16),
-                horaEstimada: p.created_at.substring(11, 16), // placeholder
-                ordenes: [],
-                comentario: ""
-            };
-        });
+            id: p.id,
+            cliente: p.customer_name,
+            total: Number(p.total),
+            estado: p.status,
+            createdAt: p.created_at,
+            horaPedido: p.created_at.substring(11, 16),
+            horaEstimada: p.created_at.substring(11, 16), // placeholder
+            ordenes: [],
+            comentario: ""
+        };
+  });
+
 
         await cargarDetallesDeCadaPedido();
         renderizarCarrusel();
@@ -184,23 +187,24 @@ function inicializarModal() {
 function actualizarVista() {
     if (!pedidoActivo) return;
 
-    const pedido    = pedidosData[pedidoActivo];
+    const pedido = pedidosData[pedidoActivo];
     const btnEntregar = document.getElementById('btnEntregar');
 
     if (!pedido) return;
 
-    // poner botón Entregar activo solo si está pendiente
-    if (pedido.estado === "pendiente") {
-        btnEntregar?.classList.add('activo');
+    // 🔥 Solo se puede entregar si el pedido está en_proceso
+    if (pedido.estado === "en_proceso") {
+        btnEntregar?.classList.add("activo");
         btnEntregar?.removeAttribute("disabled");
     } else {
-        btnEntregar?.classList.remove('activo');
+        btnEntregar?.classList.remove("activo");
         btnEntregar?.setAttribute("disabled", "disabled");
     }
 
     actualizarDetallesPanel(pedido);
     actualizarPrecioCarrusel(pedidoActivo, pedido.total);
 }
+
 
 /* ============================================================
    📋 PANEL DE DETALLES DEL PEDIDO
@@ -304,14 +308,16 @@ async function entregarPedidoBackend(pedidoId) {
 
         if (!res.ok) throw new Error("Error en la respuesta");
 
-        pedidosData[pedidoId].estado = "entregado";
-        eliminarPedido(pedidoId);
         alert(`Pedido #${pedidoId} marcado como ENTREGADO.`);
+
+        // 🔄 recargamos pedidos para que el siguiente pase a en_proceso
+        await cargarPedidos();
     } catch (err) {
         console.error(err);
         alert("No se pudo marcar el pedido como entregado.");
     }
 }
+
 
 /* ============================================================
    🚫 CANCELAR PEDIDO (FRONT + BACKEND)
@@ -330,14 +336,16 @@ async function cancelarPedidoBackend(pedidoId) {
 
         if (!res.ok) throw new Error("Error en la respuesta");
 
-        pedidosData[pedidoId].estado = "cancelado";
-        eliminarPedido(pedidoId);
         alert(`Pedido #${pedidoId} ha sido CANCELADO.`);
+
+        // 🔄 recargamos pedidos para que, si era en_proceso, el siguiente pase a en_proceso
+        await cargarPedidos();
     } catch (err) {
         console.error(err);
         alert("No se pudo cancelar el pedido.");
     }
 }
+
 
 /* ============================================================
    🧮 ACTUALIZAR PRECIO EN LA TARJETA DEL CARRUSEL
