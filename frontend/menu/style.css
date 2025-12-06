@@ -2586,28 +2586,17 @@ body.dark .open-btn {
   color: #020617;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.9);
 }
-/* =========================================================
-   LÍNEA VERTICAL ENTRE HERO/CATEGORÍAS Y EL MENÚ DERECHO
-   ========================================================= */
-
-.menu-inner {
-  position: relative;
-}
-
-/* Línea vertical */
+/* ==== LIMPIAR INTENTO ANTERIOR DE LÍNEA VERTICAL ==== */
 .menu-inner::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(1.1fr + 1rem); /* NO IMPORTA EL GRID: se ajusta a la columna */
-  width: 2px;
-  background: rgba(0, 0, 0, 0.18);
-  transform: translateX(calc(50% + 0.5rem)); /* la coloca EXACTO entre columnas */
-  pointer-events: none;
+  content: none !important;
 }
 
-/* MODO OSCURO — línea más clara */
-body.dark .menu-inner::before {
-  background: rgba(255, 255, 255, 0.14);
+/* ==== BARRA VERTICAL ENTRE COLUMNA IZQUIERDA Y MENÚ ==== */
+.hero-column {
+  border-right: 2px solid rgba(148, 163, 184, 0.7); /* línea clara en modo claro */
+}
+
+/* Modo oscuro: línea un poco más clara para que se vea sobre el fondo oscuro */
+body.dark .hero-column {
+  border-right-color: rgba(148, 163, 184, 0.5);
 }
