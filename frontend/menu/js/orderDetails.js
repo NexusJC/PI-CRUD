@@ -480,42 +480,74 @@ if (printBtn && orderList) {
     vent.print();
   });
 }
-/* ============ CONFIRMAR PEDIDO ============ */
+/* ============ CONFIRMAR PEDIDO (ENVÍO A BACKEND) ============ */
 if (confirmBtn && orderList) {
-  confirmBtn.addEventListener("click", () => {
+  confirmBtn.addEventListener("click", async () => {
+
+    if (!orderList.children.length) {
+      alert("Tu orden está vacía.");
+      return;
+    }
+
+    actualizarTotales(); // por si acaso
+
+    // Armar lista de productos
     const items = Array.from(orderList.children).map(li => {
-      const comentario = li.querySelector(".comment")?.value?.trim() || "";
+      const name      = li.dataset.name;
+      const qty       = parseInt(li.dataset.qty || "0", 10);
+      const price     = parseFloat(li.dataset.price || "0");
+      const comments  = li.querySelector(".comment")?.value?.trim() || "";
+
       return {
-        producto: li.dataset.name,
-        cantidad: parseInt(li.dataset.qty || "0", 10),
-        comentario: comentario || null,
+        name,
+        quantity: qty,
+        price,
+        comments
       };
     });
 
-    const itemsParaBackend = items.map(i => {
-      if (i.comentario === null) {
-        const { comentario, ...resto } = i;
-        return resto;
+    // Total
+    const total = subtotal;
+
+    // Obtener nombre del cliente (si está logueado)
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    const customerName = user?.name || "Cliente"
+
+    try {
+      const res = await fetch("/api/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerName,
+          items,
+          total
+        })
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        alert(" Error al enviar el pedido.");
+        console.error(data);
+        return;
       }
-      return i;
-    });
 
-    console.log("🧾 Items a enviar:", itemsParaBackend);
-    alert("✅ Pedido confirmado con éxito");
+      alert(` Pedido enviado (#${data.orderNumber})`);
 
-    orderCount++;
-    const orderIdEl = document.getElementById("orderId");
-    if (orderIdEl) {
-      orderIdEl.textContent = `#${String(orderCount).padStart(4, "0")}`;
+      // Limpiar carrito
+      orderList.innerHTML = "";
+      subtotal = 0;
+      actualizarTotales();
+      actualizarEstadoVacio();
+      cerrarOrderPanel();
+
+    } catch (error) {
+      console.error(" Error fetch /api/orders/create:", error);
+      alert("Error de conexión con el servidor.");
     }
-
-    orderList.innerHTML = "";
-    subtotal = 0;
-    actualizarTotales();
-    actualizarEstadoVacio();
-    cerrarOrderPanel();
   });
 }
+
 
 /* ============ MODAL DETALLES DE PRODUCTO (se mantiene) ============ */
 const modal      = document.getElementById("productModal");
