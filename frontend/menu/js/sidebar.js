@@ -104,6 +104,20 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
+  
+  const sidebarAvatar = document.getElementById("sidebarAvatar");
+  
+  if (sidebarAvatar && user) {
+  // Puede venir como URL completa (image_url) o solo el filename (profile_picture)
+  let avatarUrl = user.image_url || user.profile_picture;
+
+  if (avatarUrl) {
+    if (!avatarUrl.startsWith("http")) {
+      avatarUrl = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
+    }
+    sidebarAvatar.src = avatarUrl;
+  }
+}
 
   if (usernameText && usernameValue && usernameDefault) {
     if (token && user) {
