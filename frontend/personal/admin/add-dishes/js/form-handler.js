@@ -40,7 +40,7 @@ function openModal(isEditing = false) {
   dishModal.style.display = "block";
   dishOverlay.style.display = "block";
 
-  const titleEl = document.querySelector(".dish-modal-title");
+  const titleEl  = document.querySelector(".dish-modal-title");
   const submitBtn = document.querySelector(".dish-submit-btn");
 
   if (titleEl) {
@@ -75,7 +75,7 @@ if (openDishModal) {
 
 // Cerrar modal
 if (closeDishModal) closeDishModal.addEventListener("click", closeModal);
-if (dishOverlay) dishOverlay.addEventListener("click", closeModal);
+if (dishOverlay)    dishOverlay.addEventListener("click", closeModal);
 
 /* ==========================================================
    SUBIDA DE IMAGEN A CLOUDINARY
@@ -127,7 +127,7 @@ if (form) {
         categoria,
       };
 
-      // MODO EDITAR
+      // ================= MODO EDITAR =================
       if (editingDishId) {
         // si no se sube nueva, usamos la que ya tenía
         body.imagen = imageUrl || editingDishImageUrl;
@@ -138,16 +138,21 @@ if (form) {
           body: JSON.stringify(body),
         });
 
-        const result = await res.json();
+        let result = {};
+        try {
+          result = await res.json();
+        } catch (_) {}
 
         if (!res.ok) {
+          console.error("Error PUT /api/dishes/:id →",
+            res.status, res.statusText, result);
           alert(result.message || "Error al actualizar platillo");
           return;
         }
 
         alert("Platillo actualizado correctamente");
       } else {
-        // MODO CREAR
+        // ================= MODO CREAR =================
         if (!imageUrl) {
           alert("Selecciona una imagen para el platillo.");
           return;
@@ -160,9 +165,14 @@ if (form) {
           body: JSON.stringify(body),
         });
 
-        const result = await res.json();
+        let result = {};
+        try {
+          result = await res.json();
+        } catch (_) {}
 
         if (!res.ok) {
+          console.error("Error POST /api/dishes →",
+            res.status, res.statusText, result);
           alert(result.message || "Error al agregar platillo");
           return;
         }
@@ -173,7 +183,7 @@ if (form) {
       closeModal();
       await loadDishes();
     } catch (err) {
-      console.error(err);
+      console.error("Excepción al guardar platillo:", err);
       alert("Ocurrió un error al guardar el platillo");
     }
   });
@@ -190,9 +200,17 @@ async function loadDishes() {
 
   try {
     const res = await fetch("/api/dishes");
+    if (!res.ok) {
+      console.error("Error GET /api/dishes →", res.status, res.statusText);
+      tableBody.innerHTML =
+        "<tr><td colspan='6'>Error al cargar platillos</td></tr>";
+      return;
+    }
+
     const dishes = await res.json();
 
     if (!Array.isArray(dishes)) {
+      console.error("Respuesta inesperada en /api/dishes:", dishes);
       tableBody.innerHTML =
         "<tr><td colspan='6'>Error: respuesta inesperada del servidor</td></tr>";
       return;
@@ -202,7 +220,7 @@ async function loadDishes() {
       const precioNum = Number(dish.precio || 0);
       const idKey = String(dish.id);
 
-      // guardamos el platillo en cache
+      // guardamos el platillo en cache (para edición)
       dishesMap.set(idKey, dish);
 
       const row = document.createElement("tr");
@@ -239,7 +257,7 @@ async function loadDishes() {
     attachDeleteEvents();
     attachEditEvents();
   } catch (err) {
-    console.error(err);
+    console.error("Error cargando platillos:", err);
     tableBody.innerHTML =
       "<tr><td colspan='6'>Error al cargar platillos</td></tr>";
   }
@@ -258,9 +276,14 @@ function attachDeleteEvents() {
 
       try {
         const res = await fetch(`/api/dishes/${id}`, { method: "DELETE" });
-        const result = await res.json();
+        let result = {};
+        try {
+          result = await res.json();
+        } catch (_) {}
 
         if (!res.ok) {
+          console.error("Error DELETE /api/dishes/:id →",
+            res.status, res.statusText, result);
           alert(result.message || "Error al eliminar platillo");
           return;
         }
@@ -268,7 +291,7 @@ function attachDeleteEvents() {
         alert("Platillo eliminado");
         await loadDishes();
       } catch (err) {
-        console.error(err);
+        console.error("Excepción al eliminar platillo:", err);
         alert("Ocurrió un error al eliminar el platillo");
       }
     };
@@ -294,7 +317,7 @@ function attachEditEvents() {
       editingDishId = id;
       editingDishImageUrl = dish.imagen || null;
 
-      // Rellenar el formulario
+      // Rellenar el formulario con los datos actuales
       form.nombre.value      = dish.nombre || "";
       form.descripcion.value = dish.descripcion || "";
       form.precio.value      = dish.precio || "";
