@@ -31,7 +31,6 @@ const imgPerfil   = document.getElementById("perfilImg");
 const MAX_PHONE_LENGTH = 10;
 
 inputNumero.addEventListener("input", () => {
-  // quitar todo lo que no sea número
   inputNumero.value = inputNumero.value.replace(/\D/g, "");
 
   if (inputNumero.value.length > MAX_PHONE_LENGTH) {
@@ -74,21 +73,15 @@ const getProfileData = async () => {
 
       inputNombre.value = data.name || "";
       inputNumero.value = data.telefono || "";
-
-
       spanEmail.textContent = data.email || "";
 
-      if (data.gender === "masculino") {
-        document.getElementById("masculino").checked = true;
-      } else if (data.gender === "femenino") {
-        document.getElementById("femenino").checked = true;
+      if (data.gender === "masculino") { document.getElementById("masculino").checked = true;
+      } else if (data.gender === "femenino") { document.getElementById("femenino").checked = true;
       }
 
       if (data.image_url) {
-
         imgPerfil.src = data.image_url;
       } else if (data.profile_picture) {
-
         imgPerfil.src = `https://www.laparrilaazteca.online/uploads/${data.profile_picture}`;
       } else {
         imgPerfil.src = "../img/default.png";
@@ -105,8 +98,7 @@ const getProfileData = async () => {
   if (user) {
     if (data.image_url) {
       user.image_url = data.image_url;
-      if (data.profile_picture) {
-        user.profile_picture = data.profile_picture;
+      if (data.profile_picture) { user.profile_picture = data.profile_picture;
       }
     } else if (data.profile_picture) {
       user.profile_picture = data.profile_picture;
@@ -117,9 +109,7 @@ const getProfileData = async () => {
     
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) {
-      sidebarAvatar.src =
-      user.image_url ||
-      (user.profile_picture
+      sidebarAvatar.src = user.image_url || (user.profile_picture
         ? `https://www.laparrilaazteca.online/uploads/${user.profile_picture}`
         : sidebarAvatar.src);
       }
@@ -137,12 +127,12 @@ document
     const gender = generoInput ? generoInput.value : null;
     
     if (!name) {
-      alert("El nombre es obligatorio.");
+      showAlert("El nombre es obligatorio.", "error");
       return;
     }
 
     if (telefono.length !== MAX_PHONE_LENGTH) {
-      alert(`El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.`);
+      showAlert("El número debe tener exactamente ${MAX_PHONE_LENGTH} dígitos.", "error");
       return;
     }
 
