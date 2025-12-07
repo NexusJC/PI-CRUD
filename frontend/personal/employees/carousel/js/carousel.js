@@ -16,11 +16,11 @@ async function cargarPedidos() {
     const user = JSON.parse(localStorage.getItem("user"));
     const cajaId = user?.caja_id;
 
-    if (!cajaId) {
-      console.error("Empleado sin caja asignada");
-      alert("No tienes una caja asignada. Contacta al administrador.");
+        if (!cajaId) {
+      console.error("❌ Empleado sin caja asignada.");
       return;
     }
+
 
     // 🔥 Ahora cargamos SOLO los pedidos de esa caja
     const res = await fetch(`/api/orders/list?caja_id=${cajaId}`);
@@ -51,9 +51,9 @@ async function cargarPedidos() {
 
   } catch (err) {
     console.error("Error cargando pedidos:", err);
-    alert("No se pudieron cargar los pedidos.");
+    console.warn("⚠ No se pudieron cargar los pedidos:", err);
   }
-  // Evita llamadas duplicadas mientras el servidor responde
+}
 let cargando = false;
 
 async function actualizarPedidos() {
@@ -70,9 +70,6 @@ async function actualizarPedidos() {
 }
 
 setInterval(actualizarPedidos, 5000);
-
-
-}
 
 
 /* ============================================================
@@ -985,9 +982,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user || !user.caja_id) {
-        alert("No tienes caja asignada. Contacta al administrador.");
-        return;
+        console.warn("⚠ Usuario sin caja asignada o sin datos en localStorage.");
+        return; // evita romper la página
     }
 
-    cargarPedidos(); 
+    cargarPedidos();
 });
