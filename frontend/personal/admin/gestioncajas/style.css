@@ -1684,3 +1684,27 @@ body:not(.admin-dark) .tarjeta-caja {
 .menu-dashboard {
     box-sizing: border-box;
 }
+
+/* ============================================================
+   FIX – Quitar brillo del botón "Agregar caja"
+   ============================================================ */
+
+.btn-agregar-caja {
+    background: linear-gradient(135deg, #ff7a2f, #ff9b4b) !important;
+    box-shadow: none !important;   /* Quita brillo externo */
+    filter: none !important;       /* Limpia brillo interno */
+    outline: none !important;
+}
+
+/* Hover sin brillo */
+.btn-agregar-caja:hover {
+    transform: translateY(-1px);
+    box-shadow: none !important;   /* Evita reaparecer brillo */
+    filter: brightness(1.03) !important;
+}
+
+/* Active sin brillo */
+.btn-agregar-caja:active {
+    transform: translateY(0);
+    box-shadow: none !important;
+}
