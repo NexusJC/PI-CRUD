@@ -2620,3 +2620,9 @@ filter: brightness (1.02882);
 transform: translateY(-0.576409px);
 
 }
+.ordenes-container h4 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #eef3ff;
+    margin: 0 0 0.8rem;
+}
