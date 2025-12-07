@@ -2069,3 +2069,72 @@ body.admin-dark .tiempo-restante {
     text-align: left;
   }
 }
+
+element.style {
+}
+.admin-dark .acciones-panel {
+    background: #020617;
+    border-color: #111827;
+    box-shadow: -2 20px 50px rgba(0, 0, 0, 0.9);
+}
+.acciones-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.0rem;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 24px;
+    padding: 1.15rem 1.15rem;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+/* ============================================================
+   AJUSTE DE ILUMINACIÓN DE LOS TURNOS
+   (glow más pequeño y solo desde abajo)
+   ============================================================ */
+
+/* Sombra base más discreta en ambos modos */
+body:not(.admin-dark) .turno-card,
+body.admin-dark .turno-card {
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.45);
+}
+
+/* Sombra del turno activo: menos intensa */
+body:not(.admin-dark) .turno-card.activo,
+body.admin-dark .turno-card.activo {
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.45);
+}
+
+/* Glow naranja pequeño desde la parte inferior */
+.turno-card::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 18px;                /* altura pequeña, solo abajo */
+  border-radius: 999px 999px 0 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(249, 115, 22, 0.35) 0%,
+    transparent 70%
+  );
+  opacity: 0;                   /* por defecto apagado */
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+/* Solo el turno activo muestra ese brillo suave */
+.turno-card.activo::after {
+  opacity: 1;
+}
+
+/* En modo oscuro el glow es un poco más tenue */
+body.admin-dark .turno-card.activo::after {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(249, 115, 22, 0.28) 0%,
+    transparent 70%
+  );
+}
