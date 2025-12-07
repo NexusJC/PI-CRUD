@@ -60,11 +60,13 @@ body {
 }
 
 /* cuando el sidebar está colapsado (usa las mismas clases del admin) */
-.menu-dashboard:not(.open) ~ .kitchen-main,
-.menu-dashboard.close ~ .kitchen-main,
-.menu-dashboard.collapsed ~ .kitchen-main {
-  margin-left: 115px;
+.menu-dashboard:not(.open) .top-menu .toggle,
+.menu-dashboard.close .top-menu .toggle,
+.menu-dashboard.collapsed .top-menu .toggle {
+    transform: translateX(-130px);
+    margin-left: 0; /* 🔥 Eliminamos el problema */
 }
+
 
 /* ==========================
    CABECERA DEL CARRUSEL
@@ -970,9 +972,6 @@ body.admin-dark .btn-entregar {
   background: rgba(148, 163, 184, 0.8);
   border-radius: 999px;
 }
-.menu-dashboard:not(.open) .top-menu .toggle, .menu-dashboard.close .top-menu .toggle, .menu-dashboard.collapsed .top-menu .toggle {
-    margin-left: -130px;
-}
 /* ============================================================
    NUEVO LOOK LIMPIO TIPO DASHBOARD PARA PANEL DE COCINA
    (OVERRIDES SUAVES SOBRE ESTILOS EXISTENTES)
@@ -1039,16 +1038,13 @@ body {
    ========================== */
 
 .turnos-carousel {
-  display: flex;
-  gap: 1.4rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 0.9rem 0 0.4rem;
-  scrollbar-width: none;
-}
-
-.turnos-carousel::-webkit-scrollbar {
-  display: none;
+    display: flex;
+    gap: 1.4rem;
+    overflow-x: auto;      
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 0.8rem 0 0.4rem;
+    scrollbar-width: none;
 }
 
 /* Tarjeta tipo “widget” */
@@ -2144,6 +2140,8 @@ body.admin-dark .turno-card.activo::after {
 .turnos-carousel {
     display: flex;
     gap: 1.4rem;
+    overflow-x: auto;
+    overflow-y: hidden;
     scroll-behavior: smooth;
     padding: 0.8rem 0 0.4rem;
     scrollbar-width: none;

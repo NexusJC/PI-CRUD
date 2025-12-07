@@ -32,28 +32,6 @@ function decodeHTMLEntities(text) {
     return textarea.value;
 }
 
-// =======================================================
-// DICCIONARIO PARA TEXTOS QUE LA API NO TRADUCE
-// =======================================================
-const FALLBACK_DICTIONARY = {
-    "Gestión de platillos": "Dish management",
-    "Agregar nuevo platillo": "Add new dish",
-    "Platillos actuales": "Current dishes",
-    "Listado de todos los platillos registrados.": "List of all registered dishes.",
-    "Precio": "Price",
-    "Acciones": "Actions",
-    "Selecciona una categoría": "Select a category",
-    "Haz clic para subir imagen": "Click to upload image",
-    "Editar platillo": "Edit dish",
-    "Guardar cambios": "Save changes",
-    "Guardar platillo": "Save dish"
-};
-
-function fallbackTranslate(text, lang) {
-    if (lang === "es") return text;
-    return FALLBACK_DICTIONARY[text] || text;
-}
-
 /**
  * Función principal que realiza la traducción de todo el contenido.
  * Procesa todos los elementos seleccionados por getTranslatableContent()
@@ -90,39 +68,48 @@ async function translateContent(targetLanguage) {
                 const translatedText = decodeHTMLEntities(data.data.translations[index].translatedText);
                 elements[id].element.textContent = translatedText;
             });
+
+    // Segunda pasada para textos que Google no tradujo
+    document.querySelectorAll("*").forEach(el => {
+        if (el.childNodes.length === 1 && el.childNodes[0].nodeType === 3) {
+            const original = el.innerText.trim();
+            const fixed = fallbackTranslate(original, targetLanguage);
+            if (fixed !== original) el.innerText = fixed;
+        }
+    });
+    
+    currentLanguage = targetLanguage;
+    
+    document.documentElement.lang = targetLanguage;
             
-            currentLanguage = targetLanguage;
+    localStorage.setItem('preferredLanguage', targetLanguage);
             
-            document.documentElement.lang = targetLanguage;
+// =====================================================================
+// ACTUALIZACIÓN DE ELEMENTOS DE LA INTERFAZ DE USUARIO
+// =====================================================================
             
-            localStorage.setItem('preferredLanguage', targetLanguage);
-            
-            // =====================================================================
-            // ACTUALIZACIÓN DE ELEMENTOS DE LA INTERFAZ DE USUARIO
-            // =====================================================================
-            
-            // 1. Actualizar el texto del banner de idioma si existe
-            // Este banner puede estar presente en algunas páginas como alternativa
-            // al selector de bandera
-            const banner = document.getElementById('language-banner');
-            if (banner) {
-                const bannerText = banner.querySelector('p');
-                if (bannerText) {
-                    bannerText.innerText = targetLanguage === 'en' 
-                        ? 'Would you like to read this article in Spanish?' 
-                        : '¿Prefieres leer este artículo en inglés?';
-                }
-                
-                const buttons = banner.querySelectorAll('button:not(.close-btn)');
-                if (buttons.length >= 2) {
-                    buttons[0].innerText = targetLanguage === 'en' ? 'English' : 'English';
-                    buttons[1].innerText = targetLanguage === 'en' ? 'Spanish' : 'Español';
-                }
+// 1. Actualizar el texto del banner de idioma si existe
+// Este banner puede estar presente en algunas páginas como alternativa
+// al selector de bandera
+const banner = document.getElementById('language-banner');
+    if (banner) {
+        const bannerText = banner.querySelector('p');
+        if (bannerText) {
+            bannerText.innerText = targetLanguage === 'en' 
+                ? 'Would you like to read this article in Spanish?' 
+                : '¿Prefieres leer este artículo en inglés?';
+        }
+        
+        const buttons = banner.querySelectorAll('button:not(.close-btn)');
+            if (buttons.length >= 2) {
+                buttons[0].innerText = targetLanguage === 'en' ? 'English' : 'English';
+                buttons[1].innerText = targetLanguage === 'en' ? 'Spanish' : 'Español';
             }
         }
-    } catch (error) {
-        console.error('Error al traducir el contenido:', error);
     }
+} catch (error) {
+    console.error('Error al traducir el contenido:', error);
+}
 }
 
 /**
@@ -162,6 +149,32 @@ function alternarIdioma() {
     localStorage.setItem('preferredLanguage', nuevoIdioma);
 }
 
+// =======================================================
+// TRADUCCIÓN AUTOMÁTICA PARA CONTENIDO CREADO POR JS
+// =======================================================
+const observer = new MutationObserver(mutations => {
+    const lang = localStorage.getItem("preferredLanguage") || "es";
+    if (lang === "es") return;
+
+    mutations.forEach(m => {
+        m.addedNodes.forEach(node => {
+            if (node.nodeType === 3) {
+                node.textContent = fallbackTranslate(node.textContent.trim(), lang);
+            }
+            if (node.nodeType === 1) {
+                const text = node.innerText?.trim();
+                if (text && fallbackTranslate(text, lang) !== text) {
+                    node.innerText = fallbackTranslate(text, lang);
+                }
+            }
+        });
+    });
+});
+
+observer.observe(document.body, {
+    childList: true,
+    subtree: true
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const savedLanguage = localStorage.getItem('preferredLanguage') || 'es';
@@ -190,4 +203,3 @@ function actualizarTextoBotonIdioma(idiomaActual) {
     );
 }
 });
-
