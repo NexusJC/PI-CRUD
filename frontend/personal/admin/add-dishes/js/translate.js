@@ -156,4 +156,17 @@ document.addEventListener('DOMContentLoaded', () => {
             translateContent(savedLanguage);
         }, 80);
     });
+
+function actualizarTextoBotonIdioma(idiomaActual) {
+    const banderaBtn = document.querySelector("#banderaIdioma .bandera-container");
+
+    if (!banderaBtn) return;
+
+    if (idiomaActual === "es") {
+        banderaBtn.setAttribute("data-idioma-text", "Inglés");
+    } else {
+        banderaBtn.setAttribute("data-idioma-text", "Español");
+    }
+}
+
 });
