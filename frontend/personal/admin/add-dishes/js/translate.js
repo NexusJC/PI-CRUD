@@ -169,3 +169,65 @@ function actualizarTextoBotonIdioma(idiomaActual) {
 
 
 });
+
+const STATIC_DICTIONARY = {
+    "Editar platillo": { en: "Edit dish" },
+    "Agregar nuevo platillo": { en: "Add new dish" },
+    "Guardar cambios": { en: "Save changes" },
+    "Guardar platillo": { en: "Save dish" },
+
+    "Haz clic para subir imagen": { en: "Click to upload image" },
+    "Selecciona una imagen solo si deseas cambiarla": {
+        en: "Select an image only if you want to change it"
+    },
+
+    "Ingresa un precio válido.": { en: "Enter a valid price." },
+    "El precio debe ser mayor que 0.": { en: "Price must be greater than 0." },
+    "El precio no puede tener más de 4 dígitos (máx. 9999).": {
+        en: "The price cannot have more than 4 digits (max. 9999)."
+    },
+
+    "No hay platillos para la categoría seleccionada.": {
+        en: "There are no dishes for the selected category."
+    },
+    "Error al cargar platillos": { en: "Error loading dishes" },
+    "Error: respuesta inesperada del servidor": {
+        en: "Error: unexpected server response"
+    },
+
+    "¿Eliminar platillo?": { en: "Delete dish?" },
+    "Platillo eliminado": { en: "Dish deleted" },
+    "Ocurrió un error al eliminar el platillo": {
+        en: "An error occurred while deleting the dish"
+    },
+
+    "Platillo agregado correctamente": {
+        en: "Dish added successfully"
+    },
+    "Platillo actualizado correctamente": {
+        en: "Dish updated successfully"
+    },
+    "Ocurrió un error al guardar el platillo": {
+        en: "An error occurred while saving the dish"
+    },
+
+    "No se encontraron los datos del platillo": {
+        en: "Dish data not found"
+    }
+};
+
+// Función para traducir una cadena ES → EN usando el diccionario
+function translateTextKey(esText, targetLanguage) {
+    if (!esText) return "";
+    if (targetLanguage === "es") return esText;
+
+    const key = esText.trim();
+    const entry = STATIC_DICTIONARY[key];
+    if (entry && entry[targetLanguage]) {
+        return entry[targetLanguage];
+    }
+    return esText;
+}
+
+// La exponemos en window para que otros JS la usen
+window.translateTextKey = translateTextKey;
