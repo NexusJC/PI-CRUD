@@ -192,19 +192,16 @@ function abrirModalNuevoPedido() {
 
   nuevoPedidoItems = [];
 
-  if (clienteInput) clienteInput.value = "";
+  if (clienteInput) {
+    clienteInput.value = "";
+    clienteInput.classList.remove("input-error");
+  }
   if (qtyInput) qtyInput.value = 1;
   if (commentInput) commentInput.value = "";
 
   renderListaNuevoPedido();
   modal.classList.add("active");
 }
-
-function cerrarModalNuevoPedido() {
-  const modal = document.getElementById("nuevoPedidoModal");
-  if (modal) modal.classList.remove("active");
-}
-
 async function crearPedidoDesdeModal() {
   if (!nuevoPedidoItems.length) {
     alert("Agrega al menos un platillo al pedido.");
@@ -212,11 +209,21 @@ async function crearPedidoDesdeModal() {
   }
 
   const clienteInput = document.getElementById("npCliente");
-  const nombreCliente =
-    (clienteInput?.value || "").trim() ||
-    (JSON.parse(localStorage.getItem("user") || "null")?.name || "Cliente");
+  let nombreCliente = (clienteInput?.value || "").trim();
 
-  // 👇 Aquí está el cambio importante: quantity / price / comments
+  // Validar nombre obligatorio con mínimo 3 caracteres
+  if (!nombreCliente || nombreCliente.length < 3) {
+    alert("Escribe un nombre de cliente con al menos 3 caracteres.");
+    if (clienteInput) {
+      clienteInput.classList.add("input-error");
+      clienteInput.focus();
+    }
+    return;
+  } else if (clienteInput) {
+    clienteInput.classList.remove("input-error");
+  }
+
+  // Construcción de items igual que antes
   const items = nuevoPedidoItems.map((it) => ({
     name: it.name,
     quantity: it.qty,
@@ -292,16 +299,41 @@ async function cargarDetallesDeCadaPedido() {
 const qtyInput = document.getElementById("npCantidad");
 
 if (qtyInput) {
+  // Permite borrar todo, pero valida cuando se escribe algo
   qtyInput.addEventListener("input", () => {
-    if (qtyInput.value < 1) qtyInput.value = 1;
-    if (qtyInput.value > 99) qtyInput.value = 99;
+    const val = qtyInput.value;
+
+    // Si está vacío, dejamos que el usuario escriba
+    if (val === "") return;
+
+    let num = parseInt(val, 10);
+
+    if (Number.isNaN(num) || num < 1) {
+      num = 1;
+    } else if (num > 99) {
+      num = 99;
+    }
+
+    qtyInput.value = String(num);
   });
 
+  // Al salir del input, si quedó vacío o inválido → 1
+  qtyInput.addEventListener("blur", () => {
+    let val = qtyInput.value;
+    let num = parseInt(val, 10);
+
+    if (val === "" || Number.isNaN(num) || num < 1) {
+      qtyInput.value = "1";
+    } else if (num > 99) {
+      qtyInput.value = "99";
+    }
+  });
+
+  // No permitir "-" ni notación científica
   qtyInput.addEventListener("keydown", (e) => {
     if (e.key === "-" || e.key === "e") e.preventDefault();
   });
 }
-
 /* ============================================================
    🔧 INICIALIZACIÓN GLOBAL
 ============================================================ */
@@ -350,10 +382,13 @@ function inicializarNuevoPedidoModal() {
         return;
       }
 
-     const qty = Math.max(
-  1,
-  Math.min(99, parseInt(qtyInput?.value || "1", 10))
-);
+    let qty = parseInt(qtyInput?.value, 10);
+
+if (Number.isNaN(qty) || qty < 1) {
+  qty = 1;
+} else if (qty > 99) {
+  qty = 99;
+}
       const comment = (commentInput?.value || "").trim();
 
       const unit =

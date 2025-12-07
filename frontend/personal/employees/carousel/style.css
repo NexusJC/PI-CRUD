@@ -2528,3 +2528,48 @@ body:not(.admin-dark) .modal-title {
   width: min(780px, 96vw);
   max-height: 88vh;
 }
+/* ================================
+   MODAL NUEVO PEDIDO CENTRADO Y GRANDE
+   ================================ */
+
+/* El overlay del modal siempre centrado */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+/* Tamaño base del contenido de cualquier modal */
+.modal-content {
+  width: min(720px, 96vw);
+  max-height: 88vh;
+  border-radius: 24px;
+}
+
+/* El de "Agregar nuevo pedido" un poquito más ancho */
+.modal-nuevo-pedido .modal-content {
+  width: min(820px, 96vw);
+}
+
+/* Animación suave de entrada tipo dashboard */
+.modal.active .modal-content {
+  animation: modalEntrada 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalEntrada {
+  from {
+    transform: translateY(26px) scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Pequeña marca visual cuando hay error en inputs del modal */
+.np-form input.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
+}
