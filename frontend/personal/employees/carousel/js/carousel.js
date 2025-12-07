@@ -3,8 +3,8 @@
 ============================================================ */
 let pedidoActivo = null;
 let pedidosData = {}; // se llenará desde el backend
-let dishesCache       = [];
-let nuevoPedidoItems  = [];
+let dishesCache = [];
+let nuevoPedidoItems = [];
 
 /* ============================================================
    📥 CARGAR PEDIDOS DESDE BACKEND
@@ -41,6 +41,7 @@ async function cargarPedidos() {
     alert("No se pudieron cargar los pedidos.");
   }
 }
+
 /* ============================================================
    📥 CARGAR PLATILLOS (para nuevo pedido)
 ============================================================ */
@@ -61,6 +62,7 @@ async function cargarDishesSiHaceFalta() {
     console.error("Error al cargar platillos para nuevo pedido:", err);
   }
 }
+
 function obtenerCategoriasDesdeDishes() {
   const set = new Set();
 
@@ -121,6 +123,7 @@ function buscarDishSeleccionado() {
     ) || null
   );
 }
+
 function renderListaNuevoPedido() {
   const cont = document.getElementById("npLista");
   const totalEl = document.getElementById("npTotal");
@@ -140,8 +143,8 @@ function renderListaNuevoPedido() {
         <div class="np-item-main">
           <span class="np-item-name">${item.name}</span>
           <span class="np-item-info">x${item.qty} · $${item.unit.toFixed(
-        2
-      )}</span>
+            2
+          )}</span>
         </div>
         <div class="np-item-comment">
           ${item.comment ? item.comment : "Sin comentarios"}
@@ -172,6 +175,7 @@ function renderListaNuevoPedido() {
   );
   totalEl.textContent = `$${total.toFixed(2)}`;
 }
+
 function abrirModalNuevoPedido() {
   const modal = document.getElementById("nuevoPedidoModal");
   const clienteInput = document.getElementById("npCliente");
@@ -193,6 +197,7 @@ function cerrarModalNuevoPedido() {
   const modal = document.getElementById("nuevoPedidoModal");
   if (modal) modal.classList.remove("active");
 }
+
 async function crearPedidoDesdeModal() {
   if (!nuevoPedidoItems.length) {
     alert("Agrega al menos un platillo al pedido.");
@@ -202,8 +207,7 @@ async function crearPedidoDesdeModal() {
   const clienteInput = document.getElementById("npCliente");
   const nombreCliente =
     (clienteInput?.value || "").trim() ||
-    (JSON.parse(localStorage.getItem("user") || "null")?.name ||
-      "Cliente");
+    (JSON.parse(localStorage.getItem("user") || "null")?.name || "Cliente");
 
   const items = nuevoPedidoItems.map((it) => ({
     name: it.name,
@@ -286,7 +290,7 @@ async function cargarDetallesDeCadaPedido() {
 ============================================================ */
 document.addEventListener("DOMContentLoaded", async () => {
   await cargarPedidos();
-  inicializarBotones();
+  inicializarBotones();           // 👉 ahora sí existe
   inicializarModal();
   inicializarNuevoPedidoModal();
   console.log("Panel de cocina listo con pedidos reales");
@@ -409,7 +413,7 @@ function seleccionarPedido(pedidoId) {
 /* ============================================================
    🔘 CONFIGURAR BOTONES
 ============================================================ */
-function manejarEditar() {
+function inicializarBotones() {
   const btnCancelar = document.getElementById("btnCancelar");
   const btnEditar = document.getElementById("btnEditar");
   const btnEntregar = document.getElementById("btnEntregar");
@@ -729,8 +733,7 @@ async function guardarCambiosEdicion() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         items: nuevosItems
-        // si tu backend también maneja un comentario general de pedido,
-        // aquí podrías agregar un campo "comments" extra.
+        // aquí podrías agregar un campo "comments" extra si tu backend lo maneja
       })
     });
 
@@ -768,40 +771,3 @@ setInterval(async () => {
     seleccionarPedido(pedidoAnterior);
   }
 }, 2000);
-function manejarEditar() {
-  if (!pedidoActivo) return;
-
-  const pedido   = pedidosData[pedidoActivo];
-  const modal    = document.getElementById("editarModal");
-  const modalBody= document.getElementById("modalBody");
-  const modalId  = document.getElementById("modalPedidoId");
-
-  if (!pedido || !modal || !modalBody || !modalId) return;
-
-  modalId.textContent = pedidoActivo;
-
-  // Construimos contenido del modal (comentarios por producto)
-  modalBody.innerHTML = `
-    <div class="menu-items">
-      ${pedido.ordenes
-        .map((item, index) => `
-          <div class="menu-item" data-index="${index}">
-            <div class="mi-header">
-              <span class="mi-name">${item.nombre}</span>
-              <span class="mi-qty">x${item.cantidad}</span>
-              <span class="mi-price">$${item.precio.toFixed(2)}</span>
-            </div>
-            <label class="mi-label">Comentario del cliente</label>
-            <textarea
-              class="mi-comment"
-              rows="2"
-              placeholder="Sin comentarios"
-            >${item.comentario || ""}</textarea>
-          </div>
-        `)
-        .join("")}
-    </div>
-  `;
-
-  modal.classList.add("active");
-}
