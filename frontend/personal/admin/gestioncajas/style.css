@@ -1395,3 +1395,265 @@ body.admin-body.admin-dark .filtro-estado-select {
     background: linear-gradient(90deg, #fbc3b2, #ffb683, #f6dfa5);
     opacity: 0.9;
 }
+/* =========================================================
+   LAYOUT PRINCIPAL GESTIÓN DE CAJAS
+   ========================================================= */
+
+.gestion-cajas-main {
+  max-width: 1180px;
+  margin: 26px auto 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =========================================================
+   HEADER PRINCIPAL "GESTIÓN DE CAJAS"
+   ========================================================= */
+
+.gestion-cajas-header {
+  position: relative;
+  width: 100%;
+  border-radius: 26px;
+  padding: 24px 32px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+/* Versión clara */
+body:not(.admin-dark) .gestion-cajas-header {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.97),
+    rgba(250, 245, 239, 0.98)
+  );
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.10);
+}
+
+/* Versión oscura */
+body.admin-dark .gestion-cajas-header {
+  background: linear-gradient(
+    135deg,
+    #020617,
+    #050816
+  );
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+}
+
+/* Anulamos cualquier ::before/::after viejo que la deforme */
+.gestion-cajas-header::before,
+.gestion-cajas-header::after {
+  content: none !important;
+}
+
+.gestion-cajas-header h1,
+.gestion-cajas-header p {
+  position: relative;
+  margin: 0;
+}
+
+.gestion-cajas-header h1 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+body:not(.admin-dark) .gestion-cajas-header h1 {
+  color: #111827;
+}
+
+body.admin-dark .gestion-cajas-header h1 {
+  color: #f9fafb;
+}
+
+.gestion-cajas-header p {
+  margin-top: 4px;
+  font-size: 0.95rem;
+}
+
+body:not(.admin-dark) .gestion-cajas-header p {
+  color: #6b7280;
+}
+
+body.admin-dark .gestion-cajas-header p {
+  color: #9ca3af;
+}
+
+/* =========================================================
+   TOOLBAR (Estado + botón "Agregar caja")
+   ========================================================= */
+
+.toolbar-cajas {
+  width: 100%;
+  margin: 0 0 26px;
+  padding: 14px 24px;
+  border-radius: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Claro */
+body:not(.admin-dark) .toolbar-cajas {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.06);
+}
+
+/* Oscuro */
+body.admin-dark .toolbar-cajas {
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+}
+
+.toolbar-cajas-izq {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.toolbar-cajas-label {
+  font-weight: 600;
+}
+
+body:not(.admin-dark) .toolbar-cajas-label {
+  color: #4b5563;
+}
+
+body.admin-dark .toolbar-cajas-label {
+  color: #e5e7eb;
+}
+
+.filtro-estado-select {
+  min-width: 170px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  background: rgba(249, 250, 251, 0.96);
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.filtro-estado-select:focus {
+  outline: none;
+  border-color: #e36842;
+  box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.22);
+}
+
+/* Oscuro */
+body.admin-dark .filtro-estado-select {
+  background: #020617;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* El botón ya tiene estilo global, aquí sólo evitamos que se rompa */
+.toolbar-cajas .btn-agregar-caja {
+  white-space: nowrap;
+}
+
+/* Responsive toolbar */
+@media (max-width: 768px) {
+  .toolbar-cajas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* =========================================================
+   GRID DE TARJETAS DE CAJAS
+   ========================================================= */
+
+.contenedor-cajas {
+  margin-top: 8px;
+}
+
+.cajas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
+  gap: 1.6rem;
+}
+
+@media (max-width: 768px) {
+  .cajas-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* =========================================================
+   TARJETAS DE CAJA (sin brillo naranja)
+   ========================================================= */
+
+.tarjeta-caja {
+  border-radius: 22px;
+  padding: 1.1rem 1.2rem 1rem;
+  background: #0b1020;           /* SIN radial-gradient naranja */
+  border: 1px solid var(--admin-border-soft-dark);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Versión clara de la tarjeta, también sin brillo naranja */
+body:not(.admin-dark) .tarjeta-caja {
+  background: #ffffff;
+  border-color: var(--admin-border-soft-light);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+/* Contenido de la tarjeta se mantiene igual */
+.icono-caja {
+  font-size: 1.45rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 122, 47, 0.18);
+  color: #ffb27b;
+  margin-bottom: 0.2rem;
+}
+
+body:not(.admin-dark) .icono-caja {
+  background: rgba(255, 122, 47, 0.12);
+  color: #d97706;
+}
+
+.tarjeta-caja h3 {
+  margin: 0.2rem 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+body.admin-dark .tarjeta-caja h3 {
+  color: var(--admin-text-main-dark);
+}
+
+body:not(.admin-dark) .tarjeta-caja h3 {
+  color: var(--admin-text-main-light);
+}
+
+.empleado-asignado {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+body.admin-dark .empleado-asignado {
+  color: var(--admin-text-soft-dark);
+}
+
+body:not(.admin-dark) .empleado-asignado {
+  color: var(--admin-text-soft-light);
+}
