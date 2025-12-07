@@ -433,3 +433,146 @@ footer p {
   background: #ee0202; /* Rojo elegante */
 }
 
+/* ==========================================================
+   RESPONSIVE LIMPIO FINAL – LOGIN / REGISTRO / POLÍTICAS
+========================================================== */
+@media (max-width: 768px) {
+
+  body {
+    height: auto;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Botón "Volver al Inicio" – izquierda y más abajo */
+  .barra {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 18px;
+    margin-top: 70px;
+  }
+
+  .flecha-regreso {
+    position: static;
+    width: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 20px;
+  }
+
+  /* Contenedores */
+  .contenedor,
+  .contenedor-registro {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto 40px;
+    padding: 20px 10px 30px;
+    padding-top: 70px;
+    box-sizing: border-box;
+  }
+
+  /* Tarjetas */
+  .login,
+  .login-registro {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  /* Icono de usuario */
+  .user-icon {
+    margin: 0 auto 14px;
+  }
+
+  /* Inputs */
+  .datos input {
+    width: 80%;
+    padding-left: 38px;   /* TEXTO más a la izquierda */
+    box-sizing: border-box;
+  }
+
+  /* Íconos dentro del input */
+  .datos i {
+    left: 12px;
+    padding-left: 34px;
+    font-size: 16px;
+  }
+
+  /* Ojo contraseña */
+  ul.fas.fa-eye {
+    right: 18px;
+  }
+
+  /* Enlace */
+  .olvidaste-contraseña {
+    width: 100%;
+    text-align: center;
+    padding-right: 0;
+    margin-top: 6px;
+  }
+
+  /* Botones */
+  .boton_ingresar,
+  .boton-registro {
+    width: 80%;
+    margin: 14px auto 0;
+    display: block;
+    padding: 12px 14px;
+  }
+
+  /* Textos inferiores */
+  .sinregistrar,
+  .con-cuenta {
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  /* Políticas */
+  .policies-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 90px auto 40px;
+    padding: 18px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    box-sizing: border-box;
+  }
+
+  .policies-container h1 {
+    font-size: 20px;
+  }
+
+  .policies-container h2 {
+    font-size: 16px;
+  }
+
+  /* Toast */
+  .toast {
+    width: calc(100% - 40px);
+    left: 20px;
+    right: 20px;
+    text-align: center;
+  }
+}
+
+/* ==========================================================
+   AJUSTE FINO FINAL: BOTÓN VOLVER (MÁS ABAJO Y MÁS A LA IZQUIERDA)
+========================================================== */
+@media (max-width: 768px) {
+
+  .barra {
+    justify-content: flex-start;
+    padding-left: 4px;     /* MÁS a la izquierda */
+    margin-top: 68px;     /* MÁS abajo */
+  }
+
+  .flecha-regreso {
+    padding: 8px 16px;    
+    font-size: 13px;      
+    border-radius: 15px; 
+  }
+
+}
