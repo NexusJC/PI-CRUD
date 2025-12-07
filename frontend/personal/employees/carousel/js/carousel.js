@@ -970,5 +970,5 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    cargarPedidos(); // 🔥 Esto activa el carrusel correctamente
+    cargarPedidos(); 
 });
