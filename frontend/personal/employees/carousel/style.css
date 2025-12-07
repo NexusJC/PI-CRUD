@@ -2595,3 +2595,19 @@ body.admin-body:not(.admin-dark) .modal-nuevo-pedido .modal-content {
     border-radius: 18px;
     box-shadow: 0 24px 60px rgba #000000a6 (0, 0, 0, 0.65);
 }
+.btn.btn-agregar {
+    margin-top: 0.75rem;
+    background: linear-gradient(135deg, #ff9031, #ff890f);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 8px 18px rgb(212 82 43 / 35%);
+    transition: transform 0.15s 
+ease, box-shadow 0.15s 
+ease, filter 0.15s 
+ease;
+}
