@@ -5,7 +5,7 @@ let pedidoActivo = null;
 let pedidosData = {};
 let dishesCache = [];
 let nuevoPedidoItems = [];
-let editItems = []; 
+let editItems = [];
 
 /* ============================================================
    📥 CARGAR PEDIDOS DESDE BACKEND
@@ -106,6 +106,17 @@ function renderPlatillosPorCategoria(categoria) {
     platSelect.innerHTML =
       '<option value="" disabled selected>No hay platillos</option>';
   }
+}
+
+/* 👉 FUNCIÓN FALTANTE: ACTUALIZA PLATILLOS SEGÚN LA CATEGORÍA SELECCIONADA */
+function actualizarPlatillosSegunCategoria() {
+  const categoriaSelect = document.getElementById("npCategoria");
+  if (!categoriaSelect) return;
+
+  const categoria = categoriaSelect.value;
+  if (!categoria) return;
+
+  renderPlatillosPorCategoria(categoria);
 }
 
 function buscarDishSeleccionado() {
@@ -275,6 +286,7 @@ async function crearPedidoDesdeModal() {
     alert("Error de conexión con el servidor.");
   }
 }
+
 /* ============================================================
    🔄 CARGAR DETALLES DE CADA PEDIDO (items + comentarios)
 ============================================================ */
@@ -299,6 +311,10 @@ async function cargarDetallesDeCadaPedido() {
     }
   }
 }
+
+/* ============================================================
+   VALIDACIÓN GLOBAL DE CANTIDAD (INPUT npCantidad)
+============================================================ */
 const qtyInput = document.getElementById("npCantidad");
 
 if (qtyInput) {
@@ -337,6 +353,7 @@ if (qtyInput) {
     if (e.key === "-" || e.key === "e") e.preventDefault();
   });
 }
+
 /* ============================================================
    🔧 INICIALIZACIÓN GLOBAL
 ============================================================ */
@@ -348,7 +365,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("Panel de cocina listo con pedidos reales");
 });
 
-/* Modal "nuevo pedido": listeners */
+/* ============================================================
+   Modal "nuevo pedido": listeners
+============================================================ */
 function inicializarNuevoPedidoModal() {
   const btnAgregar = document.getElementById("btnAgregarPedido");
   const modalClose = document.getElementById("nuevoPedidoClose");
