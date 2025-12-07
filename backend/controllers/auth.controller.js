@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
 import SibApiV3Sdk from "sib-api-v3-sdk";
 
 // Obtener todos los usuarios
