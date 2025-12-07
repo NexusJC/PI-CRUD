@@ -2708,3 +2708,81 @@ color: #111827;
 body.admin-dark .ordenes-container h4 {
 color: #f9fafb;
 }
+/* =========================================
+   🧱 GRID FIJO PARA CATEGORÍA / PLATILLO / CANTIDAD
+========================================= */
+
+.np-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr 0.7fr;
+  gap: 14px;
+  width: 100%;
+  align-items: center;
+}
+
+.np-row select,
+.np-row input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Evita que el texto largo rompa el layout */
+.np-row select {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* =========================================
+   🧾 COMENTARIOS DEL PRODUCTO BIEN FIJOS
+========================================= */
+
+.orden-comentario {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.orden-comentario-texto {
+  font-size: 0.88rem;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+/* =========================================
+   ✅ LISTA DE PRODUCTOS DEL MODAL (ESTABLE)
+========================================= */
+
+#npLista {
+  width: 100%;
+  min-height: 110px;
+  margin-top: 12px;
+}
+
+.np-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+}
+
+/* =========================================
+   ✅ BOTONES CANCELAR / CREAR BIEN SEPARADOS
+========================================= */
+
+.np-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px; /* SEPARACIÓN REAL ENTRE BOTONES */
+  margin-top: 18px;
+}
+
+.np-actions button {
+  min-width: 150px;
+}
