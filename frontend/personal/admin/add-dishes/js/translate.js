@@ -203,6 +203,3 @@ function actualizarTextoBotonIdioma(idiomaActual) {
     );
 }
 });
-
-
-
