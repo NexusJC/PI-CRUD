@@ -58,6 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+    // Nombre del usuario en el sidebar de Turnos
+  const sidebarUserName = document.getElementById("sidebarUserName");
+  const sidebarUserInfo = document.getElementById("sidebarUserInfo");
+
+  if (sidebarUserName && sidebarUserInfo) {
+    sidebarUserName.textContent = "Bienvenido";
+    sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
+  }
+
+
   /* === CERRAR SESIÓN === */
   btnLogout.addEventListener("click", () => {
     if (confirm("¿Cerrar sesión?")) {
