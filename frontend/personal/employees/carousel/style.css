@@ -2589,3 +2589,11 @@ body.admin-body:not(.admin-dark) .modal-nuevo-pedido .modal-content {
   border-color: #ef4444 !important;
   box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
 }
+.modal-nuevo-pedido {
+    max-width: 2000px;
+    background: #111827;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba
+#000000a6
+(0, 0, 0, 0.65);
+}
