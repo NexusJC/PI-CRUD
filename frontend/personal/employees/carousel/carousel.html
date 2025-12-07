@@ -3,108 +3,202 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title data-translate="true">Panel de Cocina · La Parrilla Azteca</title>
+  <title>Panel de Cocina · La Parrilla Azteca</title>
 
-    <link rel="icon" href="/img/logo_1.png" type="image/png">
+  <!-- Favicon -->
+  <link rel="icon" href="/PI-CRUD/frontend/img/logo_1.png" type="image/png">
+
+  <!-- Fuentes e iconos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
- 
-  <link rel="stylesheet" href="/personal/admin/employee-management/style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+        rel="stylesheet" />
+
+  <!-- Estilos base (mismo diseño que add-dishes) -->
+  <link rel="stylesheet"
+        href="/PI-CRUD/frontend/personal/admin/add-dishes/styles.css">
+  <!-- Estilos específicos del panel de cocina -->
   <link rel="stylesheet" href="style.css">
-
- <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
 </head>
-<body>
 
-<!-- SIDEBAR -->
-<div class="menu-dashboard">
+<body class="admin-body">
+  <!-- ============= SIDEBAR (MISMO DISEÑO QUE ADD-DISHES) ============= -->
+  <aside class="menu-dashboard open" id="employeeSidebar">
     <div class="top-menu">
-        <div class="logo">
-            <img src="/img/logo_1.png" alt="Logo">
-            <span>Bienvenido</span>
-        </div>
-        <div class="toggle">
-            <i class='bx bx-menu'></i>
-        </div>
+      <div class="logo">
+        <img src="/PI-CRUD/frontend/img/logo_1.png" alt="Logo">
+        <span>Panel Cocina</span>
+      </div>
+
+      <button class="toggle" id="sidebarToggle" aria-label="Contraer menú">
+        <i class='bx bx-menu'></i>
+      </button>
     </div>
+
     <div class="user-box">
-        <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
+      <img id="sidebarUserImg" class="user-photo"
+           src="/img/userplaceholder.png" alt="Usuario">
 
-        <div class="user-info">
-            <span id="sidebarUserName"></span>
+      <div class="user-info">
+        <span id="sidebarUserName">Empleado</span>
+      </div>
+    </div>
 
-            <button id="logoutBtn" class="logout-btn">
-                <i class='bx bx-log-out'></i> Cerrar sesión
-            </button>
+    <nav class="menu">
+      <span class="menu-label">MENÚ PRINCIPAL</span>
+
+      <!-- Única opción de este panel: carrusel de cocina -->
+      <a class="enlace active" href="carousel.html">
+        <i class="bx bx-time-five"></i>
+        <span>Turnos en cocina</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <!-- Modo oscuro / claro -->
+      <button id="employeeThemeToggle" class="sidebar-theme-toggle">
+        <i class="bx bx-moon"></i>
+        <span>Modo oscuro</span>
+      </button>
+
+      <!-- Traductor dentro del sidebar -->
+      <div class="sidebar-lang-group">
+        <button id="translate-toggle"
+                class="sidebar-lang-toggle translate-btn"
+                type="button"
+                aria-label="Cambiar idioma">
+          <i class="bx bx-globe"></i>
+          <span id="sidebarLangLabel">Idioma</span>
+        </button>
+
+        <ul id="translate-menu"
+            class="sidebar-lang-menu translate-menu"
+            aria-hidden="true"
+            role="menu">
+          <li role="menuitem" data-lang="es">
+            <img
+              src="https://flagcdn.com/w20/es.png"
+              srcset="https://flagcdn.com/w40/es.png 2x"
+              width="20"
+              alt="Español"
+              class="flag-icon">
+            <span data-translate-menu="Español">Español</span>
+          </li>
+          <li role="menuitem" data-lang="en">
+            <img
+              src="https://flagcdn.com/w20/gb.png"
+              srcset="https://flagcdn.com/w40/gb.png 2x"
+              width="20"
+              alt="English"
+              class="flag-icon">
+            <span data-translate-menu="English">English</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Cerrar sesión -->
+      <button id="logoutBtn" class="logout-btn">
+        <i class="bx bx-log-out"></i>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============= CONTENIDO PRINCIPAL (DISEÑO TIPO ADD-DISHES) ============= -->
+  <main class="cocina-main">
+    <!-- Header -->
+    <header class="cocina-header">
+      <div class="cocina-header-text">
+        <h1 data-translate="true">Gestión de pedidos en cocina</h1>
+        <p data-translate="true">
+          Administra los turnos de cocina, revisa los productos del pedido
+          y consulta los comentarios de cada platillo.
+        </p>
+      </div>
+
+      <div class="cocina-header-meta">
+        <div class="cocina-pill">
+          <i class="fa-regular fa-bell"></i>
+          <span data-translate="true">Pedidos en cola:</span>
+          <strong id="totalPedidos">0</strong>
         </div>
-    </div>
-</div>
-  <main class="layout">
-    
-    <section class="carrusel-section">
-      <div class="turnos-carousel" id="turnosCarousel"></div>
+      </div>
+    </header>
+
+    <!-- Card principal -->
+    <section class="cocina-card">
+      <div class="cocina-grid">
+        <!-- Columna izquierda: Carrusel -->
+        <section class="carrusel-section">
+          <h2 class="cocina-section-title" data-translate="true">
+            Turnos en cocina
+          </h2>
+
+          <div class="turnos-carousel" id="turnosCarousel">
+            <!-- Tarjetas de pedidos se llenan desde JS -->
+          </div>
+        </section>
+
+        <!-- Columna derecha: Detalles del pedido + botones -->
+        <section class="panel-inferior">
+          <!-- Panel donde se cargan los detalles del pedido -->
+          <div class="detalles-panel" id="detallesPanel">
+            <!-- Contenido dinámico desde JS -->
+          </div>
+
+          <!-- Panel de acciones (botones se mantienen igual) -->
+          <div class="acciones-panel">
+            <button class="btn btn-cancelar" id="btnCancelar">
+              <i class="fa-solid fa-xmark"></i>
+              <span data-translate="true">Cancelar</span>
+            </button>
+            <button class="btn btn-editar" id="btnEditar">
+              <i class="fa-solid fa-pen"></i>
+              <span data-translate="true">Editar</span>
+            </button>
+            <button class="btn btn-entregar activo" id="btnEntregar">
+              <i class="fa-solid fa-check"></i>
+              <span data-translate="true">Entregar</span>
+            </button>
+          </div>
+        </section>
+      </div>
     </section>
-    <section class="panel-inferior">
-
-    <!-- Panel donde se cargan los detalles del pedido -->
-    <div class="detalles-panel" id="detallesPanel"></div>
-
-    <!-- Panel de acciones -->
-    <div class="acciones-panel">
-        <button class="btn btn-cancelar" id="btnCancelar">
-            <i class="fa-solid fa-xmark"></i> <span data-translate="true">Cancelar</span>
-        </button>
-        <button class="btn btn-editar" id="btnEditar">
-            <i class="fa-solid fa-pen"></i> <span data-translate="true">Editar</span>
-        </button>
-        <button class="btn btn-entregar activo" id="btnEntregar">
-            <i class="fa-solid fa-check"></i> <span data-translate="true">Entregar</span>
-        </button>
-    </div>
-
-</section>
-
-
   </main>
 
+  <!-- ============= MODAL EDICIÓN (SIN EDICIÓN DE COMENTARIOS) ============= -->
   <div class="modal" id="editarModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" data-translate="true">Editar Pedido #<span id="modalPedidoId">401</span></h3>
+        <h3 class="modal-title" data-translate="true">
+          Editar Pedido #<span id="modalPedidoId">0</span>
+        </h3>
         <button class="modal-close" id="modalClose">&times;</button>
       </div>
       <div id="modalBody">
         <!-- Contenido dinámico del modal -->
       </div>
-      <div class="acciones">
-        <button class="btn btn-cancelar" id="cancelarEdicion" data-translate="true">Cancelar</button>
-        <button class="btn btn-guardar" id="guardarCambios" data-translate="true">Guardar Cambios</button>
+      <div class="acciones modal-acciones">
+        <button class="btn btn-cancelar"
+                id="cancelarEdicion"
+                data-translate="true">
+          Cancelar
+        </button>
+        <button class="btn btn-guardar"
+                id="guardarCambios"
+                data-translate="true">
+          Guardar Cambios
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Botón para cambiar idioma -->
-  <div class="language-switcher">
-      <button id="translate-toggle" class="translate-btn" aria-label="Cambiar idioma" title="Cambiar idioma">
-          <span id="translate-flag" class="translate-flag">
-              <img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" width="40" alt="Español">
-          </span>
-      </button>
-
-      <ul id="translate-menu" class="translate-menu" aria-hidden="true" role="menu">
-          <li role="menuitem" data-lang="es">
-              <img src="https://flagcdn.com/w20/es.png" srcset="https://flagcdn.com/w40/es.png 2x" width="20" alt="Español" class="flag-icon">
-              <span data-translate-menu="Español">Español</span>
-          </li>
-          <li role="menuitem" data-lang="en">
-              <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="20" alt="English" class="flag-icon">
-              <span data-translate-menu="English">English</span>
-          </li>
-      </ul>
-  </div>
-
+  <!-- JS principal del carrusel -->
   <script src="../carousel/js/carousel.js"></script>
 </body>
 </html>
