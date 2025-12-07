@@ -14,6 +14,22 @@ function showAlert(message, type = "success") {
     setTimeout(() => alertBox.classList.add("hidden"), 300);
   }, 2500);
 }
+const CLOUD_NAME = "dwwaxrr6r";
+const UPLOAD_PRESET = "unsigned_preset";
+
+async function uploadToCloudinary(file) {
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", UPLOAD_PRESET);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+    method: "POST",
+    body: fd
+  });
+
+  const data = await res.json();
+  return data.secure_url;
+}
 
 const token = localStorage.getItem("token");
 

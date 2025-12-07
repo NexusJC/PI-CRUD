@@ -158,4 +158,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error al generar gráfica de top dishes:", err);
     }
 });
+//  AUTO-REFRESH CADA 2 SEGUNDOS
+setInterval(async () => {
+    const pedidoAnterior = pedidoActivo;
+    await cargarPedidos();
 
+    if (pedidoAnterior && pedidosData[pedidoAnterior]) {
+        seleccionarPedido(pedidoAnterior);
+    }
+}, 2000); 

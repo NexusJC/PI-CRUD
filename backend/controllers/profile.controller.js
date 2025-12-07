@@ -1,15 +1,26 @@
 import { pool } from "../db.js";
 
-export const updateProfilePicture = async (req, res) => {
-  const userId = req.user.id;
-  const imagePath = req.file.filename;
-
+export const updateProfileCloudinary = async (req, res) => {
   try {
-    await pool.query("UPDATE users SET profile_picture = ? WHERE id = ?", [imagePath, userId]);
-    res.json({ message: "Foto de perfil actualizada", image: imagePath });
-  } catch (err) {
-    console.error("Error al subir imagen:", err);
-    res.status(500).json({ message: "Error al guardar imagen" });
+    const userId = req.user.id;
+    const { image_url } = req.body;
+
+    if (!image_url) {
+      return res.status(400).json({ message: "Falta image_url" });
+    }
+
+    await pool.query(
+      "UPDATE users SET image_url = ? WHERE id = ?",
+      [image_url, userId]
+    );
+
+    return res.json({
+      message: "Imagen de perfil actualizada correctamente",
+      image_url
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al actualizar la imagen" });
   }
 };
 

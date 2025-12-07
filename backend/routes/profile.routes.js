@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import { updateProfilePicture } from "../controllers/profile.controller.js";
+import { updateProfileCloudinary } from "../controllers/profile.controller.js";
 import { updateProfile } from "../controllers/profile.controller.js"; 
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { pool } from "../db.js";
@@ -20,7 +20,7 @@ const upload = multer({ storage });
 
 router.put("/update-profile", verifyToken, updateProfile);
 
-router.post("/upload-profile", verifyToken, upload.single("profile"), updateProfilePicture);
+router.put("/update-profile-image", verifyToken, updateProfileCloudinary);
 
 router.get("/get-profile", verifyToken, async (req, res) => {
   const { id } = req.user;
