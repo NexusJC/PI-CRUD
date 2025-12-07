@@ -79,6 +79,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const user  = JSON.parse(localStorage.getItem("user") || "null");
 
+async function ensureAvatarIsLoaded() {
+  let u = JSON.parse(localStorage.getItem("user") || "{}");
+  const sidebarAvatar = document.getElementById("sidebarAvatar");
+
+  // Si ya existe imagen válida → úsala
+  if (u.image_url && sidebarAvatar) {
+    sidebarAvatar.src = u.image_url;
+    return;
+  }
+
+  // Si no hay token, no hacemos nada
+  if (!token) return;
+
+  try {
+    const res = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) return;
+
+    const data = await res.json();
+
+    // Guardar la imagen en localStorage
+    u.image_url = data.image_url;
+    localStorage.setItem("user", JSON.stringify(u));
+
+    // Aplicarla al sidebar
+    if (sidebarAvatar) sidebarAvatar.src = data.image_url;
+
+  } catch (err) {
+    console.warn("Error cargando avatar:", err);
+  }
+}
+
+ensureAvatarIsLoaded();   
+
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
   const usernameText    = document.getElementById("username-text");
