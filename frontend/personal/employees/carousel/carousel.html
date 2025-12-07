@@ -1,12 +1,10 @@
-<!doctype html>
-<html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Panel de Cocina · La Parrilla Azteca</title>
 
-  <!-- Favicon -->
-  <link rel="icon" href="/PI-CRUD/frontend/img/logo_1.png" type="image/png">
+  <!-- Favicon (misma ruta que en add_dishes.html) -->
+  <link rel="icon" href="/img/logo_1.png" type="image/png">
 
   <!-- Fuentes e iconos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,9 +17,10 @@
   <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
         rel="stylesheet" />
 
-  <!-- Estilos base (mismo diseño que add-dishes) -->
-  <link rel="stylesheet"href="/frontend/personal/admin/add-dishes/styles.css">
-  <!-- Estilos específicos del panel de cocina -->
+  <!-- ❗️CSS base del sidebar: IGUAL que en add_dishes.html -->
+  <link rel="stylesheet" href="/personal/admin/employee-management/style.css">
+
+  <!-- CSS específico del carrusel (donde ya pusimos el diseño tipo add-dishes) -->
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -30,7 +29,7 @@
   <aside class="menu-dashboard open" id="employeeSidebar">
     <div class="top-menu">
       <div class="logo">
-        <img src="/PI-CRUD/frontend/img/logo_1.png" alt="Logo">
+       <img src="/img/logo_1.png" alt="Logo">
         <span>Panel Cocina</span>
       </div>
 
@@ -198,6 +197,6 @@
   </div>
 
   <!-- JS principal del carrusel -->
-  <script src="../carousel/js/carousel.js"></script>
+ <script src="./js/carousel.js"></script>
 </body>
 </html>
