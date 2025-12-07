@@ -771,3 +771,4 @@ setInterval(async () => {
     seleccionarPedido(pedidoAnterior);
   }
 }, 2000);
+ 
