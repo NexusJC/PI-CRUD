@@ -3,6 +3,13 @@
 const API_KEY = 'AIzaSyBiGgFnc2QGkD5V51p45TTM9sPLHqUZn58';
 let currentLanguage = 'es'; // Idioma original del sitio: español
 
+// Hacemos disponible el idioma actual al resto de scripts
+if (typeof window !== "undefined") {
+  window.getCurrentLanguage = function () {
+    return currentLanguage;
+  };
+}
+
 // Etiquetas HTML que intentaremos traducir de forma genérica
 const translatableElements = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
@@ -56,8 +63,6 @@ function shouldSkipElement(el) {
   }
 
   // 2) *** PROTEGER COMPLETAMENTE EL PANEL DE ORDEN ***
-  // Nada dentro de #orderDetails se traduce de forma genérica,
-  // para no destruir la estructura de los items del carrito.
   if (el.closest('#orderDetails')) {
     return true;
   }
@@ -92,11 +97,7 @@ function getTranslatableContent() {
     document.querySelectorAll(tag).forEach(el => {
       if (shouldSkipElement(el)) return;
 
-      // No traducir el CONTENIDO de botones que tienen iconos dentro
-      // (open-sidebar-btn, btn-logout, modalAddBtn, themeToggle, etc.)
       if (isIconButton(el)) return;
-
-      // No traducir botones estructurales como las X de cierre
       if (isStructuralButton(el)) return;
 
       const id = `${tag}-${counter++}`;
@@ -117,8 +118,7 @@ function decodeHTMLEntities(text) {
   return textarea.value;
 }
 
-// Cambia SOLO el texto de un botón que tiene icono,
-// sin borrar el <i> o <svg> y sin deformar el botón.
+// Cambia SOLO el texto de un botón que tiene icono
 function setButtonLabelWithIcon(btn, label) {
   if (!btn) return;
   const textNodes = Array.from(btn.childNodes).filter(
@@ -175,7 +175,6 @@ function updateLanguageUI(targetLanguage) {
 
   // -------- Botones con iconos del menú/topbar --------
 
-  // Botón "Ver Orden" / "View Order"
   const openOrderBtn = document.getElementById('open-sidebar-btn');
   if (openOrderBtn) {
     setButtonLabelWithIcon(
@@ -184,7 +183,6 @@ function updateLanguageUI(targetLanguage) {
     );
   }
 
-  // Botón "Cerrar sesión" / "Log out"
   const logoutBtn = document.getElementById('btn-logout');
   if (logoutBtn) {
     setButtonLabelWithIcon(
@@ -193,7 +191,6 @@ function updateLanguageUI(targetLanguage) {
     );
   }
 
-  // Botón del modal "Agregar a la orden" / "Add to order"
   const modalAddBtn = document.getElementById('modalAddBtn');
   if (modalAddBtn) {
     setButtonLabelWithIcon(
@@ -202,7 +199,6 @@ function updateLanguageUI(targetLanguage) {
     );
   }
 
-  // Botón de modo oscuro del sidebar
   const themeToggleBtn = document.getElementById('themeToggle');
   if (themeToggleBtn) {
     const spanText = themeToggleBtn.querySelector('span');
@@ -215,13 +211,11 @@ function updateLanguageUI(targetLanguage) {
   //  PANEL DE ORDEN (#orderDetails) – textos fijos traducidos A MANO
   // =====================================================================
 
-  // Título "Tu orden" / "Your order"
   const orderTitle = document.querySelector('#orderDetails .od-header h2');
   if (orderTitle) {
     orderTitle.textContent = targetLanguage === 'en' ? 'Your order' : 'Su pedido';
   }
 
-  // Mensaje vacío
   const emptyMsgP = document.querySelector('#empty-cart-msg p');
   if (emptyMsgP) {
     emptyMsgP.innerHTML = targetLanguage === 'en'
@@ -229,12 +223,10 @@ function updateLanguageUI(targetLanguage) {
       : 'Tu orden está vacía.<br>Agrega un platillo para comenzar';
   }
 
-  // Labels de Subtotal / Impuestos / Total
   const summaryRows = document.querySelectorAll('#orderDetails .od-summary .row');
   if (summaryRows[0]) {
     const label = summaryRows[0].querySelector('span:first-child');
     if (label) {
-      // En español lo tienes como "Total parcial:"
       label.textContent = targetLanguage === 'en' ? 'Subtotal:' : 'Total parcial:';
     }
   }
@@ -251,7 +243,6 @@ function updateLanguageUI(targetLanguage) {
     }
   }
 
-  // Botón Confirmar pedido / Confirm Order
   const confirmBtn = document.getElementById('confirm-btn');
   if (confirmBtn) {
     confirmBtn.textContent = targetLanguage === 'en'
@@ -259,7 +250,6 @@ function updateLanguageUI(targetLanguage) {
       : 'Confirmar pedido';
   }
 
-  // Botón Imprimir ticket / Print Ticket
   const printBtn = document.getElementById('print-btn');
   if (printBtn) {
     printBtn.textContent = targetLanguage === 'en'
@@ -272,15 +262,9 @@ function updateLanguageUI(targetLanguage) {
 // FUNCIÓN PRINCIPAL DE TRADUCCIÓN (toda la página)
 // =====================================================================
 
-/**
- * Traduce el contenido de la página al idioma indicado.
- * @param {string} targetLanguage - 'en' para inglés, 'es' para español.
- */
 async function translateContent(targetLanguage) {
-  // Si ya estamos en ese idioma, no hacemos nada
   if (currentLanguage === targetLanguage) return;
 
-  // Recolectar elementos traducibles
   const elements = getTranslatableContent();
   const entries = Object.entries(elements);
 
@@ -292,7 +276,6 @@ async function translateContent(targetLanguage) {
     return;
   }
 
-  // Mostrar indicador de carga
   const loadingIndicator = document.createElement('div');
   loadingIndicator.id = 'translation-loading';
   loadingIndicator.style.cssText =
@@ -304,7 +287,7 @@ async function translateContent(targetLanguage) {
   document.body.appendChild(loadingIndicator);
 
   const url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-  const MAX_PER_REQUEST = 90; // evitar el error 400 por exceder el límite de textos
+  const MAX_PER_REQUEST = 90;
 
   try {
     for (let i = 0; i < entries.length; i += MAX_PER_REQUEST) {
@@ -317,7 +300,6 @@ async function translateContent(targetLanguage) {
         body: JSON.stringify({
           q: textsToTranslate,
           target: targetLanguage
-          // Dejamos que Google detecte el idioma origen
         })
       });
 
@@ -340,11 +322,11 @@ async function translateContent(targetLanguage) {
       });
     }
 
-    // Todo OK → actualizamos idioma actual y UI
     currentLanguage = targetLanguage;
     document.documentElement.lang = targetLanguage;
     localStorage.setItem('preferredLanguage', targetLanguage);
     updateLanguageUI(targetLanguage);
+
   } catch (error) {
     console.error('Error al traducir:', error);
     alert('Error al traducir el contenido. Por favor, inténtalo de nuevo más tarde.');
@@ -389,8 +371,10 @@ async function translateElementText(el, targetLanguage) {
   }
 }
 
-// Hacemos accesible la función desde otros archivos (load-dishes.js)
-window.translateElementText = translateElementText;
+// Exponer también la función específica
+if (typeof window !== "undefined") {
+  window.translateElementText = translateElementText;
+}
 
 // =====================================================================
 // FUNCIONES PARA LOS BOTONES / SELECTOR DE IDIOMA
@@ -458,6 +442,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const bandera = document.getElementById('banderaIdioma');
   const savedLanguage = localStorage.getItem('preferredLanguage') || 'es';
 
+  // sincronizamos el idioma actual global
+  currentLanguage = savedLanguage;
+
   if (bandera) {
     bandera.src = savedLanguage === 'en'
       ? 'https://flagcdn.com/w20/gb.png'
@@ -476,5 +463,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sólo traducimos automáticamente si el idioma guardado NO es español
   if (savedLanguage !== 'es') {
     translateContent(savedLanguage);
+  } else {
+    // nos aseguramos de que el lang del documento esté correcto
+    document.documentElement.lang = 'es';
+    updateLanguageUI('es');
   }
 });
