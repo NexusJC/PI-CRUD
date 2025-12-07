@@ -1496,3 +1496,53 @@ body.admin-body.admin-dark {
     margin-left: 230px !important;
   }
 }
+
+/* ===============================
+   APAGAR BRILLO DE TODOS LOS BOTONES
+   (Modo claro y modo oscuro)
+=============================== */
+
+/* Botón Añadir Platillo */
+.btn-add-dish,
+.btn-add-dish:hover {
+  box-shadow: none !important;
+}
+
+/* Botones de acciones */
+.btn-edit,
+.btn-edit:hover,
+.btn-delete,
+.btn-delete:hover,
+.delete-btn,
+.delete-btn:hover {
+  box-shadow: none !important;
+}
+
+/* Botón cerrar sesión */
+.logout-btn,
+.logout-btn:hover {
+  box-shadow: none !important;
+}
+
+/* Botón modo oscuro / claro */
+.sidebar-theme-toggle,
+.sidebar-theme-toggle:hover {
+  box-shadow: none !important;
+}
+
+/* Botón idioma */
+.idioma-btn,
+.idioma-btn:hover {
+  box-shadow: none !important;
+}
+
+/* Quitar brillo al botón 'Añadir Platillo' del sidebar */
+.menu .enlace.active,
+.menu .enlace.active:hover {
+  box-shadow: none !important;
+}
+
+/* Quitar brillo de la foto del usuario en el sidebar */
+.user-photo {
+  box-shadow: none !important;
+}
