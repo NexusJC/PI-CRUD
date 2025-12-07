@@ -163,9 +163,9 @@ function actualizarTextoBotonIdioma(idiomaActual) {
     if (!banderaBtn) return;
 
     if (idiomaActual === "es") {
-        banderaBtn.setAttribute("data-idioma-text", "Inglés");
-    } else {
         banderaBtn.setAttribute("data-idioma-text", "Español");
+    } else {
+        banderaBtn.setAttribute("data-idioma-text", "English");
     }
 }
 
