@@ -2,9 +2,9 @@
    VARIABLES GLOBALES
 ============================================================ */
 let pedidoActivo = null;
-let pedidosData = {}; // se llenará desde el backend
-let dishesCache = [];
-let nuevoPedidoItems = [];
+let pedidosData = {};           // se llena desde el backend
+let dishesCache = [];           // cache de platillos para el modal "nuevo pedido"
+let nuevoPedidoItems = [];      // items que se van agregando al nuevo pedido
 
 /* ============================================================
    📥 CARGAR PEDIDOS DESDE BACKEND
@@ -26,7 +26,7 @@ async function cargarPedidos() {
           estado: p.status,
           createdAt: p.created_at,
           horaPedido: p.created_at.substring(11, 16),
-          horaEstimada: p.created_at.substring(11, 16), // placeholder
+          horaEstimada: p.created_at.substring(11, 16), // de momento lo mismo
           ordenes: []
         };
       });
@@ -43,7 +43,7 @@ async function cargarPedidos() {
 }
 
 /* ============================================================
-   📥 CARGAR PLATILLOS (para nuevo pedido)
+   📥 CARGAR PLATILLOS (para NUEVO PEDIDO)
 ============================================================ */
 async function cargarDishesSiHaceFalta() {
   if (dishesCache.length) return;
@@ -124,6 +124,9 @@ function buscarDishSeleccionado() {
   );
 }
 
+/* ============================================================
+   📝 LISTA DE ITEMS DEL NUEVO PEDIDO
+============================================================ */
 function renderListaNuevoPedido() {
   const cont = document.getElementById("npLista");
   const totalEl = document.getElementById("npTotal");
@@ -176,6 +179,9 @@ function renderListaNuevoPedido() {
   totalEl.textContent = `$${total.toFixed(2)}`;
 }
 
+/* ============================================================
+   🪟 MODAL NUEVO PEDIDO (ABRIR / CERRAR / CREAR)
+============================================================ */
 function abrirModalNuevoPedido() {
   const modal = document.getElementById("nuevoPedidoModal");
   const clienteInput = document.getElementById("npCliente");
@@ -247,7 +253,6 @@ async function crearPedidoDesdeModal() {
 
     cerrarModalNuevoPedido();
 
-    // Recargar pedidos y seleccionar el nuevo
     await cargarPedidos();
     if (data.orderNumber && pedidosData[data.orderNumber]) {
       seleccionarPedido(data.orderNumber);
@@ -259,8 +264,7 @@ async function crearPedidoDesdeModal() {
 }
 
 /* ============================================================
-   🔄 CARGAR DETALLES DE CADA PEDIDO
-   (incluye comentarios por platillo)
+   🔄 CARGAR DETALLES DE CADA PEDIDO (items + comentarios)
 ============================================================ */
 async function cargarDetallesDeCadaPedido() {
   const numeros = Object.keys(pedidosData);
@@ -272,7 +276,6 @@ async function cargarDetallesDeCadaPedido() {
       const res = await fetch(`/api/orders/${idReal}/details`);
       const data = await res.json();
 
-      // Esperamos que el backend devuelva { items: [...] }
       pedidosData[num].ordenes = data.items.map((i) => ({
         nombre: i.dish_name,
         cantidad: Number(i.quantity),
@@ -286,16 +289,17 @@ async function cargarDetallesDeCadaPedido() {
 }
 
 /* ============================================================
-   🔧 INICIALIZACIÓN PRINCIPAL DEL SISTEMA
+   🔧 INICIALIZACIÓN GLOBAL
 ============================================================ */
 document.addEventListener("DOMContentLoaded", async () => {
   await cargarPedidos();
-  inicializarBotones();           // 👉 ahora sí existe
+  inicializarBotones();
   inicializarModal();
   inicializarNuevoPedidoModal();
   console.log("Panel de cocina listo con pedidos reales");
 });
 
+/* Modal "nuevo pedido": listeners */
 function inicializarNuevoPedidoModal() {
   const btnAgregar = document.getElementById("btnAgregarPedido");
   const modalClose = document.getElementById("nuevoPedidoClose");
@@ -411,7 +415,7 @@ function seleccionarPedido(pedidoId) {
 }
 
 /* ============================================================
-   🔘 CONFIGURAR BOTONES
+   🔘 BOTONES PRINCIPALES
 ============================================================ */
 function inicializarBotones() {
   const btnCancelar = document.getElementById("btnCancelar");
@@ -424,7 +428,7 @@ function inicializarBotones() {
 }
 
 /* ============================================================
-   🪟 MODAL (solo cierres, abrir se hace en manejarEditar)
+   🪟 MODAL EDICIÓN (solo cierre / guardar)
 ============================================================ */
 function inicializarModal() {
   const modal = document.getElementById("editarModal");
@@ -453,7 +457,7 @@ function actualizarVista() {
 
   if (!pedido) return;
 
-  // Solo se puede entregar si el pedido está en_proceso
+  // Confirmar entrega solo si está en proceso
   if (pedido.estado === "en_proceso") {
     btnEntregar?.classList.add("activo");
     btnEntregar?.removeAttribute("disabled");
@@ -467,8 +471,7 @@ function actualizarVista() {
 }
 
 /* ============================================================
-   📋 PANEL DE DETALLES DEL PEDIDO
-   (comentarios por cada producto)
+   📋 PANEL DE DETALLES (con comentarios por producto)
 ============================================================ */
 function actualizarDetallesPanel(pedido) {
   const detallesPanel = document.getElementById("detallesPanel");
@@ -526,7 +529,7 @@ function actualizarDetallesPanel(pedido) {
 }
 
 /* ============================================================
-   ⏱ CALCULAR TIEMPO RESTANTE
+   ⏱ TIEMPO RESTANTE
 ============================================================ */
 function calcularTiempoRestante(horaEstimada) {
   const ahora = new Date();
@@ -542,7 +545,7 @@ function calcularTiempoRestante(horaEstimada) {
 }
 
 /* ============================================================
-   🧹 QUITAR PEDIDO DEL CARRUSEL (FRONT)
+   🧹 ELIMINAR PEDIDO DEL CARRUSEL (FRONT)
 ============================================================ */
 function eliminarPedido(pedidoId) {
   const card = document.querySelector(`[data-pedido="${pedidoId}"]`);
@@ -573,7 +576,7 @@ function eliminarPedido(pedidoId) {
 }
 
 /* ============================================================
-   ✅ ENTREGAR PEDIDO (FRONT + BACKEND)
+   ✅ ENTREGAR PEDIDO (BACK + REFRESH)
 ============================================================ */
 async function entregarPedidoBackend(pedidoId) {
   const pedido = pedidosData[pedidoId];
@@ -588,7 +591,6 @@ async function entregarPedidoBackend(pedidoId) {
     if (!res.ok) throw new Error("Error en la respuesta");
 
     alert(`Pedido #${pedidoId} marcado como ENTREGADO.`);
-
     await cargarPedidos();
   } catch (err) {
     console.error(err);
@@ -597,7 +599,7 @@ async function entregarPedidoBackend(pedidoId) {
 }
 
 /* ============================================================
-   🚫 CANCELAR PEDIDO (FRONT + BACKEND)
+   🚫 CANCELAR PEDIDO (BACK + REFRESH)
 ============================================================ */
 async function cancelarPedidoBackend(pedidoId) {
   const pedido = pedidosData[pedidoId];
@@ -614,7 +616,6 @@ async function cancelarPedidoBackend(pedidoId) {
     if (!res.ok) throw new Error("Error en la respuesta");
 
     alert(`Pedido #${pedidoId} ha sido CANCELADO.`);
-
     await cargarPedidos();
   } catch (err) {
     console.error(err);
@@ -634,7 +635,7 @@ function actualizarPrecioCarrusel(pedidoId, nuevoTotal) {
 }
 
 /* ============================================================
-   MANEJADORES DE BOTONES SUPERIORES
+   HANDLERS SIMPLES PARA LOS BOTONES
 ============================================================ */
 function manejarCancelar() {
   if (!pedidoActivo) return;
@@ -661,7 +662,6 @@ function manejarEditar() {
 
   modalId.textContent = pedidoActivo;
 
-  // Construimos contenido del modal (solo comentarios)
   modalBody.innerHTML = `
     <div class="menu-items">
       ${pedido.ordenes
@@ -733,13 +733,11 @@ async function guardarCambiosEdicion() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         items: nuevosItems
-        // aquí podrías agregar un campo "comments" extra si tu backend lo maneja
       })
     });
 
     if (!res.ok) throw new Error("Error al guardar cambios");
 
-    // Actualizar datos en memoria (solo comentarios + total)
     pedidosData[pedidoActivo].ordenes = nuevosItems.map((it) => ({
       nombre: it.nombre,
       cantidad: it.cantidad,
@@ -748,7 +746,6 @@ async function guardarCambiosEdicion() {
     }));
     pedidosData[pedidoActivo].total = nuevoTotal;
 
-    // Refrescar UI
     actualizarVista();
     renderizarCarrusel();
 
@@ -759,16 +756,3 @@ async function guardarCambiosEdicion() {
     alert("No se pudo actualizar el pedido.");
   }
 }
-
-/* ============================================================
-   AUTO-REFRESH CADA 2 SEGUNDOS
-============================================================ */
-setInterval(async () => {
-  const pedidoAnterior = pedidoActivo;
-  await cargarPedidos();
-
-  if (pedidoAnterior && pedidosData[pedidoAnterior]) {
-    seleccionarPedido(pedidoAnterior);
-  }
-}, 2000);
- 
