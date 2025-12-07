@@ -1755,3 +1755,317 @@ body.admin-dark {
 .admin-dark .item-comment-input:focus {
   box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.35);
 }
+/* ============================================================
+   V3 – TURNOS + CARDS DE PRODUCTOS MÁS MODERNOS
+   (colores más neutros y coherentes con el panel)
+   ============================================================ */
+
+/* ---------- TURNOS DEL CARRUSEL ---------- */
+
+/* MODO CLARO: tarjetas limpias, sin tanto naranja "crema" */
+body:not(.admin-dark) .turno-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+}
+
+body:not(.admin-dark) .turno-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  border-radius: 18px 18px 0 0;
+  background: linear-gradient(90deg, #f97316, #fb923c);
+  opacity: 0.95;
+}
+
+body:not(.admin-dark) .turno-card.activo {
+  background: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+  border-color: #f97316;
+  box-shadow: 0 16px 40px rgba(79, 70, 229, 0.25);
+}
+
+body:not(.admin-dark) .turno-header h3 {
+  color: #111827;
+}
+
+body:not(.admin-dark) .cliente {
+  color: #4b5563;
+}
+
+/* MODO OSCURO: tarjetas tipo widget, más coherentes con el fondo */
+body.admin-dark .turno-card {
+  background: radial-gradient(circle at top left, #0b1220 0%, #020617 60%);
+  border-radius: 18px;
+  border: 1px solid #1f2937;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+}
+
+body.admin-dark .turno-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  border-radius: 18px 18px 0 0;
+  /* degradado más “dashboard”: naranja → violeta */
+  background: linear-gradient(90deg, #f97316, #6366f1);
+  opacity: 1;
+}
+
+body.admin-dark .turno-card.activo {
+  background: radial-gradient(circle at top left, #111827 0%, #020617 55%);
+  border-color: #f97316;
+  box-shadow: 0 22px 55px rgba(248, 113, 113, 0.55);
+}
+
+body.admin-dark .turno-header h3 {
+  color: #f9fafb;
+}
+
+body.admin-dark .cliente {
+  color: #9ca3af;
+}
+
+/* En ambos modos, texto interno más sobrio */
+.turno-header h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.costo {
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.cliente {
+  margin-bottom: 0.55rem;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+/* Estado tipo “badge” */
+.estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}
+
+/* Paleta un poco más suave */
+.estado-pendiente {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  color: #ffffff;
+}
+
+.estado-en_proceso {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  color: #ffffff;
+}
+
+.estado-entregado {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #064e3b;
+}
+
+.estado-cancelado {
+  background: linear-gradient(135deg, #f97373, #ef4444);
+  color: #ffffff;
+}
+
+/* ---------- PANEL DE PRODUCTOS (ÓRDENES) ---------- */
+
+/* Card principal de detalles: más limpia en claro y más “glass” en oscuro */
+body:not(.admin-dark) .detalles-panel {
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 40%, #fef5ef 100%);
+}
+
+body.admin-dark .detalles-panel {
+  background: radial-gradient(circle at top left, #020617 0%, #020617 60%, #020617 100%);
+  border-color: #111827;
+}
+
+/* HEADER del pedido (título + total) */
+.detalles-header h3 {
+  font-size: 1.18rem;
+  font-weight: 800;
+}
+
+body.admin-dark .detalles-header h3 {
+  color: #f97316;
+}
+
+/* ---------- CARD DE CADA PRODUCTO ---------- */
+
+.orden-item {
+  position: relative;
+  border-radius: 16px;
+  padding: 0.9rem 1rem 0.85rem 1.1rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 70%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  overflow: hidden;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease,
+    background 0.16s ease;
+}
+
+/* Lateral de color tipo “timeline” */
+.orden-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f97316, #6366f1);
+  opacity: 0.9;
+}
+
+/* Hover */
+.orden-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(148, 163, 184, 0.45);
+  border-color: rgba(129, 140, 248, 0.85);
+  background: linear-gradient(135deg, #ffffff 0%, #eef2ff 80%);
+}
+
+/* Oscuro: glass card sobre el fondo */
+body.admin-dark .orden-item {
+  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.94) 0%, rgba(15, 23, 42, 0.96) 60%);
+  border-color: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.9);
+}
+
+body.admin-dark .orden-item:hover {
+  background: radial-gradient(circle at top left, #020617 0%, #020617 60%);
+  border-color: #4b5563;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 1);
+}
+
+/* header dentro de cada producto */
+.orden-item-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto auto;
+  align-items: center;
+  column-gap: 0.75rem;
+}
+
+.orden-nombre {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+body.admin-dark .orden-nombre {
+  color: #e5e7eb;
+}
+
+/* Cantidad: pill circular naranja */
+.orden-cantidad {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Precio: etiqueta verde a la derecha */
+.orden-precio {
+  min-width: 80px;
+  text-align: right;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+body.admin-dark .orden-precio {
+  color: #4ade80;
+}
+
+/* Comentarios del cliente: bloque sutil debajo */
+.orden-comentario {
+  margin-top: 0.25rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed rgba(209, 213, 219, 0.85);
+}
+
+body.admin-dark .orden-comentario {
+  border-top-color: rgba(55, 65, 81, 0.9);
+}
+
+.orden-comentario-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+body.admin-dark .orden-comentario-label {
+  color: #6b7280;
+}
+
+.orden-comentario-texto {
+  margin: 0.1rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-style: italic;
+  color: #4b5563;
+}
+
+body.admin-dark .orden-comentario-texto {
+  color: #e5e7eb;
+}
+
+/* ---------- INFO ADICIONAL (horas / tiempo restante) ---------- */
+
+.info-item {
+  font-size: 0.9rem;
+}
+
+.info-item strong {
+  font-weight: 600;
+}
+
+body.admin-dark .info-item strong {
+  color: #e5e7eb;
+}
+
+.tiempo-restante {
+  font-weight: 700;
+  color: #ef4444;
+}
+
+body.admin-dark .tiempo-restante {
+  color: #f97373;
+}
+
+/* Pequeño ajuste responsive para que el header de producto no se rompa */
+@media (max-width: 640px) {
+  .orden-item-main {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.35rem;
+    justify-items: flex-start;
+  }
+
+  .orden-precio {
+    text-align: left;
+  }
+}
