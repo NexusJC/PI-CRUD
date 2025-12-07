@@ -53,11 +53,25 @@ async function cargarPedidos() {
     console.error("Error cargando pedidos:", err);
     alert("No se pudieron cargar los pedidos.");
   }
-  // ⏳ Auto-Refresh de pedidos cada 5 segundos
-setInterval(() => {
-    console.log("🔄 Auto-refrescar pedidos…");
-    cargarPedidos(); // Llama nuevamente tu función
-}, 3000); // Puedes cambiar 5000 por 3000 si quieres que sea cada 3s
+  // Evita llamadas duplicadas mientras el servidor responde
+let cargando = false;
+
+async function actualizarPedidos() {
+    if (cargando) return; // ⛔ evita sobrecarga y loops infinitos
+    cargando = true;
+
+    try {
+        await cargarPedidos(); // 🔄 vuelve a pedir los pedidos
+    } catch (err) {
+        console.warn("⚠ Error actualizando pedidos:", err);
+        // NO alert aquí, nunca.
+    } finally {
+        cargando = false;
+    }
+}
+
+// Auto-refresh cada 5 segundos
+setInterval(actualizarPedidos, 5000);
 
 }
 
