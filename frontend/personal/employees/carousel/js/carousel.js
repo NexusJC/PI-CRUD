@@ -604,58 +604,58 @@ function setupSidebarDashboard() {
   });
 }
 
-// /* ============================================================
-//    🔐 VALIDACIÓN DE LOGIN + LOGOUT (EMPLEADOS)
-// ============================================================ */
-// function findLoginPath() {
-//   const paths = [
-//     "../../login/login.html",
-//     "../../../login/login.html",
-//     "../../../../login/login.html",
-//     "/frontend/login/login.html",
-//     "/login/login.html",
-//   ];
+/* ============================================================
+   🔐 VALIDACIÓN DE LOGIN + LOGOUT (EMPLEADOS)
+============================================================ */
+function findLoginPath() {
+  const paths = [
+    "../../login/login.html",
+    "../../../login/login.html",
+    "../../../../login/login.html",
+    "/frontend/login/login.html",
+    "/login/login.html",
+  ];
 
-//   for (let path of paths) {
-//     const xhr = new XMLHttpRequest();
-//     xhr.open("HEAD", path, false);
+  for (let path of paths) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("HEAD", path, false);
 
-//     try {
-//       xhr.send();
-//       if (xhr.status !== 404) return path;
-//     } catch (_) {}
-//   }
+    try {
+      xhr.send();
+      if (xhr.status !== 404) return path;
+    } catch (_) {}
+  }
 
-//   return "/login/login.html";
-// }
+  return "/login/login.html";
+}
 
-// function initEmployeeAuth() {
-//   const loginUrl = findLoginPath();
-//   const logoutBtn = document.getElementById("logoutBtn");
-//   const sidebarUserName = document.getElementById("sidebarUserName");
-//   const sidebarUserImg = document.getElementById("sidebarUserImg");
-//   const user = JSON.parse(localStorage.getItem("user"));
-//   const token = localStorage.getItem("token");
+function initEmployeeAuth() {
+  const loginUrl = findLoginPath();
+  const logoutBtn = document.getElementById("logoutBtn");
+  const sidebarUserName = document.getElementById("sidebarUserName");
+  const sidebarUserImg = document.getElementById("sidebarUserImg");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
 
-//   if (!token || !user || user.role !== "empleado") {
-//     window.location.href = loginUrl;
-//     return;
-//   }
+  if (!token || !user || user.role !== "empleado") {
+    window.location.href = loginUrl;
+    return;
+  }
 
-//   if (user && sidebarUserName) {
-//     sidebarUserName.textContent = user.name || "Empleado";
-//     if (user.profile_picture) {
-//       sidebarUserImg.src = "/uploads/" + user.profile_picture;
-//     }
-//   }
+  if (user && sidebarUserName) {
+    sidebarUserName.textContent = user.name || "Empleado";
+    if (user.profile_picture) {
+      sidebarUserImg.src = "/uploads/" + user.profile_picture;
+    }
+  }
 
-//   logoutBtn?.addEventListener("click", () => {
-//     if (confirm("¿Seguro que quieres cerrar sesión?")) {
-//       localStorage.clear();
-//       window.location.href = loginUrl;
-//     }
-//   });
-// }
+  logoutBtn?.addEventListener("click", () => {
+    if (confirm("¿Seguro que quieres cerrar sesión?")) {
+      localStorage.clear();
+      window.location.href = loginUrl;
+    }
+  });
+}
 
 /* ============================================================
    🎨 MODO OSCURO / CLARO (EMPLEADOS)
