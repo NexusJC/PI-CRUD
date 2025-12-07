@@ -2591,9 +2591,7 @@ body.admin-body:not(.admin-dark) .modal-nuevo-pedido .modal-content {
 }
 .modal-nuevo-pedido {
     max-width: 2000px;
-    background: #111827;
+    background: #11182794;
     border-radius: 18px;
-    box-shadow: 0 24px 60px rgba
-#000000a6
-(0, 0, 0, 0.65);
+    box-shadow: 0 24px 60px rgba #000000a6 (0, 0, 0, 0.65);
 }
