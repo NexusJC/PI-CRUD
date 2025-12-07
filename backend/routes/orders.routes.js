@@ -1,5 +1,5 @@
 import express from "express";
-import {createOrder,getOrders,getOrderDetails,deliverOrder,cancelOrder,updateOrder} from "../controllers/orders.controller.js";
+import {createOrder,getOrders,getOrderDetails,deliverOrder,cancelOrder,updateOrder, getAllOrders } from "../controllers/orders.controller.js";
 import { authRequired } from "../middlewares/authRequired.js";
 const router = express.Router();
 
@@ -22,5 +22,7 @@ router.put("/:id/cancel", cancelOrder);
 router.put("/:id/edit", updateOrder);
 
 router.post("/create", authRequired, createOrder);
+
+router.get("/all", getAllOrders);
 
 export default router;

@@ -254,3 +254,17 @@ export const updateOrder = async (req, res) => {
     res.status(500).json({ error: "Error actualizando el pedido" });
   }
 };
+export const getAllOrders = async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT id, order_number, customer_name, total, status, caja_id, created_at
+       FROM orders
+       ORDER BY order_number ASC`
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.log("ERROR getAllOrders:", error);
+    res.status(500).json({ error: "Error obteniendo todos los pedidos" });
+  }
+};
