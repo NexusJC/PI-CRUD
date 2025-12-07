@@ -6,19 +6,32 @@ export const createOrder = async (req, res) => {
     const userId = req.user?.id || null;
 
     // 🔥 1. Obtener cajas ACTIVAS
+    // Obtener todas las cajas activas
     const [cajas] = await pool.query(
-      "SELECT id FROM cajas WHERE estado = 'activa'"
+      "SELECT id FROM cajas WHERE estado = 'activa' ORDER BY id ASC"
     );
 
     if (cajas.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No hay cajas activas para asignar el pedido."
-      });
+      return res.status(400).json({ message: "No hay cajas activas disponibles" });
     }
 
-    // 🔥 2. Elegir una caja al azar (temporal)
-    const cajaAleatoria = cajas[Math.floor(Math.random() * cajas.length)].id;
+    // Recuperar la última caja usada
+    const [cfg] = await pool.query("SELECT last_caja_id FROM config WHERE id = 1");
+    let lastCaja = cfg[0].last_caja_id;
+
+    // Encontrar la siguiente caja en secuencia
+    let nextIndex = 0;
+
+    if (lastCaja !== null) {
+      const pos = cajas.findIndex(c => c.id === lastCaja);
+      nextIndex = (pos + 1) % cajas.length;
+    }
+
+    const cajaAsignada = cajas[nextIndex].id;
+
+// Guardar la nueva última caja
+await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignada]);
+
 
     // 🔥 3. Obtener último número de orden
     const [last] = await pool.query(
@@ -28,11 +41,12 @@ export const createOrder = async (req, res) => {
     const nextOrder = last.length ? last[0].order_number + 1 : 1;
 
     // 🔥 4. Crear encabezado de la orden **YA CON caja_id**
-    const [orderResult] = await pool.query(
-      `INSERT INTO orders (order_number, customer_name, total, user_id, caja_id)
-       VALUES (?, ?, ?, ?, ?)`,
-      [nextOrder, customerName || "Cliente", total, userId, cajaAleatoria]
+     const [orderResult] = await pool.query(
+        `INSERT INTO orders (order_number, customer_name, total, user_id, caja_id)
+      VALUES (?, ?, ?, ?, ?)`,
+      [nextOrder, customerName || "Cliente", total, userId, cajaAsignada] // ✔ CORRECTO
     );
+
 
     const orderId = orderResult.insertId;
 
