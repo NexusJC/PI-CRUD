@@ -1604,3 +1604,28 @@ body:not(.admin-dark) .tarjeta-caja {
     0 18px 40px rgba(15, 23, 42, 0.12),
     inset 0 0 0 1px rgba(255, 255, 255, 0.9);
 }
+.btn-agregar-caja {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, #ff7a2f, #ff9b4b);
+  color: #fff;
+
+  /* ✅ Sombra suave limpia (sin negro fuerte) */
+  box-shadow: 0 6px 16px rgba(255, 122, 47, 0.35);
+
+  transition: transform 0.16s ease, box-shadow 0.16s ease,
+    filter 0.16s ease;
+}
+.btn-agregar-caja:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 8px 18px rgba(255, 122, 47, 0.45);
+}
