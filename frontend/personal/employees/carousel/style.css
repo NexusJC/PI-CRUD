@@ -2611,3 +2611,12 @@ ease, box-shadow 0.15s
 ease, filter 0.15s 
 ease;
 }
+transitions style {
+
+box-shadow: rgba(243, 190, 31, 0.408) 0px 9.15282px 20.3056px 0px;
+
+filter: brightness (1.02882);
+
+transform: translateY(-0.576409px);
+
+}
