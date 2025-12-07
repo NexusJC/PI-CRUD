@@ -29,7 +29,7 @@ app.use(
     contentSecurityPolicy: false,
   })
 );
-
+//sahid se fue de viaje y de parranda
 app.use("/api/auth", authRouter);
 app.use("/api/profile", profileRoutes);
 app.use("/api/dishes", dishesRoutes);
