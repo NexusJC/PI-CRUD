@@ -1,656 +1,490 @@
-/* FONTS GOOGLE */
-@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+/* ==========================================================
+   GESTIÓN DE CAJAS – ESTILOS ESPECÍFICOS
+   (El layout general y el sidebar vienen de ../add-dishes/styles.css)
+   ========================================================== */
 
-/* VARIABLES */
-:root {
-  --blanco: #2b2b2b;
-  --azul-opacidad: #f0d4c0;
-  --bg-menu: #fff7ea;
-  --bg-body: #fff7ea;
-  --naranja: #e36842;
-  --naranja-oscuro: #cf542b;
-  --bg-main: #f5f0e9;
+/* ------------------------------
+   CONTENEDOR PRINCIPAL
+------------------------------ */
+
+.gestion-cajas-main {
+  flex: 1;
+  padding: 2.4rem 3rem 2.4rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* GENERALES */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* En pantallas pequeñas el contenido respeta bien los márgenes */
+@media (max-width: 992px) {
+  .gestion-cajas-main {
+    padding: 1.6rem 1.6rem 2rem 0;
+  }
 }
 
-body {
-  font-family: 'Poppins', system-ui, Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-  background: var(--bg-main);
+/* ------------------------------
+   CABECERA (título)
+------------------------------ */
+
+.gestion-cajas-header {
+  margin-bottom: 1.6rem;
 }
 
-/* SIDEBAR */
-.menu-dashboard {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 250px;
-  max-width: 250px;
-  height: 100vh;
-  background: linear-gradient(180deg, #fff7ea 0%, #fde3ca 100%);
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
-  padding: 20px;
-  transition: transform 0.35s ease;
-  z-index: 10;
-}
-
-.top-menu {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.top-menu .logo {
-  display: flex;
-  align-items: center;
-}
-
-.top-menu .logo img {
-  width: 40px;
-  transition: width .3s ease;
-}
-
-.top-menu .logo span {
-  font-size: 20px;
-  margin-left: 20px;
-  display: none;
-}
-
-.top-menu .toggle {
-  width: 30px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.top-menu .toggle i {
-  font-size: 35px;
-}
-
-/* INPUT BOX */
-.input-search {
-  width: 100%;
-  margin: 40px 0 30px;
-  background-color: var(--azul-opacidad);
-  padding: 12px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-}
-
-.input-search i {
-  font-size: 24px;
-  margin-right: 12px;
-}
-
-.input-search .input {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  width: 100%;
-  height: 30px;
-  color: var(--blanco);
-  font-size: 16px;
-  display: none;
-}
-
-/* ENLACES MENU */
-.menu .enlace {
-  width: 100%;
-  padding: 16px 0 16px 17px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all .3s ease;
-}
-
-.menu .enlace:hover {
-  background: var(--azul-opacidad);
-}
-
-.menu .enlace i {
-  margin-right: 16px;
-  font-size: 22px;
-}
-
-.menu .enlace span {
-  opacity: 0;
-  transition: opacity .3s ease;
-}
-
-/* Enlace activo en el sidebar */
-.menu .enlace.activo {
-  background: var(--azul-opacidad);
-}
-
-/* ESTADO SIDEBAR OPEN */
-.menu-dashboard.open .top-menu .logo span {
-  display: block;
-}
-
-.menu-dashboard.open .input-search .input {
-  display: block;
-}
-
-.menu-dashboard.open .menu .enlace {
-  padding: 16px;
-}
-
-.menu-dashboard.open .menu .enlace span {
-  opacity: 1;
-}
-
-/* SECCIÓN PRINCIPAL */
-.seccion-trabajadores-card {
-  position: relative;
-  margin-left: 250px;
-  width: calc(100% - 250px);
-  height: 100vh;
-  background: var(--bg-main);
-  overflow-y: auto;
-  padding: 32px 48px;
-  box-sizing: border-box;
-  transition: transform 0.35s ease, margin-left 0.35s ease;
-}
-
-.menu-dashboard.open ~ .seccion-trabajadores-card {
-  transform: translateX(60px);
-}
-
-.titulo-empleados {
-  text-align: left;
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
-  font-size: 24px;
-  color: #3b2d25;
-  margin-bottom: 18px;
-}
-
-/* TOOLBAR */
-.empleados-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-
-.filtro-estado {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.filtro-estado label {
-  color: #5b4a3f;
-  font-weight: 600;
-}
-
-.filtro-estado select {
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #d3c2b4;
-  background: #fff;
-  font-size: 14px;
-}
-
-/* BOTONES GENERALES */
-.btn-primario,
-.btn-secundario,
-.btn-peligro {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: filter .2s ease, transform .04s ease;
-}
-
-.btn-primario {
-  background: var(--naranja);
-  color: #fff;
-}
-
-.btn-primario:hover { filter: brightness(.95); }
-.btn-primario:active { transform: scale(.98); }
-
-.btn-secundario {
-  background: #fff;
-  color: #5b4a3f;
-  border: 1px solid #dcc9b7;
-}
-
-.btn-secundario:hover { filter: brightness(0.97); }
-.btn-secundario:active { transform: scale(.98); }
-
-.btn-peligro {
-  background: #c0392b;
-  color: #fff;
-}
-
-.btn-peligro:hover { filter: brightness(.95); }
-.btn-peligro:active { transform: scale(.98); }
-
-.oculto {
-  display: none !important;
-}
-
-/* WRAP GENERAL */
-.tabla-wrap {
-  overflow-x: auto;
-}
-
-.tabla-wrap-empleados {
-  margin-top: 8px;
-  max-height: calc(100vh - 140px);
-  overflow-y: auto;
-}
-
-/* TABLAS (no se usan aquí pero se mantiene para consistencia con empleados) */
-.tabla-login-like {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-}
-
-.tabla-login-like thead th {
-  background: var(--naranja);
-  color: #fff;
+.gestion-cajas-header h1 {
+  font-size: 1.8rem;
   font-weight: 700;
-  padding: 12px 10px;
-  text-align: left;
-  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: var(--admin-text-main-dark);
 }
 
-.tabla-login-like td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #f0e3d8;
-  vertical-align: middle;
-  font-size: 14px;
+.admin-body.admin-light .gestion-cajas-header h1 {
+  color: var(--admin-text-main-light);
 }
 
-.tabla-login-like tbody tr:hover {
-  background: #fff4eb;
-  transition: background 0.2s ease;
-}
+/* ------------------------------
+   BARRA DE FILTRO (Estado + botón "Agregar caja")
+   Estética similar a la cabecera de tabla de platillos
+------------------------------ */
 
-/* ESTADO GENERAL (empleados) */
-.estado-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: #fdf5f1;
-}
-
-.bolita {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.bolita-verde {
-  background: #27ae60;
-}
-
-.bolita-roja {
-  background: #c0392b;
-}
-
-.estado-activo {
-  color: #27ae60;
-  font-weight: 600;
-}
-
-.estado-inactivo {
-  color: #c0392b;
-  font-weight: 600;
-}
-
-/* OVERLAY MODAL EMPLEADO/CAJA */
-.overlay-empleado {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 40;
-}
-
-/* MODAL */
-.modal-empleado {
-  position: fixed;
-  inset: 0;
+.toolbar-cajas {
   display: flex;
   align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  z-index: 50;
+  justify-content: space-between;
+  gap: 1.2rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: 18px;
+  border: 1px solid var(--admin-border-soft-dark);
+  background: radial-gradient(circle at top left,
+      rgba(255, 122, 47, 0.18) 0,
+      transparent 60%)
+    ,
+    var(--admin-surface-dark);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
-.modal-empleado__content {
-  width: min(520px, 100% - 32px);
-  background: #fffaf4;
-  border-radius: 20px;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
-  transform: translateY(10px) scale(0.97);
-  transition: transform 0.25s ease;
+.admin-body.admin-light .toolbar-cajas {
+  border-color: var(--admin-border-soft-light);
+  background:
+    radial-gradient(circle at top left,
+      rgba(255, 122, 47, 0.13) 0,
+      transparent 55%)
+    ,
+    var(--admin-surface-light);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.toolbar-cajas-izq {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.toolbar-cajas-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--admin-text-soft-dark);
+}
+
+.admin-body.admin-light .toolbar-cajas-label {
+  color: var(--admin-text-soft-light);
+}
+
+/* Select de estado */
+
+.filtro-estado-select {
+  min-width: 170px;
+  padding: 0.5rem 2rem 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--admin-border-soft-dark);
+  background-color: rgba(8, 11, 26, 0.9);
+  color: var(--admin-text-main-dark);
+  font-size: 0.87rem;
+  font-weight: 500;
+  outline: none;
+  appearance: none;
+  position: relative;
+}
+
+.admin-body.admin-light .filtro-estado-select {
+  background-color: #fffdf8;
+  border-color: var(--admin-border-soft-light);
+  color: var(--admin-text-main-light);
+}
+
+/* Botón "Agregar caja" (mismo estilo que botones naranjas grandes) */
+
+.btn-agregar-caja {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fffdf7;
+  background: radial-gradient(circle at 10% -20%,
+      #ffe1c5 0,
+      transparent 55%),
+    linear-gradient(135deg, #ff9b4a, #ff7a2f);
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.btn-agregar-caja i {
+  font-size: 1.05rem;
+}
+
+.btn-agregar-caja:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+.btn-agregar-caja:active {
+  transform: translateY(0);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+/* ------------------------------
+   GRID DE TARJETAS DE CAJAS
+   (Las tarjetas se alinean parecido a los renglones de platillos)
+------------------------------ */
+
+.contenedor-cajas {
+  margin-top: 2rem;
+}
+
+/* En desktop: tarjetas en fila tipo grid */
+.cajas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
+  gap: 1.6rem;
+}
+
+/* En pantallas pequeñas: una columna */
+@media (max-width: 768px) {
+  .cajas-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Tarjeta individual */
+
+.tarjeta-caja {
+  border-radius: 22px;
+  padding: 1.1rem 1.2rem 1rem;
+  background: radial-gradient(circle at top,
+      rgba(255, 122, 47, 0.15) 0,
+      transparent 55%),
+    #0b1020;
+  border: 1px solid var(--admin-border-soft-dark);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
   display: flex;
   flex-direction: column;
-  max-height: 90vh;
+  gap: 0.6rem;
 }
 
-/* Mostrar modal y overlay */
-.overlay-empleado.activa {
-  opacity: 1;
-  pointer-events: auto;
+.admin-body.admin-light .tarjeta-caja {
+  background:
+    radial-gradient(circle at top,
+      rgba(255, 188, 118, 0.28) 0,
+      transparent 60%),
+    #ffffff;
+  border-color: var(--admin-border-soft-light);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.85);
 }
 
-.modal-empleado.activa {
-  opacity: 1;
-  pointer-events: auto;
-}
+/* Cabecera de tarjeta (icono + nombre) */
 
-.modal-empleado.activa .modal-empleado__content {
-  transform: translateY(0) scale(1);
-}
-
-/* HEADER MODAL */
-.modal-empleado__header {
+.tarjeta-caja__header {
   display: flex;
   align-items: center;
-  padding: 14px 18px 10px;
-  border-bottom: 1px solid #f1ddc6;
-  gap: 10px;
+  justify-content: space-between;
 }
 
-.modal-logo-placeholder {
+.tarjeta-caja__left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.tarjeta-caja__icono {
   width: 40px;
   height: 40px;
-  border-radius: 12px;
-  background: #ffe1c8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  color: #b36435;
-}
-
-.modal-title-group h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #3b2d25;
-}
-
-.modal-subtitle {
-  font-size: 12px;
-  color: #927767;
-}
-
-.modal-cerrar {
-  margin-left: auto;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #7a5a46;
-  line-height: 1;
-}
-
-/* FORM MODAL */
-.modal-empleado__form {
-  padding: 14px 18px 14px;
-  overflow-y: auto;
-}
-
-.form-row {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.modal-empleado__form label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #6b5242;
-}
-
-.modal-empleado__form input[type="text"],
-.modal-empleado__form input[type="number"],
-.modal-empleado__form input[type="date"],
-.modal-empleado__form input[type="url"],
-.modal-empleado__form select {
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1px solid #decab6;
-  background: #fff;
-  font-size: 14px;
-  color: #3b2d25;
-}
-
-.modal-empleado__form input:focus,
-.modal-empleado__form select:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.25);
-}
-
-/* FOOTER MODAL */
-.modal-empleado__footer {
-  padding: 10px 18px 14px;
-  border-top: 1px solid #f1ddc6;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.modal-footer-left,
-.modal-footer-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* ANIMACIONES */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* TEL INPUT (heredado de empleados) */
-.form-row input[type="tel"] {
-  padding: 8px 12px;
-  border: 1px solid #decab6;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 14px;
-  color: #3b2d25;
-  transition: box-shadow .2s ease, border .2s ease;
-}
-
-.form-row input[type="tel"]:focus {
-  outline: none;
-  border-color: var(--naranja);
-  box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.2);
-}
-
-.form-row input[type="tel"]::placeholder {
-  color: #b59f8f;
-}
-
-input[type="tel"].valid {
-  border-color: #27ae60 !important;
-  box-shadow: 0 0 0 2px rgba(39, 174, 96, .25) !important;
-}
-
-input[type="tel"].invalid {
-  border-color: #c0392b !important;
-  box-shadow: 0 0 0 2px rgba(192, 57, 43, .25) !important;
-}
-
-/* =======================
-   SECCIÓN CAJAS
-======================= */
-
-/* Scroll horizontal de tarjetas */
-.scroll-cajas {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 12px 6px 16px;
-}
-
-.scroll-cajas::-webkit-scrollbar {
-  height: 8px;
-}
-
-.scroll-cajas::-webkit-scrollbar-thumb {
-  background: var(--naranja);
-  border-radius: 10px;
-}
-
-/* Tarjeta individual de caja */
-.tarjeta-caja {
-  min-width: 190px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px 16px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.tarjeta-caja:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-}
-
-.icono-caja {
-  font-size: 38px;
-  color: var(--naranja);
-}
-
-.caja-nombre {
-  margin-top: 10px;
-  font-size: 17px;
-  font-weight: 700;
-  color: #3b2d25;
-}
-
-.empleado-asignado {
-  margin-top: 8px;
-  font-size: 13px;
-  padding: 6px 8px;
-  border-radius: 8px;
-  background: #fde3ca;
-  color: #5b3c2a;
-}
-
-/* Estado de la caja */
-.caja-estado {
-  margin-top: 10px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 12px;
+  background: rgba(255, 122, 47, 0.18);
+  color: #ffb27b;
+  font-size: 1.4rem;
+}
+
+.admin-body.admin-light .tarjeta-caja__icono {
+  background: rgba(255, 122, 47, 0.14);
+  color: #ff7a2f;
+}
+
+.tarjeta-caja__nombre {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.tarjeta-caja__nombre h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--admin-text-main-dark);
+}
+
+.admin-body.admin-light .tarjeta-caja__nombre h3 {
+  color: var(--admin-text-main-light);
+}
+
+.tarjeta-caja__nombre span {
+  font-size: 0.82rem;
+  color: var(--admin-text-soft-dark);
+}
+
+.admin-body.admin-light .tarjeta-caja__nombre span {
+  color: var(--admin-text-soft-light);
+}
+
+/* Estado (pill verde/rojo, etc.) */
+
+.badge-estado {
+  padding: 0.3rem 0.75rem;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
 }
 
-.caja-estado--activa {
-  background: #e6f7ee;
-  color: #0c9d58;
+.badge-estado--activa {
+  background: rgba(74, 222, 128, 0.14);
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.45);
 }
 
-.caja-estado--inactiva {
-  background: #ffeaea;
-  color: #e53935;
+.badge-estado--inactiva {
+  background: rgba(248, 113, 113, 0.1);
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, 0.45);
 }
 
-/* RESPONSIVE */
-@media (max-width: 820px) {
-  .seccion-trabajadores-card {
-    margin-left: 250px;
-    padding: 22px 18px;
-  }
+/* Footer de tarjeta: botones */
 
-  .empleados-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-.btn-editar-caja {
-    margin-top: 10px;
-    background: #ffb27a;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.2s ease;
+.tarjeta-caja__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
 }
 
-.btn-editar-caja:hover {
-    background: #ff964d;
-}
-.btn-eliminar-caja {
-    margin-top: 8px;
-    background: #ff6b6b;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: white;
-    transition: background 0.2s ease;
+.btn-caja {
+  border-radius: 999px;
+  padding: 0.42rem 0.95rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
 }
 
-.btn-eliminar-caja:hover {
-    background: #e65050;
+.btn-caja i {
+  font-size: 0.9rem;
+}
+
+/* Botón editar */
+
+.btn-caja--editar {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #1b1726;
+  box-shadow:
+    0 8px 16px rgba(217, 119, 6, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Botón eliminar */
+
+.btn-caja--eliminar {
+  background: linear-gradient(135deg, #fb7185, #ef4444);
+  color: #fef2f2;
+  box-shadow:
+    0 8px 16px rgba(190, 24, 93, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.btn-caja:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+.btn-caja:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ------------------------------
+   BOTONES INFERIORES DEL SIDEBAR
+   (Modo oscuro / idioma / Cerrar sesión)
+   Se imita la estética del admin
+------------------------------ */
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0 0.9rem 1.1rem;
+}
+
+/* Botones circulares de tema e idioma */
+
+.sidebar-bottom .sidebar-btn {
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(9, 11, 26, 0.95);
+  color: #e5e9ff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+
+.sidebar-bottom .sidebar-btn i {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Texto del botón (por si tienes span dentro) */
+.sidebar-bottom .sidebar-btn span {
+  white-space: nowrap;
+}
+
+/* Versión en modo claro */
+
+.admin-body.admin-light .sidebar-bottom .sidebar-btn {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #252525;
+}
+
+/* Hover/active */
+
+.sidebar-bottom .sidebar-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  background: rgba(15, 20, 45, 0.97);
+}
+
+.admin-body.admin-light .sidebar-bottom .sidebar-btn:hover {
+  background: #fff8f2;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.sidebar-bottom .sidebar-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Cuando el sidebar está cerrado: solo iconos, sin texto */
+.menu-dashboard:not(.open) .sidebar-bottom .sidebar-btn {
+  justify-content: center;
+  padding-inline: 0.5rem;
+}
+
+.menu-dashboard:not(.open) .sidebar-bottom .sidebar-btn span {
+  display: none;
+}
+
+/* Botón de cerrar sesión: círculo naranja con icono, igual al admin */
+
+.sidebar-bottom .logout-btn {
+  margin-top: 0.25rem;
+  align-self: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: radial-gradient(circle at 20% 0,
+      #ffe5cc 0,
+      transparent 45%),
+    linear-gradient(135deg, #ff9b4a, #ff7a2f);
+  box-shadow:
+    0 16px 30px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fffdf7;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.sidebar-bottom .logout-btn i {
+  font-size: 1.35rem;
+}
+
+.sidebar-bottom .logout-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.sidebar-bottom .logout-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+/* En sidebar cerrado mantiene el mismo aspecto (no mostramos texto) */
+.menu-dashboard:not(.open) .sidebar-bottom .logout-btn span {
+  display: none;
 }

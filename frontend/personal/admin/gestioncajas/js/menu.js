@@ -14,6 +14,56 @@ toggle?.addEventListener("click", () => {
     iconoMenu?.classList.replace("bx-x", "bx-menu");
   }
 });
+/* =========================
+   MODO OSCURO DASHBOARD (admin)
+   ========================= */
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = themeToggle?.querySelector("i");
+const themeText = themeToggle?.querySelector("span");
+
+function applySavedAdminTheme() {
+  const saved = localStorage.getItem("admin-theme");
+  const isDark = saved === "dark";
+
+  document.body.classList.toggle("admin-dark", isDark);
+
+  if (themeIcon && themeText) {
+    if (isDark) {
+      if (themeIcon.classList.contains("bx-moon")) {
+        themeIcon.classList.replace("bx-moon", "bx-sun");
+      }
+      themeText.textContent = "Modo claro";
+    } else {
+      if (themeIcon.classList.contains("bx-sun")) {
+        themeIcon.classList.replace("bx-sun", "bx-moon");
+      }
+      themeText.textContent = "Modo oscuro";
+    }
+  }
+}
+
+// Aplicar tema guardado al cargar
+applySavedAdminTheme();
+
+themeToggle?.addEventListener("click", () => {
+  const nowDark = !document.body.classList.contains("admin-dark");
+  document.body.classList.toggle("admin-dark", nowDark);
+  localStorage.setItem("admin-theme", nowDark ? "dark" : "light");
+
+  if (themeIcon && themeText) {
+    if (nowDark) {
+      if (themeIcon.classList.contains("bx-moon")) {
+        themeIcon.classList.replace("bx-moon", "bx-sun");
+      }
+      themeText.textContent = "Modo claro";
+    } else {
+      if (themeIcon.classList.contains("bx-sun")) {
+        themeIcon.classList.replace("bx-sun", "bx-moon");
+      }
+      themeText.textContent = "Modo oscuro";
+    }
+  }
+});
 
 /* =============================
    GESTIÓN DE CAJAS — DINÁMICO
@@ -198,63 +248,123 @@ filtroEstadoCaja.onchange = renderCajas;
 cargarCajas();
 
 
-// =========================
-// SESIÓN / LOGOUT (MISMO QUE EN INDEX)
-// =========================
-function getLoginUrl() {
-    const isLocal =
-        location.hostname === "127.0.0.1" ||
-        location.hostname === "localhost";
+// // =========================
+// // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
+// // =========================
+// function getLoginUrl() {
+//     const isLocal =
+//         location.hostname === "127.0.0.1" ||
+//         location.hostname === "localhost";
 
-    if (isLocal) {
-        return "../../../login/login.html";
+//     if (isLocal) {
+//         return "../../../login/login.html";
+//     }
+
+//     return "/login/login.html";
+// }
+
+// const logoutBtn = document.getElementById("logoutBtn");
+// const sidebarUserName = document.getElementById("sidebarUserName");
+// const sidebarUserImg = document.getElementById("sidebarUserImg");
+
+// const user = JSON.parse(localStorage.getItem("user"));
+// const token = localStorage.getItem("token");
+
+// if (!token || !user || user.role !== "admin") {
+//     window.location.href = getLoginUrl();
+// }
+
+// if (user && sidebarUserName) {
+//     sidebarUserName.textContent = user.name || "Usuario";
+//     if (user.profile_picture) {
+//         sidebarUserImg.src = "/uploads/" + user.profile_picture;
+//     }
+// }
+
+// logoutBtn?.addEventListener("click", () => {
+//     const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
+//     if (!confirmar) return;
+
+//     localStorage.clear();
+//     window.location.href = getLoginUrl();
+// });
+// let cajaEditando = null;
+
+// async function editarCaja(id) {
+//     // Buscar caja por ID
+//     cajaEditando = cajas.find(c => c.id === id);
+
+//     if (!cajaEditando) return;
+
+//     // Cargar empleados en el select
+//     await cargarEmpleados();
+
+//     // Rellenar datos actuales
+//     numCaja.value = cajaEditando.numero_caja;
+//     empleadoCaja.value = cajaEditando.empleado_id || "";
+//     estadoCaja.value = cajaEditando.estado;
+
+//     // Abrir modal
+//     modalCaja.classList.add("activa");
+//     overlayCaja.classList.add("activa");
+// }
+/* =========================
+   TRADUCTOR DEL SIDEBAR (usa translate.js)
+   ========================= */
+const translateBtn = document.getElementById("translateToggle");
+
+const getCurrentLanguage = () =>
+  localStorage.getItem("preferredLanguage") ||
+  document.documentElement.lang ||
+  "es";
+
+const updateTranslateButtonLabel = (lang) => {
+  if (!translateBtn) return;
+  const span = translateBtn.querySelector("span");
+  if (!span) return;
+
+  // Cuando está en ES → muestra "Traducir"
+  // Cuando está en EN → muestra "Español"
+  span.textContent = lang === "en" ? "Español" : "Traducir";
+};
+
+// Estado inicial del texto del botón
+updateTranslateButtonLabel(getCurrentLanguage());
+
+async function handleSidebarTranslateToggle() {
+  try {
+    if (typeof window.translateContent !== "function") {
+      console.warn("translateContent no está disponible todavía.");
+      return;
     }
 
-    return "/login/login.html";
+    const current = getCurrentLanguage();
+    const target = current === "es" ? "en" : "es";
+
+    await window.translateContent(target);
+
+    localStorage.setItem("preferredLanguage", target);
+    document.documentElement.lang = target;
+    updateTranslateButtonLabel(target);
+  } catch (err) {
+    console.error("Error al alternar idioma en Gestión de Cajas:", err);
+    alert("No se pudo cambiar el idioma en este momento.");
+  }
 }
 
-const logoutBtn = document.getElementById("logoutBtn");
-const sidebarUserName = document.getElementById("sidebarUserName");
-const sidebarUserImg = document.getElementById("sidebarUserImg");
-
-const user = JSON.parse(localStorage.getItem("user"));
-const token = localStorage.getItem("token");
-
-if (!token || !user || user.role !== "admin") {
-    window.location.href = getLoginUrl();
-}
-
-if (user && sidebarUserName) {
-    sidebarUserName.textContent = user.name || "Usuario";
-    if (user.profile_picture) {
-        sidebarUserImg.src = "/uploads/" + user.profile_picture;
-    }
-}
-
-logoutBtn?.addEventListener("click", () => {
-    const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
-    if (!confirmar) return;
-
-    localStorage.clear();
-    window.location.href = getLoginUrl();
+translateBtn?.addEventListener("click", () => {
+  handleSidebarTranslateToggle();
 });
-let cajaEditando = null;
 
-async function editarCaja(id) {
-    // Buscar caja por ID
-    cajaEditando = cajas.find(c => c.id === id);
-
-    if (!cajaEditando) return;
-
-    // Cargar empleados en el select
-    await cargarEmpleados();
-
-    // Rellenar datos actuales
-    numCaja.value = cajaEditando.numero_caja;
-    empleadoCaja.value = cajaEditando.empleado_id || "";
-    estadoCaja.value = cajaEditando.estado;
-
-    // Abrir modal
-    modalCaja.classList.add("activa");
-    overlayCaja.classList.add("activa");
-}
+// Si el usuario tenía guardado inglés, lo aplicamos al cargar
+document.addEventListener("DOMContentLoaded", async () => {
+  const savedLang = getCurrentLanguage();
+  if (savedLang === "en" && typeof window.translateContent === "function") {
+    try {
+      await window.translateContent("en");
+      updateTranslateButtonLabel("en");
+    } catch (e) {
+      console.error("No se pudo aplicar el idioma guardado:", e);
+    }
+  }
+});
