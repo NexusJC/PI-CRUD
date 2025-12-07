@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
 
-  <!-- 🔸 Mismo tema del panel de platillos (sidebar + modo oscuro) -->
-  <link rel="stylesheet" href="/personal/admin/add-dishes/styles.css"> <!-- reutiliza el CSS moderno del admin :contentReference[oaicite:0]{index=0} -->
+  <!-- 🔸 Tema del admin (sidebar + modo oscuro) -->
+  <link rel="stylesheet" href="/personal/admin/add-dishes/styles.css">
 
   <!-- Estilos específicos del panel de cocina -->
   <link rel="stylesheet" href="style.css">
@@ -96,42 +96,42 @@
       <!-- Panel de acciones -->
       <div class="acciones-panel">
         <button class="btn btn-cancelar" id="btnCancelar">
-          <i class="fa-solid fa-xmark"></i>
-          <span data-i18n="btnCancel">Cancelar</span>
+          <i class="fa-solid fa-circle-xmark"></i>
+          <span data-i18n="btnCancel">Cancelar pedido</span>
         </button>
         <button class="btn btn-editar" id="btnEditar">
-          <i class="fa-solid fa-pen"></i>
-          <span data-i18n="btnEditComments">Editar comentarios</span>
+          <i class="fa-solid fa-pen-to-square"></i>
+          <span data-i18n="btnEditOrder">Editar pedido</span>
         </button>
         <button class="btn btn-entregar activo" id="btnEntregar">
-          <i class="fa-solid fa-check"></i>
-          <span data-i18n="btnDeliver">Entregar</span>
+          <i class="fa-solid fa-check-circle"></i>
+          <span data-i18n="btnDeliver">Confirmar entrega</span>
         </button>
       </div>
     </section>
   </main>
 
-  <!-- ========== MODAL EDICIÓN DE COMENTARIOS ========== -->
+  <!-- ========== MODAL EDICIÓN DEL PEDIDO ========== -->
   <div class="modal" id="editarModal">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title">
-          <span data-i18n="modalTitle">Editar comentarios del pedido</span>
+          <span data-i18n="modalTitle">Editar detalles del pedido</span>
           &nbsp;#<span id="modalPedidoId">0</span>
         </h3>
         <button class="modal-close" id="modalClose">&times;</button>
       </div>
 
       <div id="modalBody">
-        <!-- Contenido dinámico (comentarios por platillo) -->
+        <!-- Contenido dinámico (productos, precio, comentarios por platillo) -->
       </div>
 
       <div class="acciones modal-actions">
         <button class="btn btn-cancelar" id="cancelarEdicion">
-          <span data-i18n="modalCancel">Cancelar</span>
+          <span data-i18n="modalCancel">Cerrar</span>
         </button>
         <button class="btn btn-guardar" id="guardarCambios">
-          <span data-i18n="modalSave">Guardar comentarios</span>
+          <span data-i18n="modalSave">Guardar cambios</span>
         </button>
       </div>
     </div>

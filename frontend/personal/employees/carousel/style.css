@@ -967,3 +967,791 @@ body.admin-dark .btn-entregar {
 .menu-dashboard:not(.open) .top-menu .toggle, .menu-dashboard.close .top-menu .toggle, .menu-dashboard.collapsed .top-menu .toggle {
     margin-left: -130px;
 }
+/* ============================================================
+   NUEVO LOOK LIMPIO TIPO DASHBOARD PARA PANEL DE COCINA
+   (OVERRIDES SUAVES SOBRE ESTILOS EXISTENTES)
+   ============================================================ */
+
+/* Fondo general con degradado suave */
+body {
+  background: radial-gradient(
+    circle at top left,
+    #f4f7ff 0%,
+    #f5f0e9 50%,
+    #fef9f4 100%
+  ) !important;
+}
+
+/* Layout principal tipo dashboard */
+.kitchen-main {
+  margin-left: 230px;
+  padding: 24px 32px 32px;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: transparent;
+  transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar colapsado mantiene el mismo margen que en admin */
+.menu-dashboard:not(.open) ~ .kitchen-main,
+.menu-dashboard.close ~ .kitchen-main,
+.menu-dashboard.collapsed ~ .kitchen-main {
+  margin-left: 115px;
+}
+
+/* Cabecera del carrusel más limpia */
+.carrusel-section {
+  background: transparent;
+  padding: 4px 4px 10px;
+}
+
+.kitchen-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.kitchen-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.kitchen-header p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #6b7280;
+}
+
+/* ==========================
+   CARRUSEL DE TURNOS – CARD WIDGET
+   ========================== */
+
+.turnos-carousel {
+  display: flex;
+  gap: 1.4rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0.9rem 0 0.4rem;
+  scrollbar-width: none;
+}
+
+.turnos-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tarjeta tipo “widget” */
+.turno-card {
+  position: relative;
+  flex: 0 0 260px;
+  padding: 1.1rem 1.25rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: radial-gradient(
+    circle at top left,
+    #ffffff 0%,
+    #f9fafb 40%,
+    #ffe7d8 100%
+  );
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.17);
+  cursor: pointer;
+  overflow: hidden;
+  transform: translateY(0);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+/* Barra decorativa superior */
+.turno-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f97316, #ef4444);
+  opacity: 0.9;
+}
+
+/* Hover y estado activo */
+.turno-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+}
+
+.turno-card.activo {
+  background: radial-gradient(
+    circle at top left,
+    #ffffff 0%,
+    #fff4e5 40%,
+    #ffd3af 100%
+  );
+  border-color: #f97316;
+  box-shadow: 0 20px 45px rgba(248, 113, 113, 0.55);
+}
+
+.turno-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.45rem;
+}
+
+.turno-header h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #e36842;
+  margin: 0;
+}
+
+.costo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.cliente {
+  margin: 0 0 0.7rem;
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Chips de estado tipo pill */
+.estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.18);
+}
+
+.estado-pendiente {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+}
+
+.estado-en_proceso {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+}
+
+.estado-entregado {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+}
+
+.estado-cancelado {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fff;
+}
+
+/* ==========================
+   PANEL INFERIOR – DETALLES + ACCIONES
+   ========================== */
+
+.panel-inferior {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.8fr);
+  gap: 1.8rem;
+  padding: 0.6rem 0 0.8rem;
+}
+
+/* Card principal de detalles */
+.detalles-panel {
+  background: radial-gradient(
+    circle at top left,
+    #ffffff 0%,
+    #f9fafb 40%,
+    #fef5ee 100%
+  );
+  border-radius: 24px;
+  padding: 1.5rem 1.6rem 1.3rem;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+.detalles-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.detalles-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.detalles-panel::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.7);
+  border-radius: 999px;
+}
+
+.detalles-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.9);
+}
+
+.detalles-header h3 {
+  margin: 0;
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #e36842;
+}
+
+.total-pedido {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #16a34a;
+}
+
+/* Órdenes y comentarios por producto */
+.ordenes-container {
+  margin-bottom: 1.25rem;
+}
+
+.ordenes-container h4 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.8rem;
+}
+
+.ordenes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.orden-item {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(229, 231, 235, 0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.12s ease,
+    box-shadow 0.18s ease;
+}
+
+.orden-item:hover {
+  background: #f3f4ff;
+  border-color: rgba(129, 140, 248, 0.7);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(148, 163, 184, 0.35);
+}
+
+.orden-item-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.orden-nombre {
+  font-weight: 600;
+  color: #111827;
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.orden-cantidad {
+  background: #e36842;
+  color: #fff;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-right: 0.3rem;
+}
+
+.orden-precio {
+  font-weight: 700;
+  color: #16a34a;
+  min-width: 80px;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+/* Comentario por producto */
+.orden-comentario {
+  padding-top: 0.45rem;
+  border-top: 1px dashed rgba(209, 213, 219, 0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.orden-comentario-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.orden-comentario-texto {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #4b5563;
+  font-style: italic;
+}
+
+/* Info adicional */
+.info-adicional {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.9);
+  font-size: 0.92rem;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-item strong {
+  font-weight: 600;
+  color: #374151;
+}
+
+.tiempo-restante {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* ==========================
+   PANEL DE ACCIONES – CARD LATERAL
+   ========================== */
+
+.acciones-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: stretch;
+  justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 24px;
+  padding: 1.15rem 1.15rem;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* Botones estilo pill de dashboard */
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  justify-content: center;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  min-width: 0;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.btn i {
+  font-size: 1rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.3);
+  filter: brightness(1.02);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+}
+
+/* Cancelar: rojo → naranja */
+.btn-cancelar {
+  background: linear-gradient(135deg, #f97373, #fb923c);
+}
+
+/* Editar pedido: azul → morado */
+.btn-editar {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+}
+
+/* Entregar: verde intenso */
+.btn-entregar {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* Entregar desactivado */
+.btn-entregar:not(.activo) {
+  background: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+  filter: none;
+}
+
+/* ==========================
+   MODAL – EDITAR PEDIDO
+   ========================== */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: radial-gradient(
+    circle at top left,
+    #ffffff 0%,
+    #f9fafb 45%,
+    #fef5ee 100%
+  );
+  border-radius: 24px;
+  padding: 1.8rem 1.9rem 1.4rem;
+  width: min(640px, 94vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.9);
+}
+
+.modal-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #e36842;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.modal-close:hover {
+  color: #111827;
+}
+
+/* Lista de productos dentro del modal */
+.menu-items {
+  margin: 0.8rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.menu-item {
+  border-radius: 14px;
+  border: 1px solid rgba(229, 231, 235, 0.95);
+  padding: 0.8rem 0.95rem;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.item-meta {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.item-comment-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.item-comment-input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 0.6rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 60px;
+  background: #ffffff;
+}
+
+.item-comment-input:focus {
+  outline: none;
+  border-color: #e36842;
+  box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.18);
+}
+
+/* Botón guardar del modal */
+.btn-guardar {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* ==========================
+   RESPONSIVE (manteniendo posiciones)
+   ========================== */
+
+@media (max-width: 1024px) {
+  .kitchen-main {
+    padding-inline: 16px;
+  }
+
+  .panel-inferior {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .menu-dashboard {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .kitchen-main,
+  .menu-dashboard:not(.open) ~ .kitchen-main,
+  .menu-dashboard.close ~ .kitchen-main,
+  .menu-dashboard.collapsed ~ .kitchen-main {
+    margin-left: 0;
+    padding-top: 80px;
+  }
+
+  .panel-inferior {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    flex: 1 1 180px;
+  }
+
+  .detalles-panel {
+    max-height: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .turno-card {
+    flex: 0 0 220px;
+  }
+
+  .detalles-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .orden-item-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .orden-precio {
+    text-align: left;
+  }
+
+  .acciones-panel {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* ==========================
+   MODO OSCURO – LOOK DASHBOARD
+   ========================== */
+
+body.admin-dark {
+  background: #020617 !important;
+}
+
+.admin-dark .kitchen-main {
+  background: radial-gradient(
+    circle at top left,
+    #020617 0%,
+    #020617 45%,
+    #020617 100%
+  );
+  color: #e5e7eb;
+}
+
+/* Tarjetas en oscuro */
+.admin-dark .turno-card {
+  background: radial-gradient(
+    circle at top left,
+    #020617 0%,
+    #020617 60%,
+    #020617 100%
+  );
+  border-color: #111827;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+}
+
+.admin-dark .turno-card.activo {
+  background: radial-gradient(
+    circle at top left,
+    #111827 0%,
+    #020617 45%,
+    #111827 100%
+  );
+  border-color: #f97316;
+  box-shadow: 0 22px 55px rgba(248, 113, 113, 0.6);
+}
+
+.admin-dark .cliente {
+  color: #e5e7eb;
+}
+
+/* Detalles y modal en oscuro */
+.admin-dark .detalles-panel {
+  background: #020617;
+  border-color: #111827;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+.admin-dark .detalles-header h3 {
+  color: #f97316;
+}
+
+.admin-dark .total-pedido {
+  color: #4ade80;
+}
+
+.admin-dark .orden-item {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #111827;
+}
+
+.admin-dark .orden-nombre {
+  color: #e5e7eb;
+}
+
+.admin-dark .orden-comentario-texto {
+  color: #e5e7eb;
+}
+
+.admin-dark .info-item strong {
+  color: #e5e7eb;
+}
+
+.admin-dark .acciones-panel {
+  background: #020617;
+  border-color: #111827;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+/* Botones en oscuro con más glow */
+.admin-dark .btn-cancelar,
+.admin-dark .btn-editar,
+.admin-dark .btn-entregar,
+.admin-dark .btn-guardar {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+/* Modal oscuro */
+.admin-dark .modal-content {
+  background: radial-gradient(
+    circle at top left,
+    #020617 0%,
+    #020617 55%,
+    #020617 100%
+  );
+  border-color: #111827;
+}
+
+.admin-dark .modal-title {
+  color: #f97316;
+}
+
+.admin-dark .menu-item {
+  background: #020617;
+  border-color: #111827;
+}
+
+.admin-dark .item-name {
+  color: #e5e7eb;
+}
+
+.admin-dark .item-meta {
+  color: #9ca3af;
+}
+
+.admin-dark .item-comment-input {
+  background: #020617;
+  border-color: #111827;
+  color: #e5e7eb;
+}
+
+.admin-dark .item-comment-input:focus {
+  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.35);
+}
