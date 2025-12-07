@@ -2528,9 +2528,3 @@ body:not(.admin-dark) .modal-title {
   width: min(780px, 96vw);
   max-height: 88vh;
 }
-.modal-nuevo-pedido {
-    /* max-width: 720px; */
-    /* background: #111827; */
-    border-radius: 18px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
-}
