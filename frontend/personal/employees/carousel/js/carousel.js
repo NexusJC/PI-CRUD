@@ -69,7 +69,7 @@ async function actualizarPedidos() {
     }
 }
 
-setInterval(actualizarPedidos, 5000);
+setInterval(actualizarPedidos, 3000);
 
 
 /* ============================================================
