@@ -57,21 +57,20 @@ async function cargarPedidos() {
 let cargando = false;
 
 async function actualizarPedidos() {
-    if (cargando) return; // ⛔ evita sobrecarga y loops infinitos
+    if (cargando) return; // evita duplicados
     cargando = true;
 
     try {
-        await cargarPedidos(); // 🔄 vuelve a pedir los pedidos
+        await cargarPedidos(); 
     } catch (err) {
         console.warn("⚠ Error actualizando pedidos:", err);
-        // NO alert aquí, nunca.
     } finally {
         cargando = false;
     }
 }
 
-// Auto-refresh cada 5 segundos
 setInterval(actualizarPedidos, 5000);
+
 
 }
 
@@ -301,7 +300,7 @@ async function crearPedidoDesdeModal() {
 
     if (!data.success) {
       console.error("Error al crear pedido:", data);
-      alert("No se pudo crear el pedido.");
+      console.warn("⚠ No se pudieron cargar los pedidos:", error);
       return;
     }
 
