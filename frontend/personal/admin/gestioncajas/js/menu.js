@@ -40,18 +40,41 @@ let numeroSiguienteCaja = 1;
    CARGAR EMPLEADOS (desde BACKEND)
 =============================*/
 async function cargarEmpleados() {
-    const res = await fetch("/api/users?role=empleado");
-    const empleados = await res.json();
+    try {
+        const res = await fetch("/api/users");
 
-    empleadoCaja.innerHTML = `<option disabled selected>Seleccionar empleado</option>`;
+        if (!res.ok) {
+            console.error("Error en la API de empleados:", res.status);
+            empleadoCaja.innerHTML = `<option disabled selected>No disponible</option>`;
+            return [];
+        }
 
-    empleados.forEach(emp => {
-        const op = document.createElement("option");
-        op.value = emp.id;
-        op.textContent = emp.name;
-        empleadoCaja.appendChild(op);
-    });
+        const empleados = await res.json();
+
+        if (!Array.isArray(empleados)) {
+            console.error("La API no devolvió un array:", empleados);
+            empleadoCaja.innerHTML = `<option disabled selected>No disponible</option>`;
+            return [];
+        }
+
+        empleadoCaja.innerHTML = `<option disabled selected>Seleccionar empleado</option>`;
+
+        empleados.forEach(emp => {
+            const op = document.createElement("option");
+            op.value = emp.id;
+            op.textContent = emp.name;
+            empleadoCaja.appendChild(op);
+        });
+
+        return empleados;
+
+    } catch (error) {
+        console.error("Error cargando empleados:", error);
+        empleadoCaja.innerHTML = `<option disabled selected>Error al cargar</option>`;
+        return [];
+    }
 }
+
 
 /* =============================
    CARGAR CAJAS DESDE EL SERVIDOR
