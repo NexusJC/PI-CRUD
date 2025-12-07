@@ -114,9 +114,7 @@ async function ensureAvatarIsLoaded() {
   }
 }
 
-ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR LA PÁGINA
-
-
+ensureAvatarIsLoaded();   
 
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
