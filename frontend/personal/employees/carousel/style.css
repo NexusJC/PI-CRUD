@@ -60,11 +60,13 @@ body {
 }
 
 /* cuando el sidebar está colapsado (usa las mismas clases del admin) */
-.menu-dashboard:not(.open) ~ .kitchen-main,
-.menu-dashboard.close ~ .kitchen-main,
-.menu-dashboard.collapsed ~ .kitchen-main {
-  margin-left: 115px;
+.menu-dashboard:not(.open) .top-menu .toggle,
+.menu-dashboard.close .top-menu .toggle,
+.menu-dashboard.collapsed .top-menu .toggle {
+    transform: translateX(-130px);
+    margin-left: 0; /* 🔥 Eliminamos el problema */
 }
+
 
 /* ==========================
    CABECERA DEL CARRUSEL
@@ -1046,11 +1048,6 @@ body {
   padding: 0.9rem 0 0.4rem;
   scrollbar-width: none;
 }
-
-.turnos-carousel::-webkit-scrollbar {
-  display: none;
-}
-
 /* Tarjeta tipo “widget” */
 .turno-card {
   position: relative;
