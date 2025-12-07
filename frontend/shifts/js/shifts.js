@@ -119,10 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 });
-/* ================================
-   CARGAR Y MOSTRAR TURNOS 
-================================== */
 
+//cargar turnos
 async function cargarTurnos() {
   try {
     const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
@@ -146,28 +144,37 @@ function renderTurnosActuales(lista) {
   const cont = document.getElementById("turnosActuales");
   cont.innerHTML = "";
 
-  if (lista.length === 0) {
+  // Mostrar solo los pedidos en proceso
+  const enProceso = lista.filter(t => t.status === "en_proceso");
+
+  if (enProceso.length === 0) {
     cont.innerHTML = `<p style="text-align:center; color:#888;">No hay pedidos en proceso</p>`;
     return;
   }
 
-  lista.forEach(t => {
+  enProceso.forEach(t => {
     cont.innerHTML += `
       <div class="turno-card resaltado">
         <h3>#${t.order_number}</h3>
         <p>${t.customer_name}</p>
         <span>$${Number(t.total).toFixed(2)}</span>
-        <small style="display:block; margin-top:6px; opacity:0.8;">Caja ${t.caja_id}</small>
+        <small style="display:block; margin-top:6px; opacity:0.8;">Caja ${t.caja_id ?? "—"}</small>
       </div>
     `;
   });
 }
 
+//mostrar todos los turnos
 function renderTodosLosTurnos(lista) {
   const cont = document.getElementById("listaTurnos");
   cont.innerHTML = "";
 
-  lista.forEach(t => {
+  // Solo pendientes y en proceso
+  const filtrados = lista.filter(t =>
+    t.status === "pendiente" || t.status === "en_proceso"
+  );
+
+  filtrados.forEach(t => {
     cont.innerHTML += `
       <div class="turno-card">
         <h3>#${t.order_number}</h3>
@@ -177,6 +184,7 @@ function renderTodosLosTurnos(lista) {
     `;
   });
 }
+
 
 /* CARGAR TURNOS AL ABRIR LA PÁGINA */
 cargarTurnos();
