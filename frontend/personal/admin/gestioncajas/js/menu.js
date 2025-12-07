@@ -274,63 +274,63 @@ cargarCajas();
 // // =========================
 // // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // // =========================
-// function getLoginUrl() {
-//     const isLocal =
-//         location.hostname === "127.0.0.1" ||
-//         location.hostname === "localhost";
+function getLoginUrl() {
+    const isLocal =
+        location.hostname === "127.0.0.1" ||
+        location.hostname === "localhost";
 
-//     if (isLocal) {
-//         return "../../../login/login.html";
-//     }
+    if (isLocal) {
+        return "../../../login/login.html";
+    }
 
-//     return "/login/login.html";
-// }
+    return "/login/login.html";
+}
 
-// const logoutBtn = document.getElementById("logoutBtn");
-// const sidebarUserName = document.getElementById("sidebarUserName");
-// const sidebarUserImg = document.getElementById("sidebarUserImg");
+const logoutBtn = document.getElementById("logoutBtn");
+const sidebarUserName = document.getElementById("sidebarUserName");
+const sidebarUserImg = document.getElementById("sidebarUserImg");
 
-// const user = JSON.parse(localStorage.getItem("user"));
-// const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
+const token = localStorage.getItem("token");
 
-// if (!token || !user || user.role !== "admin") {
-//     window.location.href = getLoginUrl();
-// }
+if (!token || !user || user.role !== "admin") {
+    window.location.href = getLoginUrl();
+}
 
-// if (user && sidebarUserName) {
-//     sidebarUserName.textContent = user.name || "Usuario";
-//     if (user.profile_picture) {
-//         sidebarUserImg.src = "/uploads/" + user.profile_picture;
-//     }
-// }
+if (user && sidebarUserName) {
+    sidebarUserName.textContent = user.name || "Usuario";
+    if (user.profile_picture) {
+        sidebarUserImg.src = "/uploads/" + user.profile_picture;
+    }
+}
 
-// logoutBtn?.addEventListener("click", () => {
-//     const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
-//     if (!confirmar) return;
+logoutBtn?.addEventListener("click", () => {
+    const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
+    if (!confirmar) return;
 
-//     localStorage.clear();
-//     window.location.href = getLoginUrl();
-// });
-// let cajaEditando = null;
+    localStorage.clear();
+    window.location.href = getLoginUrl();
+});
+let cajaEditando = null;
 
-// async function editarCaja(id) {
-//     // Buscar caja por ID
-//     cajaEditando = cajas.find(c => c.id === id);
+async function editarCaja(id) {
+    // Buscar caja por ID
+    cajaEditando = cajas.find(c => c.id === id);
 
-//     if (!cajaEditando) return;
+    if (!cajaEditando) return;
 
-//     // Cargar empleados en el select
-//     await cargarEmpleados();
+    // Cargar empleados en el select
+    await cargarEmpleados();
 
-//     // Rellenar datos actuales
-//     numCaja.value = cajaEditando.numero_caja;
-//     empleadoCaja.value = cajaEditando.empleado_id || "";
-//     estadoCaja.value = cajaEditando.estado;
+    // Rellenar datos actuales
+    numCaja.value = cajaEditando.numero_caja;
+    empleadoCaja.value = cajaEditando.empleado_id || "";
+    estadoCaja.value = cajaEditando.estado;
 
-//     // Abrir modal
-//     modalCaja.classList.add("activa");
-//     overlayCaja.classList.add("activa");
-// }
+    // Abrir modal
+    modalCaja.classList.add("activa");
+    overlayCaja.classList.add("activa");
+}
 /* =========================
    TRADUCTOR DEL SIDEBAR (usa translate.js)
    ========================= */

@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const usernameText    = document.getElementById("username-text");
   const usernameValue   = document.getElementById("username");
   const usernameDefault = document.getElementById("username-default");
+  const sidebarUserName = document.getElementById("sidebarUserName");
+  const sidebarUserInfo = document.getElementById("sidebarUserInfo");
 
   if (btnLogin && btnLogout) {
     if (token && user) {
@@ -119,6 +121,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 }
 
+  // ----- Nombre del usuario en el sidebar -----
+  if (sidebarUserName && sidebarUserInfo) {
+    if (token && user) {
+      // Título fijo y abajo el nombre del usuario
+      sidebarUserName.textContent = "Te Damos La Bienvenida";
+      sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
+    } else {
+      // Texto por defecto cuando no hay sesión
+      sidebarUserName.textContent = "Te Damos La Bienvenida";
+      sidebarUserInfo.textContent = "¡Explora el menú!";
+    }
+  }
+
+
+
   if (usernameText && usernameValue && usernameDefault) {
     if (token && user) {
       usernameText.style.display    = "block";
@@ -140,13 +157,13 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (role === "admin") {
       menuList.innerHTML = `
         <li data-no-translate>
-          <a href="/personal/admin/add-dishes/admin.html" data-no-translate>
+          <a href="/personal/admin/add-dishes/add_dishes.html" data-no-translate>
             <i class="fas fa-pizza-slice" data-no-translate></i>
             <span>Gestionar Platillos</span>
           </a>
         </li>
         <li data-no-translate>
-          <a href="/personal/employees/employee.html" data-no-translate>
+          <a href="/personal/employee-management/employee.html" data-no-translate>
             <i class="fas fa-users" data-no-translate></i>
             <span>Gestionar Empleados</span>
           </a>

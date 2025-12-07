@@ -17,18 +17,14 @@
  <!-- TOPBAR -->
 <header class="topbar">
   <div class="topbar-left">
-
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
-      ☰
-    </button>
-
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     <a href="index.html" class="brand">
       <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+      <span class="brand-text">LA PARRILLA AZTECA</span>
     </a>
   </div>
 
   <div class="topbar-right">
-
     <div class="idiomaToggle">
       <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
         <div class="bandera-container"></div>
@@ -46,13 +42,12 @@
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <img src="../img/logo_1.png" alt="Logo">
-      La Parrilla Azteca
     </div>
 
     <div class="sidebar-profile">
       <img id="sidebarAvatar" src="../img/user.deflt.png" alt="Avatar">
-      <h4>Te Damos La Bienvenida</h4>
-      <p>¡Explora el menú!</p>
+      <h4 id="sidebarUserName">Te Damos La Bienvenida</h4>
+      <p id="sidebarUserInfo">¡Explora el menú!</p>
       <div class="sidebar-login-btn">
         <a href="../login/login.html" class="btn-login" id="btn-login">
           Iniciar sesión

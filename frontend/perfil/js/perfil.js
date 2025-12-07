@@ -115,12 +115,17 @@ const getProfileData = async () => {
 
     // Guardar en localStorage
     let user = JSON.parse(localStorage.getItem("user") || "{}");
+    user.name = data.name || user.name;
     user.image_url = finalImg;
     localStorage.setItem("user", JSON.stringify(user));
 
     // Sidebar avatar
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) sidebarAvatar.src = finalImg;
+
+
+
+
 
   } catch (error) {
     console.error("Error al obtener datos del perfil", error);
@@ -232,7 +237,7 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
 });
 
 /* ===============================
-   ALERTA PERSONALIZADA DE RESTABLECER CONTRASEÑA
+ALERTA PERSONALIZADA DE RESTABLECER CONTRASEÑA
 ==================================*/
 const btnReset = document.getElementById("btnRestablecer");
 
