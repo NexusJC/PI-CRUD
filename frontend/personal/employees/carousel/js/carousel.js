@@ -212,11 +212,21 @@ async function crearPedidoDesdeModal() {
   }
 
   const clienteInput = document.getElementById("npCliente");
-  const nombreCliente =
-    (clienteInput?.value || "").trim() ||
-    (JSON.parse(localStorage.getItem("user") || "null")?.name || "Cliente");
+  let nombreCliente = (clienteInput?.value || "").trim();
 
-  // 👇 Aquí está el cambio importante: quantity / price / comments
+  // ✅ Nombre obligatorio con mínimo 3 letras
+  if (!nombreCliente || nombreCliente.length < 3) {
+    alert("Escribe un nombre de cliente con al menos 3 caracteres.");
+    if (clienteInput) {
+      clienteInput.classList.add("input-error");
+      clienteInput.focus();
+    }
+    return;
+  } else if (clienteInput) {
+    clienteInput.classList.remove("input-error");
+  }
+
+  // Construir items como los espera el backend (orders.controller.js)
   const items = nuevoPedidoItems.map((it) => ({
     name: it.name,
     quantity: it.qty,
@@ -346,65 +356,132 @@ function inicializarNuevoPedidoModal() {
   const btnCrear = document.getElementById("npCrear");
   const categoriaSelect = document.getElementById("npCategoria");
   const btnAgregarItem = document.getElementById("npAgregarItem");
+  const qtyInput = document.getElementById("npCantidad");
+  const commentInput = document.getElementById("npComentario");
+  const platilloSelect = document.getElementById("npPlatillo");
 
+  // Abrir modal para crear un nuevo pedido
   if (btnAgregar) {
     btnAgregar.addEventListener("click", async () => {
+      // Cargar platillos sólo si hace falta
       await cargarDishesSiHaceFalta();
+      // Llenar select de categorías y platillos
       renderCategoriasSelect();
+      actualizarPlatillosSegunCategoria();
+
+      // Limpiar lista de productos del nuevo pedido
+      nuevoPedidoItems = [];
+      renderListaNuevoPedido();
+
+      // Valores por defecto de los campos
+      const clienteInput = document.getElementById("npCliente");
+      if (clienteInput && !clienteInput.value) {
+        clienteInput.value = "Cliente de mostrador";
+      }
+      if (qtyInput) qtyInput.value = "1";
+      if (commentInput) commentInput.value = "";
+
       abrirModalNuevoPedido();
     });
   }
 
-  modalClose?.addEventListener("click", cerrarModalNuevoPedido);
-  btnCancelar?.addEventListener("click", cerrarModalNuevoPedido);
+  // Cerrar modal (botón X y botón Cancelar)
+  if (modalClose) {
+    modalClose.addEventListener("click", cerrarModalNuevoPedido);
+  }
+  if (btnCancelar) {
+    btnCancelar.addEventListener("click", cerrarModalNuevoPedido);
+  }
 
+  // Cuando cambia la categoría, actualizar el select de platillos
   if (categoriaSelect) {
-    categoriaSelect.addEventListener("change", (e) => {
-      renderPlatillosPorCategoria(e.target.value);
+    categoriaSelect.addEventListener("change", () => {
+      actualizarPlatillosSegunCategoria();
     });
   }
 
+  // Agregar un platillo a la lista del nuevo pedido
   if (btnAgregarItem) {
     btnAgregarItem.addEventListener("click", () => {
-      const dish = buscarDishSeleccionado();
-      const qtyInput = document.getElementById("npCantidad");
-      const commentInput = document.getElementById("npComentario");
+      if (!platilloSelect || !qtyInput) return;
+
+      const dishId = platilloSelect.value;
+      const dish = dishesCache.find((d) => String(d.id) === String(dishId));
 
       if (!dish) {
         alert("Selecciona un platillo válido.");
         return;
       }
 
-    let qty = parseInt(qtyInput?.value, 10);
+      // Cantidad 1–99, permitiendo borrar el campo
+      let rawQty = qtyInput.value.trim();
+      if (rawQty === "") rawQty = "1";
 
-if (Number.isNaN(qty) || qty < 1) {
-  qty = 1;
-} else if (qty > 99) {
-  qty = 99;
-}
-      const comment = (commentInput?.value || "").trim();
+      let qty = parseInt(rawQty, 10);
+      if (!Number.isFinite(qty) || qty < 1) qty = 1;
+      if (qty > 99) qty = 99;
 
-      const unit =
-        typeof dish.precio === "number"
-          ? dish.precio
-          : parseFloat(dish.precio || "0") || 0;
+      const comment = commentInput ? commentInput.value.trim() : "";
 
       nuevoPedidoItems.push({
-        name: dish.nombre,
+        id: dish.id,
+        name: dish.nombre || dish.name || "Platillo",
         qty,
-        unit,
+        unit: Number(dish.precio) || 0,
         comment
       });
 
       renderListaNuevoPedido();
       if (commentInput) commentInput.value = "";
-      if (qtyInput) qtyInput.value = 1;
+      qtyInput.value = "1";
     });
   }
 
-  btnCrear?.addEventListener("click", () => {
-    crearPedidoDesdeModal();
-  });
+  // Validaciones del input de cantidad (1-99, sin negativos, permite borrar y repone 1)
+  if (qtyInput) {
+    // Mientras escribe: deja borrar, pero limita si pone algo raro
+    qtyInput.addEventListener("input", () => {
+      const raw = qtyInput.value.trim();
+      if (raw === "") {
+        // Permitimos que quede vacío mientras escribe
+        return;
+      }
+      let val = parseInt(raw, 10);
+      if (!Number.isFinite(val) || val < 1) val = 1;
+      if (val > 99) val = 99;
+      qtyInput.value = String(val);
+    });
+
+    // Al salir del input: nunca se queda vacío ni fuera de rango
+    qtyInput.addEventListener("blur", () => {
+      let raw = qtyInput.value.trim();
+      if (raw === "") raw = "1";
+      let val = parseInt(raw, 10);
+      if (!Number.isFinite(val) || val < 1) val = 1;
+      if (val > 99) val = 99;
+      qtyInput.value = String(val);
+    });
+
+    // Bloquear signos raros
+    qtyInput.addEventListener("keydown", (e) => {
+      if (
+        e.key === "-" ||
+        e.key === "e" ||
+        e.key === "+" ||
+        e.key === "." ||
+        e.key === ","
+      ) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  // Crear pedido cuando se pulsa el botón verde
+  if (btnCrear) {
+    btnCrear.addEventListener("click", () => {
+      crearPedidoDesdeModal();
+    });
+  }
 }
 
 /* ============================================================

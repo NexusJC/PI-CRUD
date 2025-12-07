@@ -2528,3 +2528,64 @@ body:not(.admin-dark) .modal-title {
   width: min(780px, 96vw);
   max-height: 88vh;
 }
+/* ============================================================
+   MODAL "AGREGAR NUEVO PEDIDO" CENTRADO Y MÁS GRANDE
+============================================================ */
+.modal-nuevo-pedido {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(15, 23, 42, 0.65);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-nuevo-pedido.active {
+  display: flex;
+}
+
+.modal-nuevo-pedido .modal-content {
+  width: min(720px, 96vw);
+  max-height: 82vh;
+  overflow-y: auto;
+  border-radius: 24px;
+  padding: 1.8rem 1.9rem 1.4rem;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  animation: modalNuevoPedidoFade 260ms ease-out;
+  background: radial-gradient(
+    circle at top left,
+    #020617 0%,
+    #020617 40%,
+    #020617 100%
+  );
+}
+
+/* Versión clara: blanco + naranja de la marca */
+body.admin-body:not(.admin-dark) .modal-nuevo-pedido .modal-content {
+  background: radial-gradient(
+    circle at top left,
+    #ffffff 0%,
+    #f9fafb 45%,
+    #fef5ee 100%
+  );
+}
+
+/* Animación suave de entrada */
+@keyframes modalNuevoPedidoFade {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Borde de error para inputs (nombre cliente) */
+.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+}
