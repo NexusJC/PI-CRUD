@@ -1736,3 +1736,21 @@ body:not(.admin-dark) .tarjeta-caja {
     background: rgba(0, 0, 0, 0.55) !important; /* sin degradado */
     backdrop-filter: blur(4px) !important; /* blur suave sin halo */
 }
+
+/* ============================================================
+   FIX REAL – Eliminar difuminado del modal Registrar Caja
+   ============================================================ */
+
+.modal-empleado__content {
+    background: #0f1324 !important;   /* fondo sólido sin halo */
+    box-shadow: 
+        0 24px 40px rgba(0, 0, 0, 0.75),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+    backdrop-filter: none !important;
+}
+
+/* El overlay debe verse limpio también */
+.overlay-empleado {
+    background: rgba(0, 0, 0, 0.55) !important;
+    backdrop-filter: blur(6px) !important; /* blur suave sin degradado */
+}
