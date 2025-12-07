@@ -192,16 +192,19 @@ function abrirModalNuevoPedido() {
 
   nuevoPedidoItems = [];
 
-  if (clienteInput) {
-    clienteInput.value = "";
-    clienteInput.classList.remove("input-error");
-  }
+  if (clienteInput) clienteInput.value = "";
   if (qtyInput) qtyInput.value = 1;
   if (commentInput) commentInput.value = "";
 
   renderListaNuevoPedido();
   modal.classList.add("active");
 }
+
+function cerrarModalNuevoPedido() {
+  const modal = document.getElementById("nuevoPedidoModal");
+  if (modal) modal.classList.remove("active");
+}
+
 async function crearPedidoDesdeModal() {
   if (!nuevoPedidoItems.length) {
     alert("Agrega al menos un platillo al pedido.");
@@ -209,21 +212,11 @@ async function crearPedidoDesdeModal() {
   }
 
   const clienteInput = document.getElementById("npCliente");
-  let nombreCliente = (clienteInput?.value || "").trim();
+  const nombreCliente =
+    (clienteInput?.value || "").trim() ||
+    (JSON.parse(localStorage.getItem("user") || "null")?.name || "Cliente");
 
-  // Validar nombre obligatorio con mínimo 3 caracteres
-  if (!nombreCliente || nombreCliente.length < 3) {
-    alert("Escribe un nombre de cliente con al menos 3 caracteres.");
-    if (clienteInput) {
-      clienteInput.classList.add("input-error");
-      clienteInput.focus();
-    }
-    return;
-  } else if (clienteInput) {
-    clienteInput.classList.remove("input-error");
-  }
-
-  // Construcción de items igual que antes
+  // 👇 Aquí está el cambio importante: quantity / price / comments
   const items = nuevoPedidoItems.map((it) => ({
     name: it.name,
     quantity: it.qty,
