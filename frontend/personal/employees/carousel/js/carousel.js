@@ -960,3 +960,15 @@ async function guardarCambiosEdicion() {
     alert("No se pudo actualizar el pedido.");
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Panel de cocina listo con pedidos reales");
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user.caja_id) {
+        alert("No tienes caja asignada. Contacta al administrador.");
+        return;
+    }
+
+    cargarPedidos(); // 🔥 Esto activa el carrusel correctamente
+});
