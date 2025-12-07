@@ -10,22 +10,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const modalPrice  = document.getElementById("modalPrice");
   const modalAddBtn = document.getElementById("modalAddBtn");
 
-  // Helper para traducir la descripción del modal según el idioma actual
-  const traducirDescripcionModalSiHaceFalta = () => {
-    try {
-      const lang =
-        (window.getCurrentLanguage && window.getCurrentLanguage()) ||
-        document.documentElement.lang ||
-        "es";
-
-      if (lang !== "es" && window.translateElementText) {
-        window.translateElementText(modalDesc, lang);
-      }
-    } catch (err) {
-      console.error("Error al traducir la descripción del modal:", err);
-    }
-  };
-
   const abrirModalProducto = (dish) => {
     if (!modal || !modalImg || !modalTitle || !modalDesc || !modalPrice || !modalAddBtn) return;
 
@@ -34,9 +18,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     modalTitle.textContent = dish.nombre;
     modalDesc.textContent  = dish.descripcion || "Descripción no disponible.";
-
-    // Ajustar la descripción al idioma actual (si la página está en inglés, etc.)
-    traducirDescripcionModalSiHaceFalta();
 
     const precioNum = Number(dish.precio) || 0;
     modalPrice.textContent = `$${precioNum.toFixed(2)}`;
@@ -178,7 +159,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const grupos = new Map();
     dishes.forEach((dish) => {
       const catKey = normalizarCategoria(dish.categoria);
-      if (!grupos.has(catKey)) grupos.set(catKey, [];
+      if (!grupos.has(catKey)) grupos.set(catKey, []);
       grupos.get(catKey).push(dish);
     });
 

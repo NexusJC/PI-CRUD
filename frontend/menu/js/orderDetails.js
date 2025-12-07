@@ -7,7 +7,7 @@ const orderPanel   = document.getElementById("orderDetails");
 const orderList    = document.getElementById("orderList");
 const subtotalEl   = document.getElementById("subtotal");
 const totalEl      = document.getElementById("total");
-const taxEl        = document.getElementById("tax");
+const taxEl        = document.getElementById("tax");   
 const printBtn     = document.getElementById("print-btn");
 const confirmBtn   = document.getElementById("confirm-btn");
 const emptyMsg     = document.getElementById("empty-cart-msg");
@@ -90,7 +90,7 @@ function actualizarEstadoVacio() {
   if (isEmpty) {
     if (subtotalEl) subtotalEl.textContent = "$0.00";
     if (totalEl)    totalEl.textContent    = "$0.00";
-    if (taxEl)      taxEl.textContent      = "$0.00";
+    if (taxEl)      taxEl.textContent      = "$0.00";   
   }
 }
 
@@ -189,7 +189,7 @@ document.addEventListener("click", (e) => {
     orderList.appendChild(li);
 
   } else {
-    // Ya existe → incrementar cantidad
+    // Ya existe → incrementar cantidad (AQUÍ ESTABA EL ERROR)
     let qty = parseInt(existing.dataset.qty || "0", 10);
     qty++;
 
@@ -198,6 +198,7 @@ document.addEventListener("click", (e) => {
 
     existing.dataset.qty = String(qty);
 
+    // AHORA se actualiza el INPUT, no un <span class="qty"> que ya no existe
     const qtyInput = existing.querySelector(".qty-input");
     const line     = existing.querySelector(".line-total");
     if (qtyInput) qtyInput.value = String(qty);
@@ -693,22 +694,6 @@ const modalDesc  = document.getElementById("modalDesc");
 const modalAddBtn= document.getElementById("modalAddBtn");
 const modalClose = document.getElementById("modalClose");
 
-// Helper para traducir la descripción del modal según idioma actual
-const traducirDescripcionModalDesdeOrderDetails = () => {
-  try {
-    const lang =
-      (window.getCurrentLanguage && window.getCurrentLanguage()) ||
-      document.documentElement.lang ||
-      "es";
-
-    if (lang !== "es" && window.translateElementText) {
-      window.translateElementText(modalDesc, lang);
-    }
-  } catch (err) {
-    console.error("Error al traducir descripción del modal (orderDetails):", err);
-  }
-};
-
 if (modal && modalImg && modalTitle && modalDesc && modalAddBtn && modalClose) {
   document.querySelectorAll(".menu-card img").forEach(img => {
     img.style.cursor = "pointer";
@@ -719,10 +704,6 @@ if (modal && modalImg && modalTitle && modalDesc && modalAddBtn && modalClose) {
         card.dataset.name || card.querySelector("h3")?.textContent || "Producto";
       modalDesc.textContent =
         card.dataset.desc || "Descripción no disponible.";
-
-      // Traduce la descripción si la página está en otro idioma
-      traducirDescripcionModalDesdeOrderDetails();
-
       modalAddBtn.dataset.name  = card.dataset.name;
       modalAddBtn.dataset.price = card.dataset.price;
       modal.classList.add("active");
