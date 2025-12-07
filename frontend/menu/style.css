@@ -192,7 +192,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 18px 22px;
+  padding: 10px 22px;
   border-bottom: 1px solid rgba(227, 104, 66, 0.15);
   color: var(--topbar);
 }
