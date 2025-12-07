@@ -141,7 +141,6 @@ function alternarIdioma() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const bandera = document.getElementById('banderaIdioma');
     const savedLanguage = localStorage.getItem('preferredLanguage') || 'es';
 
     actualizarTextoBotonIdioma(savedLanguage);
@@ -158,14 +157,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 80);
     });
 
+function actualizarTextoBotonIdioma(idiomaActual) {
     const banderaBtn = document.querySelector("#banderaIdioma .bandera-container");
 
     if (!banderaBtn) return;
 
-    if (savedLanguage === "es") {
-        banderaBtn.setAttribute("data-idioma-text", "Español");
+    if (idiomaActual === "es") {
+        banderaBtn.setAttribute("data-idioma-text", "Inglés");
     } else {
-        banderaBtn.setAttribute("data-idioma-text", "English");
+        banderaBtn.setAttribute("data-idioma-text", "Español");
     }
+}
 
 });
