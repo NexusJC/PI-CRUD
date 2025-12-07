@@ -964,3 +964,6 @@ body.admin-dark .btn-entregar {
   background: rgba(148, 163, 184, 0.8);
   border-radius: 999px;
 }
+.menu-dashboard:not(.open) .top-menu .toggle, .menu-dashboard.close .top-menu .toggle, .menu-dashboard.collapsed .top-menu .toggle {
+    margin-left: -130px;
+}
