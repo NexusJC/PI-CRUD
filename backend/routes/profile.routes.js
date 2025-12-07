@@ -27,7 +27,7 @@ router.get("/get-profile", verifyToken, async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT name, email, telefono, gender, profile_picture FROM users WHERE id = ?",
+      "SELECT name, email, telefono, gender, image_url FROM users WHERE id = ?",
       [id]
     );
 
@@ -36,12 +36,6 @@ router.get("/get-profile", verifyToken, async (req, res) => {
     }
 
     const user = rows[0];
-
-    // Construir URL completa de la imagen para que el frontend no tenga que armarla
-    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
-    if (user.profile_picture) {
-      user.image_url = `${baseUrl}/uploads/${user.profile_picture}`;
-    }
 
     res.json(user);
   } catch (error) {
