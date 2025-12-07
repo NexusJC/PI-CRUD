@@ -2069,9 +2069,6 @@ body.admin-dark .tiempo-restante {
     text-align: left;
   }
 }
-
-element.style {
-}
 .admin-dark .acciones-panel {
     background: #020617;
     border-color: #111827;
@@ -2137,4 +2134,12 @@ body.admin-dark .turno-card.activo::after {
     rgba(249, 115, 22, 0.28) 0%,
     transparent 70%
   );
+}
+.turnos-carousel {
+    display: flex;
+    gap: 1.4rem;
+    overflow-x: visible;
+    scroll-behavior: smooth;
+    padding: 0.8rem 0 0.4rem;
+    scrollbar-width: none;
 }
