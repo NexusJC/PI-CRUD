@@ -1427,3 +1427,72 @@ body.admin-body.admin-dark {
   overflow: visible;   /* deja salir el menú de categorías  */
   padding: 0;
 }
+
+/* ============================================================
+   MODO SOLO PARA NAVEGADORES (PC/LAPTOP)
+   Cancelamos cualquier responsive móvil
+============================================================ */
+
+/* Max-width 1024 */
+@media (max-width: 1024px) {
+  .dishes-main {
+    margin-left: 230px !important;
+    padding: 28px 32px !important;
+  }
+
+  .menu-dashboard {
+    width: 230px !important;
+    position: fixed !important;
+  }
+
+  .dishes-header {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .btn-add-dish {
+    width: auto !important;
+  }
+
+  .dishes-card-header {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+  }
+
+  .dishes-card-meta {
+    justify-content: flex-end !important;
+  }
+}
+
+/* Max-width 768 */
+@media (max-width: 768px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+
+  .menu-dashboard {
+    width: 230px !important;
+  }
+}
+
+/* Max-width 520 */
+@media (max-width: 520px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+}
+
+/* Max-width 480 */
+@media (max-width: 480px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+}
+
+/* Max-width 360 */
+@media (max-width: 360px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+}
