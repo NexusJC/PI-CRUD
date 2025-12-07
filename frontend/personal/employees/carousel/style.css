@@ -730,3 +730,237 @@ body {
 .admin-dark .item-comment-input:focus {
   box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.3);
 }
+/* ============================================================
+   AJUSTES FINALES DE TEMA PARA QUE EL MODO OSCURO FUNCIONE BIEN
+   ============================================================ */
+
+/* Fondo base claro / oscuro */
+body {
+  background: #f5f0e9 !important;
+}
+
+body.admin-dark {
+  background: #020617 !important;
+}
+
+/* El main del panel de cocina respeta el modo oscuro */
+body.admin-dark .kitchen-main {
+  background: radial-gradient(
+    circle at top left,
+    #020617 0%,
+    #020617 45%,
+    #020617 100%
+  ) !important;
+  color: #e5e7eb;
+}
+
+/* La sección del carrusel y el panel inferior no fuerzan fondo claro */
+body.admin-dark .carrusel-section,
+body.admin-dark .panel-inferior {
+  background: transparent !important;
+}
+
+/* Panel de detalles en oscuro */
+body.admin-dark .detalles-panel {
+  background: #020617;
+  border-color: #111827;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+/* Títulos y textos en oscuro */
+body.admin-dark .detalles-header h3 {
+  color: #f9fafb;
+}
+
+body.admin-dark .orden-nombre {
+  color: #e5e7eb;
+}
+
+body.admin-dark .orden-comentario-texto {
+  color: #e5e7eb;
+}
+
+/* Items de orden en oscuro */
+body.admin-dark .orden-item {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #111827;
+}
+
+/* Modal en oscuro */
+body.admin-dark .modal-content {
+  background: #020617;
+  border: 1px solid #111827;
+}
+
+/* Campos de comentario en modal, oscuro */
+body.admin-dark .item-comment-input {
+  background: #020617;
+  border-color: #111827;
+  color: #e5e7eb;
+}
+
+/* ============================================================
+   ESTILO "DASHBOARD" PARA EL CARRUSEL DE TURNOS
+   ============================================================ */
+
+/* Tarjetas del carrusel tipo widget */
+.turno-card {
+  position: relative;
+  background: radial-gradient(circle at top left, #ffffff 0%, #fff7ea 45%, #ffe4d5 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  padding: 1.1rem 1.2rem 1rem;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  overflow: hidden;
+}
+
+/* Barra decorativa en la parte superior de cada tarjeta */
+.turno-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f97316, #ef4444);
+  opacity: 0.9;
+}
+
+/* Estado activo con glow y fondo más intenso */
+.turno-card.activo {
+  background: radial-gradient(circle at top left, #ffffff 0%, #fff4e5 40%, #ffd4b0 100%);
+  border-color: #f97316;
+  box-shadow: 0 18px 40px rgba(248, 113, 113, 0.55);
+}
+
+/* Texto interior de la tarjeta */
+.turno-header h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #e36842;
+}
+
+.costo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.cliente {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Chips de estado con efecto más “dashboard” */
+.estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.18);
+}
+
+/* Ajustes por estado (ya tenías las clases, solo reforzamos estilo) */
+.estado-pendiente {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+}
+
+.estado-en_proceso {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+}
+
+.estado-entregado {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+}
+
+.estado-cancelado {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fff;
+}
+
+/* Versión de tarjetas para modo oscuro (más tipo dashboard) */
+body.admin-dark .turno-card {
+  background: radial-gradient(circle at top left, #020617 0%, #020617 60%, #020617 100%);
+  border-color: #111827;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+}
+
+body.admin-dark .turno-card.activo {
+  background: radial-gradient(circle at top left, #111827 0%, #020617 40%, #111827 100%);
+  border-color: #f97316;
+  box-shadow: 0 22px 55px rgba(248, 113, 113, 0.6);
+}
+
+body.admin-dark .turno-header h3 {
+  color: #f97316;
+}
+
+body.admin-dark .cliente {
+  color: #e5e7eb;
+}
+
+/* ============================================================
+   BOTONES DE ACCIÓN TIPO PANEL ANALÍTICO
+   ============================================================ */
+
+.btn {
+  border-radius: 16px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* Hover más “suave” tipo dashboard */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.3);
+}
+
+/* Gradientes ya definidos pero los reforzamos para que destaquen */
+.btn-cancelar {
+  background: linear-gradient(135deg, #ef4444, #f97316);
+}
+
+.btn-editar {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+}
+
+.btn-entregar.activo {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* En modo oscuro los botones tienen más contraste */
+body.admin-dark .btn-cancelar,
+body.admin-dark .btn-editar,
+body.admin-dark .btn-entregar {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+}
+
+/* Botón deshabilitado "Entregar" en gris */
+.btn-entregar:not(.activo) {
+  background: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+  filter: none;
+}
+
+/* Scrollbar suave en detalles para que se vea más pro */
+.detalles-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.detalles-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.detalles-panel::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.8);
+  border-radius: 999px;
+}
