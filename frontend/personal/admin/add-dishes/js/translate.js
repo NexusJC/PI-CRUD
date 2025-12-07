@@ -96,33 +96,9 @@ async function translateContent(targetLanguage) {
                     buttons[1].innerText = targetLanguage === 'en' ? 'Spanish' : 'Español';
                 }
             }
-            
-            // 2. Actualizar los botones de idioma en los artículos
-            // Estos botones están en el pequeño cuadro flotante en las páginas de artículos
-            const btnEs = document.getElementById('btn-es');
-            const btnEn = document.getElementById('btn-en');
-            const toggleText = document.getElementById('toggle-text');
-            
-            if (btnEs && btnEn && toggleText) {
-                if (targetLanguage === 'en') {
-                    btnEs.classList.remove('active');
-                    btnEn.classList.add('active');
-                    toggleText.innerText = 'Change language?';
-                } else {
-                    btnEn.classList.remove('active');
-                    btnEs.classList.add('active');
-                    toggleText.innerText = '¿Cambiar idioma?';
-                }
-            }
         }
     } catch (error) {
-        console.error('Error al traducir:', error);
-        alert('Error al traducir el contenido. Por favor, inténtalo de nuevo más tarde.');
-    } finally {
-        const loadingElement = document.getElementById('translation-loading');
-        if (loadingElement) {
-            loadingElement.remove();
-        }
+        console.error('Error al traducir el contenido:', error);
     }
 }
 
@@ -165,20 +141,19 @@ function alternarIdioma() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const bandera = document.getElementById('banderaIdioma');
     const savedLanguage = localStorage.getItem('preferredLanguage') || 'es';
-    translateContent(savedLanguage);
+
     actualizarTextoBotonIdioma(savedLanguage);
-}); 
 
-function actualizarTextoBotonIdioma(idiomaActual) {
-    const banderaBtn = document.querySelector("#banderaIdioma .bandera-container");
-
-    if (!banderaBtn) return;
-
-    if (idiomaActual === "es") {
-        banderaBtn.setAttribute("data-idioma-text", "Inglés");
-    } else {
-        banderaBtn.setAttribute("data-idioma-text", "Español");
+    if (savedLanguage === 'es') {
+        currentLanguage = 'es'; 
+        document.documentElement.lang = 'es';
+        return;
     }
-}
+
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            translateContent(savedLanguage);
+        }, 80);
+    });
+});
