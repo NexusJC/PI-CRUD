@@ -2143,3 +2143,183 @@ body.admin-dark .turno-card.activo::after {
     padding: 0.8rem 0 0.4rem;
     scrollbar-width: none;
 }
+/* ============================================================
+   NUEVO PEDIDO – BOTÓN Y MODAL
+============================================================ */
+
+.btn.btn-agregar {
+  margin-top: 0.75rem;
+  background: linear-gradient(135deg, #2bd47d, #1abc9c);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 18px rgba(43, 212, 125, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn.btn-agregar i {
+  font-size: 1rem;
+}
+
+.btn.btn-agregar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(43, 212, 125, 0.45);
+  filter: brightness(1.05);
+}
+
+/* Modal nuevo pedido */
+
+.modal-nuevo-pedido {
+  max-width: 720px;
+  background: #111827;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+.modal-nuevo-pedido .modal-header {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.np-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.np-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.np-row-grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr;
+  gap: 0.75rem;
+}
+
+.np-row label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+}
+
+.np-row input,
+.np-row select,
+.np-row textarea {
+  background: #020617;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 0.55rem 0.8rem;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.np-row input:focus,
+.np-row select:focus,
+.np-row textarea:focus {
+  border-color: #fb923c;
+  box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.45);
+}
+
+.np-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.np-list {
+  border-radius: 14px;
+  background: #020617;
+  border: 1px dashed rgba(148, 163, 184, 0.4);
+  padding: 0.6rem 0.75rem;
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.np-empty {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  text-align: center;
+  padding: 0.4rem 0;
+}
+
+.np-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.6rem;
+  align-items: center;
+  padding: 0.45rem 0.55rem;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.np-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.np-item-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.np-item-info {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.np-item-comment {
+  grid-column: 1 / span 1;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.np-item-remove {
+  grid-row: 1 / span 2;
+  justify-self: flex-end;
+  align-self: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(239, 68, 68, 0.12);
+  color: #fecaca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+
+.np-item-remove:hover {
+  background: rgba(239, 68, 68, 0.35);
+  transform: scale(1.02);
+}
+
+.np-resumen {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.np-resumen strong {
+  font-size: 1rem;
+  color: #22c55e;
+}

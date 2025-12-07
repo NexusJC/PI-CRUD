@@ -123,10 +123,10 @@
           return;
         }
 
-        const script = document.createElement("script");
-        // Ajusta la ruta si tu translate.js está en otra carpeta
-        script.src = "/translate.js";
-        script.async = true;
+       const script = document.createElement("script");
+// En el carrusel, translate.js está junto a este archivo en /js
+script.src = "js/translate.js";
+script.async = true;
 
         script.onload = () => {
           translateScriptLoaded = true;

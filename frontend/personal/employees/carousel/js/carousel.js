@@ -3,6 +3,8 @@
 ============================================================ */
 let pedidoActivo = null;
 let pedidosData = {}; // se llenará desde el backend
+let dishesCache       = [];
+let nuevoPedidoItems  = [];
 
 /* ============================================================
    📥 CARGAR PEDIDOS DESDE BACKEND
@@ -37,6 +39,218 @@ async function cargarPedidos() {
   } catch (err) {
     console.error("Error cargando pedidos:", err);
     alert("No se pudieron cargar los pedidos.");
+  }
+}
+/* ============================================================
+   📥 CARGAR PLATILLOS (para nuevo pedido)
+============================================================ */
+async function cargarDishesSiHaceFalta() {
+  if (dishesCache.length) return;
+
+  try {
+    const res = await fetch("/api/dishes");
+    const data = await res.json();
+
+    if (!Array.isArray(data)) {
+      console.error("Respuesta inválida de /api/dishes");
+      return;
+    }
+
+    dishesCache = data;
+  } catch (err) {
+    console.error("Error al cargar platillos para nuevo pedido:", err);
+  }
+}
+function obtenerCategoriasDesdeDishes() {
+  const set = new Set();
+
+  dishesCache.forEach((d) => {
+    const cat = (d.categoria || "Otros").toString().trim();
+    if (cat) set.add(cat);
+  });
+
+  return Array.from(set).sort((a, b) => a.localeCompare(b, "es"));
+}
+
+function renderCategoriasSelect() {
+  const select = document.getElementById("npCategoria");
+  if (!select) return;
+
+  const categorias = obtenerCategoriasDesdeDishes();
+  select.innerHTML = categorias
+    .map((c) => `<option value="${c}">${c}</option>`)
+    .join("");
+
+  if (categorias.length) {
+    select.value = categorias[0];
+    renderPlatillosPorCategoria(categorias[0]);
+  }
+}
+
+function renderPlatillosPorCategoria(categoria) {
+  const platSelect = document.getElementById("npPlatillo");
+  if (!platSelect) return;
+
+  const lista = dishesCache.filter(
+    (d) => (d.categoria || "").toString().trim() === categoria
+  );
+
+  platSelect.innerHTML = lista
+    .map((d) => `<option value="${d.id || d.nombre}">${d.nombre}</option>`)
+    .join("");
+
+  if (!lista.length) {
+    platSelect.innerHTML =
+      '<option value="" disabled selected>No hay platillos</option>';
+  }
+}
+
+function buscarDishSeleccionado() {
+  const catSel = document.getElementById("npCategoria");
+  const dishSel = document.getElementById("npPlatillo");
+  if (!catSel || !dishSel) return null;
+
+  const cat = catSel.value;
+  const nombre = dishSel.options[dishSel.selectedIndex]?.textContent || "";
+
+  return (
+    dishesCache.find(
+      (d) =>
+        (d.categoria || "").toString().trim() === cat &&
+        d.nombre.toString().trim() === nombre
+    ) || null
+  );
+}
+function renderListaNuevoPedido() {
+  const cont = document.getElementById("npLista");
+  const totalEl = document.getElementById("npTotal");
+  if (!cont || !totalEl) return;
+
+  if (!nuevoPedidoItems.length) {
+    cont.innerHTML =
+      '<p class="np-empty">No hay productos agregados aún.</p>';
+    totalEl.textContent = "$0.00";
+    return;
+  }
+
+  const html = nuevoPedidoItems
+    .map(
+      (item, index) => `
+      <div class="np-item" data-index="${index}">
+        <div class="np-item-main">
+          <span class="np-item-name">${item.name}</span>
+          <span class="np-item-info">x${item.qty} · $${item.unit.toFixed(
+        2
+      )}</span>
+        </div>
+        <div class="np-item-comment">
+          ${item.comment ? item.comment : "Sin comentarios"}
+        </div>
+        <button class="np-item-remove" type="button" data-index="${index}">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    `
+    )
+    .join("");
+
+  cont.innerHTML = html;
+
+  cont.querySelectorAll(".np-item-remove").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = Number(btn.dataset.index);
+      if (!Number.isNaN(idx)) {
+        nuevoPedidoItems.splice(idx, 1);
+        renderListaNuevoPedido();
+      }
+    });
+  });
+
+  const total = nuevoPedidoItems.reduce(
+    (sum, it) => sum + it.unit * it.qty,
+    0
+  );
+  totalEl.textContent = `$${total.toFixed(2)}`;
+}
+function abrirModalNuevoPedido() {
+  const modal = document.getElementById("nuevoPedidoModal");
+  const clienteInput = document.getElementById("npCliente");
+  const qtyInput = document.getElementById("npCantidad");
+  const commentInput = document.getElementById("npComentario");
+  if (!modal) return;
+
+  nuevoPedidoItems = [];
+
+  if (clienteInput) clienteInput.value = "";
+  if (qtyInput) qtyInput.value = 1;
+  if (commentInput) commentInput.value = "";
+
+  renderListaNuevoPedido();
+  modal.classList.add("active");
+}
+
+function cerrarModalNuevoPedido() {
+  const modal = document.getElementById("nuevoPedidoModal");
+  if (modal) modal.classList.remove("active");
+}
+async function crearPedidoDesdeModal() {
+  if (!nuevoPedidoItems.length) {
+    alert("Agrega al menos un platillo al pedido.");
+    return;
+  }
+
+  const clienteInput = document.getElementById("npCliente");
+  const nombreCliente =
+    (clienteInput?.value || "").trim() ||
+    (JSON.parse(localStorage.getItem("user") || "null")?.name ||
+      "Cliente");
+
+  const items = nuevoPedidoItems.map((it) => ({
+    name: it.name,
+    qty: it.qty,
+    unit: it.unit,
+    comment: it.comment || ""
+  }));
+
+  const total = nuevoPedidoItems.reduce(
+    (sum, it) => sum + it.unit * it.qty,
+    0
+  );
+
+  try {
+    const res = await fetch("/api/orders/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token")
+      },
+      body: JSON.stringify({
+        customerName: nombreCliente,
+        items,
+        total
+      })
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      console.error("Error al crear pedido:", data);
+      alert("No se pudo crear el pedido.");
+      return;
+    }
+
+    alert(`Pedido enviado (#${data.orderNumber})`);
+
+    cerrarModalNuevoPedido();
+
+    // Recargar pedidos y seleccionar el nuevo
+    await cargarPedidos();
+    if (data.orderNumber && pedidosData[data.orderNumber]) {
+      seleccionarPedido(data.orderNumber);
+    }
+  } catch (err) {
+    console.error("Error fetch /api/orders/create desde cocina:", err);
+    alert("Error de conexión con el servidor.");
   }
 }
 
@@ -74,8 +288,74 @@ document.addEventListener("DOMContentLoaded", async () => {
   await cargarPedidos();
   inicializarBotones();
   inicializarModal();
+  inicializarNuevoPedidoModal();
   console.log("Panel de cocina listo con pedidos reales");
 });
+
+function inicializarNuevoPedidoModal() {
+  const btnAgregar = document.getElementById("btnAgregarPedido");
+  const modalClose = document.getElementById("nuevoPedidoClose");
+  const btnCancelar = document.getElementById("npCancelar");
+  const btnCrear = document.getElementById("npCrear");
+  const categoriaSelect = document.getElementById("npCategoria");
+  const btnAgregarItem = document.getElementById("npAgregarItem");
+
+  if (btnAgregar) {
+    btnAgregar.addEventListener("click", async () => {
+      await cargarDishesSiHaceFalta();
+      renderCategoriasSelect();
+      abrirModalNuevoPedido();
+    });
+  }
+
+  modalClose?.addEventListener("click", cerrarModalNuevoPedido);
+  btnCancelar?.addEventListener("click", cerrarModalNuevoPedido);
+
+  if (categoriaSelect) {
+    categoriaSelect.addEventListener("change", (e) => {
+      renderPlatillosPorCategoria(e.target.value);
+    });
+  }
+
+  if (btnAgregarItem) {
+    btnAgregarItem.addEventListener("click", () => {
+      const dish = buscarDishSeleccionado();
+      const qtyInput = document.getElementById("npCantidad");
+      const commentInput = document.getElementById("npComentario");
+
+      if (!dish) {
+        alert("Selecciona un platillo válido.");
+        return;
+      }
+
+      const qty = Math.max(
+        1,
+        Math.min(99, parseInt(qtyInput?.value || "1", 10))
+      );
+      const comment = (commentInput?.value || "").trim();
+
+      const unit =
+        typeof dish.precio === "number"
+          ? dish.precio
+          : parseFloat(dish.precio || "0") || 0;
+
+      nuevoPedidoItems.push({
+        name: dish.nombre,
+        qty,
+        unit,
+        comment
+      });
+
+      renderListaNuevoPedido();
+      if (commentInput) commentInput.value = "";
+      if (qtyInput) qtyInput.value = 1;
+    });
+  }
+
+  btnCrear?.addEventListener("click", () => {
+    crearPedidoDesdeModal();
+  });
+}
 
 /* ============================================================
    🧱 RENDER DEL CARRUSEL
@@ -129,7 +409,7 @@ function seleccionarPedido(pedidoId) {
 /* ============================================================
    🔘 CONFIGURAR BOTONES
 ============================================================ */
-function inicializarBotones() {
+function manejarEditar() {
   const btnCancelar = document.getElementById("btnCancelar");
   const btnEditar = document.getElementById("btnEditar");
   const btnEntregar = document.getElementById("btnEntregar");
@@ -488,3 +768,40 @@ setInterval(async () => {
     seleccionarPedido(pedidoAnterior);
   }
 }, 2000);
+function manejarEditar() {
+  if (!pedidoActivo) return;
+
+  const pedido   = pedidosData[pedidoActivo];
+  const modal    = document.getElementById("editarModal");
+  const modalBody= document.getElementById("modalBody");
+  const modalId  = document.getElementById("modalPedidoId");
+
+  if (!pedido || !modal || !modalBody || !modalId) return;
+
+  modalId.textContent = pedidoActivo;
+
+  // Construimos contenido del modal (comentarios por producto)
+  modalBody.innerHTML = `
+    <div class="menu-items">
+      ${pedido.ordenes
+        .map((item, index) => `
+          <div class="menu-item" data-index="${index}">
+            <div class="mi-header">
+              <span class="mi-name">${item.nombre}</span>
+              <span class="mi-qty">x${item.cantidad}</span>
+              <span class="mi-price">$${item.precio.toFixed(2)}</span>
+            </div>
+            <label class="mi-label">Comentario del cliente</label>
+            <textarea
+              class="mi-comment"
+              rows="2"
+              placeholder="Sin comentarios"
+            >${item.comentario || ""}</textarea>
+          </div>
+        `)
+        .join("")}
+    </div>
+  `;
+
+  modal.classList.add("active");
+}
