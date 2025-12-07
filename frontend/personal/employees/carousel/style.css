@@ -2620,9 +2620,19 @@ filter: brightness (1.02882);
 transform: translateY(-0.576409px);
 
 }
+/* Base: mismo tamaño y márgenes */
 .ordenes-container h4 {
     font-size: 1.02rem;
     font-weight: 700;
-    color: #eef3ff;
     margin: 0 0 0.8rem;
+}
+
+/* 🟠 Versión CLARA → texto negro */
+body.admin-body:not(.admin-dark) .ordenes-container h4 {
+    color: #000000;
+}
+
+/* 🌑 Versión OSCURA → texto blanco/clarito */
+body.admin-body.admin-dark .ordenes-container h4 {
+    color: #eef3ff;
 }
