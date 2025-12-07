@@ -12,7 +12,18 @@ let editItems = [];
 ============================================================ */
 async function cargarPedidos() {
   try {
-    const res = await fetch("/api/orders/list");
+    // 🔥 Tomamos la caja del empleado (enviada desde el login)
+    const user = JSON.parse(localStorage.getItem("user"));
+    const cajaId = user?.caja_id;
+
+    if (!cajaId) {
+      console.error("Empleado sin caja asignada");
+      alert("No tienes una caja asignada. Contacta al administrador.");
+      return;
+    }
+
+    // 🔥 Ahora cargamos SOLO los pedidos de esa caja
+    const res = await fetch(`/api/orders/list?caja_id=${cajaId}`);
     const pedidos = await res.json();
 
     pedidosData = {};
@@ -27,7 +38,7 @@ async function cargarPedidos() {
           estado: p.status,
           createdAt: p.created_at,
           horaPedido: p.created_at.substring(11, 16),
-          horaEstimada: p.created_at.substring(11, 16), // de momento lo mismo
+          horaEstimada: p.created_at.substring(11, 16),
           ordenes: []
         };
       });
@@ -37,11 +48,13 @@ async function cargarPedidos() {
 
     const first = Object.keys(pedidosData)[0];
     if (first) seleccionarPedido(first);
+
   } catch (err) {
     console.error("Error cargando pedidos:", err);
     alert("No se pudieron cargar los pedidos.");
   }
 }
+
 
 /* ============================================================
    📥 CARGAR PLATILLOS (para NUEVO PEDIDO)

@@ -5,31 +5,43 @@ export const createOrder = async (req, res) => {
     const { customerName, items, total } = req.body;
     const userId = req.user?.id || null;
 
-    // Obtener último número de orden
+    // 🔥 1. Obtener cajas ACTIVAS
+    const [cajas] = await pool.query(
+      "SELECT id FROM cajas WHERE estado = 'activa'"
+    );
+
+    if (cajas.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No hay cajas activas para asignar el pedido."
+      });
+    }
+
+    // 🔥 2. Elegir una caja al azar (temporal)
+    const cajaAleatoria = cajas[Math.floor(Math.random() * cajas.length)].id;
+
+    // 🔥 3. Obtener último número de orden
     const [last] = await pool.query(
       "SELECT order_number FROM orders ORDER BY id DESC LIMIT 1"
     );
 
     const nextOrder = last.length ? last[0].order_number + 1 : 1;
 
-    // Crear encabezado
+    // 🔥 4. Crear encabezado de la orden **YA CON caja_id**
     const [orderResult] = await pool.query(
-      `INSERT INTO orders (order_number, customer_name, total, user_id)
-       VALUES (?, ?, ?, ?)`,
-      [nextOrder, customerName || "Cliente", total, userId]
+      `INSERT INTO orders (order_number, customer_name, total, user_id, caja_id)
+       VALUES (?, ?, ?, ?, ?)`,
+      [nextOrder, customerName || "Cliente", total, userId, cajaAleatoria]
     );
 
     const orderId = orderResult.insertId;
 
-    // Insertar detalles
+    // 🔥 5. Insertar detalles
     for (const item of items) {
       const name = item.name ?? item.nombre;
-      const quantity =
-        item.quantity ?? item.qty ?? item.cantidad ?? 1;
-      const price =
-        item.price ?? item.unit ?? item.precio ?? 0;
-      const comments =
-        item.comments ?? item.comment ?? item.comentario ?? "";
+      const quantity = item.quantity ?? item.qty ?? item.cantidad ?? 1;
+      const price = item.price ?? item.unit ?? item.precio ?? 0;
+      const comments = item.comments ?? item.comment ?? item.comentario ?? "";
 
       await pool.query(
         `INSERT INTO order_details (order_id, dish_name, quantity, price, comments)
@@ -43,6 +55,7 @@ export const createOrder = async (req, res) => {
       orderNumber: nextOrder,
       message: "Pedido guardado correctamente"
     });
+
   } catch (error) {
     console.log("ERROR createOrder:", error);
     res.status(500).json({
@@ -51,14 +64,23 @@ export const createOrder = async (req, res) => {
     });
   }
 };
+
 //ordenes pendientes y en proceso
 export const getOrders = async (req, res) => {
   try {
+    const caja_id = req.query.caja_id;
+
+    if (!caja_id) {
+      return res.status(400).json({ error: "Falta caja_id" });
+    }
+
     const [rows] = await pool.query(
       `SELECT id, order_number, customer_name, total, status, created_at
        FROM orders
-       WHERE status IN ('pendiente', 'en_proceso')
-       ORDER BY order_number ASC`
+       WHERE caja_id = ?
+         AND status IN ('pendiente', 'en_proceso')
+       ORDER BY order_number ASC`,
+      [caja_id]
     );
 
     res.json(rows);
@@ -67,6 +89,7 @@ export const getOrders = async (req, res) => {
     res.status(500).json({ error: "Error obteniendo pedidos" });
   }
 };
+
 //detalles del pedido
 export const getOrderDetails = async (req, res) => {
   try {
