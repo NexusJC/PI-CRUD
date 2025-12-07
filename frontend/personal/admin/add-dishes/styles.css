@@ -75,7 +75,7 @@ body.admin-body.admin-dark {
 }
 
 .bandera-container::before {
-  content: "\f0ac"; /* ICONO GLOBO */
+  content: "\f0ac"; 
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   font-size: 1.1rem;
@@ -83,20 +83,18 @@ body.admin-body.admin-dark {
 }
 
 .bandera-container::after {
-  content: "Idioma";
+  content: attr(data-idioma-text);
   font-size: 0.85rem;
   color: #e5e7eb;
   margin-left: 6px;
 }
 
-/* ====== Modo oscuro ====== */
 .admin-dark .idioma-btn {
   background: #020617;
   border-color: #1f2937;
   color: #e5e7eb;
 }
 
-/* ====== Sidebar cerrado → botón redondo ====== */
 .menu-dashboard:not(.open) .idioma-btn,
 .menu-dashboard.collapsed .idioma-btn {
   width: 48px;
@@ -108,7 +106,7 @@ body.admin-body.admin-dark {
 
 .menu-dashboard:not(.open) .idioma-btn .bandera-container::after,
 .menu-dashboard.collapsed .idioma-btn .bandera-container::after {
-  display: none; /* Se oculta el texto, como los demás botones */
+  display: none;
 }
 
 /* ==========================
