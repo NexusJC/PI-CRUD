@@ -484,6 +484,7 @@
     0 0 0 1px rgba(255, 255, 255, 0.22);
 }
 
+
 /* En sidebar cerrado mantiene el mismo aspecto (no mostramos texto) */
 .menu-dashboard:not(.open) .sidebar-bottom .logout-btn span {
   display: none;

@@ -212,7 +212,7 @@ function updateLanguageUI(targetLanguage) {
   }
 
   // =====================================================================
-  //  PANEL DE ORDEN (#orderDetails) – textos fijos traducidos A MANO
+  //  textos fijos traducidos A MANO
   // =====================================================================
 
   // Título "Tu orden" / "Your order"
@@ -473,7 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   }
 
-  // Sólo traducimos automáticamente si el idioma guardado NO es español
   if (savedLanguage !== 'es') {
     translateContent(savedLanguage);
   }

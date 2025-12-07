@@ -1427,3 +1427,122 @@ body.admin-body.admin-dark {
   overflow: visible;   /* deja salir el menú de categorías  */
   padding: 0;
 }
+
+/* ============================================================
+   MODO SOLO PARA NAVEGADORES (PC/LAPTOP)
+   Cancelamos cualquier responsive móvil
+============================================================ */
+
+/* Max-width 1024 */
+@media (max-width: 1024px) {
+  .dishes-main {
+    margin-left: 230px !important;
+    padding: 28px 32px !important;
+  }
+
+  .menu-dashboard {
+    width: 230px !important;
+    position: fixed !important;
+  }
+
+  .dishes-header {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .btn-add-dish {
+    width: auto !important;
+  }
+
+  .dishes-card-header {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+  }
+
+  .dishes-card-meta {
+    justify-content: flex-end !important;
+  }
+}
+
+/* Max-width 768 */
+@media (max-width: 768px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+
+  .menu-dashboard {
+    width: 230px !important;
+  }
+}
+
+/* Max-width 520 */
+@media (max-width: 520px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+}
+
+/* Max-width 480 */
+@media (max-width: 480px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+}
+
+/* Max-width 360 */
+@media (max-width: 360px) {
+  .dishes-main {
+    margin-left: 230px !important;
+  }
+}
+
+/* ===============================
+   APAGAR BRILLO DE TODOS LOS BOTONES
+   (Modo claro y modo oscuro)
+=============================== */
+
+/* Botón Añadir Platillo */
+.btn-add-dish,
+.btn-add-dish:hover {
+  box-shadow: none !important;
+}
+
+/* Botones de acciones */
+.btn-edit,
+.btn-edit:hover,
+.btn-delete,
+.btn-delete:hover,
+.delete-btn,
+.delete-btn:hover {
+  box-shadow: none !important;
+}
+
+/* Botón cerrar sesión */
+.logout-btn,
+.logout-btn:hover {
+  box-shadow: none !important;
+}
+
+/* Botón modo oscuro / claro */
+.sidebar-theme-toggle,
+.sidebar-theme-toggle:hover {
+  box-shadow: none !important;
+}
+
+/* Botón idioma */
+.idioma-btn,
+.idioma-btn:hover {
+  box-shadow: none !important;
+}
+
+/* Quitar brillo al botón 'Añadir Platillo' del sidebar */
+.menu .enlace.active,
+.menu .enlace.active:hover {
+  box-shadow: none !important;
+}
+
+/* Quitar brillo de la foto del usuario en el sidebar */
+.user-photo {
+  box-shadow: none !important;
+}

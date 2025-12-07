@@ -83,3 +83,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* =========================
+   LOGOUT ADMIN
+========================= */
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("preferredLanguage");
+    localStorage.removeItem("admin-theme");
+    localStorage.removeItem("admin-sidebar-open");
+
+    // Ruta absoluta correcta en el servidor
+    window.location.href = "/login/login.html";
+  });
+}
