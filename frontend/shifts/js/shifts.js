@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarTurnos() {
   try {
-    const res = await fetch("https://www.laparrilaazteca.online/api/orders/getAll");
+    const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
     const pedidos = await res.json();
 
     if (!Array.isArray(pedidos)) return;
