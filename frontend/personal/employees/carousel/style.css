@@ -2471,3 +2471,60 @@ body.admin-dark .modal-nuevo-pedido .np-list {
 body.admin-dark .modal-nuevo-pedido .np-item {
   background: #020617;
 }
+/* ✅ Botón verde para agregar producto */
+#npAgregarItem {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.45);
+  border: none;
+}
+
+#npAgregarItem:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 14px 35px rgba(34, 197, 94, 0.65);
+}
+/* ✅ Modo claro estilo corporativo */
+body:not(.admin-dark) .modal-content {
+  background: #ffffff;
+  border: 2px solid var(--primary);
+  box-shadow: 0 25px 60px rgba(227, 104, 66, 0.35);
+}
+
+body:not(.admin-dark) .np-form input,
+body:not(.admin-dark) .np-form textarea,
+body:not(.admin-dark) .np-form select {
+  background: #ffffff;
+  border: 1.6px solid #e5e7eb;
+  color: #111827;
+}
+
+body:not(.admin-dark) .np-form input:focus,
+body:not(.admin-dark) .np-form textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.25);
+}
+
+body:not(.admin-dark) .modal-title {
+  color: var(--primary);
+}
+/* ✅ Modal centrado con animación fluida */
+.modal.active .modal-content {
+  animation: modalEntrada 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalEntrada {
+  from {
+    transform: translateY(30px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ✅ Modal nuevo pedido MÁS GRANDE */
+.modal-nuevo-pedido .modal-content {
+  width: min(780px, 96vw);
+  max-height: 88vh;
+}

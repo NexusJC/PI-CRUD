@@ -289,6 +289,18 @@ async function cargarDetallesDeCadaPedido() {
     }
   }
 }
+const qtyInput = document.getElementById("npCantidad");
+
+if (qtyInput) {
+  qtyInput.addEventListener("input", () => {
+    if (qtyInput.value < 1) qtyInput.value = 1;
+    if (qtyInput.value > 99) qtyInput.value = 99;
+  });
+
+  qtyInput.addEventListener("keydown", (e) => {
+    if (e.key === "-" || e.key === "e") e.preventDefault();
+  });
+}
 
 /* ============================================================
    🔧 INICIALIZACIÓN GLOBAL
@@ -338,10 +350,10 @@ function inicializarNuevoPedidoModal() {
         return;
       }
 
-      const qty = Math.max(
-        1,
-        Math.min(99, parseInt(qtyInput?.value || "1", 10))
-      );
+     const qty = Math.max(
+  1,
+  Math.min(99, parseInt(qtyInput?.value || "1", 10))
+);
       const comment = (commentInput?.value || "").trim();
 
       const unit =
