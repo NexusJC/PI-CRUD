@@ -1,238 +1,211 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestión de empleados · Admin</title>
+    <link rel="icon" href="/img/logo_1.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empleados - Dashboard</title>
 
-  <!-- Iconos -->
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-
-  <!-- Estilos generales del admin (mismos que add_dishes) -->
-  <link rel="stylesheet" href="../add-dishes/styles.css" />
-
-  <!-- Estilos específicos de gestión de empleados -->
-  <link rel="stylesheet" href="style.css" />
+    <!-- BOX ICONS -->
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body class="admin-body admin-dark" data-theme="dark" data-lang="es">
-  <!-- ====== LAYOUT PRINCIPAL ====== -->
-  <div class="admin-layout">
-    <!-- ==== SIDEBAR ==== -->
-    <aside class="menu-dashboard" id="adminSidebar">
-      <!-- parte superior -->
-      <div class="top-menu">
+<!-- SIDEBAR -->
+<div class="menu-dashboard">
+    <div class="top-menu">
         <div class="logo">
-          <img src="../../../../assets/img/logo.png" alt="Logo" />
-          <span>Panel Admin</span>
+            <img src="/img/logo_1.png" alt="Logo">
+            <span>Bienvenido</span>
         </div>
-        <button class="toggle" type="button" id="sidebarToggle">
-          <i class="bx bx-menu"></i>
-        </button>
-      </div>
+        <div class="toggle">
+            <i class='bx bx-menu'></i>
+        </div>
+    </div>
 
-      <!-- Perfil -->
-      <div class="perfil-admin">
-        <div class="perfil-avatar">
-          <img id="adminAvatar" src="../../../../assets/img/avatar-placeholder.png" alt="Usuario" />
-        </div>
-        <div class="perfil-info">
-          <span class="perfil-nombre" id="adminName">Usuario</span>
-          <span class="perfil-rol">Administrador</span>
-        </div>
-      </div>
+    <div class="user-box">
+        <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
 
-      <!-- Menú principal -->
-      <ul class="menu-main">
-        <li>
-          <a href="../dashboard/dashboard.html">
-            <i class='bx bx-grid-alt'></i>
+        <div class="user-info">
+            <span id="sidebarUserName"></span>
+        </div>
+    </div>
+
+    <!-- Menú de navegación -->
+    <div class="menu">
+        <a class="enlace" href="/personal/admin/dashboard/dashboard.html">
+            <i class="bx bx-grid-alt"></i>
             <span>Dashboard</span>
-          </a>
-        </li>
-
-        <li class="active">
-          <a href="./employee.html">
-            <i class='bx bx-user-circle'></i>
+        </a>
+        <a class="enlace" href="/personal/admin/employee-management/employee.html">
+            <i class='bx bx-group'></i>
             <span>Gestión Empleados</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="../gestioncajas/gestioncajas.html">
-            <i class='bx bx-store-alt'></i>
+        </a>
+        <a class="enlace" href="/personal/admin/gestioncajas/gestioncajas.html">
+            <i class="bx bx-store"></i>
             <span>Gestión Cajas</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="../add-dishes/add_dishes.html">
+        </a>
+        <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
             <i class='bx bx-restaurant'></i>
             <span>Añadir Platillo</span>
-          </a>
-        </li>
-      </ul>
-
-      <!-- Botones inferiores: idioma / tema / logout -->
-      <div class="sidebar-bottom">
-        <!-- Traductor (mismo sistema que ya usas con bandera) -->
-        <div class="bandera-container">
-          <button class="idioma-btn" type="button" onclick="alternarIdioma()">
-            <img id="banderaIdioma" src="../../../../assets/img/mx-flag.svg" alt="Idioma actual" />
-            <span id="textoIdioma">Español</span>
-          </button>
-        </div>
-
-        <!-- Modo claro/oscuro -->
-        <button id="themeToggle" class="sidebar-btn" type="button">
-          <i class='bx bx-moon'></i>
-          <span>Modo oscuro</span>
-        </button>
-
-        <!-- Cerrar sesión -->
-        <button id="logoutBtn" class="logout-btn" type="button" title="Cerrar sesión">
-          <i class='bx bx-log-out'></i>
-        </button>
-      </div>
-    </aside>
-
-    <!-- ====== CONTENIDO PRINCIPAL ====== -->
-    <main class="gestion-empleados-main">
-      <!-- Cabecera tipo tarjeta (igual a cajas / add_dishes) -->
-      <section class="gestion-empleados-header">
-        <h1>Gestión de empleados</h1>
-        <p>
-          Administra el personal del restaurante, asigna cajas y controla el
-          estado de cada empleado.
-        </p>
-      </section>
-
-      <!-- Barra de filtro + botón agregar (estilo add_dishes) -->
-      <section class="toolbar-empleados">
-        <div class="toolbar-empleados-left">
-          <span class="toolbar-label">Estado:</span>
-          <select id="filtroEstado" class="filtro-estado-select">
-            <option value="todos">Todos</option>
-            <option value="activo">Activos</option>
-            <option value="inactivo">Inactivos</option>
-          </select>
-        </div>
-
-        <button id="btnNuevoEmpleado" class="btn-agregar-empleado" type="button">
-          <i class='bx bx-user-plus'></i>
-          <span>Agregar empleado</span>
-        </button>
-      </section>
-
-      <!-- Tarjeta con tabla (misma estética que tabla de platillos) -->
-      <section class="empleados-card">
-        <header class="empleados-card-header">
-          <div>
-            <h2>Empleados registrados</h2>
-            <p>Listado de todos los empleados registrados en el sistema.</p>
-          </div>
-        </header>
-
-        <div class="table-wrapper">
-          <table class="admin-table employees-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Empleado</th>
-                <th>Teléfono</th>
-                <th>Caja</th>
-                <th>Estado</th>
-                <th>Fecha de registro</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="tbodyEmpleados">
-              <!-- filas dinámicas desde JS -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- ====== MODAL EMPLEADO (IDs iguales para tu JS) ====== -->
-  <div id="overlayEmpleado" class="overlay-empleado">
-    <div id="modalEmpleado" class="modal-empleado">
-      <div class="modal-empleado__content">
-        <div class="modal-empleado__header">
-          <div class="modal-logo-placeholder"></div>
-          <div class="modal-title-group">
-            <h3 id="modalTitulo">Agregar empleado</h3>
-            <p class="modal-subtitle">
-              Completa los datos del empleado para registrarlo o actualizarlo.
-            </p>
-          </div>
-          <button id="btnCerrarModal" class="modal-cerrar" type="button">
-            <i class='bx bx-x'></i>
-          </button>
-        </div>
-
-        <form id="formEmpleado" class="modal-empleado__form">
-          <div class="form-row">
-            <label for="nombreEmpleado">Nombre del empleado</label>
-            <input type="text" id="nombreEmpleado" name="nombreEmpleado" required />
-          </div>
-
-          <div class="form-row">
-            <label for="telefonoEmpleado">Teléfono</label>
-            <input type="tel" id="telefonoEmpleado" name="telefonoEmpleado" required />
-          </div>
-
-          <div class="form-row">
-            <label for="cajaEmpleado">Caja asignada</label>
-            <select id="cajaEmpleado" name="cajaEmpleado" required>
-              <!-- opciones generadas por JS -->
-            </select>
-          </div>
-
-          <div class="form-row">
-            <label for="estadoEmpleado">Estado</label>
-            <select id="estadoEmpleado" name="estadoEmpleado" required>
-              <option value="activo">Activo</option>
-              <option value="inactivo">Inactivo</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <label for="correoEmpleado">Correo</label>
-            <input type="email" id="correoEmpleado" name="correoEmpleado" required />
-          </div>
-
-          <div class="form-row form-row-password">
-            <label for="passwordEmpleado">Contraseña</label>
-            <div class="password-wrapper">
-              <input type="password" id="passwordEmpleado" name="passwordEmpleado" required />
-              <button id="togglePassword" type="button" class="password-toggle-btn">
-                <i class='bx bx-low-vision'></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="modal-actions">
-            <button type="button" id="btnCancelarEmpleado" class="btn-secundario-modal">
-              Cancelar
-            </button>
-            <button type="submit" class="btn-primario-modal">
-              Guardar cambios
-            </button>
-          </div>
-        </form>
-      </div>
+        </a>
     </div>
-  </div>
 
-  <!-- ====== SCRIPTS ====== -->
-  <!-- Lógica general de sidebar / tema / logout / tabla de empleados -->
-  <script src="js/menu.js" defer></script>
+    <!-- Botón de cerrar sesión al final -->
+    <div class="logout-container">
+        <button id="logoutBtn" class="logout-btn">
+            <i class='bx bx-log-out'></i> Cerrar sesión
+        </button>
+    </div>
+</div>
 
-  <!-- Traductor (el mismo que ya utilizas en admin) -->
-  <script src="js/translate.js" defer></script>
+    <!-- SECCIÓN EMPLEADOS -->
+    <main id="seccion-trabajadores" class="seccion-trabajadores-card">
+        <h2 class="titulo-empleados">Gestión de empleados</h2>
+
+        <!-- TOOLBAR: FILTRO + BOTÓN AGREGAR -->
+        <div class="empleados-toolbar">
+            <div class="filtro-estado">
+                <label for="filtroEstado">Estado:</label>
+                <select id="filtroEstado">
+                    <option value="todos">Todos</option>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
+
+            <button id="btnNuevoEmpleado" class="btn-primario">
+                <i class='bx bx-user-plus'></i>
+                Agregar empleado
+            </button>
+        </div>
+
+        <!-- TABLA DE EMPLEADOS -->
+        <div class="tabla-wrap tabla-wrap-empleados">
+            <table class="tabla-login-like" id="tablaEmpleados">
+                <thead>
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Teléfono</th>
+                        <th>Caja</th>
+                        <th>Estado</th>
+                        <th>Fecha de registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyEmpleados">
+                    <!-- Filas generadas por JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- OVERLAY DEL MODAL -->
+    <div class="overlay-empleado" id="overlayEmpleado"></div>
+
+    <!-- MODAL CENTRADO PARA CREAR / EDITAR -->
+    <section class="modal-empleado" id="modalEmpleado" aria-hidden="true">
+        <div class="modal-empleado__content">
+            <header class="modal-empleado__header">
+                <!-- Aquí añadir el logo de la empresa -->
+                <div class="modal-logo-placeholder"></div>
+
+                <div class="modal-title-group">
+                    <h3 id="modalTitulo">Crear empleado</h3>
+                    <p class="modal-subtitle">Completa los datos del empleado.</p>
+                </div>
+
+                <button class="modal-cerrar" id="btnCerrarModal" aria-label="Cerrar">
+                    &times;
+                </button>
+            </header>
+
+            <form id="formEmpleado" class="modal-empleado__form" autocomplete="off">
+                <!-- NOMBRE -->
+                <div class="form-row">
+                    <label for="nombreEmpleado">Nombre completo</label>
+                    <input type="text" id="nombreEmpleado" placeholder="Ej. Juan Pérez" required>
+                </div>
+
+                <!-- TELÉFONO -->
+                <div class="form-row">
+                    <label for="telefonoEmpleado">Número de teléfono</label>
+                    <input type="tel" id="telefonoEmpleado" placeholder="Ej. 3141234567" required>
+                </div>
+                <!-- CORREO -->
+               <!-- =========================
+     CORREO ELECTRÓNICO
+========================= -->
+<div class="form-row">
+    <label for="emailEmpleado">Correo electrónico</label>
+    <div class="input-grupo">
+        <input 
+            type="email" 
+            id="emailEmpleado" 
+            placeholder="usuario@correo.com" 
+            required
+        >
+        <i class='bx bx-envelope icono-input'></i>
+    </div>
+</div>
+
+<!-- =========================
+     CONTRASEÑA
+========================= -->
+<div class="form-row">
+    <label for="passwordEmpleado">Contraseña</label>
+    <div class="input-grupo">
+        <input 
+            type="password" 
+            id="passwordEmpleado" 
+            placeholder="**********" 
+            required
+        >
+        <i id="togglePass" class='bx bx-hide icono-input pointer'></i>
+    </div>
+</div>
+
+                <!-- SOLO SUBIR ARCHIVO -->
+                <div class="tabs-imagen">
+                    <button type="button" class="tab-btn active" id="tabArchivo">Subir archivo</button>
+                </div>
+
+                <div id="contenedorArchivo" class="tab-contenido activo">
+                    <div class="caja-imagen" id="zonaImagen">
+                        <label for="archivoEmpleado" class="label-subida">
+                            <img id="previewImagen" class="preview-empty">
+                            <p class="texto-imagen">Haz clic o arrastra una imagen</p>
+                        </label>
+                        <input type="file" id="archivoEmpleado" accept="image/*">
+                    </div>
+                </div>
+
+                <!-- FOOTER BOTONES -->
+                <footer class="modal-empleado__footer">
+                    <div class="modal-footer-left">
+                        <button type="button" class="btn-secundario" id="btnCancelarModal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="modal-footer-right">
+                        <button type="button" class="btn-peligro oculto" id="btnEliminarEmpleado">
+                            <i class='bx bx-trash'></i>
+                            Eliminar empleado
+                        </button>
+                        <button type="submit" class="btn-primario" id="btnGuardarEmpleado">
+                            <i class='bx bx-save'></i>
+                            Guardar empleado
+                        </button>
+                    </div>
+                </footer>
+            </form>
+        </div>
+    </section>
+
+    <script src="./js/menu.js" defer></script>
 </body>
-
 </html>
