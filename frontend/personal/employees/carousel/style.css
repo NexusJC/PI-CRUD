@@ -1,24 +1,24 @@
 /* ==========================
-   VARIABLES LOCALES
+   VARIABLES LOCALES (alineadas al tema Admin)
    ========================== */
 :root {
   --topbar: #e36842;
   --panel: #fff7ea;
-  --text: #2b2b2b;
+  --text: #1f2933;
   --card: #ffffff;
-  --border: #e5e5e5;
-  --primary: #d54f28;
-  --secondary: #f39c12;
-  --danger: #e74c3c;
-  --success: #27ae60;
-  --info: #3498db;
-  --warning: #e67e22;
-  --gray: #666;
-  --light-gray: #f5f5f5;
+  --border: #e5e7eb;
+  --primary: #e36842;
+  --secondary: #f97316;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --info: #3b82f6;
+  --warning: #f97316;
+  --gray: #6b7280;
+  --light-gray: #f9fafb;
   --white: #fff;
-  --dark: #111827;
+  --dark: #020617;
   --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.12);
-  --shadow-strong: 0 18px 40px rgba(15, 23, 42, 0.22);
+  --shadow-strong: 0 18px 40px rgba(15, 23, 42, 0.28);
 }
 
 /* ==========================
@@ -50,7 +50,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background: #f5f0e9;
+  background: linear-gradient(
+    135deg,
+    #fff7ea 0%,
+    #f5f0e9 45%,
+    #f3f4f6 100%
+  );
   transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -549,73 +554,6 @@ body {
 }
 
 /* ==========================
-   TRADUCTOR EN EL SIDEBAR
-   (reusa el botón estilo sidebar-theme-toggle)
-   ========================== */
-
-.language-switcher {
-  position: relative;
-  width: 100%;
-}
-
-.language-switcher .translate-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-/* Menú de idiomas aparece sobre el botón dentro del sidebar */
-.language-switcher .translate-menu {
-  position: absolute;
-  bottom: 110%;
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid rgba(209, 213, 219, 0.9);
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.25);
-  list-style: none;
-  padding: 6px;
-  margin: 0;
-  display: none;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 30;
-}
-
-.language-switcher .translate-menu.show {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.language-switcher .translate-menu li {
-  padding: 8px 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 8px;
-  transition: background 0.15s ease, transform 0.1s ease;
-}
-
-.language-switcher .translate-menu li:hover {
-  background: #f9fafb;
-  transform: translateX(2px);
-}
-
-.flag-icon {
-  border-radius: 3px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* ==========================
    RESPONSIVE
    ========================== */
 
@@ -693,12 +631,16 @@ body {
 
 /* ==========================
    MODO OSCURO PARA EL PANEL
-   (usa la clase .admin-dark en el body,
-   igual que en el admin) :contentReference[oaicite:1]{index=1}
+   (usa la clase .admin-dark en el body)
    ========================== */
 
 .admin-dark .kitchen-main {
-  background: radial-gradient(circle at top left, #020617 0, #020617 40%, #020617 100%);
+  background: radial-gradient(
+    circle at top left,
+    #020617 0,
+    #020617 40%,
+    #020617 100%
+  );
   color: #e5e7eb;
 }
 
@@ -717,7 +659,12 @@ body {
 }
 
 .admin-dark .turno-card.activo {
-  background: radial-gradient(circle at top left, #020617 0, #020617 60%, #0f172a 100%);
+  background: radial-gradient(
+    circle at top left,
+    #020617 0,
+    #020617 60%,
+    #0f172a 100%
+  );
   border-color: #f97316;
 }
 
@@ -782,15 +729,4 @@ body {
 
 .admin-dark .item-comment-input:focus {
   box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.3);
-}
-
-/* traductor en oscuro */
-.admin-dark .language-switcher .translate-menu {
-  background: #020617;
-  border-color: #111827;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.95);
-}
-
-.admin-dark .language-switcher .translate-menu li:hover {
-  background: rgba(15, 23, 42, 0.9);
 }
