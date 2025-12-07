@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 export const getEmployees = async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT id, name, email, telefono, profile_picture, created_at FROM users WHERE role = 'empleado'"
+      "SELECT id, name, email, telefono, image_url, created_at FROM users WHERE role = 'empleado'"
     );
     res.json(rows);
   } catch (error) {

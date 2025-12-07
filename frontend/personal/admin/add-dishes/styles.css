@@ -54,6 +54,66 @@ body.admin-body.admin-dark {
   color: #e5e7eb;
 }
 
+/* Toggle de idioma */
+.idioma-btn {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.idioma-btn:hover {
+  background: rgba(15, 23, 42, 1);
+  transform: translateY(-1px);
+}
+
+.bandera-container::before {
+  content: "\f0ac"; 
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: #e5e7eb;
+}
+
+.bandera-container {
+  display: inline-flex;
+  align-items: center;
+}
+
+.bandera-container::after {
+  content: attr(data-idioma-text);
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  margin-left: 6px;
+}
+
+.admin-dark .idioma-btn {
+  background: #020617;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+.menu-dashboard:not(.open) .idioma-btn,
+.menu-dashboard.collapsed .idioma-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 999px;
+}
+
+.menu-dashboard:not(.open) .idioma-btn .bandera-container::after,
+.menu-dashboard.collapsed .idioma-btn .bandera-container::after {
+  display: none;
+}
+
 /* ==========================
    SIDEBAR DASHBOARD
    ========================== */

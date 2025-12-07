@@ -12,7 +12,18 @@ let editItems = [];
 ============================================================ */
 async function cargarPedidos() {
   try {
-    const res = await fetch("/api/orders/list");
+    // 🔥 Tomamos la caja del empleado (enviada desde el login)
+    const user = JSON.parse(localStorage.getItem("user"));
+    const cajaId = user?.caja_id;
+
+        if (!cajaId) {
+      console.error("❌ Empleado sin caja asignada.");
+      return;
+    }
+
+
+    // 🔥 Ahora cargamos SOLO los pedidos de esa caja
+    const res = await fetch(`/api/orders/list?caja_id=${cajaId}`);
     const pedidos = await res.json();
 
     pedidosData = {};
@@ -27,7 +38,7 @@ async function cargarPedidos() {
           estado: p.status,
           createdAt: p.created_at,
           horaPedido: p.created_at.substring(11, 16),
-          horaEstimada: p.created_at.substring(11, 16), // de momento lo mismo
+          horaEstimada: p.created_at.substring(11, 16),
           ordenes: []
         };
       });
@@ -37,11 +48,29 @@ async function cargarPedidos() {
 
     const first = Object.keys(pedidosData)[0];
     if (first) seleccionarPedido(first);
+
   } catch (err) {
     console.error("Error cargando pedidos:", err);
-    alert("No se pudieron cargar los pedidos.");
+    console.warn("⚠ No se pudieron cargar los pedidos:", err);
   }
 }
+let cargando = false;
+
+async function actualizarPedidos() {
+    if (cargando) return; // evita duplicados
+    cargando = true;
+
+    try {
+        await cargarPedidos(); 
+    } catch (err) {
+        console.warn("⚠ Error actualizando pedidos:", err);
+    } finally {
+        cargando = false;
+    }
+}
+
+setInterval(actualizarPedidos, 3000);
+
 
 /* ============================================================
    📥 CARGAR PLATILLOS (para NUEVO PEDIDO)
@@ -268,7 +297,7 @@ async function crearPedidoDesdeModal() {
 
     if (!data.success) {
       console.error("Error al crear pedido:", data);
-      alert("No se pudo crear el pedido.");
+      console.warn("⚠ No se pudieron cargar los pedidos:", error);
       return;
     }
 
@@ -947,3 +976,15 @@ async function guardarCambiosEdicion() {
     alert("No se pudo actualizar el pedido.");
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Panel de cocina listo con pedidos reales");
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user.caja_id) {
+        console.warn("⚠ Usuario sin caja asignada o sin datos en localStorage.");
+        return; // evita romper la página
+    }
+
+    cargarPedidos();
+});

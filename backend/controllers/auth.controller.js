@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
 import SibApiV3Sdk from "sib-api-v3-sdk";
 
 // Obtener todos los usuarios
@@ -21,10 +20,10 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [rows] = await pool.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
-    );
+    // 1. Buscar usuario por email
+    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
 
     if (rows.length === 0) {
       return res.status(401).json({ message: "Usuario no encontrado" });
@@ -32,26 +31,45 @@ export const login = async (req, res) => {
 
     const user = rows[0];
 
-    // Verificar contraseña
+    // 2. Validar contraseña
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
-    // Verificar que el correo esté confirmado
+    // 3. Validar si el correo está verificado
     if (!user.email_verified) {
       return res.status(403).json({
-        message: "Debes confirmar tu correo antes de iniciar sesión."
+        message: "Debes confirmar tu correo antes de iniciar sesión.",
       });
     }
 
-    // Generar token JWT
+    // 🔥 4. Obtener la CAJA del empleado (solo si role = empleado)
+    let caja = null;
+
+    if (user.role === "empleado") {
+      const [result] = await pool.query(
+        "SELECT id FROM cajas WHERE empleado_id = ? LIMIT 1",
+        [user.id]
+      );
+
+      // Si el empleado tiene caja asignada, la obtenemos
+      caja = result.length ? result[0].id : null;
+    }
+
+    // 5. Crear token
     const token = jwt.sign(
-      { id: user.id, email: user.email, name: user.name, role: user.role },
+      {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
 
+    // 🔥 6. RESPUESTA FINAL (aquí se envía la caja)
     return res.status(200).json({
       message: "Login exitoso",
       token,
@@ -59,14 +77,16 @@ export const login = async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role
-      }
+        role: user.role,
+        caja_id: caja, // 👈 SUPER IMPORTANTE
+      },
     });
   } catch (err) {
     console.error("Error logging in:", err);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
+
 
 
 // Registrar usuario + enviar correo de verificación

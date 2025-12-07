@@ -119,3 +119,75 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 });
+
+//cargar turnos
+async function cargarTurnos() {
+  try {
+    const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
+    const pedidos = await res.json();
+
+    if (!Array.isArray(pedidos)) return;
+
+    // SEPARAR: EN PROCESO VS TODOS
+    const enProceso = pedidos.filter(p => p.status === "en_proceso");
+    const todos = pedidos;
+
+    renderTurnosActuales(enProceso);
+    renderTodosLosTurnos(todos);
+
+  } catch (err) {
+    console.warn("⚠ Error cargando turnos:", err);
+  }
+}
+
+function renderTurnosActuales(lista) {
+  const cont = document.getElementById("turnosActuales");
+  cont.innerHTML = "";
+
+  // Mostrar solo los pedidos en proceso
+  const enProceso = lista.filter(t => t.status === "en_proceso");
+
+  if (enProceso.length === 0) {
+    cont.innerHTML = `<p style="text-align:center; color:#888;">No hay pedidos en proceso</p>`;
+    return;
+  }
+
+  enProceso.forEach(t => {
+    cont.innerHTML += `
+      <div class="turno-card resaltado">
+        <h3>#${t.order_number}</h3>
+        <p>${t.customer_name}</p>
+        <span>$${Number(t.total).toFixed(2)}</span>
+        <small style="display:block; margin-top:6px; opacity:0.8;">Caja ${t.caja_id ?? "—"}</small>
+      </div>
+    `;
+  });
+}
+
+//mostrar todos los turnos
+function renderTodosLosTurnos(lista) {
+  const cont = document.getElementById("listaTurnos");
+  cont.innerHTML = "";
+
+  // Solo pendientes y en proceso
+  const filtrados = lista.filter(t =>
+    t.status === "pendiente" || t.status === "en_proceso"
+  );
+
+  filtrados.forEach(t => {
+    cont.innerHTML += `
+      <div class="turno-card">
+        <h3>#${t.order_number}</h3>
+        <p>${t.customer_name || "Cliente"}</p>
+        <span>$${Number(t.total).toFixed(2)}</span>
+      </div>
+    `;
+  });
+}
+
+
+/* CARGAR TURNOS AL ABRIR LA PÁGINA */
+cargarTurnos();
+
+/* OPCIONAL: AUTOREFRESH CADA 5s */
+setInterval(cargarTurnos, 5000);

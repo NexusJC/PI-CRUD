@@ -2755,3 +2755,154 @@ body.dark .login-alert-btn.close {
 body.dark .login-alert-btn.close:hover {
   background: #334155;
 }
+
+/* =========================================================
+   RESPONSIVE FIX – LA PARRILLA AZTECA
+   ========================================================= */
+
+/* ---------- TABLETS (≤ 1024px) ---------- */
+@media (max-width: 1024px) {
+
+  .menu-inner {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.2rem !important;
+  }
+
+  .hero-column {
+    border-right: none !important;
+    padding-right: 0 !important;
+  }
+
+  .special-menu {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+}
+
+/* ---------- MÓVIL HORIZONTAL (≤ 768px) ---------- */
+@media (max-width: 768px) {
+
+  .menu-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-column {
+    order: -1;
+    border-right: none !important;
+    padding-right: 0 !important;
+    padding-bottom: 1rem;
+  }
+
+  .menu-category-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .menu-grid {
+    gap: 0.9rem !important;
+  }
+}
+
+/* ---------- MÓVIL PEQUEÑO (≤ 540px) ---------- */
+@media (max-width: 540px) {
+
+  /* Cards en 1 columna */
+  .menu-category-grid,
+  .menu-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hero más compacto */
+  .hero-title {
+    font-size: 1.6rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem !important;
+  }
+
+  /* Ajustar los pills */
+  .menu-pills {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Topbar */
+  .brand-text {
+    display: none;
+  }
+
+  .open-btn span {
+    display: none;
+  }
+}
+
+/* ---------- iPhone SE / Móviles muy pequeños (≤ 380px) ---------- */
+@media (max-width: 380px) {
+
+  .menu-inner {
+    padding: 1rem !important;
+  }
+
+  .menu-card img {
+    height: 130px !important;
+  }
+
+  .menu-card {
+    padding: 0.65rem !important;
+  }
+
+  .category-btn {
+    padding: 0.3rem 0.7rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  .hero-title {
+    font-size: 1.45rem !important;
+  }
+}
+
+/* =========================================================
+   SIDEBAR RESPONSIVE — FIX FORZADO
+   ========================================================= */
+
+/* Móviles medianos */
+@media (max-width: 600px) {
+
+  #sidebar.sidebar {
+    width: 78% !important;       /* Sidebar mucho más delgado */
+    max-width: 280px !important;
+    left: -78% !important;        /* Para que se oculte correctamente */
+  }
+
+  #sidebar.sidebar.active {
+    left: 0 !important;
+  }
+}
+
+/* Móviles pequeños (iPhone SE) */
+@media (max-width: 420px) {
+
+  #sidebar.sidebar {
+    width: 86% !important;
+    max-width: 260px !important;
+    left: -86% !important;
+  }
+
+  #sidebar.sidebar.active {
+    left: 0 !important;
+  }
+}
+
+/* Móviles ultra pequeños (≤ 360px) */
+@media (max-width: 360px) {
+
+  #sidebar.sidebar {
+    width: 92% !important;
+    max-width: none !important;
+    left: -92% !important;
+  }
+
+  #sidebar.sidebar.active {
+    left: 0 !important;
+  }
+}

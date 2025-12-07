@@ -219,14 +219,13 @@ body {
 }
 
 .turno-actual {
-  background:white;
-  padding:24px;
-  border-radius:18px;
-  width:80%;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
   margin:0 auto 30px;
-  text-align:center;
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
+
 
 .turno-numero {
   font-size:60px;
