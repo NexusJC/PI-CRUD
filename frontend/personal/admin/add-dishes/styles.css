@@ -82,6 +82,11 @@ body.admin-body.admin-dark {
   color: #e5e7eb;
 }
 
+.bandera-container {
+  display: inline-flex;
+  align-items: center;
+}
+
 .bandera-container::after {
   content: attr(data-idioma-text);
   font-size: 0.85rem;
