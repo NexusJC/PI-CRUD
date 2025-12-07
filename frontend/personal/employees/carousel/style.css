@@ -2714,3 +2714,31 @@ color: #111827;
 body.admin-dark .ordenes-container h4 {
 color: #f9fafb;
 }
+/* ============================================================
+   FIX ANCHO DEL PANEL PRINCIPAL (kitchen-main vs sidebar)
+   ============================================================ */
+
+/* Sidebar ABIERTO: ocupa 230px, el main usa el resto */
+.kitchen-main {
+  margin-left: 230px;
+  width: calc(100% - 230px);
+}
+
+/* Sidebar CERRADO/COLAPSADO: ocupa 115px, el main usa el resto */
+.menu-dashboard:not(.open) ~ .kitchen-main,
+.menu-dashboard.close ~ .kitchen-main,
+.menu-dashboard.collapsed ~ .kitchen-main {
+  margin-left: 115px;
+  width: calc(100% - 115px);
+}
+
+/* En pantallas chicas, el main ocupa siempre el 100% */
+@media (max-width: 900px) {
+  .kitchen-main,
+  .menu-dashboard:not(.open) ~ .kitchen-main,
+  .menu-dashboard.close ~ .kitchen-main,
+  .menu-dashboard.collapsed ~ .kitchen-main {
+    margin-left: 0;
+    width: 100%;
+  }
+}
