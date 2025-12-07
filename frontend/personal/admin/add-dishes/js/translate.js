@@ -5,7 +5,7 @@ const API_KEY = 'AIzaSyBiGgFnc2QGkD5V51p45TTM9sPLHqUZn58';
 let currentLanguage = 'es'; // Idioma predeterminado es español (es)
 
 const translatableElements = [
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'span', 'li','strong'
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'span', 'li','strong', 'button'
 ];
 
 function getTranslatableContent() {
