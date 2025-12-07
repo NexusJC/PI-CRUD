@@ -1708,3 +1708,31 @@ body:not(.admin-dark) .tarjeta-caja {
     transform: translateY(0);
     box-shadow: none !important;
 }
+
+/* ============================================================
+   FIX – Quitar difuminado / glow del modal de "Registrar Caja"
+   ============================================================ */
+
+/* Eliminar brillo naranja del circulito */
+.modal-logo-placeholder {
+    background: #1a1d2e !important; /* un color sólido oscuro */
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+/* Eliminar cualquier halo que el contenedor traiga */
+.modal-empleado__content {
+    background: rgba(10, 13, 24, 0.96) !important; /* fondo limpio */
+    box-shadow: 0 24px 40px rgba(0, 0, 0, 0.55) !important; /* sombra suave */
+    backdrop-filter: none !important;
+}
+
+/* Quitar efectos globales que crean un halo alrededor */
+.modal-empleado {
+    backdrop-filter: none !important;
+}
+
+.overlay-empleado {
+    background: rgba(0, 0, 0, 0.55) !important; /* sin degradado */
+    backdrop-filter: blur(4px) !important; /* blur suave sin halo */
+}
