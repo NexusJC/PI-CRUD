@@ -2,9 +2,10 @@
    VARIABLES GLOBALES
 ============================================================ */
 let pedidoActivo = null;
-let pedidosData = {};           // se llena desde el backend
-let dishesCache = [];           // cache de platillos para el modal "nuevo pedido"
-let nuevoPedidoItems = [];      // items que se van agregando al nuevo pedido
+let pedidosData = {};
+let dishesCache = [];
+let nuevoPedidoItems = [];
+let editItems = []; 
 
 /* ============================================================
    📥 CARGAR PEDIDOS DESDE BACKEND
@@ -215,11 +216,12 @@ async function crearPedidoDesdeModal() {
     (clienteInput?.value || "").trim() ||
     (JSON.parse(localStorage.getItem("user") || "null")?.name || "Cliente");
 
+  // 👇 Aquí está el cambio importante: quantity / price / comments
   const items = nuevoPedidoItems.map((it) => ({
     name: it.name,
-    qty: it.qty,
-    unit: it.unit,
-    comment: it.comment || ""
+    quantity: it.qty,
+    price: it.unit,
+    comments: it.comment || ""
   }));
 
   const total = nuevoPedidoItems.reduce(
@@ -253,6 +255,7 @@ async function crearPedidoDesdeModal() {
 
     cerrarModalNuevoPedido();
 
+    // Recargar pedidos y seleccionar el nuevo
     await cargarPedidos();
     if (data.orderNumber && pedidosData[data.orderNumber]) {
       seleccionarPedido(data.orderNumber);
@@ -262,7 +265,6 @@ async function crearPedidoDesdeModal() {
     alert("Error de conexión con el servidor.");
   }
 }
-
 /* ============================================================
    🔄 CARGAR DETALLES DE CADA PEDIDO (items + comentarios)
 ============================================================ */
@@ -648,7 +650,7 @@ function manejarEntregar() {
 }
 
 /* ============================================================
-   ✏️ EDITAR (SOLO COMENTARIOS POR PRODUCTO)
+   ✏️ EDITAR ORDEN (CANTIDADES Y QUITAR PLATILLOS)
 ============================================================ */
 function manejarEditar() {
   if (!pedidoActivo) return;
@@ -662,65 +664,119 @@ function manejarEditar() {
 
   modalId.textContent = pedidoActivo;
 
+  // Clonamos la lista para no modificar la original hasta guardar
+  editItems = pedido.ordenes.map((item) => ({ ...item }));
+
+  renderItemsEdicion();
+  modal.classList.add("active");
+}
+
+function renderItemsEdicion() {
+  const modalBody = document.getElementById("modalBody");
+  if (!modalBody) return;
+
+  if (!editItems.length) {
+    modalBody.innerHTML = `
+      <div class="edit-items">
+        <p class="edit-empty">Este pedido no tiene platillos.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const total = editItems.reduce(
+    (acc, it) => acc + Number(it.cantidad) * Number(it.precio),
+    0
+  );
+
   modalBody.innerHTML = `
-    <div class="menu-items">
-      ${pedido.ordenes
+    <div class="edit-items">
+      ${editItems
         .map(
           (item, index) => `
-        <div class="menu-item" data-index="${index}">
-          <div class="item-header">
-            <span class="item-name">${item.nombre}</span>
-            <span class="item-meta">
-              x${item.cantidad} · $${item.precio.toFixed(2)}
-            </span>
+        <div class="edit-item" data-index="${index}">
+          <div class="edit-item-header">
+            <span class="edit-item-name">${item.nombre}</span>
+            <span class="edit-item-unit">$${Number(item.precio).toFixed(
+              2
+            )} c/u</span>
           </div>
-          <span class="item-comment-label">Comentario del cliente</span>
-          <textarea class="item-comment-input" rows="2">${
-            item.comentario || ""
-          }</textarea>
+          <div class="edit-item-controls">
+            <button type="button" class="edit-qty-btn edit-qty-dec">−</button>
+            <input type="number" class="edit-qty-input" min="1" max="99" value="${item.cantidad}">
+            <button type="button" class="edit-qty-btn edit-qty-inc">+</button>
+            <button type="button" class="edit-remove-btn">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
         </div>
       `
         )
         .join("")}
+      <div class="edit-resumen">
+        <span>Total del pedido:</span>
+        <strong>$${total.toFixed(2)}</strong>
+      </div>
     </div>
   `;
 
-  modal.classList.add("active");
+  modalBody.querySelectorAll(".edit-item").forEach((row, index) => {
+    const decBtn = row.querySelector(".edit-qty-dec");
+    const incBtn = row.querySelector(".edit-qty-inc");
+    const qtyInput = row.querySelector(".edit-qty-input");
+    const removeBtn = row.querySelector(".edit-remove-btn");
+
+    decBtn?.addEventListener("click", () => {
+      const current = Number(editItems[index].cantidad) || 1;
+      const next = Math.max(1, current - 1);
+      editItems[index].cantidad = next;
+      renderItemsEdicion();
+    });
+
+    incBtn?.addEventListener("click", () => {
+      const current = Number(editItems[index].cantidad) || 1;
+      const next = Math.min(99, current + 1);
+      editItems[index].cantidad = next;
+      renderItemsEdicion();
+    });
+
+    qtyInput?.addEventListener("change", () => {
+      let val = parseInt(qtyInput.value, 10);
+      if (Number.isNaN(val) || val < 1) val = 1;
+      if (val > 99) val = 99;
+      editItems[index].cantidad = val;
+      renderItemsEdicion();
+    });
+
+    removeBtn?.addEventListener("click", () => {
+      editItems.splice(index, 1);
+      renderItemsEdicion();
+    });
+  });
 }
 
 /* ============================================================
-   💾 GUARDAR CAMBIOS (SOLO COMENTARIOS)
+   💾 GUARDAR CAMBIOS DE LA ORDEN
 ============================================================ */
 async function guardarCambiosEdicion() {
   if (!pedidoActivo) return;
 
   const pedido = pedidosData[pedidoActivo];
   const modal = document.getElementById("editarModal");
-  const modalBody = document.getElementById("modalBody");
+  if (!pedido || !modal) return;
 
-  if (!pedido || !modal || !modalBody) return;
-
-  const nuevosItems = [];
-
-  modalBody.querySelectorAll(".menu-item").forEach((row) => {
-    const index = Number(row.dataset.index);
-    const baseItem = pedido.ordenes[index];
-
-    const comentarioTexto =
-      row.querySelector(".item-comment-input")?.value.trim() || "";
-
-    nuevosItems.push({
-      nombre: baseItem.nombre,
-      cantidad: baseItem.cantidad,
-      precio: baseItem.precio,
-      comments: comentarioTexto
-    });
-  });
-
-  if (nuevosItems.length === 0) {
+  if (!editItems.length) {
     alert("El pedido debe tener al menos un platillo.");
     return;
   }
+
+  const nuevosItems = editItems.map((it) => ({
+    nombre: it.nombre,
+    cantidad: Number(it.cantidad),
+    precio: Number(it.precio),
+    // Seguimos enviando el comentario aunque ya no se edite aquí
+    comments: it.comentario || ""
+  }));
 
   const nuevoTotal = nuevosItems.reduce(
     (acc, it) => acc + it.cantidad * it.precio,
@@ -731,13 +787,12 @@ async function guardarCambiosEdicion() {
     const res = await fetch(`/api/orders/${pedido.id}/edit`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        items: nuevosItems
-      })
+      body: JSON.stringify({ items: nuevosItems })
     });
 
     if (!res.ok) throw new Error("Error al guardar cambios");
 
+    // Actualizamos los datos en memoria
     pedidosData[pedidoActivo].ordenes = nuevosItems.map((it) => ({
       nombre: it.nombre,
       cantidad: it.cantidad,
@@ -750,7 +805,7 @@ async function guardarCambiosEdicion() {
     renderizarCarrusel();
 
     modal.classList.remove("active");
-    alert("Comentarios actualizados correctamente.");
+    alert("Orden actualizada correctamente.");
   } catch (err) {
     console.error(err);
     alert("No se pudo actualizar el pedido.");

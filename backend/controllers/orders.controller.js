@@ -1,11 +1,11 @@
-import { pool } from "../db.js";  
+import { pool } from "../db.js";
 
 export const createOrder = async (req, res) => {
   try {
     const { customerName, items, total } = req.body;
     const userId = req.user?.id || null;
 
-    // Obtener último número
+    // Obtener último número de orden
     const [last] = await pool.query(
       "SELECT order_number FROM orders ORDER BY id DESC LIMIT 1"
     );
@@ -14,26 +14,27 @@ export const createOrder = async (req, res) => {
 
     // Crear encabezado
     const [orderResult] = await pool.query(
-    `INSERT INTO orders (order_number, customer_name, total, user_id)
-    VALUES (?, ?, ?, ?)`,
-    [nextOrder, customerName || "Cliente", total, userId]
-  );
-
+      `INSERT INTO orders (order_number, customer_name, total, user_id)
+       VALUES (?, ?, ?, ?)`,
+      [nextOrder, customerName || "Cliente", total, userId]
+    );
 
     const orderId = orderResult.insertId;
 
     // Insertar detalles
     for (const item of items) {
+      const name = item.name ?? item.nombre;
+      const quantity =
+        item.quantity ?? item.qty ?? item.cantidad ?? 1;
+      const price =
+        item.price ?? item.unit ?? item.precio ?? 0;
+      const comments =
+        item.comments ?? item.comment ?? item.comentario ?? "";
+
       await pool.query(
         `INSERT INTO order_details (order_id, dish_name, quantity, price, comments)
          VALUES (?, ?, ?, ?, ?)`,
-        [
-          orderId,
-          item.name,
-          item.quantity,
-          item.price,
-          item.comments || ""
-        ]
+        [orderId, name, quantity, price, comments]
       );
     }
 
@@ -42,7 +43,6 @@ export const createOrder = async (req, res) => {
       orderNumber: nextOrder,
       message: "Pedido guardado correctamente"
     });
-
   } catch (error) {
     console.log("ERROR createOrder:", error);
     res.status(500).json({
@@ -162,9 +162,10 @@ export const cancelOrder = async (req, res) => {
 
 
 //editar pedido
+// editar pedido
 export const updateOrder = async (req, res) => {
   const { id } = req.params;
-  const { items, comments } = req.body;
+  const { items } = req.body;
 
   try {
     // Validación mínima
@@ -177,21 +178,29 @@ export const updateOrder = async (req, res) => {
 
     // 2. Insertar nuevos detalles
     for (const item of items) {
+      const name = item.nombre ?? item.name;
+      const quantity =
+        item.cantidad ?? item.quantity ?? item.qty ?? 1;
+      const price =
+        item.precio ?? item.price ?? item.unit ?? 0;
+      const comments =
+        item.comments ?? item.comentario ?? item.comment ?? "";
+
       await pool.query(
         `INSERT INTO order_details (order_id, dish_name, quantity, price, comments)
-        VALUES (?, ?, ?, ?, ?)`,
-        [
-          id,
-          item.nombre,
-          item.cantidad,
-          item.precio,
-          comments || ""
-        ]
+         VALUES (?, ?, ?, ?, ?)`,
+        [id, name, quantity, price, comments]
       );
     }
 
     // 3. Calcular y actualizar total
-    const total = items.reduce((acc, it) => acc + it.cantidad * it.precio, 0);
+    const total = items.reduce((acc, it) => {
+      const quantity =
+        it.cantidad ?? it.quantity ?? it.qty ?? 1;
+      const price =
+        it.precio ?? it.price ?? it.unit ?? 0;
+      return acc + quantity * price;
+    }, 0);
 
     await pool.query(
       "UPDATE orders SET total = ? WHERE id = ?",
@@ -203,7 +212,6 @@ export const updateOrder = async (req, res) => {
       message: "Pedido actualizado",
       total
     });
-
   } catch (error) {
     console.log("ERROR updateOrder:", error);
     res.status(500).json({ error: "Error actualizando el pedido" });

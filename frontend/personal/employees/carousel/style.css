@@ -2323,3 +2323,151 @@ body.admin-dark .turno-card.activo::after {
   font-size: 1rem;
   color: #22c55e;
 }
+/* ================================
+   MODAL EDITAR ORDEN (PLATILLOS)
+================================== */
+
+.edit-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.edit-item {
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  background: #f9fafb;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+}
+
+body.admin-dark .edit-item {
+  background: #020617;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.edit-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.edit-item-name {
+  color: #0f172a;
+}
+
+body.admin-dark .edit-item-name {
+  color: #e5e7eb;
+}
+
+.edit-item-unit {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.edit-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-qty-input {
+  width: 64px;
+  text-align: center;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  padding: 0.25rem 0.5rem;
+}
+
+body.admin-dark .edit-qty-input {
+  background: #020617;
+  border-color: #334155;
+  color: #e5e7eb;
+}
+
+.edit-qty-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 0.35rem 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f97316, #facc15);
+  color: #fff;
+}
+
+.edit-remove-btn {
+  margin-left: auto;
+  border-radius: 999px;
+  border: none;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+body.admin-dark .edit-remove-btn {
+  background: rgba(248, 113, 113, 0.15);
+  color: #fecaca;
+}
+
+.edit-resumen {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(148, 163, 184, 0.6);
+  font-size: 0.95rem;
+}
+
+.edit-empty {
+  text-align: center;
+  color: #64748b;
+}
+
+/* ================================
+   MODAL NUEVO PEDIDO – CLARO / OSCURO
+================================== */
+
+.modal-nuevo-pedido .modal-content {
+  background: #ffffff;
+}
+
+body.admin-dark .modal-nuevo-pedido .modal-content {
+  background: #020617;
+}
+
+.modal-nuevo-pedido .np-row input,
+.modal-nuevo-pedido .np-row select,
+.modal-nuevo-pedido .np-row textarea {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+  color: #0f172a;
+}
+
+body.admin-dark .modal-nuevo-pedido .np-row input,
+body.admin-dark .modal-nuevo-pedido .np-row select,
+body.admin-dark .modal-nuevo-pedido .np-row textarea {
+  background: #020617;
+  border-color: #334155;
+  color: #e5e7eb;
+}
+
+.modal-nuevo-pedido .np-list {
+  background: #f9fafb;
+  border-color: rgba(148, 163, 184, 0.4);
+}
+
+body.admin-dark .modal-nuevo-pedido .np-list {
+  background: #020617;
+}
+
+.modal-nuevo-pedido .np-item {
+  background: #ffffff;
+}
+
+body.admin-dark .modal-nuevo-pedido .np-item {
+  background: #020617;
+}
