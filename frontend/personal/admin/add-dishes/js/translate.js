@@ -124,22 +124,21 @@ function cambiarIdioma(idioma) {
 function alternarIdioma() {
     const bandera = document.getElementById('banderaIdioma');
     let idiomaActual = bandera.getAttribute('data-idioma') || 'es';
-    let nuevoIdioma = idiomaActual === 'es' ? 'en' : 'es';
+    let nuevoIdioma, nuevaBandera;
 
-    // Actualizar atributo
+    if (idiomaActual === 'es') {
+        nuevoIdioma = 'en';
+    } else {
+        nuevoIdioma = 'es';
+    }
     bandera.setAttribute('data-idioma', nuevoIdioma);
+
+    // Llama a la función de traducción
+    translateContent(nuevoIdioma);
+
     localStorage.setItem('preferredLanguage', nuevoIdioma);
-
-    // 🔥 Cambiar el texto DEL BOTÓN INSTANTÁNEO (no espera traducción)
-    actualizarTextoBotonIdioma(nuevoIdioma);
-
-    // 🔥 Llamar a la traducción después SIN LAG
-    requestAnimationFrame(() => {
-        setTimeout(() => {
-            translateContent(nuevoIdioma);
-        }, 50);
-    });
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const savedLanguage = localStorage.getItem('preferredLanguage') || 'es';
@@ -164,7 +163,9 @@ function actualizarTextoBotonIdioma(idiomaActual) {
 
     banderaBtn.setAttribute(
         "data-idioma-text",
-        idiomaActual === "es" ? "Inglés" : "Español"
+        idiomaActual === "es" ? "English" : "Español"
     );
 }
+
+
 });
