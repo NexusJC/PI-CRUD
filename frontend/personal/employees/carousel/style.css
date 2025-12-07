@@ -2708,29 +2708,3 @@ color: #111827;
 body.admin-dark .ordenes-container h4 {
 color: #f9fafb;
 }
-/* ✅ EVITA QUE LOS SELECT SE MUEVAN AL CAMBIAR DE CATEGORÍA */
-.np-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 90px;
-  gap: 12px;
-  align-items: center;
-}
-
-.np-row select,
-.np-row input {
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
-/* Evita que los textos largos empujen el layout */
-.np-row select {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-/* ✅ SEPARAR BOTONES DE CANCELAR Y CREAR */
-.np-actions {
-  display: flex;
-  gap: 14px;
-}
