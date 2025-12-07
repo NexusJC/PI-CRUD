@@ -1629,3 +1629,58 @@ body:not(.admin-dark) .tarjeta-caja {
   filter: brightness(1.04);
   box-shadow: 0 8px 18px rgba(255, 122, 47, 0.45);
 }
+
+/* ============================================================
+   FIX RESPONSIVE CROSS-BROWSER – GESTIÓN DE CAJAS
+   ============================================================ */
+
+/* 1. Layout general compatible con Firefox / Edge / Opera / Safari */
+.gestion-cajas-main {
+    width: 100%;
+    max-width: 1180px;
+    margin: 24px auto;
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* evita desbordes en Firefox */
+}
+
+/* 2. Evitar que el header y toolbar se deformen en otros navegadores */
+.gestion-cajas-header,
+.toolbar-cajas {
+    flex-shrink: 0; /* mantiene tamaños correctos */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 3. GRID de tarjetas compatible en todos los navegadores */
+.cajas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.6rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 4. Responsive universal */
+@media (max-width: 768px) {
+
+    .gestion-cajas-main {
+        padding: 16px;
+    }
+
+    .toolbar-cajas {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px;
+    }
+
+    .cajas-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* 5. Evitar que el sidebar cause scroll horizontal en Firefox/Edge */
+.menu-dashboard {
+    box-sizing: border-box;
+}
