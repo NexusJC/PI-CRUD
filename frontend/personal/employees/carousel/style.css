@@ -2636,3 +2636,75 @@ body.admin-body:not(.admin-dark) .ordenes-container h4 {
 body.admin-body.admin-dark .ordenes-container h4 {
     color: #eef3ff;
 }
+/* Fila CATEGORÍA / PLATILLO / CANT. siempre alineada */
+.modal-nuevo-pedido .np-row-grid {
+display: grid;
+grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) minmax(0, 90px);
+gap: 1.1rem;
+align-items: flex-end;
+}
+
+.modal-nuevo-pedido .np-row-grid .np-cell {
+min-width: 0;
+}
+
+.modal-nuevo-pedido .np-row-grid .np-cell select,
+.modal-nuevo-pedido .np-row-grid .np-cell input {
+width: 100%;
+min-width: 0;
+box-sizing: border-box;
+}
+
+/* La columna de cantidad compacta para que no rompa la fila */
+.modal-nuevo-pedido .np-row-grid .np-cell--qty {
+max-width: 90px;
+}
+
+/* =========================
+FIX LISTA DE PRODUCTOS DEL MODAL
+========================= */
+
+.np-item {
+display: grid;
+grid-template-columns: minmax(0, 1fr) auto;
+align-items: flex-start;
+}
+
+.np-item-main {
+grid-column: 1 / 2;
+}
+
+.np-item-comment {
+grid-column: 1 / 2;
+margin-top: 0.25rem;
+}
+
+/* =========================
+FIX ÓRDENES DE COMIDA – COMENTARIO ALINEADO
+========================= */
+
+.orden-item {
+display: flex;
+flex-direction: column;
+align-items: stretch;
+}
+
+.orden-item-main {
+display: grid;
+grid-template-columns: minmax(0, 1.4fr) auto auto;
+column-gap: 0.75rem;
+row-gap: 0.25rem;
+}
+
+.orden-comentario {
+margin-top: 0.45rem;
+}
+
+/* Título "Órdenes de comida": negro en claro, blanco en oscuro */
+body:not(.admin-dark) .ordenes-container h4 {
+color: #111827;
+}
+
+body.admin-dark .ordenes-container h4 {
+color: #f9fafb;
+}
