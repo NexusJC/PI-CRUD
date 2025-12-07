@@ -44,7 +44,7 @@ body {
 
 .kitchen-main {
   margin-left: 230px; /* coincide con sidebar abierto */
-  padding: 24px 20px 32px;
+  padding: 24px 15px 32px;
   width: 100%;
   min-height: 100vh;
   display: flex;
