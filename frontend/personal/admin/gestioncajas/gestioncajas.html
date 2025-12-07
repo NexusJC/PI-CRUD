@@ -1,161 +1,180 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" href="/img/logo_1.png" type="image/png">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Cajas - Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Cajas · Admin</title>
 
-    <!-- BOX ICONS -->
-    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
 
-    <!-- CSS DE ESTA VISTA -->
-    <link rel="stylesheet" href="style.css">
-    <!-- CSS compartido con gestión de empleados -->
-    <link rel="stylesheet" href="../add-dishes/styles.css">
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../../../img/logo_1.png" type="image/png">
+
+  <!-- Estilos: primero el diseño general del admin, luego estilos propios de cajas -->
+  <link rel="stylesheet" href="../add-dishes/styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="admin-body">
-    <!-- SIDEBAR -->
-    <div class="menu-dashboard">
-        <div class="top-menu">
-            <div class="logo">
-                <img src="/img/logo_1.png" alt="Logo">
-                <span>Bienvenido</span>
-            </div>
-            <div class="toggle">
-                <i class='bx bx-menu'></i>
-            </div>
-        </div>
 
-        <div class="user-box">
-            <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
-            <div class="user-info">
-                <span id="sidebarUserName"></span>
-            </div>
-        </div>
+  <!-- ================= SIDEBAR (igual que Add Dishes) ================= -->
+  <aside class="menu-dashboard open" id="adminSidebar">
+    <div class="top-menu">
+      <div class="logo">
+        <img src="../../../img/logo_1.png" alt="Logo">
+        <span>Panel Admin</span>
+      </div>
 
-        <!-- Menú de navegación -->
-        <div class="menu">
-            <a class="enlace" href="/personal/admin/dashboard/dashboard.html">
-                <i class="bx bx-grid-alt"></i>
-                <span>Dashboard</span>
-            </a>
-            <a class="enlace" href="/personal/admin/employee-management/employee.html">
-                <i class='bx bx-group'></i>
-                <span>Gestión Empleados</span>
-            </a>
-            <a class="enlace activo" href="/personal/admin/gestioncajas/gestioncajas.html">
-                <i class="bx bx-store"></i>
-                <span>Gestión Cajas</span>
-            </a>
-            <a class="enlace add-platillo" href="/personal/admin/add-dishes/add_dishes.html">
-                <i class='bx bx-restaurant'></i>
-                <span>Añadir Platillo</span>
-            </a>
-        </div>
-
-        <!-- Zona inferior: modo oscuro, traductor y logout -->
-        <div class="sidebar-bottom">
-            <button id="themeToggle" class="sidebar-btn">
-                <i class='bx bx-moon'></i>
-                <span>Modo oscuro</span>
-            </button>
-
-            <button id="translateToggle" class="sidebar-btn">
-                <i class='bx bx-globe'></i>
-                <span>Traducir</span>
-            </button>
-
-            <!-- Botón de cerrar sesión al final -->
-            <div class="logout-container">
-                <button id="logoutBtn" class="logout-btn">
-                    <i class='bx bx-log-out'></i> Cerrar sesión
-                </button>
-            </div>
-        </div>
+      <!-- Toggle sidebar (usa la misma clase .toggle que ya manejas en JS) -->
+      <button class="toggle" aria-label="Contraer menú">
+        <i class="bx bx-menu"></i>
+      </button>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="seccion-trabajadores-card">
-        <h2 class="titulo-empleados">Gestión de cajas</h2>
+    <div class="user-box">
+      <img id="sidebarUserImg" class="user-photo" src="../../../img/userplaceholder.png" alt="Usuario">
+      <div class="user-info">
+        <span id="sidebarUserName">Administrador</span>
+      </div>
+    </div>
 
-        <div class="empleados-toolbar">
-            <div class="filtro-estado">
-                <label for="filtroEstadoCaja">Estado:</label>
-                <select id="filtroEstadoCaja">
-                    <option value="todas">Todas</option>
-                    <option value="activa">Activas</option>
-                    <option value="inactiva">Inactivas</option>
-                </select>
-            </div>
+    <nav class="menu">
+      <span class="menu-label">MENÚ PRINCIPAL</span>
 
-            <button id="btnAbrirModalCaja" class="btn-primario">
-                <i class='bx bx-store'></i>
-                Agregar caja
-            </button>
-        </div>
+      <a class="enlace" href="../dashboard/dashboard.html">
+        <i class="bx bx-grid-alt"></i>
+        <span>Dashboard</span>
+      </a>
 
-        <!-- CUADRO DE CAJAS -->
-        <div class="cuadro-cajas">
-            <div class="scroll-cajas" id="contenedorCajas">
-                <!-- Tarjetas se agregan por JS -->
-            </div>
-        </div>
-    </main>
+      <a class="enlace" href="../employee-management/employee.html">
+        <i class="bx bx-group"></i>
+        <span>Gestión Empleados</span>
+      </a>
 
-    <!-- OVERLAY DEL MODAL -->
-    <div class="overlay-empleado" id="overlayCaja"></div>
+      <!-- AQUÍ va activa la vista de cajas -->
+      <a class="enlace active" href="gestioncajas.html">
+        <i class="bx bx-store"></i>
+        <span>Gestión Cajas</span>
+      </a>
 
-    <!-- MODAL CAJA (mismo formato que empleados) -->
-    <section class="modal-empleado" id="modalCaja" aria-hidden="true">
-        <div class="modal-empleado__content">
+      <a class="enlace" href="../add-dishes/add_dishes.html">
+        <i class="bx bx-restaurant"></i>
+        <span>Añadir Platillo</span>
+      </a>
+    </nav>
 
-            <header class="modal-empleado__header">
-                <div class="modal-logo-placeholder"></div>
+    <div class="sidebar-bottom">
+      <!-- Botón de idioma igual que en Add Dishes -->
+      <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
+        <span class="bandera-container"></span>
+      </button>
 
-                <div class="modal-title-group">
-                    <h3>Registrar Caja</h3>
-                    <p class="modal-subtitle">Llena los datos de la caja.</p>
-                </div>
+      <!-- Botón de modo oscuro con el mismo estilo naranja -->
+      <button id="themeToggle" class="sidebar-theme-toggle">
+        <i class='bx bx-moon'></i>
+        <span>Modo oscuro</span>
+      </button>
 
-                <button class="modal-cerrar" id="btnCerrarModalCaja">&times;</button>
-            </header>
+      <!-- Botón de cerrar sesión (mismo diseño que Add Dishes) -->
+      <button id="logoutBtn" class="logout-btn">
+        <i class="bx bx-log-out"></i>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
 
-            <form id="formCaja" class="modal-empleado__form">
-                <div class="form-row">
-                    <label for="numCaja">Número de caja</label>
-                    <input type="number" id="numCaja" readonly>
-                </div>
+  <!-- ================= CONTENIDO PRINCIPAL ================= -->
+  <!-- Usamos .dishes-main para el layout general + .gestion-cajas-main para el estilo propio -->
+  <main class="dishes-main gestion-cajas-main">
+    <!-- Cabecera tipo tarjeta, similar a la de platillos -->
+    <header class="gestion-cajas-header">
+      <h1>Gestión de cajas</h1>
+      <p>Administra las cajas: crea, asigna empleados y controla su estado.</p>
+    </header>
 
-                <div class="form-row">
-                    <label for="empleadoCaja">Empleado asignado</label>
-                    <select id="empleadoCaja">
-                        <option disabled selected>Seleccionar empleado</option>
-                    </select>
-                </div>
+    <!-- Barra de filtros + botón, usando las clases que ya tienes en style.css -->
+    <section class="toolbar-cajas">
+      <div class="toolbar-cajas-izq">
+        <span class="toolbar-cajas-label">Estado:</span>
+        <select id="filtroEstadoCaja" class="filtro-estado-select">
+          <option value="todas">Todas</option>
+          <option value="activa">Activas</option>
+          <option value="inactiva">Inactivas</option>
+        </select>
+      </div>
 
-                <div class="form-row">
-                    <label for="estadoCaja">Estado</label>
-                    <select id="estadoCaja">
-                        <option value="activa">Activa</option>
-                        <option value="inactiva">Inactiva</option>
-                    </select>
-                </div>
-
-                <footer class="modal-empleado__footer">
-                    <button type="button" class="btn-secundario" id="btnCancelarCaja">Cancelar</button>
-                    <button type="submit" class="btn-primario">
-                        <i class='bx bx-save'></i> Guardar Caja
-                    </button>
-                </footer>
-            </form>
-
-        </div>
+      <button id="btnAbrirModalCaja" class="btn-agregar-caja">
+        <i class='bx bx-store'></i>
+        <span>Agregar caja</span>
+      </button>
     </section>
 
-    
-    <script src="./js/translate.js" defer></script>
-    <script src="./js/menu.js" defer></script>
+    <!-- Grid de tarjetas de cajas, el JS sigue usando el mismo id="contenedorCajas" -->
+    <section class="contenedor-cajas">
+      <div class="cajas-grid" id="contenedorCajas">
+        <!-- Tarjetas de cajas generadas por JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- OVERLAY DEL MODAL (se mantiene igual) -->
+  <div class="overlay-empleado" id="overlayCaja"></div>
+
+  <!-- MODAL DE CAJA (mismo HTML que ya tenías) -->
+  <section class="modal-empleado" id="modalCaja" aria-hidden="true">
+    <div class="modal-empleado__content">
+
+      <header class="modal-empleado__header">
+        <div class="modal-logo-placeholder"></div>
+
+        <div class="modal-title-group">
+          <h3>Registrar Caja</h3>
+          <p class="modal-subtitle">Llena los datos de la caja.</p>
+        </div>
+
+        <button class="modal-cerrar" id="btnCerrarModalCaja">&times;</button>
+      </header>
+
+      <form id="formCaja" class="modal-empleado__form">
+        <div class="form-row">
+          <label for="numCaja">Número de caja</label>
+          <input type="number" id="numCaja" readonly>
+        </div>
+
+        <div class="form-row">
+          <label for="empleadoCaja">Empleado asignado</label>
+          <select id="empleadoCaja">
+            <option disabled selected>Seleccionar empleado</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="estadoCaja">Estado</label>
+          <select id="estadoCaja">
+            <option value="activa">Activa</option>
+            <option value="inactiva">Inactiva</option>
+          </select>
+        </div>
+
+        <footer class="modal-empleado__footer">
+          <button type="button" class="btn-secundario" id="btnCancelarCaja">Cancelar</button>
+          <button type="submit" class="btn-primario">
+            <i class='bx bx-save'></i>
+            Guardar Caja
+          </button>
+        </footer>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- JS: primero lógica de cajas, luego traductor (el botón de bandera llama a alternarIdioma()) -->
+  <script src="js/menu.js" defer></script>
+  <script src="js/translate.js" defer></script>
 </body>
 </html>
+

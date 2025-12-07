@@ -446,10 +446,6 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  background: radial-gradient(circle at 20% 0,
-      #ffe5cc 0,
-      transparent 45%),
-    linear-gradient(135deg, #ff9b4a, #ff7a2f);
   box-shadow:
     0 16px 30px rgba(0, 0, 0, 0.7),
     0 0 0 1px rgba(255, 255, 255, 0.22);
@@ -484,8 +480,918 @@
     0 0 0 1px rgba(255, 255, 255, 0.22);
 }
 
-
 /* En sidebar cerrado mantiene el mismo aspecto (no mostramos texto) */
 .menu-dashboard:not(.open) .sidebar-bottom .logout-btn span {
   display: none;
+}
+/* ==========================================================
+   GESTIÓN DE CAJAS · ESTILOS ESPECÍFICOS
+   (Sidebar y layout general vienen de ../add-dishes/styles.css)
+   ========================================================== */
+
+/* ---------- Colores base para tablero de cajas ---------- */
+
+:root {
+  /* Superficies oscuras tipo dashboard */
+  --admin-surface-dark: #050816;
+  --admin-surface-dark-soft: #070b17;
+  --admin-surface-dark-elevated: #0b1020;
+
+  /* Superficies claras */
+  --admin-surface-light: #f6f6fb;
+  --admin-surface-light-soft: #ffffff;
+  --admin-surface-light-elevated: #ffffff;
+
+  /* Bordes */
+  --admin-border-soft-dark: rgba(255, 255, 255, 0.08);
+  --admin-border-soft-light: rgba(15, 23, 42, 0.08);
+
+  /* Texto */
+  --admin-text-main-dark: #eef3ff;
+  --admin-text-soft-dark: #a6b0d8;
+  --admin-text-main-light: #1f2937;
+  --admin-text-soft-light: #6b7280;
+
+  /* Acentos */
+  --admin-accent-orange: #ff7a2f;
+  --admin-accent-orange-soft: rgba(255, 122, 47, 0.14);
+  --admin-accent-green: #22c55e;
+  --admin-accent-red: #ef4444;
+}
+
+/* ==========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================== */
+
+.gestion-cajas-main {
+  /* .dishes-main ya define el layout base,
+     aquí solo afinamos para cajas */
+  min-height: 100vh;
+  padding: 2.4rem 2.6rem 2.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+/* Fondo modo oscuro */
+
+
+/* Fondo modo claro (sin admin-dark) */
+
+
+/* ==========================================================
+   CABECERA · "Gestión de cajas"
+   ========================================================== */
+
+.gestion-cajas-header {
+  border-radius: 22px;
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Oscuro */
+
+body.admin-dark .gestion-cajas-header {
+  border: 1px solid var(--admin-border-soft-dark);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+/* Claro */
+
+body:not(.admin-dark) .gestion-cajas-header {
+  background:
+    linear-gradient(135deg,
+      rgba(255, 122, 47, 0.09),
+      rgba(249, 250, 251, 1)),
+    var(--admin-surface-light-elevated);
+  border: 1px solid var(--admin-border-soft-light);
+  box-shadow:
+    0 18px 34px rgba(15, 23, 42, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.gestion-cajas-header h1 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+body.admin-dark .gestion-cajas-header h1 {
+  color: var(--admin-text-main-dark);
+}
+
+body:not(.admin-dark) .gestion-cajas-header h1 {
+  color: var(--admin-text-main-light);
+}
+
+.gestion-cajas-header p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+body.admin-dark .gestion-cajas-header p {
+  color: var(--admin-text-soft-dark);
+}
+
+body:not(.admin-dark) .gestion-cajas-header p {
+  color: var(--admin-text-soft-light);
+}
+
+/* ==========================================================
+   TOOLBAR · FILTRO + BOTÓN "AGREGAR CAJA"
+   ========================================================== */
+
+.toolbar-cajas {
+  margin-top: 0.1rem;
+  border-radius: 18px;
+  padding: 0.9rem 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Oscuro */
+
+body.admin-dark .toolbar-cajas {
+  background: var(--admin-surface-dark-elevated);
+  border: 1px solid var(--admin-border-soft-dark);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+/* Claro */
+
+body:not(.admin-dark) .toolbar-cajas {
+  background: var(--admin-surface-light-elevated);
+  border: 1px solid var(--admin-border-soft-light);
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+.toolbar-cajas-izq {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+}
+
+.toolbar-cajas-label {
+  font-weight: 600;
+}
+
+body.admin-dark .toolbar-cajas-label {
+  color: var(--admin-text-main-dark);
+}
+
+body:not(.admin-dark) .toolbar-cajas-label {
+  color: var(--admin-text-main-light);
+}
+
+/* Select del filtro */
+
+.filtro-estado-select {
+  border-radius: 999px;
+  padding: 0.3rem 0.95rem;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+body.admin-dark .filtro-estado-select {
+  background: #0b1220;
+  color: var(--admin-text-main-dark);
+  border-color: rgba(148, 163, 184, 0.45);
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8);
+}
+
+body:not(.admin-dark) .filtro-estado-select {
+  background: #ffffff;
+  color: var(--admin-text-main-light);
+  border-color: rgba(148, 163, 184, 0.55);
+}
+
+.filtro-estado-select:focus {
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.7),
+    0 0 0 4px rgba(56, 189, 248, 0.18);
+  border-color: rgba(56, 189, 248, 0.8);
+}
+
+/* Botón "Agregar caja" */
+
+.btn-agregar-caja {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, #ff7a2f, #ff9b4b);
+  color: #fff;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.22);
+  transition: transform 0.16s ease, box-shadow 0.16s ease,
+    filter 0.16s ease;
+}
+
+.btn-agregar-caja i {
+  font-size: 1.1rem;
+}
+
+.btn-agregar-caja:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.24);
+}
+
+.btn-agregar-caja:active {
+  transform: translateY(0);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================
+   GRID DE TARJETAS DE CAJAS
+   ========================================================== */
+
+.contenedor-cajas {
+  margin-top: 2rem;
+}
+
+/* En desktop: tarjetas en grid tipo “cards dashboard” */
+
+.cajas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
+  gap: 1.6rem;
+}
+
+/* En pantallas pequeñas: una columna */
+
+@media (max-width: 768px) {
+  .gestion-cajas-main {
+    padding: 1.6rem 1.3rem 2.2rem;
+  }
+
+  .toolbar-cajas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cajas-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Tarjeta individual */
+
+.tarjeta-caja {
+  border-radius: 22px;
+  padding: 1.1rem 1.2rem 1rem;
+  background:
+    radial-gradient(circle at top,
+      rgba(255, 122, 47, 0.15) 0,
+      transparent 55%),
+    #0b1020;
+  border: 1px solid var(--admin-border-soft-dark);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+body:not(.admin-dark) .tarjeta-caja {
+  background:
+    radial-gradient(circle at top,
+      rgba(255, 188, 118, 0.3) 0,
+      transparent 60%),
+    #ffffff;
+  border-color: var(--admin-border-soft-light);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+/* Contenido */
+
+.tarjeta-caja h3 {
+  margin: 0.2rem 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+body.admin-dark .tarjeta-caja h3 {
+  color: var(--admin-text-main-dark);
+}
+
+body:not(.admin-dark) .tarjeta-caja h3 {
+  color: var(--admin-text-main-light);
+}
+
+.icono-caja {
+  font-size: 1.45rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 122, 47, 0.18);
+  color: #ffb27b;
+  margin-bottom: 0.2rem;
+}
+
+body:not(.admin-dark) .icono-caja {
+  background: rgba(255, 122, 47, 0.12);
+  color: #d97706;
+}
+
+.empleado-asignado {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+body.admin-dark .empleado-asignado {
+  color: var(--admin-text-soft-dark);
+}
+
+body:not(.admin-dark) .empleado-asignado {
+  color: var(--admin-text-soft-light);
+}
+
+/* Badge de estado */
+
+.caja-estado {
+  align-self: flex-start;
+  margin-top: 0.1rem;
+  padding: 0.18rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.caja-estado--activa {
+  background: rgba(34, 197, 94, 0.16);
+  color: #bbf7d0;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+}
+
+body:not(.admin-dark) .caja-estado--activa {
+  background: rgba(34, 197, 94, 0.1);
+  color: #166534;
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.caja-estado--inactiva {
+  background: rgba(148, 163, 184, 0.18);
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+body:not(.admin-dark) .caja-estado--inactiva {
+  background: rgba(148, 163, 184, 0.16);
+  color: #4b5563;
+}
+
+/* Botones de acción dentro de la tarjeta */
+
+.btn-editar-caja,
+.btn-eliminar-caja {
+  margin-top: 0.5rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 500;
+  padding: 0.42rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: background-color 0.16s ease, box-shadow 0.16s ease,
+    transform 0.12s ease, filter 0.16s ease;
+}
+
+.btn-editar-caja {
+  background: rgba(59, 130, 246, 0.18);
+  color: #bfdbfe;
+}
+
+body:not(.admin-dark) .btn-editar-caja {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+}
+
+.btn-editar-caja:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-eliminar-caja {
+  background: rgba(239, 68, 68, 0.14);
+  color: #fecaca;
+}
+
+body:not(.admin-dark) .btn-eliminar-caja {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.btn-eliminar-caja:hover {
+  filter: brightness(1.03);
+  box-shadow: 0 8px 22px rgba(239, 68, 68, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================
+   MODAL · REGISTRAR / EDITAR CAJA
+   ========================================================== */
+
+.overlay-empleado {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left,
+      rgba(15, 23, 42, 0.82),
+      rgba(15, 23, 42, 0.96));
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 40;
+}
+
+.overlay-empleado.activa {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-empleado {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  z-index: 50;
+}
+
+.modal-empleado.activa {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.modal-empleado__content {
+  width: min(480px, 94vw);
+  border-radius: 24px;
+  padding: 1.6rem 1.8rem 1.4rem;
+  position: relative;
+}
+
+/* Oscuro */
+
+body.admin-dark .modal-empleado__content {
+  background:
+    radial-gradient(circle at top left,
+      rgba(255, 122, 47, 0.16),
+      transparent 55%),
+    #020617;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.9),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+/* Claro */
+
+body:not(.admin-dark) .modal-empleado__content {
+  background:
+    radial-gradient(circle at top left,
+      rgba(255, 122, 47, 0.12),
+      transparent 55%),
+    #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow:
+    0 26px 55px rgba(15, 23, 42, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+/* Header del modal */
+
+.modal-empleado__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.modal-logo-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(255, 122, 47, 0.16);
+}
+
+.modal-title-group h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.modal-subtitle {
+  margin: 0.18rem 0 0;
+  font-size: 0.86rem;
+}
+
+body.admin-dark .modal-title-group h3 {
+  color: var(--admin-text-main-dark);
+}
+
+body.admin-dark .modal-subtitle {
+  color: var(--admin-text-soft-dark);
+}
+
+body:not(.admin-dark) .modal-title-group h3 {
+  color: var(--admin-text-main-light);
+}
+
+body:not(.admin-dark) .modal-subtitle {
+  color: var(--admin-text-soft-light);
+}
+
+/* Botón cerrar (X) */
+
+.modal-cerrar {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.15rem;
+  border-radius: 999px;
+  transition: background-color 0.18s ease, transform 0.12s ease;
+}
+
+body.admin-dark .modal-cerrar:hover {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+body:not(.admin-dark) .modal-cerrar:hover {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+/* Formulario del modal */
+
+.modal-empleado__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-row label {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+body.admin-dark .form-row label {
+  color: var(--admin-text-main-dark);
+}
+
+body:not(.admin-dark) .form-row label {
+  color: var(--admin-text-main-light);
+}
+
+.form-row input,
+.form-row select {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  outline: none;
+  background: rgba(15, 23, 42, 0.75);
+  color: var(--admin-text-main-dark);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease,
+    background-color 0.16s ease;
+}
+
+body:not(.admin-dark) .form-row input,
+body:not(.admin-dark) .form-row select {
+  background: #ffffff;
+  color: var(--admin-text-main-light);
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  border-color: rgba(56, 189, 248, 0.9);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.85),
+    0 0 0 4px rgba(56, 189, 248, 0.22);
+}
+
+/* Footer del modal (botones) */
+
+.modal-empleado__footer {
+  margin-top: 0.8rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+}
+
+/* Botones primario / secundario (reutilizamos estilo tipo Add Dishes) */
+
+.btn-primario,
+.btn-secundario {
+  border-radius: 999px;
+  padding: 0.45rem 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: transform 0.13s ease, box-shadow 0.16s ease,
+    filter 0.16s ease;
+}
+
+.btn-primario {
+  background: linear-gradient(135deg, #ff7a2f, #ff9b4b);
+  color: #fff;
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.btn-primario i {
+  font-size: 1rem;
+}
+
+.btn-primario:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+.btn-primario:active {
+  transform: translateY(0);
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.btn-secundario {
+  background: transparent;
+  color: inherit;
+  border: 1px solid rgba(148, 163, 184, 0.65);
+}
+
+.btn-secundario:hover {
+  transform: translateY(-1px);
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.btn-secundario:active {
+  transform: translateY(0);
+}
+body:not(.admin-dark) .gestion-cajas-header {
+    background: linear-gradient(359deg, rgb(255 255 255 / 9%), rgba(249, 250, 251, 1)), var(--admin-surface-light-elevated);
+    border: 1px solid var(--admin-border-soft-light);
+    box-shadow: 0 18px 34px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+/* Alinear zona inferior del sidebar como en Add Dishes */
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.sidebar-bottom .logout-btn {
+  width: 100%;
+}
+/* =========================================================
+   LAYOUT PRINCIPAL GESTIÓN DE CAJAS
+   ========================================================= */
+
+/* El main de cajas hereda .dishes-main, sólo afinamos el ancho */
+.gestion-cajas-main {
+  max-width: 1180px;
+  margin: 26px auto 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =========================================================
+   HEADER PRINCIPAL "GESTIÓN DE CAJAS"
+   ========================================================= */
+
+.gestion-cajas-header {
+  position: relative;
+  width: 100%;
+  border-radius: 26px;
+  padding: 24px 32px;
+  margin-bottom: 18px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(250, 245, 239, 0.98)
+  );
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.10);
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  overflow: hidden;
+}
+
+/* halo suave en la parte superior, tipo dashboard */
+.gestion-cajas-header::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(227, 104, 66, 0.18), transparent 55%),
+    radial-gradient(circle at 90% 0%, rgba(252, 211, 77, 0.12), transparent 50%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* banda de color en la parte inferior */
+.gestion-cajas-header::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 0;
+  height: 4px;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(90deg, #e36842, #f97316, #fbbf24);
+  opacity: 0.9;
+}
+
+.gestion-cajas-header h1,
+.gestion-cajas-header p {
+  position: relative; /* para quedar por encima del ::before */
+  margin: 0;
+}
+
+.gestion-cajas-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0.01em;
+}
+
+.gestion-cajas-header p {
+  margin-top: 4px;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* --------- MODO OSCURO --------- */
+
+body.admin-body.admin-dark .gestion-cajas-header {
+  background: radial-gradient(
+    circle at top left,
+    #020617 0%,
+    #020617 40%,
+    #020617 100%
+  );
+  border-color: rgba(55, 65, 81, 0.9);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+}
+
+body.admin-body.admin-dark .gestion-cajas-header::before {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.24), transparent 60%),
+    radial-gradient(circle at 90% 0%, rgba(236, 72, 153, 0.23), transparent 55%);
+}
+
+body.admin-body.admin-dark .gestion-cajas-header h1 {
+  color: #f9fafb;
+}
+
+body.admin-body.admin-dark .gestion-cajas-header p {
+  color: #9ca3af;
+}
+
+/* =========================================================
+   TOOLBAR (Estado + botón "Agregar caja")
+   ========================================================= */
+
+.toolbar-cajas {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto 26px;
+
+  padding: 14px 24px;
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.06);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+body.admin-body.admin-dark .toolbar-cajas {
+  background: rgba(15, 23, 42, 0.96);
+  border-color: rgba(55, 65, 81, 0.9);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+}
+
+.toolbar-cajas-izq {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.toolbar-cajas-label {
+  font-weight: 600;
+  color: #4b5563;
+}
+
+body.admin-body.admin-dark .toolbar-cajas-label {
+  color: #e5e7eb;
+}
+
+.filtro-estado-select {
+  min-width: 170px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  background: rgba(249, 250, 251, 0.96);
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.filtro-estado-select:focus {
+  outline: none;
+  border-color: #e36842;
+  box-shadow: 0 0 0 2px rgba(227, 104, 66, 0.22);
+}
+
+body.admin-body.admin-dark .filtro-estado-select {
+  background: #020617;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Botón "Agregar caja" ya lo tienes como .btn-agregar-caja;
+   aquí sólo nos aseguramos de que se mantenga alineado */
+.toolbar-cajas .btn-agregar-caja {
+  white-space: nowrap;
+}
+.gestion-cajas-header::after {
+    content: "";
+    position: absolute;
+    left: -1pc;
+    right: 4px;
+    bottom: -1px;
+    height: 3px;
+    border-radius: 999px 999px 0 0;
+    background: linear-gradient(90deg, #fbc3b2, #ffb683, #f6dfa5);
+    opacity: 0.9;
 }
