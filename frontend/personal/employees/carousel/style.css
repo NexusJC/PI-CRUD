@@ -100,16 +100,22 @@ body {
    ========================== */
 
 .turnos-carousel {
-  display: flex;
-  gap: 1.4rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 0.8rem 0 0.4rem;
-  scrollbar-width: none;
+    display: flex;
+    gap: 1.4rem;
+    overflow-x: auto;      /* ✔ Scroll horizontal real */
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 0.8rem 0 0.4rem;
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
 }
 
 .turnos-carousel::-webkit-scrollbar {
-  display: none;
+    height: 8px;            /* Si quieres mostrar scrollbar */
+}
+
+.turnos-carousel::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
 }
 
 .turno-card {
@@ -2138,7 +2144,6 @@ body.admin-dark .turno-card.activo::after {
 .turnos-carousel {
     display: flex;
     gap: 1.4rem;
-    overflow-x: visible;
     scroll-behavior: smooth;
     padding: 0.8rem 0 0.4rem;
     scrollbar-width: none;
