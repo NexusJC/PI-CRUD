@@ -9,6 +9,7 @@ const API_BASE =
 
 // ===============================
 // CLOUDINARY CONFIG (igual que en perfil)
+// (la dejamos por si la necesitas después)
 // ===============================
 const CLOUD_NAME = "dwwaxrr6r";
 const UPLOAD_PRESET = "unsigned_preset";
@@ -295,6 +296,13 @@ function abrirModalCrear() {
   formEmpleado.reset();
   resetPreview();
 
+  // 🔹 Al crear, la contraseña SÍ se puede escribir
+  if (inputPassword) {
+    inputPassword.disabled = false;
+    inputPassword.value = "";
+    inputPassword.placeholder = "Contraseña del empleado";
+  }
+
   btnEliminarEmpleado.style.display = "none";
 
   overlay.style.display = "block";
@@ -314,7 +322,13 @@ function abrirModalEditar(id) {
   inputNombre.value = emp.nombre || "";
   inputTelefono.value = (emp.telefono || "").toString();
   inputEmail.value = emp.email || "";
-  inputPassword.value = "";
+
+  // 🔹 Al editar, la contraseña NO se puede editar
+  if (inputPassword) {
+    inputPassword.disabled = true;
+    inputPassword.value = "********";
+    inputPassword.placeholder = "La contraseña no se edita aquí";
+  }
 
   let fotoPreview = null;
   if (emp.foto) {
@@ -416,7 +430,8 @@ formEmpleado?.addEventListener("submit", async (e) => {
   telefono = telefono.replace(/\D/g, "");
   nombre = nombre.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
 
-  if (!nombre || !telefono || !email || !password) {
+  // 🔹 Contraseña solo obligatoria al CREAR
+  if (!nombre || !telefono || !email || (modo === "crear" && !password)) {
     alert("Completa todos los campos.");
     return;
   }
@@ -442,27 +457,20 @@ formEmpleado?.addEventListener("submit", async (e) => {
   // ============== CREAR EMPLEADO ==============
   if (modo === "crear") {
     try {
-      // 1️⃣ Subir imagen (si hay) a Cloudinary
-      let imageUrl = null;
-      if (archivoInput?.files[0]) {
-        imageUrl = await uploadToCloudinary(archivoInput.files[0]);
-      }
+      // 🔹 Enviar datos como FormData para que multer reciba el archivo
+      const formData = new FormData();
+      formData.append("name", nombre);
+      formData.append("telefono", telefono);
+      formData.append("email", email);
+      formData.append("password", password);
 
-      // 2️⃣ Enviar datos al backend, incluyendo image_url
-      const payload = {
-        name: nombre,
-        telefono,
-        email,
-        password,
-        image_url: imageUrl, // puede ser null si no seleccionó foto
-      };
+      if (archivoInput?.files[0]) {
+        formData.append("profile_picture", archivoInput.files[0]);
+      }
 
       const res = await fetch(`${API_BASE}/api/users`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        body: formData, // ❗ Sin headers, sin JSON
       });
 
       const text = await res.text().catch(() => "");
@@ -498,7 +506,7 @@ formEmpleado?.addEventListener("submit", async (e) => {
     return;
   }
 
-  // ============== EDITAR EMPLEADO (SIN CAMBIAR FOTO POR AHORA) ==============
+  // ============== EDITAR EMPLEADO (SIN CAMBIAR FOTO NI CONTRASEÑA) ==============
   if (modo === "editar" && empleadoEditandoId !== null) {
     const body = {
       name: nombre,
@@ -592,6 +600,7 @@ filtroEstado?.addEventListener("change", renderEmpleados);
 
 // =========================
 // MOSTRAR / OCULTAR CONTRASEÑA
+// (nota: si está disabled no va a cambiar, pero lo dejamos tal cual)
 // =========================
 const togglePass = document.getElementById("togglePass");
 
