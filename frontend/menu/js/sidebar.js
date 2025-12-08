@@ -79,6 +79,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const user  = JSON.parse(localStorage.getItem("user") || "null");
 
+  function showConfirmCustom(message, onYes, onNo) {
+    const overlay = document.createElement("div");
+    overlay.className = "custom-confirm-overlay";
+
+    overlay.innerHTML = `
+      <div class="custom-confirm-box">
+        <h3>${message}</h3>
+        <div class="confirm-btn-row">
+          <button class="confirm-btn confirm-no">Cancelar</button>
+          <button class="confirm-btn confirm-yes">Sí, continuar</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.querySelector(".confirm-no").addEventListener("click", () => {
+      overlay.remove();
+      if (onNo) onNo();
+    });
+
+    overlay.querySelector(".confirm-yes").addEventListener("click", () => {
+      overlay.remove();
+      if (onYes) onYes();
+    });
+  }
+
 async function ensureAvatarIsLoaded() {
   let u = JSON.parse(localStorage.getItem("user") || "{}");
   const sidebarAvatar = document.getElementById("sidebarAvatar");
@@ -133,40 +160,8 @@ ensureAvatarIsLoaded();
       btnLogout.style.display = "none";
     }
 
-    if (btnLogout) {
-
-function showConfirmCustomLogout(message, onYes, onNo) {
-  const overlay = document.createElement("div");
-  overlay.className = "custom-confirm-overlay";
-
-  overlay.innerHTML = `
-    <div class="custom-confirm-box">
-      <h3>${message}</h3>
-      <div class="confirm-btn-row">
-        <button class="confirm-btn confirm-no">Cancelar</button>
-        <button class="confirm-btn confirm-yes">Sí, continuar</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  overlay.querySelector(".confirm-no").addEventListener("click", () => {
-    overlay.remove();
-    if (onNo) onNo();
-  });
-
-  overlay.querySelector(".confirm-yes").addEventListener("click", () => {
-    overlay.remove();
-    onYes();
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const logoutBtn = document.getElementById("btn-logout");
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
+    // === CERRAR SESIÓN · SOLO MENÚ ===
+    btnLogout.addEventListener("click", () => {
       showConfirmCustom(
         "¿Deseas continuar y cerrar tu sesión?",
         () => {
@@ -177,10 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       );
     });
-  }
-});
-
-    }
   }
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   
