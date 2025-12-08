@@ -263,6 +263,152 @@ body {
   font-size: 1rem;
 }
 
+.theme-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+body.dark {
+  background: #0f0f0f !important;
+  color: #ffffff !important;
+}
+
+/* Tarjeta principal */
+body.dark .perfil-card {
+  background: #1a1a1a !important;
+  border: 1px solid #ffffff33 !important;
+  box-shadow: 0 0 20px rgba(255,255,255,0.05) !important;
+}
+
+/* Títulos y textos */
+body.dark .perfil-card h2,
+body.dark .perfil-card p,
+body.dark label,
+body.dark .gender-option span {
+  color: #ffffff !important;
+}
+
+/* Inputs */
+body.dark .input-dinamico {
+  background: #0f0f0f !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+
+body.dark .input-dinamico:read-only {
+  background: #0f0f0f !important;
+  opacity: 0.9;
+}
+
+/* Inputs en edición */
+body.dark .input-dinamico:not([readonly]) {
+  background: #1f1f1f !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Íconos de editar */
+body.dark .edit-btn svg path {
+  fill: #ff8a5c !important; /* conserva tu color cta pero más vivo en dark */
+}
+
+/* Sección del avatar */
+body.dark .avatar-edit {
+  background: #0f0f0f;
+  border: 4px solid #ffffff !important;
+}
+
+body.dark .avatar-edit img {
+  filter: brightness(0.92);
+}
+
+/* Texto email estático */
+body.dark .valor-estatico {
+  color: #ffffff !important;
+}
+
+/* Radios de género */
+body.dark input[type="radio"] {
+  accent-color: #e36842 !important;
+}
+
+/* Botón Restablecer contraseña */
+body.dark .boton-restablecer {
+  color: #ff8a5c !important;
+}
+
+/* Botón Guardar Cambios */
+body.dark .btn-sec {
+  background: #2a2a2a !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff55 !important;
+}
+
+body.dark .btn-sec:hover {
+  filter: brightness(1.15);
+}
+
+/* ALERTAS */
+body.dark .alert.success {
+  background: #2ecc71 !important;
+}
+
+body.dark .alert.error {
+  background: #e74c3c !important;
+}
+
+/* Sidebar — coherencia con el formulario */
+body.dark .sidebar {
+  background: linear-gradient(180deg, #1a1a1a, #0f0f0f) !important;
+  border-right: 2px solid #ffffff22 !important;
+}
+
+body.dark .sidebar-profile img {
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.15) !important;
+}
+
+body.dark .sidebar-profile h4 {
+  color: #ff8a5c !important;
+}
+
+body.dark .sidebar ul li a {
+  color: #ffffff !important;
+}
+
+body.dark .sidebar ul li a:hover {
+  background: #ffffff10 !important;
+  box-shadow: none !important;
+}
+
+body.dark .theme-toggle-btn {
+  background: #2a2a2a !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff33 !important;
+}
+
+body.dark .theme-toggle-btn:hover {
+  background: #333 !important;
+}
+
 .perfil-content {
   display:flex;
   justify-content:center;
