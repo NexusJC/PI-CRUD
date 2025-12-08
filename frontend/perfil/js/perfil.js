@@ -50,7 +50,6 @@ const inputNumero = document.getElementById("perfilNumeroText");
 const spanEmail   = document.getElementById("perfilEmail");
 const imgPerfil   = document.getElementById("perfilImg");
 
-// Máximo de dígitos permitidos
 const MAX_PHONE_LENGTH = 10;
 
 /* ===============================
