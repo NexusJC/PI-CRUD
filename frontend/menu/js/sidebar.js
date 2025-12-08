@@ -162,14 +162,22 @@ function showConfirmCustomLogout(message, onYes, onNo) {
   });
 }
 
-btnLogout.addEventListener("click", () => {
-  showConfirmCustomLogout(
-    "¿Deseas cerrar sesión?",
-    () => {
-      localStorage.clear();
-      window.location.href = "../login/login.html";
-    }
-  );
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("btn-logout");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      showConfirmCustom(
+        "¿Deseas continuar y cerrar tu sesión?",
+        () => {
+          localStorage.clear();
+          setTimeout(() => {
+            window.location.href = "../login/login.html";
+          }, 500);
+        }
+      );
+    });
+  }
 });
 
     }
