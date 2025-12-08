@@ -236,9 +236,7 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
   }
 });
 
-/* ===============================
-ALERTA PERSONALIZADA DE RESTABLECER CONTRASEÑA
-==================================*/
+
 const btnReset = document.getElementById("btnRestablecer");
 
 btnReset.addEventListener("click", () => {
