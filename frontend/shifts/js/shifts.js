@@ -68,13 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-btnLogout.addEventListener("click", () => {
-  showLogoutConfirm(() => {
-    localStorage.clear();
-    window.location.href = "/menu/index.html";
+  /* === CERRAR SESIÓN === */
+  btnLogout.addEventListener("click", () => {
+    if (confirm("¿Cerrar sesión?")) {
+      localStorage.clear();
+      window.location.href = "/menu/index.html";
+    }
   });
-});
-
 
   /* === MENÚ POR ROL === */
   if (user.role === "usuario") {
