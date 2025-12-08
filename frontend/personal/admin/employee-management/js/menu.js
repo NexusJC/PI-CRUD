@@ -57,9 +57,7 @@ let empleados = [];
 let modo = "crear";
 let empleadoEditandoId = null;
 
-// idioma actual (para los textos "Activo/Active")
-let currentLang = localStorage.getItem("employees-lang") || "es";
-
+// Helpers
 function hoyISO() {
   const d = new Date();
   const year = d.getFullYear();
@@ -89,7 +87,6 @@ function resetPreview() {
   fetch("/api/users")
     .then((res) => {
       if (!res.ok) {
-        // Aquí evitas el "Unexpected token '<'"
         console.error("Error /api/users:", res.status, res.statusText);
         return [];
       }
@@ -135,15 +132,8 @@ function renderEmpleados() {
     const fotoFinal = emp.foto || "/img/userplaceholder.png";
 
     const esActivo = estado === "activo";
-    const estadoTexto =
-      currentLang === "en"
-        ? esActivo
-          ? "Active"
-          : "Inactive"
-        : esActivo
-        ? "Activo"
-        : "Inactivo";
-
+    // Texto base SIEMPRE en español; la API de traducción se encarga
+    const estadoTexto = esActivo ? "Activo" : "Inactivo";
     const badgeExtraClass = esActivo ? "" : "badge-inactive";
 
     tr.innerHTML = `
@@ -185,8 +175,8 @@ function abrirModalCrear() {
   modo = "crear";
   empleadoEditandoId = null;
 
-  modalTitulo.textContent =
-    currentLang === "en" ? "Create employee" : "Crear empleado";
+  // Texto base en español (Google Translate lo traducirá si hace falta)
+  modalTitulo.textContent = "Crear empleado";
 
   formEmpleado.reset();
   resetPreview();
@@ -205,8 +195,7 @@ function abrirModalEditar(id) {
   modo = "editar";
   empleadoEditandoId = id;
 
-  modalTitulo.textContent =
-    currentLang === "en" ? "Edit employee" : "Editar empleado";
+  modalTitulo.textContent = "Editar empleado";
 
   inputNombre.value = emp.nombre;
   inputTelefono.value = emp.telefono || "";
@@ -302,21 +291,13 @@ formEmpleado?.addEventListener("submit", (e) => {
     })
       .then((res) => res.json())
       .then(() => {
-        alert(
-          currentLang === "en"
-            ? "Employee created successfully."
-            : "Empleado creado correctamente."
-        );
+        alert("Empleado creado correctamente.");
         cerrarModal();
         location.reload();
       })
       .catch((err) => {
         console.error("Error creando empleado:", err);
-        alert(
-          currentLang === "en"
-            ? "Error creating employee"
-            : "Error al crear empleado"
-        );
+        alert("Error al crear empleado");
       });
 
     return;
@@ -336,11 +317,7 @@ formEmpleado?.addEventListener("submit", (e) => {
     })
       .then((res) => res.json())
       .then(() => {
-        alert(
-          currentLang === "en"
-            ? "Employee updated successfully."
-            : "Empleado actualizado correctamente."
-        );
+        alert("Empleado actualizado correctamente.");
         cerrarModal();
         location.reload();
       })
@@ -354,21 +331,14 @@ formEmpleado?.addEventListener("submit", (e) => {
 btnEliminarEmpleado?.addEventListener("click", () => {
   if (empleadoEditandoId === null) return;
 
-  const msg =
-    currentLang === "en"
-      ? "Are you sure you want to delete this employee?"
-      : "¿Seguro que deseas eliminar este empleado?";
+  const msg = "¿Seguro que deseas eliminar este empleado?";
 
   if (!confirm(msg)) return;
 
   fetch(`/api/users/${empleadoEditandoId}`, { method: "DELETE" })
     .then((res) => res.json())
     .then(() => {
-      alert(
-        currentLang === "en"
-          ? "Employee deleted successfully."
-          : "Empleado eliminado correctamente."
-      );
+      alert("Empleado eliminado correctamente.");
       cerrarModal();
       location.reload();
     })
@@ -377,49 +347,6 @@ btnEliminarEmpleado?.addEventListener("click", () => {
 
 // Filtro por estado
 filtroEstado?.addEventListener("change", renderEmpleados);
-
-// // =========================
-// // SESIÓN / LOGOUT
-// // =========================
-// function getLoginUrl() {
-//   const isLocal =
-//     location.hostname === "127.0.0.1" || location.hostname === "localhost";
-
-//   if (isLocal) {
-//     return "../../../login/login.html";
-//   }
-//   return "/login/login.html";
-// }
-
-// const logoutBtn = document.getElementById("logoutBtn");
-// const sidebarUserName = document.getElementById("sidebarUserName");
-// const sidebarUserImg = document.getElementById("sidebarUserImg");
-
-// const user = JSON.parse(localStorage.getItem("user"));
-// const token = localStorage.getItem("token");
-
-// if (!token || !user || user.role !== "admin") {
-//   window.location.href = getLoginUrl();
-// }
-
-// if (user && sidebarUserName) {
-//   sidebarUserName.textContent = user.name || "Usuario";
-//   if (user.profile_picture) {
-//     sidebarUserImg.src = "/uploads/" + user.profile_picture;
-//   }
-// }
-
-// logoutBtn?.addEventListener("click", () => {
-//   const msg =
-//     currentLang === "en"
-//       ? "Are you sure you want to log out?"
-//       : "¿Seguro que quieres cerrar sesión?";
-
-//   if (!confirm(msg)) return;
-
-//   localStorage.clear();
-//   window.location.href = getLoginUrl();
-// });
 
 // =========================
 // MOSTRAR / OCULTAR CONTRASEÑA
@@ -440,6 +367,7 @@ if (togglePass && inputPassword) {
 
 // ===================================================
 // MODO OSCURO LOCAL PARA EMPLEADOS
+// (independiente, pero visual igual al de Add Dishes)
 // ===================================================
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("adminThemeToggle");
@@ -467,10 +395,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // 🔹 SOLO sincronizamos el texto del botón de idioma con el idioma guardado.
+  // La traducción real la maneja translate.js usando la API.
   const langBtn = document.getElementById("banderaIdioma");
   const flagSpan = langBtn?.querySelector(".bandera-container");
 
-  function updateFlag(lang) {
+  function syncFlagLabel() {
+    const lang = localStorage.getItem("preferredLanguage") || "es";
     if (!flagSpan) return;
     flagSpan.setAttribute(
       "data-idioma-text",
@@ -478,32 +409,12 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  function applyLanguage(lang) {
-    currentLang = lang;
-    document.documentElement.lang = lang;
+  syncFlagLabel();
 
-    const dict = EMP_I18N[lang];
-    if (!dict) return;
-
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.getAttribute("data-i18n");
-      if (!key) return;
-      const text = dict[key];
-      if (text) el.textContent = text;
-    });
-
-    // refrescar tabla para que "Activo/Inactivo" también cambien
-    renderEmpleados();
-  }
-
-  // idioma inicial
-  updateFlag(currentLang);
-  applyLanguage(currentLang);
-
-  langBtn?.addEventListener("click", () => {
-    currentLang = currentLang === "es" ? "en" : "es";
-    localStorage.setItem("employees-lang", currentLang);
-    updateFlag(currentLang);
-    applyLanguage(currentLang);
+  // Si cambia preferredLanguage (otra pestaña, etc) actualizamos texto
+  window.addEventListener("storage", (e) => {
+    if (e.key === "preferredLanguage") {
+      syncFlagLabel();
+    }
   });
 });
