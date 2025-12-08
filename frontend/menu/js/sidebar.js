@@ -161,14 +161,13 @@ function showConfirmCustomLogout(message, onYes, onNo) {
     onYes();
   });
 }
+
 btnLogout.addEventListener("click", () => {
   showConfirmCustomLogout(
     "¿Deseas cerrar sesión?",
     () => {
       localStorage.clear();
       window.location.href = "../login/login.html";
-    },
-    () => {
     }
   );
 });
@@ -188,9 +187,6 @@ btnLogout.addEventListener("click", () => {
     sidebarAvatar.src = avatarUrl;
   }
 }
-
-
-
 
   // ----- Nombre del usuario en el sidebar -----
   if (sidebarUserName && sidebarUserInfo) {
