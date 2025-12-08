@@ -2742,3 +2742,26 @@ color: #f9fafb;
     width: 100%;
   }
 }
+.top-info-caja {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background: #ffffff;
+    padding: 8px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.09);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.admin-dark .top-info-caja {
+    background: #0f172a;
+    color: #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+/* Necesario para que Caja X se posicione correctamente */
+.kitchen-header {
+    position: relative;
+}

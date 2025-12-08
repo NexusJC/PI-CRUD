@@ -391,6 +391,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   inicializarBotones();
   inicializarModal();
   inicializarNuevoPedidoModal();
+
+  // Mostrar caja en la parte superior
+const user = JSON.parse(localStorage.getItem("user"));
+const cajaSpan = document.getElementById("infoCajaEmpleado");
+if (cajaSpan && user?.caja_id) {
+  cajaSpan.textContent = `Caja ${user.caja_id}`;
+}
+
   console.log("Panel de cocina listo con pedidos reales");
 });
 
@@ -976,18 +984,6 @@ async function guardarCambiosEdicion() {
     alert("No se pudo actualizar el pedido.");
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Panel de cocina listo con pedidos reales");
-
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (!user || !user.caja_id) {
-        console.warn("⚠ Usuario sin caja asignada o sin datos en localStorage.");
-        return; // evita romper la página
-    }
-
-    cargarPedidos();
-});
 // =========================
 // SESIÓN / LOGOUT EMPLEADO (versión completa)
 // =========================
