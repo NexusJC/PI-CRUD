@@ -1,5 +1,5 @@
 /*************************************************
- *  SIDEBAR, SESIÓN, ROLES, MODO OSCURO (igual)
+ *  SIDEBAR, SESIÓN, ROLES, MODO OSCURO
  *************************************************/
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -15,10 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
   });
 
+  /* === CERRAR SI HACE CLICK FUERA === */
   document.addEventListener("click", (e) => {
-    if (sidebar.classList.contains("active") &&
-        !sidebar.contains(e.target) &&
-        !toggle.contains(e.target)) {
+    if (
+      sidebar.classList.contains("active") &&
+      !sidebar.contains(e.target) &&
+      !toggle.contains(e.target)
+    ) {
       sidebar.classList.remove("active");
       toggle.textContent = "☰";
     }
@@ -35,17 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
     btnLogin.style.display = "block";
     btnLogout.style.display = "none";
     menuList.innerHTML = `
-      <li data-no-translate>
-        <a href="/menu/index.html" data-no-translate>
-          <i class="fas fa-utensils"></i> <span>Menú</span>
-        </a>
-      </li>`;
+      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Menú</span></a></li>
+    `;
     return;
   }
 
+  /* === AVATAR EN SIDEBAR === */
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   if (sidebarAvatar && user) {
     let avatarUrl = user.image_url || user.profile_picture;
+
     if (avatarUrl) {
       if (avatarUrl.includes("cloudinary")) {
         sidebarAvatar.src = avatarUrl;
@@ -57,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* === NOMBRE EN SIDEBAR === */
   const sidebarUserName = document.getElementById("sidebarUserName");
   const sidebarUserInfo = document.getElementById("sidebarUserInfo");
 
@@ -78,7 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
     menuList.innerHTML = `
       <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Ver Menú</span></a></li>
       <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> <span>Mi Perfil</span></a></li>
-      <li><a href="/shifts/shifts.html"><i class="fas fa-clock"></i> <span>Turnos</span></a></li>`;
+      <li><a href="/shifts/shifts.html"><i class="fas fa-clock"></i> <span>Turnos</span></a></li>
+    `;
   }
 
   if (user.role === "admin") {
@@ -86,7 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a></li>
       <li><a href="/personal/admin/add-dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Platillos</a></li>
       <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
-      <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>`;
+      <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
+    `;
   }
 
   /* === MODO OSCURO === */
@@ -107,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateThemeButton(isDark) {
       const icon = themeToggle.querySelector("i");
       const text = themeToggle.querySelector("span");
+
       if (isDark) {
         icon.classList.replace("fa-moon", "fa-sun");
         text.textContent = "Modo claro";
@@ -119,10 +125,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /*************************************************
- *                SISTEMA DE TURNOS
+ *          SISTEMA DE TURNOS – NUEVO DISEÑO
  *************************************************/
 
-/* === CARGAR DESDE API === */
+/* === Cargar turnos desde API === */
 async function cargarTurnos() {
   try {
     const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
@@ -130,21 +136,21 @@ async function cargarTurnos() {
 
     if (!Array.isArray(pedidos)) return;
 
-    const enProceso = pedidos.filter(t => t.status === "en_proceso");
-    const pendientesYProceso = pedidos.filter(
-      t => t.status === "pendiente" || t.status === "en_proceso"
+    const enProceso = pedidos.filter(p => p.status === "en_proceso");
+    const visibles = pedidos.filter(
+      p => p.status === "pendiente" || p.status === "en_proceso"
     );
 
     renderTurnoActual(enProceso);
-    renderListaTurnos(pendientesYProceso);
+    renderListaTurnos(visibles);
 
   } catch (err) {
-    console.warn("⚠ Error cargando turnos:", err);
+    console.warn("Error cargando turnos:", err);
   }
 }
 
 /*************************************************
- *      PANEL DERECHO — TURNO ACTUAL (GRANDE)
+ *   PANEL DERECHO — TURNO ACTUAL GRANDE
  *************************************************/
 function renderTurnoActual(lista) {
   const cont = document.getElementById("turnosActuales");
@@ -154,24 +160,25 @@ function renderTurnoActual(lista) {
   nombre.textContent = "—";
 
   if (lista.length === 0) {
-    cont.innerHTML = `<p style="text-align:center; color:#888;">No hay pedidos en proceso</p>`;
+    cont.innerHTML = `
+      <p style="text-align:center; color:#777; font-weight:600;">
+        No hay pedidos en proceso
+      </p>`;
     return;
   }
 
-  const t = lista[0]; // solo el primero en proceso
+  const t = lista[0];
 
   cont.innerHTML = `
-    <div class="turno-contenedor">
-      <span>${t.order_number}</span>
-      <span>${t.caja_id ?? "—"}</span>
-    </div>
+    <span>${t.order_number}</span>
+    <span>${t.caja_id ?? "—"}</span>
   `;
 
   nombre.textContent = t.customer_name || "Cliente";
 }
 
 /*************************************************
- *    PANEL IZQUIERDO — LISTA COMPLETA DE TURNOS
+ *   PANEL IZQUIERDO — LISTA DE TURNOS
  *************************************************/
 function renderListaTurnos(lista) {
   const cont = document.getElementById("listaTurnos");
@@ -188,34 +195,6 @@ function renderListaTurnos(lista) {
   });
 }
 
-/* AUTOREFRESH */
+/* Auto-refresh */
 cargarTurnos();
 setInterval(cargarTurnos, 5000);
-
-
-function showConfirmCustomLogout(message, onYes, onNo) {
-  const overlay = document.createElement("div");
-  overlay.className = "custom-confirm-overlay";
-
-  overlay.innerHTML = `
-    <div class="custom-confirm-box">
-      <h3>${message}</h3>
-      <div class="confirm-btn-row">
-        <button class="confirm-btn confirm-no">Cancelar</button>
-        <button class="confirm-btn confirm-yes">Sí, continuar</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  overlay.querySelector(".confirm-no").addEventListener("click", () => {
-    overlay.remove();
-    if (onNo) onNo();
-  });
-
-  overlay.querySelector(".confirm-yes").addEventListener("click", () => {
-    overlay.remove();
-    onYes();
-  });
-}
