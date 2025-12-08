@@ -84,21 +84,42 @@
 
 
 <!-- ======== PANTALLA PRINCIPAL (TURNOS) ======== -->
-<main class="turnos-main">
+<main class="screen-turnos">
 
-  <h1 class="titulo">Turno Actual</h1>
+  <!-- PANEL IZQUIERDO — LISTA DE TURNOS -->
+  <section class="panel-izquierdo">
 
-    <section id="turnosActuales" class="turno-actual">
-    <!-- Aquí van los pedidos EN PROCESO -->
+    <div class="encabezado-lista">
+      <span>Turno</span>
+      <span>Módulo</span>
+    </div>
+
+    <div id="listaTurnos" class="turnos-scroll">
+      <!-- Aquí los turnos (pendientes y proceso) -->
+    </div>
+
   </section>
 
 
-  <h2 class="titulo-secundario">Todos los turnos</h2>
 
-    <section id="listaTurnos" class="lista-turnos">
-    <!-- Aquí van TODOS los pedidos -->
-    </section>
+  <!-- PANEL DERECHO — TURNO ACTUAL -->
+  <section class="panel-derecho">
 
+    <div class="encabezado-actual">
+      <span>Turno</span>
+      <span>Módulo</span>
+    </div>
+
+    <div id="turnosActuales" class="turno-contenedor">
+      <!-- Turno actual (el que está EN PROCESO) -->
+    </div>
+
+    <div class="usuario-actual">
+      <h2 id="nombreUsuarioActual">—</h2>
+      <p id="etapaUsuarioActual">Nombre de la etapa</p>
+    </div>
+
+  </section>
 
 </main>
 

@@ -1,3 +1,6 @@
+/*************************************************
+ *  SIDEBAR, SESIÓN, ROLES, MODO OSCURO (igual)
+ *************************************************/
 document.addEventListener("DOMContentLoaded", () => {
 
   const sidebar = document.getElementById("sidebar");
@@ -12,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
   });
 
-  /* === CERRAR AL DAR CLICK FUERA === */
   document.addEventListener("click", (e) => {
     if (sidebar.classList.contains("active") &&
         !sidebar.contains(e.target) &&
@@ -35,30 +37,26 @@ document.addEventListener("DOMContentLoaded", () => {
     menuList.innerHTML = `
       <li data-no-translate>
         <a href="/menu/index.html" data-no-translate>
-          <i class="fas fa-utensils" data-no-translate></i>
-          <span>Menú</span>
+          <i class="fas fa-utensils"></i> <span>Menú</span>
         </a>
-      </li>
-      `;
+      </li>`;
     return;
   }
-  
+
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   if (sidebarAvatar && user) {
     let avatarUrl = user.image_url || user.profile_picture;
     if (avatarUrl) {
       if (avatarUrl.includes("cloudinary")) {
         sidebarAvatar.src = avatarUrl;
-        return;
+      } else if (!avatarUrl.startsWith("http")) {
+        sidebarAvatar.src = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
+      } else {
+        sidebarAvatar.src = avatarUrl;
       }
-      if (!avatarUrl.startsWith("http")) {
-        avatarUrl = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
-      }
-      sidebarAvatar.src = avatarUrl;
     }
   }
 
-    // Nombre del usuario en el sidebar de Turnos
   const sidebarUserName = document.getElementById("sidebarUserName");
   const sidebarUserInfo = document.getElementById("sidebarUserInfo");
 
@@ -67,8 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
   }
 
-
-  /* === CERRAR SESIÓN === */
+  /* === LOGOUT === */
   btnLogout.addEventListener("click", () => {
     if (confirm("¿Cerrar sesión?")) {
       localStorage.clear();
@@ -79,56 +76,20 @@ document.addEventListener("DOMContentLoaded", () => {
   /* === MENÚ POR ROL === */
   if (user.role === "usuario") {
     menuList.innerHTML = `
-        <li data-no-translate>
-          <a href="/menu/index.html" data-no-translate>
-            <i class="fas fa-utensils" data-no-translate></i>
-            <span>Ver Menú</span>
-          </a>
-        </li>
-        <li data-no-translate>
-          <a href="/perfil/perfil.html" data-no-translate>
-            <i class="fas fa-user" data-no-translate></i>
-            <span>Mi Perfil</span>
-          </a>
-        </li>
-        <li data-no-translate>
-          <a href="/shifts/shifts.html" data-no-translate>
-            <i class="fas fa-clock icon" data-no-translate></i>
-            <span>Turnos</span>
-          </a>
-        </li>
-    `;
+      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Ver Menú</span></a></li>
+      <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> <span>Mi Perfil</span></a></li>
+      <li><a href="/shifts/shifts.html"><i class="fas fa-clock"></i> <span>Turnos</span></a></li>`;
   }
 
   if (user.role === "admin") {
     menuList.innerHTML = `
-      <li data-no-translate>
-        <a href="/personal/admin/dashboard/dashboard.html" data-no-translate>
-          <i class="fas fa-gauge" data-no-translate></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li data-no-translate>
-        <a href="/personal/admin/add-dishes/add_dishes.html" data-no-translate>
-          <i class="fas fa-pizza-slice" data-no-translate></i>
-          <span>Platillos</span>
-        </a>
-      </li>
-      <li data-no-translate>
-        <a href="/personal/admin/employee-management/employee.html" data-no-translate>
-          <i class="fas fa-users" data-no-translate></i>
-          <span>Empleados</span>
-        </a>
-      </li>
-      <li data-no-translate>
-        <a href="/personal/admin/gestioncajas/gestioncajas.html" data-no-translate>
-          <i class="fas fa-cash-register" data-no-translate></i>
-          <span>Cajas</span>
-        </a>
-      </li>
-    `;
+      <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a></li>
+      <li><a href="/personal/admin/add-dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Platillos</a></li>
+      <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
+      <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>`;
   }
-    /* === MODO OSCURO (MISMA LÓGICA QUE EN MENÚ) === */
+
+  /* === MODO OSCURO === */
   const themeToggle = document.getElementById("themeToggle");
   if (themeToggle) {
     const savedTheme = localStorage.getItem("theme");
@@ -146,8 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateThemeButton(isDark) {
       const icon = themeToggle.querySelector("i");
       const text = themeToggle.querySelector("span");
-      if (!icon || !text) return;
-
       if (isDark) {
         icon.classList.replace("fa-moon", "fa-sun");
         text.textContent = "Modo claro";
@@ -159,7 +118,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-//cargar turnos
+/*************************************************
+ *                SISTEMA DE TURNOS
+ *************************************************/
+
+/* === CARGAR DESDE API === */
 async function cargarTurnos() {
   try {
     const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
@@ -167,66 +130,64 @@ async function cargarTurnos() {
 
     if (!Array.isArray(pedidos)) return;
 
-    // SEPARAR: EN PROCESO VS TODOS
-    const enProceso = pedidos.filter(p => p.status === "en_proceso");
-    const todos = pedidos;
+    const enProceso = pedidos.filter(t => t.status === "en_proceso");
+    const pendientesYProceso = pedidos.filter(
+      t => t.status === "pendiente" || t.status === "en_proceso"
+    );
 
-    renderTurnosActuales(enProceso);
-    renderTodosLosTurnos(todos);
+    renderTurnoActual(enProceso);
+    renderListaTurnos(pendientesYProceso);
 
   } catch (err) {
     console.warn("⚠ Error cargando turnos:", err);
   }
 }
 
-function renderTurnosActuales(lista) {
+/*************************************************
+ *      PANEL DERECHO — TURNO ACTUAL (GRANDE)
+ *************************************************/
+function renderTurnoActual(lista) {
   const cont = document.getElementById("turnosActuales");
+  const nombre = document.getElementById("nombreUsuarioActual");
+
   cont.innerHTML = "";
+  nombre.textContent = "—";
 
-  // Mostrar solo los pedidos en proceso
-  const enProceso = lista.filter(t => t.status === "en_proceso");
-
-  if (enProceso.length === 0) {
+  if (lista.length === 0) {
     cont.innerHTML = `<p style="text-align:center; color:#888;">No hay pedidos en proceso</p>`;
     return;
   }
 
-  enProceso.forEach(t => {
-    cont.innerHTML += `
-      <div class="turno-card resaltado">
-        <h3>#${t.order_number}</h3>
-        <p>${t.customer_name}</p>
-        <span>$${Number(t.total).toFixed(2)}</span>
-        <small style="display:block; margin-top:6px; opacity:0.8;">Caja ${t.caja_id ?? "—"}</small>
-      </div>
-    `;
-  });
+  const t = lista[0]; // solo el primero en proceso
+
+  cont.innerHTML = `
+    <div class="turno-contenedor">
+      <span>${t.order_number}</span>
+      <span>${t.caja_id ?? "—"}</span>
+    </div>
+  `;
+
+  nombre.textContent = t.customer_name || "Cliente";
 }
 
-//mostrar todos los turnos
-function renderTodosLosTurnos(lista) {
+/*************************************************
+ *    PANEL IZQUIERDO — LISTA COMPLETA DE TURNOS
+ *************************************************/
+function renderListaTurnos(lista) {
   const cont = document.getElementById("listaTurnos");
   cont.innerHTML = "";
 
-  // Solo pendientes y en proceso
-  const filtrados = lista.filter(t =>
-    t.status === "pendiente" || t.status === "en_proceso"
-  );
-
-  filtrados.forEach(t => {
+  lista.forEach(t => {
     cont.innerHTML += `
-      <div class="turno-card">
-        <h3>#${t.order_number}</h3>
-        <p>${t.customer_name || "Cliente"}</p>
-        <span>$${Number(t.total).toFixed(2)}</span>
+      <div class="turno-item">
+        <span>${t.order_number}</span>
+        <span>${t.caja_id ?? "—"}</span>
+        <span class="nombre">${t.customer_name || "Cliente"}</span>
       </div>
     `;
   });
 }
 
-
-/* CARGAR TURNOS AL ABRIR LA PÁGINA */
+/* AUTOREFRESH */
 cargarTurnos();
-
-/* OPCIONAL: AUTOREFRESH CADA 5s */
 setInterval(cargarTurnos, 5000);
