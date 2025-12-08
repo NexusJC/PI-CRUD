@@ -838,3 +838,85 @@ body.dark .turno-card.resaltado:hover {
     font-size: 3.3rem;
   }
 }
+
+/* Quitar animaciones al cambiar entre modo claro / oscuro */
+body.dark *, body * {
+  transition: none !important;
+}
+
+/* ============================================
+   MODO OSCURO — VISTA SHIFTS COMPLETA
+   ============================================ */
+
+/* Fondo general */
+body.dark {
+  background: #0f172a;
+}
+
+/* GRID PRINCIPAL */
+body.dark .screen-turnos {
+  background: #0f172a;
+}
+
+/* PANEL IZQUIERDO */
+body.dark .panel-izquierdo {
+  background: #1e293b;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+}
+
+/* Encabezado izquierdo */
+body.dark .panel-header-left {
+  background: #e36842;
+  color: white;
+}
+
+/* Tarjetas de lista */
+body.dark .turno-item {
+  background: #1e293b;
+  border-left: 6px solid #e36842;
+  color: #e2e8f0;
+}
+
+body.dark .turno-item:hover {
+  background: #2b3445;
+  transform: translateX(4px);
+}
+
+body.dark .turno-item .nombre {
+  color: #f1f5f9;
+  opacity: .85;
+}
+
+/* Scroll */
+body.dark .turnos-scroll {
+  scrollbar-color: #e36842 #0f172a;
+}
+
+/* PANEL DERECHO */
+body.dark .panel-derecho {
+  background: #1e293b;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+}
+
+/* Encabezado derecho */
+body.dark .panel-header-right {
+  background: #e36842;
+  color: white;
+}
+
+/* TURNO ACTUAL — caja grande */
+body.dark .turno-actual-box {
+  background: linear-gradient(90deg, #e36842, #8a3d21);
+  color: white;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.45);
+}
+
+/* Nombre del cliente */
+body.dark .usuario-actual-info h2 {
+  color: #f1f5f9;
+}
+
+body.dark .usuario-actual-info p {
+  color: #e2e8f0;
+  opacity: .75;
+}
