@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../img/logo_1.png" type="image/png">
   <title>Mis Turnos · La Parrilla Azteca</title>
 
   <!-- ICONOS -->
@@ -84,21 +85,31 @@
 
 <!-- ======== PANTALLA PRINCIPAL (TURNOS) ======== -->
 <main class="turnos-main">
+  <div class="turnos-container">
 
-  <h1 class="titulo">Turno Actual</h1>
+    <!-- ==================== -->
+    <!--     TURNO ACTUAL     -->
+    <!-- ==================== -->
+    <section class="turno-actual-wrapper">
+      <h1 class="titulo">Turno Actual</h1>
 
-    <section id="turnosActuales" class="turno-actual">
-    <!-- Aquí van los pedidos EN PROCESO -->
-  </section>
-
-
-  <h2 class="titulo-secundario">Todos los turnos</h2>
-
-    <section id="listaTurnos" class="lista-turnos">
-    <!-- Aquí van TODOS los pedidos -->
+      <section id="turnosActuales" class="turno-actual">
+        <!-- Aquí van los pedidos EN PROCESO -->
+      </section>
     </section>
 
+    <!-- ==================== -->
+    <!--     TODOS LOS TURNOS -->
+    <!-- ==================== -->
+    <section class="todos-turnos-wrapper">
+      <h2 class="titulo-secundario">Todos los turnos</h2>
 
+      <section id="listaTurnos" class="lista-turnos">
+        <!-- Aquí van TODOS los pedidos -->
+      </section>
+    </section>
+
+  </div> <!-- cierre turnos-container -->
 </main>
 
 <!-- JS -->
