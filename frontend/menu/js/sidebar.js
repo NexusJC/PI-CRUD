@@ -134,13 +134,15 @@ ensureAvatarIsLoaded();
     }
 
     if (btnLogout) {
-      btnLogout.addEventListener("click", () => {
-        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
-        if (confirmLogout) {
-          localStorage.clear();
-          window.location.href = "../login/login.html";
-        }
-      });
+
+btnLogout.addEventListener("click", () => {
+  showAlert("¿Seguro que quieres cerrar sesión?", "confirm", () => {
+      localStorage.clear();
+      window.location.href = "../login/login.html";
+  });
+});
+
+
     }
   }
   
