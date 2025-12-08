@@ -243,7 +243,7 @@ function renderEmpleados() {
         // URL absoluta (Cloudinary, etc.)
         fotoFinal = emp.foto;
       } else {
-        // Nombre de archivo local (compatibilidad vieja)
+        // Nombre de archivo local
         fotoFinal = `/uploads/${emp.foto}`;
       }
     }
@@ -457,25 +457,20 @@ formEmpleado?.addEventListener("submit", async (e) => {
   // ============== CREAR EMPLEADO ==============
   if (modo === "crear") {
     try {
-      // 1️⃣ Subir imagen a Cloudinary (si hay)
-      let imageUrl = null;
-      if (archivoInput?.files[0]) {
-        imageUrl = await uploadToCloudinary(archivoInput.files[0]);
-      }
+      // 🔹 Enviar datos como FormData para que multer reciba el archivo
+      const formData = new FormData();
+      formData.append("name", nombre);
+      formData.append("telefono", telefono);
+      formData.append("email", email);
+      formData.append("password", password);
 
-      // 2️⃣ Enviar JSON al backend
-      const payload = {
-        name: nombre,
-        telefono,
-        email,
-        password,
-        image_url: imageUrl,
-      };
+      if (archivoInput?.files[0]) {
+        formData.append("profile_picture", archivoInput.files[0]);
+      }
 
       const res = await fetch(`${API_BASE}/api/users`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: formData, // ❗ Sin headers, sin JSON
       });
 
       const text = await res.text().catch(() => "");
@@ -518,7 +513,7 @@ formEmpleado?.addEventListener("submit", async (e) => {
       telefono: telefono,
       email: email,
       // Si más adelante quieres permitir editar la foto,
-      // podrías subirla a Cloudinary y mandar image_url aquí también.
+      // aquí podrías hacer otra subida a Cloudinary y mandar image_url también.
     };
 
     try {
@@ -847,3 +842,5 @@ if (logoutBtn) {
     };
   });
 }
+
+
