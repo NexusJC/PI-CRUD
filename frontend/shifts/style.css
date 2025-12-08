@@ -990,3 +990,88 @@ body.dark .usuario-actual-info p {
   color: #e2e8f0;
   opacity: .75;
 }
+
+/*modal de logout*/
+.custom-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+}
+
+.custom-confirm-box {
+  background: #ffffff;
+  padding: 28px 30px;
+  border-radius: 18px;
+  width: 360px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+  animation: popIn .25s ease-out;
+}
+
+.custom-confirm-box h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #333;
+  margin: 0 0 20px;
+}
+
+.confirm-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.confirm-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.confirm-no {
+  background: #e6e6e6;
+  color: #3d3d3d;
+}
+
+.confirm-no:hover {
+  background: #d5d5d5;
+}
+
+.confirm-yes {
+  background: #ff6b32;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255,107,50,0.35);
+}
+
+.confirm-yes:hover {
+  background: #ff5c18;
+  transform: translateY(-2px);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.86); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* Modo oscuro */
+body.dark .custom-confirm-box {
+  background: #0f172a;
+  color: white;
+}
+
+body.dark .confirm-no {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+body.dark .confirm-no:hover {
+  background: #334155;
+}
