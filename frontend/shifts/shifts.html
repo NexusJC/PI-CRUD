@@ -15,7 +15,6 @@
 <body>
 
 <!-- TOPBAR -->
-<!-- TOPBAR — IGUAL AL MENÚ, SIN VER ORDEN -->
 <header class="topbar">
   <div class="topbar-left">
     <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
@@ -84,23 +83,28 @@
 
 
 <!-- ======== PANTALLA PRINCIPAL (TURNOS) ======== -->
-<main class="turnos-main">
+<main class="turnos-container">
 
-  <h1 class="titulo">Turno Actual</h1>
+  <!-- SECCIÓN DEL TURNO ACTUAL -->
+  <section class="turno-actual-wrapper">
+    <h1 class="titulo-seccion">Turno Actual</h1>
 
-    <section id="turnosActuales" class="turno-actual">
-    <!-- Aquí van los pedidos EN PROCESO -->
+    <div id="turnosActuales" class="turno-actual-card">
+      <!-- AQUÍ SE INSERTA DESDE shifts.js -->
+    </div>
   </section>
 
+  <!-- SECCIÓN DE TODOS LOS TURNOS -->
+  <section class="todos-turnos-wrapper">
+    <h2 class="titulo-seccion secundarios">Todos los turnos</h2>
 
-  <h2 class="titulo-secundario">Todos los turnos</h2>
-
-    <section id="listaTurnos" class="lista-turnos">
-    <!-- Aquí van TODOS los pedidos -->
-    </section>
-
+    <div id="listaTurnos" class="turnos-grid">
+      <!-- AQUÍ VA EL GRID DESDE shifts.js -->
+    </div>
+  </section>
 
 </main>
+
 
 <!-- JS -->
 <script src="./js/shifts.js"></script>

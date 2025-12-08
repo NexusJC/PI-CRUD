@@ -634,3 +634,139 @@ body.dark .turno-card.resaltado:hover {
 .topbar-right {
   margin-right: 30px; /* Mueve el botón más a la izquierda */
 }
+
+/* =============================================
+   NUEVO DISEÑO PREMIUM PARA SHIFTS (SOLO ESTÉTICA)
+   ============================================= */
+
+/* Contenedor general */
+.turnos-container {
+  padding-top: 100px; /* espacio por el topbar */
+  padding-bottom: 60px;
+  width: 100%;
+  max-width: 1350px;
+  margin: auto;
+}
+
+/* ---------- TITULOS ---------- */
+.titulo-seccion {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: #2b2b2b;
+}
+
+.titulo-seccion.secundarios {
+  font-size: 2rem;
+  margin-top: 40px;
+}
+
+/* ---------- HERO CARD (Turno Actual) ---------- */
+.turno-actual-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.turno-actual-card {
+  width: 100%;
+  max-width: 410px;
+  min-height: 160px;
+  background: linear-gradient(135deg, #ffe4d3, #fffbf7);
+  border-radius: 26px;
+  padding: 25px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.17);
+  border: 2px solid #e36842;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform .25s, box-shadow .25s;
+}
+
+.turno-actual-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0,0,0,0.22);
+}
+
+/* ---------- GRID DE TURNOS ---------- */
+.todos-turnos-wrapper {
+  margin-top: 50px;
+}
+
+.turnos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  margin-top: 25px;
+  padding: 10px;
+}
+
+/* -------- TARJETAS GENERALES -------- */
+.turno-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.11);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.turno-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.turno-card h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.turno-card p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.turno-card span {
+  margin-top: 6px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2b2b2b;
+}
+
+/* =========== MODO OSCURO COMPATIBLE ============= */
+
+body.dark .turnos-container {
+  background: #0f172a;
+}
+
+body.dark .titulo-seccion {
+  color: #f1f5f9;
+}
+
+body.dark .turno-actual-card {
+  background: #1e293b;
+  border-color: #e36842;
+  box-shadow: 0 12px 28px rgba(255, 145, 90, 0.22);
+}
+
+body.dark .turno-card {
+  background: #1e293b;
+  color: #fff;
+  border: 1px solid #334155;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.55);
+}
+
+body.dark .turno-card:hover {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+}
+
+body.dark .turno-card h3,
+body.dark .turno-card p,
+body.dark .turno-card span {
+  color: #f8fafc;
+}
