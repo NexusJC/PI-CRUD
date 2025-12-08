@@ -133,7 +133,6 @@ ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR
       btnLogout.style.display = "none";
     }
   }
-  
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   
   if (sidebarAvatar && user) {
