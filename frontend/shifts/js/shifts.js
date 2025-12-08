@@ -230,3 +230,31 @@ cargarTurnos();
 
 /* OPCIONAL: AUTOREFRESH CADA 5s */
 setInterval(cargarTurnos, 5000);
+
+
+function showConfirmCustomLogout(message, onYes, onNo) {
+  const overlay = document.createElement("div");
+  overlay.className = "custom-confirm-overlay";
+
+  overlay.innerHTML = `
+    <div class="custom-confirm-box">
+      <h3>${message}</h3>
+      <div class="confirm-btn-row">
+        <button class="confirm-btn confirm-no">Cancelar</button>
+        <button class="confirm-btn confirm-yes">Sí, continuar</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector(".confirm-no").addEventListener("click", () => {
+    overlay.remove();
+    if (onNo) onNo();
+  });
+
+  overlay.querySelector(".confirm-yes").addEventListener("click", () => {
+    overlay.remove();
+    onYes();
+  });
+}
