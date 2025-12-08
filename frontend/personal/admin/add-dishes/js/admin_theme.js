@@ -85,42 +85,159 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // =========================
-// SESIÓN / LOGOUT (MISMO QUE EN INDEX)
+// SESIÓN / LOGOUT ADMIN (fusionado)
 // =========================
 function getLoginUrl() {
-    const isLocal =
-        location.hostname === "127.0.0.1" ||
-        location.hostname === "localhost";
+  const isLocal =
+    location.hostname === "127.0.0.1" ||
+    location.hostname === "localhost";
 
-    if (isLocal) {
-        return "../../../login/login.html";
-    }
-
-    return "/login/login.html";
+  // misma ruta que usas en index/admin
+  return isLocal ? "../../../login/login.html" : "/login/login.html";
 }
 
 const logoutBtn = document.getElementById("logoutBtn");
 const sidebarUserName = document.getElementById("sidebarUserName");
 const sidebarUserImg = document.getElementById("sidebarUserImg");
 
-const user = JSON.parse(localStorage.getItem("user"));
-const token = localStorage.getItem("token");
-
-if (!token || !user || user.role !== "admin") {
-    window.location.href = getLoginUrl();
+// Leer user de localStorage de forma segura
+function readCurrentUser() {
+  try {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    console.error("Error parseando user de localStorage:", e);
+    return null;
+  }
 }
 
-if (user && sidebarUserName) {
-    sidebarUserName.textContent = user.name || "Usuario";
-    if (user.profile_picture) {
-        sidebarUserImg.src = "/uploads/" + user.profile_picture;
+// Verificar que exista sesión de admin
+function ensureAdminSession() {
+  const token = localStorage.getItem("token");
+  const user = readCurrentUser();
+
+  if (!token || !user || user.role !== "admin") {
+    // replace para que el botón "atrás" no vuelva a esta página
+    window.location.replace(getLoginUrl());
+    return null;
+  }
+
+  return user;
+}
+
+// 🔒 Comprobación inicial al cargar la página
+const currentUser = ensureAdminSession();
+
+// Pintar datos del usuario en el sidebar
+if (currentUser && sidebarUserName) {
+  sidebarUserName.textContent = currentUser.name || "Usuario";
+
+  if (currentUser.profile_picture && sidebarUserImg) {
+    // misma lógica que en el index/admin
+    sidebarUserImg.src = "/uploads/" + currentUser.profile_picture;
+  }
+}
+
+// 🔁 Proteger también al usar el botón "atrás" del navegador (bfcache)
+window.addEventListener("pageshow", (event) => {
+  // event.persisted === true → viene del caché del navegador
+  if (event.persisted) {
+    const token = localStorage.getItem("token");
+    const user = readCurrentUser();
+
+    if (!token || !user || user.role !== "admin") {
+      window.location.replace(getLoginUrl());
     }
-}
-
-logoutBtn?.addEventListener("click", () => {
-    const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
-    if (!confirmar) return;
-
-    localStorage.clear();
-    window.location.href = getLoginUrl();
+  }
 });
+
+// =========================
+// LOGOUT ADMIN CON MODAL BONITO
+// =========================
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    // Crear overlay del modal
+    const modal = document.createElement("div");
+    modal.id = "logoutConfirmModal";
+    modal.style.position = "fixed";
+    modal.style.inset = "0";
+    modal.style.background = "rgba(0,0,0,0.55)";
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+    modal.style.zIndex = "9999";
+
+    modal.innerHTML = `
+      <div style="
+        background: #fff;
+        padding: 22px 26px;
+        border-radius: 14px;
+        width: 320px;
+        text-align: center;
+        font-family: Poppins, system-ui, sans-serif;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      ">
+        <h3 style="margin: 0 0 10px; font-size: 1.1rem; font-weight: 700;">
+          Cerrar sesión
+        </h3>
+        <p style="margin: 0 0 18px; font-size: 0.92rem;">
+          ¿Seguro que deseas cerrar tu sesión?
+        </p>
+
+        <div style="display:flex; gap:12px; justify-content:center;">
+          <button id="cancelLogout" style="
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+            cursor: pointer;
+            font-weight: 600;
+          ">Cancelar</button>
+
+          <button id="confirmLogout" style="
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: linear-gradient(90deg,#ef4444,#f97316);
+            color:#fff;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+          ">Salir</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // ❌ Cancelar → solo cerrar modal
+    document.getElementById("cancelLogout").onclick = () => {
+      modal.remove();
+    };
+
+    // ✅ Confirmar → limpiar sesión + redirigir
+    document.getElementById("confirmLogout").onclick = () => {
+      // Limpieza completa de localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("preferredLanguage");
+      localStorage.removeItem("admin-theme");
+      localStorage.removeItem("admin-sidebar-open");
+      // Si usas sessionStorage en algo:
+      // sessionStorage.clear();
+
+      const box = modal.querySelector("div");
+      if (box) {
+        box.innerHTML = `
+          <p style="font-size:1rem; margin-bottom:12px;">
+            Cerrando sesión...
+          </p>
+        `;
+      }
+
+      setTimeout(() => {
+        // replace para que el botón atrás no recupere esta página
+        window.location.replace(getLoginUrl());
+      }, 500);
+    };
+  });
+}
