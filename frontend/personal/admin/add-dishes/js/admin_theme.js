@@ -152,10 +152,28 @@ window.addEventListener("pageshow", (event) => {
 });
 
 // =========================
-// LOGOUT ADMIN CON MODAL BONITO
+// LOGOUT ADMIN CON MODAL BONITO (CLARO / OSCURO)
 // =========================
 if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
+    const isDark = document.body.classList.contains("admin-dark");
+
+    const modalBg      = isDark ? "#020617" : "#ffffff";   // fondo tarjeta
+    const modalText    = isDark ? "#e5e7eb" : "#111827";   // texto principal
+    const modalShadow  = isDark ? "0 8px 25px rgba(0,0,0,0.65)" : "0 8px 25px rgba(0,0,0,0.25)";
+
+    const cancelBg     = isDark ? "#020617" : "#f9fafb";
+    const cancelBorder = isDark ? "#1f2937" : "#e5e7eb";
+    const cancelColor  = isDark ? "#e5e7eb" : "#111827";
+
+    const confirmGradient = isDark
+      ? "linear-gradient(90deg,#b91c1c,#f97316)"
+      : "linear-gradient(90deg,#ef4444,#f97316)";
+
+    const confirmShadow = isDark
+      ? "0 0 0 rgba(0,0,0,0)"   // sin sombra extra en oscuro
+      : "0 4px 12px rgba(0,0,0,0.25)";
+
     // Crear overlay del modal
     const modal = document.createElement("div");
     modal.id = "logoutConfirmModal";
@@ -169,13 +187,14 @@ if (logoutBtn) {
 
     modal.innerHTML = `
       <div style="
-        background: #fff;
+        background: ${modalBg};
+        color: ${modalText};
         padding: 22px 26px;
         border-radius: 14px;
         width: 320px;
         text-align: center;
         font-family: Poppins, system-ui, sans-serif;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        box-shadow: ${modalShadow};
       ">
         <h3 style="margin: 0 0 10px; font-size: 1.1rem; font-weight: 700;">
           Cerrar sesión
@@ -188,20 +207,22 @@ if (logoutBtn) {
           <button id="cancelLogout" style="
             padding: 8px 14px;
             border-radius: 999px;
-            border: 1px solid #e5e7eb;
-            background: #f9fafb;
+            border: 1px solid ${cancelBorder};
+            background: ${cancelBg};
             cursor: pointer;
             font-weight: 600;
+            color: ${cancelColor};
           ">Cancelar</button>
 
           <button id="confirmLogout" style="
             padding: 8px 14px;
             border-radius: 999px;
-            background: linear-gradient(90deg,#ef4444,#f97316);
+            background: ${confirmGradient};
             color:#fff;
             border: none;
             cursor: pointer;
             font-weight: 600;
+            box-shadow: ${confirmShadow};
           ">Salir</button>
         </div>
       </div>
@@ -222,13 +243,11 @@ if (logoutBtn) {
       localStorage.removeItem("preferredLanguage");
       localStorage.removeItem("admin-theme");
       localStorage.removeItem("admin-sidebar-open");
-      // Si usas sessionStorage en algo:
-      // sessionStorage.clear();
 
       const box = modal.querySelector("div");
       if (box) {
         box.innerHTML = `
-          <p style="font-size:1rem; margin-bottom:12px;">
+          <p style="font-size:1rem; margin-bottom:12px; color:${modalText};">
             Cerrando sesión...
           </p>
         `;
