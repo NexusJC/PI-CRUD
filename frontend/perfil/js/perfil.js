@@ -50,6 +50,7 @@ const inputNumero = document.getElementById("perfilNumeroText");
 const spanEmail   = document.getElementById("perfilEmail");
 const imgPerfil   = document.getElementById("perfilImg");
 
+// Máximo de dígitos permitidos
 const MAX_PHONE_LENGTH = 10;
 
 /* ===============================
@@ -121,6 +122,11 @@ const getProfileData = async () => {
     // Sidebar avatar
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) sidebarAvatar.src = finalImg;
+
+
+
+
+
   } catch (error) {
     console.error("Error al obtener datos del perfil", error);
     alert("Error al obtener datos del perfil");
@@ -217,7 +223,7 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) sidebarAvatar.src = cloudUrl;
 
-    // Guardar localmente
+    // 4️⃣ Guardar localmente
     let user = JSON.parse(localStorage.getItem("user") || "{}");
     user.image_url = cloudUrl;
     localStorage.setItem("user", JSON.stringify(user));
@@ -229,6 +235,7 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
     showAlert("Error al actualizar la imagen", "error");
   }
 });
+
 
 const btnReset = document.getElementById("btnRestablecer");
 
@@ -243,7 +250,7 @@ btnReset.addEventListener("click", () => {
   );
 });
 
-function showConfirmCustomLogout(message, onYes, onNo) {
+function showConfirmCustom(message, onYes, onNo) {
   const overlay = document.createElement("div");
   overlay.className = "custom-confirm-overlay";
 
@@ -267,19 +274,5 @@ function showConfirmCustomLogout(message, onYes, onNo) {
   overlay.querySelector(".confirm-yes").addEventListener("click", () => {
     overlay.remove();
     onYes();
-  });
-}
-
-const logoutPerfil = document.getElementById("btn-logout");
-
-if (logoutPerfil) {
-  logoutPerfil.addEventListener("click", () => {
-    showConfirmCustomLogout(
-      "¿Deseas cerrar sesión?",
-      () => {
-        localStorage.clear();
-        window.location.href = "../login/login.html";
-      }
-    );
   });
 }
