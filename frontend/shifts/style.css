@@ -225,6 +225,76 @@ h2{text-align: center;}
   transform:scale(1.05);
 }
 
+/* ===== MODAL CONFIRM LOGOUT ===== */
+.custom-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+}
+
+.custom-confirm-box {
+  background: #ffffff;
+  padding: 28px 30px;
+  border-radius: 18px;
+  width: 360px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+  animation: popIn .25s ease-out;
+}
+
+.custom-confirm-box h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #333;
+  margin: 0 0 20px;
+}
+
+.confirm-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.confirm-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.confirm-no {
+  background: #e6e6e6;
+  color: #3d3d3d;
+}
+
+.confirm-no:hover {
+  background: #d5d5d5;
+}
+
+.confirm-yes {
+  background: #ff6b32;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255,107,50,0.35);
+}
+
+.confirm-yes:hover {
+  background: #ff5c18;
+  transform: translateY(-2px);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.86); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
 /* =============================
    NUEVO DISEÑO ESTILO PANTALLA TV
    ============================= */
@@ -837,4 +907,86 @@ body.dark .turno-card.resaltado:hover {
   .turno-actual-box {
     font-size: 3.3rem;
   }
+}
+
+/* Quitar animaciones al cambiar entre modo claro / oscuro */
+body.dark *, body * {
+  transition: none !important;
+}
+
+/* ============================================
+   MODO OSCURO — VISTA SHIFTS COMPLETA
+   ============================================ */
+
+/* Fondo general */
+body.dark {
+  background: #0f172a;
+}
+
+/* GRID PRINCIPAL */
+body.dark .screen-turnos {
+  background: #0f172a;
+}
+
+/* PANEL IZQUIERDO */
+body.dark .panel-izquierdo {
+  background: #1e293b;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+}
+
+/* Encabezado izquierdo */
+body.dark .panel-header-left {
+  background: #e36842;
+  color: white;
+}
+
+/* Tarjetas de lista */
+body.dark .turno-item {
+  background: #1e293b;
+  border-left: 6px solid #e36842;
+  color: #e2e8f0;
+}
+
+body.dark .turno-item:hover {
+  background: #2b3445;
+  transform: translateX(4px);
+}
+
+body.dark .turno-item .nombre {
+  color: #f1f5f9;
+  opacity: .85;
+}
+
+/* Scroll */
+body.dark .turnos-scroll {
+  scrollbar-color: #e36842 #0f172a;
+}
+
+/* PANEL DERECHO */
+body.dark .panel-derecho {
+  background: #1e293b;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+}
+
+/* Encabezado derecho */
+body.dark .panel-header-right {
+  background: #e36842;
+  color: white;
+}
+
+/* TURNO ACTUAL — caja grande */
+body.dark .turno-actual-box {
+  background: linear-gradient(90deg, #e36842, #8a3d21);
+  color: white;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.45);
+}
+
+/* Nombre del cliente */
+body.dark .usuario-actual-info h2 {
+  color: #f1f5f9;
+}
+
+body.dark .usuario-actual-info p {
+  color: #e2e8f0;
+  opacity: .75;
 }
