@@ -15,17 +15,19 @@
 <body>
 
 <!-- TOPBAR -->
+<!-- TOPBAR — IGUAL AL MENÚ, SIN VER ORDEN -->
 <header class="topbar">
   <div class="topbar-left">
-    <button class="menu-toggle" id="menuToggle">☰</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
 
     <a href="/menu/index.html" class="brand">
-      <img class="logo" src="../img/logo_1.png" alt="Logo">
+      <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
       <span class="brand-text">LA PARRILLA AZTECA</span>
     </a>
   </div>
 
   <div class="topbar-right">
+    <!-- BOTÓN DE IDIOMA -->
     <div class="idiomaToggle">
       <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
         <div class="bandera-container"></div>
@@ -33,6 +35,7 @@
     </div>
   </div>
 </header>
+
 
 
 

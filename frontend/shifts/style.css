@@ -500,7 +500,7 @@ body.dark .turno-card.resaltado:hover {
   transform: translateY(-4px);
 }
 
-/* === TOPBAR COMPLETO IGUAL AL MENÚ === */
+/* === TOPBAR === */
 
 .topbar {
   display: flex;
@@ -523,38 +523,46 @@ body.dark .turno-card.resaltado:hover {
   gap: 12px;
 }
 
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: white;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.7);
+}
+
+.brand-text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+  white-space: nowrap;
+}
+
+/* === TOPBAR RIGHT === */
+
 .topbar-right {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  text-decoration: none;
-  color: inherit;
-}
-
-.logo {
-  width: 38px;
-  height: 38px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.8);
-}
-
-.brand-text {
-  font-size: 1rem;
-  white-space: nowrap;
-}
-
-/* Botón de idioma */
-.idiomaToggle {
-  position: static;
-}
+/* === BOTÓN DE IDIOMA === */
 
 .idioma-btn {
   height: 38px;
@@ -564,7 +572,6 @@ body.dark .turno-card.resaltado:hover {
   background: rgba(255,255,255,0.08);
   display: flex;
   align-items: center;
-  gap: 6px;
   cursor: pointer;
   box-shadow: 0 6px 14px rgba(15,23,42,0.35);
   transition: background .15s ease, transform .1s ease, box-shadow .15s ease;
