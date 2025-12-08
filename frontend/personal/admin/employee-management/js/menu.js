@@ -6,6 +6,33 @@ const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:3000" // 👈 AJUSTA ESTE PUERTO AL DE TU BACKEND
     : "";
+// ===============================
+// CLOUDINARY CONFIG (igual que en perfil)
+// ===============================
+const CLOUD_NAME = "dwwaxrr6r";
+const UPLOAD_PRESET = "unsigned_preset";
+
+async function uploadToCloudinary(file) {
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", UPLOAD_PRESET);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    {
+      method: "POST",
+      body: fd,
+    }
+  );
+
+  if (!res.ok) {
+    console.error("Error subiendo a Cloudinary:", await res.text());
+    throw new Error("Error al subir la imagen a Cloudinary");
+  }
+
+  const data = await res.json();
+  return data.secure_url;
+}
 
 // =========================
 // TOGGLE DEL SIDEBAR
@@ -355,7 +382,7 @@ tbody?.addEventListener("click", (e) => {
 });
 
 // ================== GUARDAR (crear / editar) ==================
-formEmpleado?.addEventListener("submit", (e) => {
+formEmpleado?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   let nombre = inputNombre.value.trim();
@@ -389,101 +416,112 @@ formEmpleado?.addEventListener("submit", (e) => {
     return;
   }
 
-  // Crear
+  // ============== CREAR EMPLEADO ==============
   if (modo === "crear") {
-    const formData = new FormData();
-    formData.append("name", nombre);
-    formData.append("telefono", telefono);
-    formData.append("email", email);
-    formData.append("password", password);
+    try {
+      // 1️⃣ Subir imagen (si hay) a Cloudinary
+      let imageUrl = null;
+      if (archivoInput?.files[0]) {
+        imageUrl = await uploadToCloudinary(archivoInput.files[0]);
+      }
 
-    if (archivoInput?.files[0]) {
-      formData.append("profile_picture", archivoInput.files[0]);
-    }
+      // 2️⃣ Enviar datos al backend, incluyendo image_url
+      const payload = {
+        name: nombre,
+        telefono,
+        email,
+        password,
+        image_url: imageUrl, // puede ser null si no seleccionó foto
+      };
 
-    fetch(`${API_BASE}/api/users`, {
-      method: "POST",
-      body: formData,
-    })
-      .then(async (res) => {
-        const text = await res.text().catch(() => "");
-        if (!res.ok) {
-          console.error(
-            "Respuesta POST /api/users no OK:",
-            res.status,
-            res.statusText,
-            text
-          );
-          throw new Error(
-            `Error POST /api/users: ${res.status} ${res.statusText}`
-          );
-        }
-        let json;
-        try {
-          json = text ? JSON.parse(text) : {};
-        } catch (e) {
-          json = {};
-        }
-        return json;
-      })
-      .then((nuevo) => {
-        console.log("Empleado creado backend:", nuevo);
-        alert("Empleado creado correctamente.");
-        cerrarModal();
-        location.reload();
-      })
-      .catch((err) => {
-        console.error("Error creando empleado:", err);
-        alert("Error al crear empleado. Revisa la consola para más detalles.");
+      const res = await fetch(`${API_BASE}/api/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
+
+      const text = await res.text().catch(() => "");
+      if (!res.ok) {
+        console.error(
+          "Respuesta POST /api/users no OK:",
+          res.status,
+          res.statusText,
+          text
+        );
+        throw new Error(
+          `Error POST /api/users: ${res.status} ${res.statusText}`
+        );
+      }
+
+      let json;
+      try {
+        json = text ? JSON.parse(text) : {};
+      } catch {
+        json = {};
+      }
+
+      console.log("Empleado creado backend:", json);
+      alert("Empleado creado correctamente.");
+      cerrarModal();
+      // Recargamos para que la tabla vuelva a pedir /api/users
+      location.reload();
+    } catch (err) {
+      console.error("Error creando empleado:", err);
+      alert("Error al crear empleado. Revisa la consola para más detalles.");
+    }
 
     return;
   }
 
-  // Editar
+  // ============== EDITAR EMPLEADO (SIN CAMBIAR FOTO POR AHORA) ==============
   if (modo === "editar" && empleadoEditandoId !== null) {
     const body = {
       name: nombre,
       telefono: telefono,
       email: email,
+      // Si más adelante quieres permitir editar la foto,
+      // aquí podrías hacer otra subida a Cloudinary y mandar image_url también.
     };
 
-    fetch(`${API_BASE}/api/users/${empleadoEditandoId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    })
-      .then(async (res) => {
-        const text = await res.text().catch(() => "");
-        if (!res.ok) {
-          console.error(
-            `Respuesta PUT /api/users/${empleadoEditandoId} no OK:`,
-            res.status,
-            res.statusText,
-            text
-          );
-          throw new Error(
-            `Error PUT /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`
-          );
-        }
-        let json;
-        try {
-          json = text ? JSON.parse(text) : {};
-        } catch (e) {
-          json = {};
-        }
-        return json;
-      })
-      .then((actualizado) => {
-        console.log("Empleado actualizado backend:", actualizado);
-        alert("Empleado actualizado correctamente.");
-        cerrarModal();
-        location.reload();
-      })
-      .catch((err) => {
-        console.error("Error editando:", err);
-        alert("Error al actualizar empleado. Revisa la consola para más detalles.");
+    try {
+      const res = await fetch(`${API_BASE}/api/users/${empleadoEditandoId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       });
+
+      const text = await res.text().catch(() => "");
+      if (!res.ok) {
+        console.error(
+          `Respuesta PUT /api/users/${empleadoEditandoId} no OK:`,
+          res.status,
+          res.statusText,
+          text
+        );
+        throw new Error(
+          `Error PUT /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`
+        );
+      }
+
+      let json;
+      try {
+        json = text ? JSON.parse(text) : {};
+      } catch {
+        json = {};
+      }
+
+      console.log("Empleado actualizado backend:", json);
+      alert("Empleado actualizado correctamente.");
+      cerrarModal();
+      location.reload();
+    } catch (err) {
+      console.error("Error editando:", err);
+      alert(
+        "Error al actualizar empleado. Revisa la consola para más detalles."
+      );
+    }
   }
 });
 
