@@ -6,6 +6,7 @@ const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:3000" // 👈 AJUSTA ESTE PUERTO AL DE TU BACKEND
     : "";
+
 // ===============================
 // CLOUDINARY CONFIG (igual que en perfil)
 // ===============================
@@ -238,8 +239,10 @@ function renderEmpleados() {
     let fotoFinal = "/img/userplaceholder.png";
     if (emp.foto) {
       if (typeof emp.foto === "string" && emp.foto.startsWith("http")) {
+        // URL absoluta (Cloudinary, etc.)
         fotoFinal = emp.foto;
       } else {
+        // Nombre de archivo local
         fotoFinal = `/uploads/${emp.foto}`;
       }
     }
@@ -382,6 +385,26 @@ tbody?.addEventListener("click", (e) => {
 });
 
 // ================== GUARDAR (crear / editar) ==================
+async function uploadImageToCloudinary(file) {
+  const CLOUD_NAME = "dwwaxrr6r";
+  const UPLOAD_PRESET = "unsigned_preset";
+
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", UPLOAD_PRESET);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    {
+      method: "POST",
+      body: fd,
+    }
+  );
+
+  const data = await res.json();
+  return data.secure_url;
+}
+
 formEmpleado?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -633,6 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
 // =========================
 // SESIÓN / LOGOUT ADMIN (fusionado)
 // =========================
