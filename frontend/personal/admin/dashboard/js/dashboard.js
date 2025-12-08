@@ -2,69 +2,111 @@
 // PROTECCIÓN CONTRA BACK NAVIGATION (bfcache)
 // ===============================================
 window.addEventListener("pageshow", (event) => {
-    if (event.persisted) {
-        // La página está siendo restaurada desde caché
-        localStorage.clear();
-        window.location.replace("/login/login.html");
-    }
+  if (event.persisted) {
+    // La página está siendo restaurada desde caché
+    localStorage.clear();
+    window.location.replace("/login/login.html");
+  }
 });
 
 // ===============================================
 // VALIDACIÓN DE SESIÓN AL CARGAR
 // ===============================================
 document.addEventListener("DOMContentLoaded", () => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user") || "null");
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "null");
 
-    if (!token || !user || user.role !== "admin") {
-        window.location.replace("/login/login.html");
-        return;
-    }
+  if (!token || !user || user.role !== "admin") {
+    window.location.replace("/login/login.html");
+    return;
+  }
 });
+
+// ===============================================
+// TOGGLE SIDEBAR + MODO OSCURO
+// ===============================================
 document.addEventListener("DOMContentLoaded", () => {
-    const sidebar = document.querySelector(".menu-dashboard");
-    const toggle = document.querySelector(".toggle");
-    const toggleIcon = toggle ? toggle.querySelector("i") : null;
+  const sidebar = document.querySelector(".menu-dashboard");
+  const toggle = document.querySelector(".toggle");
+  const toggleIcon = toggle ? toggle.querySelector("i") : null;
 
-    if (!sidebar) {
-        console.error("❌ No se encontró .menu-dashboard");
-        return;
+  if (!sidebar) {
+    console.error("❌ No se encontró .menu-dashboard");
+    return;
+  }
+
+  if (!toggle) {
+    console.error("❌ No se encontró .toggle");
+    return;
+  }
+
+  // === Toggle del sidebar ===
+  toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+
+    if (toggleIcon) {
+      if (sidebar.classList.contains("open")) {
+        toggleIcon.classList.remove("bx-menu");
+        toggleIcon.classList.add("bx-x");
+      } else {
+        toggleIcon.classList.remove("bx-x");
+        toggleIcon.classList.add("bx-menu");
+      }
     }
+  });
 
-    if (!toggle) {
-        console.error("❌ No se encontró .toggle");
-        return;
-    }
+  // === Abrir sidebar al navegar entre enlaces ===
+  const links = document.querySelectorAll(".menu .enlace");
+  links.forEach(link => {
+    link.addEventListener("click", () => {
+      sidebar.classList.add("open");
+      if (toggleIcon) {
+        toggleIcon.classList.remove("bx-menu");
+        toggleIcon.classList.add("bx-x");
+      }
+    });
+  });
 
-    // === Toggle del sidebar ===
-    toggle.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
+  /* =========================
+     TOGGLE MODO OSCURO ADMIN
+     (misma lógica que en add-dishes)
+  ========================= */
+  const themeToggle = document.getElementById("adminThemeToggle");
+  const icon  = themeToggle?.querySelector("i");
+  const text  = themeToggle?.querySelector("span");
 
-        if (toggleIcon) {
-            if (sidebar.classList.contains("open")) {
-                toggleIcon.classList.remove("bx-menu");
-                toggleIcon.classList.add("bx-x");
-            } else {
-                toggleIcon.classList.remove("bx-x");
-                toggleIcon.classList.add("bx-menu");
-            }
+  // cargar preferencia previa
+  const savedTheme = localStorage.getItem("admin-theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("admin-dark");
+    if (icon) icon.classList.replace("bx-moon", "bx-sun");
+    if (text) text.textContent = "Modo claro";
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const nowDark = document.body.classList.toggle("admin-dark");
+      localStorage.setItem("admin-theme", nowDark ? "dark" : "light");
+
+      if (icon && text) {
+        if (nowDark) {
+          icon.classList.replace("bx-moon", "bx-sun");
+          text.textContent = "Modo claro";
+        } else {
+          icon.classList.replace("bx-sun", "bx-moon");
+          text.textContent = "Modo oscuro";
         }
-    });
+      }
 
-    // === Abrir sidebar al navegar entre enlaces ===
-    const links = document.querySelectorAll(".menu .enlace");
-    links.forEach(link => {
-        link.addEventListener("click", () => {
-            sidebar.classList.add("open");
-            if (toggleIcon) {
-                toggleIcon.classList.remove("bx-menu");
-                toggleIcon.classList.add("bx-x");
-            }
-        });
+      // avisar a otras partes (gráficas) que cambió el tema
+      document.dispatchEvent(new CustomEvent("admin-theme-changed", {
+        detail: { dark: nowDark }
+      }));
     });
+  }
 });
 
-/// =========================
+// =========================
 // SESIÓN / LOGOUT ADMIN (fusionado)
 // =========================
 function getLoginUrl() {
@@ -138,8 +180,8 @@ if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
     const isDark = document.body.classList.contains("admin-dark");
 
-    const modalBg      = isDark ? "#020617" : "#ffffff";   // fondo tarjeta
-    const modalText    = isDark ? "#e5e7eb" : "#111827";   // texto principal
+    const modalBg      = isDark ? "#020617" : "#ffffff";
+    const modalText    = isDark ? "#e5e7eb" : "#111827";
     const modalShadow  = isDark ? "0 8px 25px rgba(0,0,0,0.65)" : "0 8px 25px rgba(0,0,0,0.25)";
 
     const cancelBg     = isDark ? "#020617" : "#f9fafb";
@@ -151,10 +193,9 @@ if (logoutBtn) {
       : "linear-gradient(90deg,#ef4444,#f97316)";
 
     const confirmShadow = isDark
-      ? "0 0 0 rgba(0,0,0,0)"   // sin sombra extra en oscuro
+      ? "0 0 0 rgba(0,0,0,0)"
       : "0 4px 12px rgba(0,0,0,0.25)";
 
-    // Crear overlay del modal
     const modal = document.createElement("div");
     modal.id = "logoutConfirmModal";
     modal.style.position = "fixed";
@@ -210,12 +251,10 @@ if (logoutBtn) {
 
     document.body.appendChild(modal);
 
-    // ❌ Cancelar → solo cerrar modal
     document.getElementById("cancelLogout").onclick = () => {
       modal.remove();
     };
 
-    // ✅ Confirmar → limpiar sesión + redirigir
     document.getElementById("confirmLogout").onclick = () => {
       // Limpieza completa de localStorage
       localStorage.removeItem("token");
@@ -234,7 +273,6 @@ if (logoutBtn) {
       }
 
       setTimeout(() => {
-        // replace para que el botón atrás no recupere esta página
         window.location.replace(getLoginUrl());
       }, 500);
     };

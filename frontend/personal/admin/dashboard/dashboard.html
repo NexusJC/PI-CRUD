@@ -11,10 +11,10 @@
   <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- FUENTE (igual que add-dishes) -->
+  <!-- FUENTE -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- ESTILOS (puedes dejar el de employees si lo necesitas, luego el local) -->
+  <!-- ESTILOS -->
   <link rel="stylesheet" href="../employee-management/style.css">
   <link rel="stylesheet" href="style.css">
 
@@ -23,7 +23,7 @@
 </head>
 
 <body class="admin-body">
-  <!-- ================= SIDEBAR (MISMO QUE ADD-DISHES) ================= -->
+  <!-- ================= SIDEBAR ================= -->
   <aside class="menu-dashboard" id="adminSidebar">
     <div class="top-menu">
       <div class="logo">
@@ -53,7 +53,7 @@
       </a>
 
       <a class="enlace" href="../employee-management/employee.html">
-        <i class='bx bx-group'></i>
+        <i class="bx bx-group"></i>
         <span>Gestión Empleados</span>
       </a>
 
@@ -63,15 +63,15 @@
       </a>
 
       <a class="enlace" href="../add-dishes/add_dishes.html">
-        <i class='bx bx-restaurant'></i>
+        <i class="bx bx-restaurant"></i>
         <span>Añadir Platillo</span>
       </a>
     </nav>
 
     <!-- Parte inferior: idioma, tema, logout -->
     <div class="sidebar-bottom">
-      <!-- Botón traductor (mismo que add-dishes) -->
-      <button id="banderaIdioma" class="idioma-btn">
+      <!-- Botón traductor (ACTIVO) -->
+      <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
         <span class="bandera-container"></span>
       </button>
 
@@ -83,57 +83,150 @@
 
       <!-- Logout -->
       <button id="logoutBtn" class="logout-btn">
-        <i class='bx bx-log-out'></i>
+        <i class="bx bx-log-out"></i>
         <span>Cerrar sesión</span>
       </button>
     </div>
   </aside>
 
   <!-- ================= CONTENIDO ================= -->
-  <!-- usamos la misma clase .dishes-main para el layout + tu clase existente -->
-  <main class="dishes-main seccion-trabajadores-card">
+  <main class="dishes-main dashboard-main">
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div class="dashboard-header-text">
+        <h1>Dashboard general</h1>
+        <p>Resumen rápido de platillos, usuarios y equipo.</p>
+      </div>
 
-    <h1 class="titulo">Dashboard general</h1>
+      <div class="dashboard-header-meta">
+        <div class="badge-pill">
+          <i class="fa-regular fa-circle-dot"></i>
+          <span>Panel en tiempo real</span>
+        </div>
+      </div>
+    </header>
 
-    <!-- TARJETAS -->
-    <section class="cards-grid">
-      <div class="card">
-        <h3>Platillos Totales</h3>
-        <div class="numero" id="platillosTotales">0</div>
-      </div>
-      <div class="card">
-        <h3>Usuarios Registrados</h3>
-        <div class="numero" id="usuariosRegistrados">0</div>
-      </div>
-      <div class="card">
-        <h3>Empleados Activos</h3>
-        <div class="numero" id="empleadosActivos">0</div>
-      </div>
-      <div class="card">
-        <h3>Admins Totales</h3>
-        <div class="numero" id="adminsTotales">0</div>
-      </div>
+    <!-- CARDS PRINCIPALES -->
+    <section class="dashboard-kpis">
+      <article class="kpi-card kpi-orange">
+        <div class="kpi-header">
+          <div>
+            <span class="kpi-label">Platillos totales</span>
+            <p class="kpi-sub">Registros en el menú</p>
+          </div>
+          <span class="kpi-icon">
+            <i class="bx bx-restaurant"></i>
+          </span>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value" id="platillosTotales">0</span>
+        </div>
+      </article>
+
+      <article class="kpi-card kpi-blue">
+        <div class="kpi-header">
+          <div>
+            <span class="kpi-label">Usuarios registrados</span>
+            <p class="kpi-sub">Clientes + personal</p>
+          </div>
+          <span class="kpi-icon">
+            <i class="bx bx-user"></i>
+          </span>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value" id="usuariosRegistrados">0</span>
+        </div>
+      </article>
+
+      <article class="kpi-card kpi-green">
+        <div class="kpi-header">
+          <div>
+            <span class="kpi-label">Empleados activos</span>
+            <p class="kpi-sub">Con acceso al sistema</p>
+          </div>
+          <span class="kpi-icon">
+            <i class="bx bx-id-card"></i>
+          </span>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value" id="empleadosActivos">0</span>
+        </div>
+      </article>
+
+      <article class="kpi-card kpi-purple">
+        <div class="kpi-header">
+          <div>
+            <span class="kpi-label">Admins totales</span>
+            <p class="kpi-sub">Usuarios con control completo</p>
+          </div>
+          <span class="kpi-icon">
+            <i class="bx bx-shield-quarter"></i>
+          </span>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value" id="adminsTotales">0</span>
+        </div>
+      </article>
     </section>
 
-    <!-- GRÁFICAS -->
-    <section class="graficas">
-      <div class="grafica-card">
-        <h3>Órdenes en los últimos 7 días</h3>
-        <canvas id="chartOrders"></canvas>
-      </div>
+    <!-- SECCIÓN DE GRÁFICAS -->
+    <section class="dashboard-graphs">
+      <!-- Gráfica REAL: distribución de roles (usa tus stats de backend) -->
+      <article class="dashboard-card large-card">
+        <header class="dashboard-card-header">
+          <div>
+            <h3>Distribución de usuarios por rol</h3>
+            <p>Relación entre clientes, empleados y administradores.</p>
+          </div>
+        </header>
+        <div class="dashboard-card-body chart-body">
+          <canvas id="chartRoles"></canvas>
+        </div>
+      </article>
 
-      <div class="grafica-card">
-        <h3>Platillos más vendidos</h3>
-        <canvas id="chartTopDishes"></canvas>
-      </div>
+      <!-- Espacio vacío para futuras gráficas (ventas, etc.) -->
+      <article class="dashboard-card large-card">
+        <header class="dashboard-card-header">
+          <div>
+            <h3>Ventas / platillos más vendidos</h3>
+            <p>Conecta un endpoint de ventas para mostrar esta gráfica.</p>
+          </div>
+        </header>
+        <div class="dashboard-card-body empty-body">
+          <!-- Lo dejamos vacío como pediste -->
+          <p class="empty-text">
+            Pendiente de conectar información del backend.
+          </p>
+        </div>
+      </article>
     </section>
 
+    <!-- MINI CARDS INFERIORES (placeholders vacíos) -->
+    <section class="dashboard-bottom">
+      <article class="mini-card">
+        <h4>Ingresos totales</h4>
+        <p class="mini-value">—</p>
+        <p class="mini-caption">Conecta /api/dashboard/revenue</p>
+      </article>
+
+      <article class="mini-card">
+        <h4>Órdenes del día</h4>
+        <p class="mini-value">—</p>
+        <p class="mini-caption">Conecta /api/dashboard/orders-today</p>
+      </article>
+
+      <article class="mini-card">
+        <h4>Platillos destacados</h4>
+        <p class="mini-value">—</p>
+        <p class="mini-caption">Conecta /api/dashboard/top-dishes</p>
+      </article>
+    </section>
   </main>
 
   <!-- JS -->
   <script src="../dashboard/js/dashboard.js" defer></script>
   <script src="../dashboard/js/loadinfo.js" defer></script>
-  <!-- Traductor genérico que ya usas en add-dishes -->
+  <!-- Traductor global admin (mismo que en add-dishes) -->
   <script src="../add-dishes/js/translate.js" defer></script>
 </body>
 </html>
