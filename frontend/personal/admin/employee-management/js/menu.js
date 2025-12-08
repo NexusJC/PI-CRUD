@@ -111,6 +111,9 @@ function resetPreview() {
       }
 
       empleados = data.map((emp) => {
+        // tomamos tanto profile_picture como image_url por compatibilidad
+        const rawFoto = emp.profile_picture ?? emp.image_url ?? "";
+
         const normalizado = {
           id: emp.id,
           nombre: emp.name ?? emp.nombre ?? "",
@@ -128,13 +131,12 @@ function resetPreview() {
             "",
           estado:
             emp.estado ??
+            emp.status ??
             (emp.is_active === 0 || emp.is_active === false
               ? "inactivo"
               : "activo"),
           fechaRegistro: emp.created_at?.split("T")[0] ?? hoyISO(),
-          foto: emp.profile_picture
-            ? `/uploads/${emp.profile_picture}`
-            : "/img/userplaceholder.png",
+          foto: rawFoto,
           email: emp.email ?? emp.correo ?? ""
         };
         return normalizado;
@@ -160,7 +162,18 @@ function renderEmpleados() {
     if (filtro !== "todos" && estado !== filtro) return;
 
     const tr = document.createElement("tr");
-    const fotoFinal = emp.foto || "/img/userplaceholder.png";
+
+    // Construimos la URL final de la foto
+    let fotoFinal = "/img/userplaceholder.png";
+    if (emp.foto) {
+      if (typeof emp.foto === "string" && emp.foto.startsWith("http")) {
+        // Cloudinary u otra URL completa
+        fotoFinal = emp.foto;
+      } else {
+        // archivo local guardado con multer
+        fotoFinal = `/uploads/${emp.foto}`;
+      }
+    }
 
     const esActivo = estado === "activo";
     const estadoTexto = esActivo ? "Activo" : "Inactivo";
@@ -231,7 +244,16 @@ function abrirModalEditar(id) {
   inputEmail.value = emp.email || "";
   inputPassword.value = "";
 
-  if (emp.foto) setPreview(emp.foto);
+  // reconstruimos la preview igual que en la tabla
+  let fotoPreview = null;
+  if (emp.foto) {
+    fotoPreview =
+      typeof emp.foto === "string" && emp.foto.startsWith("http")
+        ? emp.foto
+        : `/uploads/${emp.foto}`;
+  }
+
+  if (fotoPreview) setPreview(fotoPreview);
   else resetPreview();
 
   btnEliminarEmpleado.style.display = "inline-flex";
