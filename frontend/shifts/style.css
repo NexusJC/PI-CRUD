@@ -632,5 +632,5 @@ body.dark .turno-card.resaltado:hover {
 
 /* Ajustar la posición del botón de idioma en SHIFTS */
 .topbar-right {
-  margin-right: 25px; /* Mueve el botón más a la izquierda */
+  margin-right: 30px; /* Mueve el botón más a la izquierda */
 }
