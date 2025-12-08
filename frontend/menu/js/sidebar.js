@@ -114,7 +114,9 @@ async function ensureAvatarIsLoaded() {
   }
 }
 
-ensureAvatarIsLoaded();   
+ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR LA PÁGINA
+
+
 
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
@@ -134,46 +136,16 @@ ensureAvatarIsLoaded();
     }
 
     if (btnLogout) {
-
-function showConfirmCustomLogout(message, onYes, onNo) {
-  const overlay = document.createElement("div");
-  overlay.className = "custom-confirm-overlay";
-
-  overlay.innerHTML = `
-    <div class="custom-confirm-box">
-      <h3>${message}</h3>
-      <div class="confirm-btn-row">
-        <button class="confirm-btn confirm-no">Cancelar</button>
-        <button class="confirm-btn confirm-yes">Sí, continuar</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  overlay.querySelector(".confirm-no").addEventListener("click", () => {
-    overlay.remove();
-    if (onNo) onNo();
-  });
-
-  overlay.querySelector(".confirm-yes").addEventListener("click", () => {
-    overlay.remove();
-    onYes();
-  });
-}
-
-btnLogout.addEventListener("click", () => {
-  showConfirmCustomLogout(
-    "¿Deseas cerrar sesión?",
-    () => {
-      localStorage.clear();
-      window.location.href = "../login/login.html";
-    }
-  );
-});
-
+      btnLogout.addEventListener("click", () => {
+        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
+        if (confirmLogout) {
+          localStorage.clear();
+          window.location.href = "../login/login.html";
+        }
+      });
     }
   }
+  
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   
   if (sidebarAvatar && user) {
