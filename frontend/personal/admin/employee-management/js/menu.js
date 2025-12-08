@@ -1,4 +1,13 @@
 // =========================
+// BASE DE API (local vs producción)
+// =========================
+const API_BASE =
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000" // 👈 AJUSTA ESTE PUERTO AL DE TU BACKEND
+    : "";
+
+// =========================
 // TOGGLE DEL SIDEBAR
 // =========================
 const toggle = document.querySelector(".toggle");
@@ -84,7 +93,7 @@ function resetPreview() {
 
 // ================== CARGAR EMPLEADOS DESDE BACKEND ==================
 (function loadEmpleadosInicial() {
-  fetch("/api/users")
+  fetch(`${API_BASE}/api/users`)
     .then((res) => {
       if (!res.ok) {
         console.error("Error /api/users:", res.status, res.statusText);
@@ -98,16 +107,18 @@ function resetPreview() {
         return;
       }
 
+      // Por si el backend usa otros nombres de campos
       empleados = data.map((emp) => ({
         id: emp.id,
-        nombre: emp.name,
-        telefono: emp.telefono ?? "-",
-        caja: emp.caja ?? "-",
+        nombre: emp.name ?? emp.nombre ?? "",
+        telefono: emp.telefono ?? emp.phone ?? emp.numero_telefono ?? "",
+        caja: emp.caja ?? emp.box ?? emp.box_name ?? emp.nombre_caja ?? "",
         estado: emp.estado || "activo",
         fechaRegistro: emp.created_at?.split("T")[0] ?? hoyISO(),
         foto: emp.profile_picture
-          ? "/uploads/" + emp.profile_picture
+          ? `/uploads/${emp.profile_picture}`
           : "/img/userplaceholder.png",
+        email: emp.email ?? emp.correo ?? ""
       }));
 
       renderEmpleados();
@@ -149,7 +160,7 @@ function renderEmpleados() {
       </td>
 
       <td>${emp.telefono || "-"}</td>
-      <td>${emp.caja ?? "-"}</td>
+      <td>${emp.caja || "-"}</td>
 
       <td>
         <span class="badge badge-status ${badgeExtraClass}">
@@ -175,7 +186,6 @@ function abrirModalCrear() {
   modo = "crear";
   empleadoEditandoId = null;
 
-  // Texto base en español (Google Translate lo traducirá si hace falta)
   modalTitulo.textContent = "Crear empleado";
 
   formEmpleado.reset();
@@ -197,7 +207,7 @@ function abrirModalEditar(id) {
 
   modalTitulo.textContent = "Editar empleado";
 
-  inputNombre.value = emp.nombre;
+  inputNombre.value = emp.nombre || "";
   inputTelefono.value = emp.telefono || "";
   inputEmail.value = emp.email || "";
   inputPassword.value = "";
@@ -277,7 +287,7 @@ formEmpleado?.addEventListener("submit", (e) => {
   if (modo === "crear") {
     const formData = new FormData();
     formData.append("name", nombre);
-    formData.append("telefono", telefono);
+    formData.append("telefono", telefono); // si tu backend usa "phone", puedes añadir también formData.append("phone", telefono)
     formData.append("email", email);
     formData.append("password", password);
 
@@ -285,11 +295,16 @@ formEmpleado?.addEventListener("submit", (e) => {
       formData.append("profile_picture", archivoInput.files[0]);
     }
 
-    fetch("/api/users", {
+    fetch(`${API_BASE}/api/users`, {
       method: "POST",
       body: formData,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error POST /api/users: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then(() => {
         alert("Empleado creado correctamente.");
         cerrarModal();
@@ -308,14 +323,20 @@ formEmpleado?.addEventListener("submit", (e) => {
     const body = {
       name: nombre,
       telefono: telefono,
+      email: email,
     };
 
-    fetch(`/api/users/${empleadoEditandoId}`, {
+    fetch(`${API_BASE}/api/users/${empleadoEditandoId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error PUT /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then(() => {
         alert("Empleado actualizado correctamente.");
         cerrarModal();
@@ -323,6 +344,7 @@ formEmpleado?.addEventListener("submit", (e) => {
       })
       .catch((err) => {
         console.error("Error editando:", err);
+        alert("Error al actualizar empleado");
       });
   }
 });
@@ -335,8 +357,13 @@ btnEliminarEmpleado?.addEventListener("click", () => {
 
   if (!confirm(msg)) return;
 
-  fetch(`/api/users/${empleadoEditandoId}`, { method: "DELETE" })
-    .then((res) => res.json())
+  fetch(`${API_BASE}/api/users/${empleadoEditandoId}`, { method: "DELETE" })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Error DELETE /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`);
+      }
+      return res.json();
+    })
     .then(() => {
       alert("Empleado eliminado correctamente.");
       cerrarModal();
