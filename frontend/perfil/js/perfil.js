@@ -217,7 +217,7 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) sidebarAvatar.src = cloudUrl;
 
-    // 4️⃣ Guardar localmente
+    // Guardar localmente
     let user = JSON.parse(localStorage.getItem("user") || "{}");
     user.image_url = cloudUrl;
     localStorage.setItem("user", JSON.stringify(user));
@@ -229,7 +229,6 @@ document.getElementById("inputImg").addEventListener("change", async (e) => {
     showAlert("Error al actualizar la imagen", "error");
   }
 });
-
 
 const btnReset = document.getElementById("btnRestablecer");
 

@@ -133,6 +133,7 @@ ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR
       btnLogout.style.display = "none";
     }
   }
+  
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   
   if (sidebarAvatar && user) {
@@ -299,10 +300,10 @@ function showConfirmCustomLogout(message, onYes, onNo) {
   });
 }
 
-const logoutMenu = document.getElementById("btn-logout");
+const logoutPerfil = document.getElementById("btn-logout");
 
-if (logoutMenu) {
-  logoutMenu.addEventListener("click", () => {
+if (logoutPerfil) {
+  logoutPerfil.addEventListener("click", () => {
     showConfirmCustomLogout(
       "¿Deseas cerrar sesión?",
       () => {
