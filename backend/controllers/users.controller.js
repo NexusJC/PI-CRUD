@@ -1,8 +1,8 @@
 import { pool } from "../db.js";
 import bcrypt from "bcrypt";
 
-// Obtener SOLO empleados
-export const getEmployees = async (req, res) => {
+// Obtener SOLO empleados (role = 'empleado')
+export const getEmployees = async (_req, res) => {
   try {
     const [rows] = await pool.query(
       "SELECT id, name, email, telefono, image_url, created_at FROM users WHERE role = 'empleado'"
@@ -14,40 +14,43 @@ export const getEmployees = async (req, res) => {
   }
 };
 
+// Crear empleado nuevo (con foto opcional)
 export const createEmployee = async (req, res) => {
   try {
     const { name, telefono, email, password } = req.body;
 
-    // Validación básica
     if (!name || !telefono || !email || !password) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
-    // Imagen opcional (multer)
-    const photo = req.file ? req.file.filename : null;
+    // Foto subida con multer (campo 'profile_picture' desde el FormData)
+    const photoFilename = req.file ? req.file.filename : null;
 
-    // Encriptar la contraseña
+    // Encriptar contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insertar empleado
     await pool.query(
       `INSERT INTO users (name, email, telefono, role, image_url, password)
        VALUES (?, ?, ?, 'empleado', ?, ?)`,
-      [name, email, telefono, photo, hashedPassword]
+      [name, email, telefono, photoFilename, hashedPassword]
     );
 
     res.status(201).json({ message: "Empleado creado correctamente" });
   } catch (error) {
     console.error("Error creando empleado:", error);
-    res.status(500).json({ error: "Error en el servidor" });
+    res.status(500).json({ error: "Error creando empleado" });
   }
 };
 
-// Editar empleado (nombre, teléfono, email)
+// Actualizar datos de empleado (sin tocar contraseña ni foto)
 export const updateEmployee = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, telefono, email } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "ID de empleado requerido" });
+    }
 
     await pool.query(
       "UPDATE users SET name = ?, telefono = ?, email = ? WHERE id = ?",
@@ -61,15 +64,19 @@ export const updateEmployee = async (req, res) => {
   }
 };
 
-// Actualizar foto del empleado
+// Actualizar solo la foto del empleado
 export const updateEmployeePhoto = async (req, res) => {
   try {
     const { id } = req.params;
-    const photo = req.file ? req.file.filename : null;
+    const photoFilename = req.file ? req.file.filename : null;
+
+    if (!id) {
+      return res.status(400).json({ error: "ID de empleado requerido" });
+    }
 
     await pool.query(
       "UPDATE users SET image_url = ? WHERE id = ?",
-      [photo, id]
+      [photoFilename, id]
     );
 
     res.json({ message: "Foto actualizada correctamente" });
@@ -83,6 +90,10 @@ export const updateEmployeePhoto = async (req, res) => {
 export const deleteEmployee = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: "ID de empleado requerido" });
+    }
 
     await pool.query("DELETE FROM users WHERE id = ?", [id]);
 
