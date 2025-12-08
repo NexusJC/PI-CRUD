@@ -15,6 +15,8 @@ const menuDashboard = document.querySelector(".menu-dashboard");
 const iconoMenu = toggle?.querySelector("i");
 const enlacesMenu = document.querySelectorAll(".menu .enlace");
 
+console.log("API_BASE employees:", API_BASE);
+
 toggle?.addEventListener("click", () => {
   menuDashboard.classList.toggle("open");
 
@@ -102,25 +104,43 @@ function resetPreview() {
       return res.json();
     })
     .then((data) => {
+      console.log("Respuesta cruda /api/users:", data);
       if (!Array.isArray(data)) {
-        console.warn("Respuesta inesperada de /api/users:", data);
+        console.warn("Respuesta inesperada de /api/users (no es array):", data);
         return;
       }
 
-      // Por si el backend usa otros nombres de campos
-      empleados = data.map((emp) => ({
-        id: emp.id,
-        nombre: emp.name ?? emp.nombre ?? "",
-        telefono: emp.telefono ?? emp.phone ?? emp.numero_telefono ?? "",
-        caja: emp.caja ?? emp.box ?? emp.box_name ?? emp.nombre_caja ?? "",
-        estado: emp.estado || "activo",
-        fechaRegistro: emp.created_at?.split("T")[0] ?? hoyISO(),
-        foto: emp.profile_picture
-          ? `/uploads/${emp.profile_picture}`
-          : "/img/userplaceholder.png",
-        email: emp.email ?? emp.correo ?? ""
-      }));
+      empleados = data.map((emp) => {
+        const normalizado = {
+          id: emp.id,
+          nombre: emp.name ?? emp.nombre ?? "",
+          telefono:
+            emp.telefono ??
+            emp.phone ??
+            emp.numero_telefono ??
+            emp.phone_number ??
+            "",
+          caja:
+            emp.caja ??
+            emp.box ??
+            emp.box_name ??
+            emp.nombre_caja ??
+            "",
+          estado:
+            emp.estado ??
+            (emp.is_active === 0 || emp.is_active === false
+              ? "inactivo"
+              : "activo"),
+          fechaRegistro: emp.created_at?.split("T")[0] ?? hoyISO(),
+          foto: emp.profile_picture
+            ? `/uploads/${emp.profile_picture}`
+            : "/img/userplaceholder.png",
+          email: emp.email ?? emp.correo ?? ""
+        };
+        return normalizado;
+      });
 
+      console.log("Empleados normalizados:", empleados);
       renderEmpleados();
     })
     .catch((err) => {
@@ -143,19 +163,18 @@ function renderEmpleados() {
     const fotoFinal = emp.foto || "/img/userplaceholder.png";
 
     const esActivo = estado === "activo";
-    // Texto base SIEMPRE en español; la API de traducción se encarga
     const estadoTexto = esActivo ? "Activo" : "Inactivo";
     const badgeExtraClass = esActivo ? "" : "badge-inactive";
 
     tr.innerHTML = `
-      <td>${emp.id}</td>
+      <td>${emp.id ?? ""}</td>
 
       <td>
         <div class="employee-cell">
           <div class="table-img-wrapper">
-            <img src="${fotoFinal}" alt="${emp.nombre}">
+            <img src="${fotoFinal}" alt="${emp.nombre || ""}">
           </div>
-          <span class="table-name">${emp.nombre}</span>
+          <span class="table-name">${emp.nombre || ""}</span>
         </div>
       </td>
 
@@ -281,13 +300,16 @@ formEmpleado?.addEventListener("submit", (e) => {
   const email = inputEmail.value.trim();
   const password = inputPassword.value.trim();
 
-  if (!nombre || !telefono || !email || !password) return;
+  if (!nombre || !telefono || !email || !password) {
+    alert("Completa todos los campos.");
+    return;
+  }
 
   // Crear
   if (modo === "crear") {
     const formData = new FormData();
     formData.append("name", nombre);
-    formData.append("telefono", telefono); // si tu backend usa "phone", puedes añadir también formData.append("phone", telefono)
+    formData.append("telefono", telefono);
     formData.append("email", email);
     formData.append("password", password);
 
@@ -299,20 +321,36 @@ formEmpleado?.addEventListener("submit", (e) => {
       method: "POST",
       body: formData,
     })
-      .then((res) => {
+      .then(async (res) => {
+        const text = await res.text().catch(() => "");
         if (!res.ok) {
-          throw new Error(`Error POST /api/users: ${res.status} ${res.statusText}`);
+          console.error(
+            "Respuesta POST /api/users no OK:",
+            res.status,
+            res.statusText,
+            text
+          );
+          throw new Error(
+            `Error POST /api/users: ${res.status} ${res.statusText}`
+          );
         }
-        return res.json();
+        let json;
+        try {
+          json = text ? JSON.parse(text) : {};
+        } catch (e) {
+          json = {};
+        }
+        return json;
       })
-      .then(() => {
+      .then((nuevo) => {
+        console.log("Empleado creado backend:", nuevo);
         alert("Empleado creado correctamente.");
         cerrarModal();
         location.reload();
       })
       .catch((err) => {
         console.error("Error creando empleado:", err);
-        alert("Error al crear empleado");
+        alert("Error al crear empleado. Revisa la consola para más detalles.");
       });
 
     return;
@@ -331,20 +369,36 @@ formEmpleado?.addEventListener("submit", (e) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     })
-      .then((res) => {
+      .then(async (res) => {
+        const text = await res.text().catch(() => "");
         if (!res.ok) {
-          throw new Error(`Error PUT /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`);
+          console.error(
+            `Respuesta PUT /api/users/${empleadoEditandoId} no OK:`,
+            res.status,
+            res.statusText,
+            text
+          );
+          throw new Error(
+            `Error PUT /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`
+          );
         }
-        return res.json();
+        let json;
+        try {
+          json = text ? JSON.parse(text) : {};
+        } catch (e) {
+          json = {};
+        }
+        return json;
       })
-      .then(() => {
+      .then((actualizado) => {
+        console.log("Empleado actualizado backend:", actualizado);
         alert("Empleado actualizado correctamente.");
         cerrarModal();
         location.reload();
       })
       .catch((err) => {
         console.error("Error editando:", err);
-        alert("Error al actualizar empleado");
+        alert("Error al actualizar empleado. Revisa la consola para más detalles.");
       });
   }
 });
@@ -358,13 +412,29 @@ btnEliminarEmpleado?.addEventListener("click", () => {
   if (!confirm(msg)) return;
 
   fetch(`${API_BASE}/api/users/${empleadoEditandoId}`, { method: "DELETE" })
-    .then((res) => {
+    .then(async (res) => {
+      const text = await res.text().catch(() => "");
       if (!res.ok) {
-        throw new Error(`Error DELETE /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`);
+        console.error(
+          `Respuesta DELETE /api/users/${empleadoEditandoId} no OK:`,
+          res.status,
+          res.statusText,
+          text
+        );
+        throw new Error(
+          `Error DELETE /api/users/${empleadoEditandoId}: ${res.status} ${res.statusText}`
+        );
       }
-      return res.json();
+      let json;
+      try {
+        json = text ? JSON.parse(text) : {};
+      } catch (e) {
+        json = {};
+      }
+      return json;
     })
-    .then(() => {
+    .then((resp) => {
+      console.log("Empleado eliminado backend:", resp);
       alert("Empleado eliminado correctamente.");
       cerrarModal();
       location.reload();
