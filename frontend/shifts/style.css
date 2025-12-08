@@ -371,3 +371,131 @@ body.dark .btn-logout {
 body.dark .btn-logout:hover {
   background: #992b22;
 }
+
+/* ============================================================
+   ESTILO MEJORADO PARA SHIFTS – DISEÑO PROFESIONAL Y MODERNO
+   ============================================================ */
+
+/* Fondo general */
+body {
+  background: #fdf6ec;
+}
+
+/* Títulos */
+.titulo {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #2b2b2b;
+}
+
+.titulo-secundario {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 25px 0 15px;
+}
+
+/* Turno Actual destacado */
+.turno-actual .turno-card.resaltado {
+  background: #ffe5d5;
+  border-radius: 20px;
+  padding: 20px;
+  border: 2px solid #e36842;
+  box-shadow: 0 5px 15px rgba(227, 104, 66, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+.turno-actual .turno-card.resaltado:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(227, 104, 66, 0.35);
+}
+
+/* Tarjetas generales de turnos */
+.turno-card {
+  background: white;
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.turno-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.13);
+}
+
+/* Textos dentro de tarjetas */
+.turno-card h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #2b2b2b;
+}
+
+.turno-card p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.turno-card span {
+  display: block;
+  margin-top: 6px;
+  font-weight: bold;
+  color: #2b2b2b;
+}
+
+/* Grid más elegante */
+.lista-turnos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.turno-actual {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 15px;
+}
+
+/* ============================
+     MODO OSCURO COMPLETO
+============================ */
+body.dark {
+  background: #0f172a;
+}
+
+body.dark .titulo,
+body.dark .titulo-secundario {
+  color: #e2e8f0;
+}
+
+body.dark .turno-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+body.dark .turno-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+}
+
+body.dark .turno-card h3,
+body.dark .turno-card p,
+body.dark .turno-card span {
+  color: #f1f5f9;
+}
+
+body.dark .turno-card.resaltado {
+  background: #2b3445;
+  border: 2px solid #e36842;
+  box-shadow: 0 6px 15px rgba(255, 125, 72, 0.25);
+}
+
+body.dark .turno-card.resaltado:hover {
+  transform: translateY(-4px);
+}
