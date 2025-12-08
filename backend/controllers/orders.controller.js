@@ -88,14 +88,34 @@ export const getOrders = async (req, res) => {
       return res.status(400).json({ error: "Falta caja_id" });
     }
 
+    // Obtener órdenes de ESTA caja
     const [rows] = await pool.query(
       `SELECT id, order_number, customer_name, total, status, created_at
        FROM orders
        WHERE caja_id = ?
-         AND status IN ('pendiente', 'en_proceso')
+         AND status IN ('pendiente','en_proceso')
        ORDER BY order_number ASC`,
       [caja_id]
     );
+
+    // Si no hay órdenes → regresamos vacías
+    if (rows.length === 0) {
+      return res.json(rows);
+    }
+
+    // Primera orden del carrusel
+    const first = rows[0];
+
+    // Si la primera está pendiente → ponerla EN PROCESO AUTOMÁTICAMENTE
+    if (first.status === "pendiente") {
+      await pool.query(
+        "UPDATE orders SET status = 'en_proceso' WHERE id = ?",
+        [first.id]
+      );
+
+      first.status = "en_proceso"; // actualizar en memoria
+      rows[0] = first;
+    }
 
     res.json(rows);
   } catch (error) {
@@ -103,6 +123,7 @@ export const getOrders = async (req, res) => {
     res.status(500).json({ error: "Error obteniendo pedidos" });
   }
 };
+
 
 //detalles del pedido
 export const getOrderDetails = async (req, res) => {
@@ -129,21 +150,35 @@ export const deliverOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // 1) Marcar como ENTREGADO solo si estaba en_proceso
-    const [result] = await pool.query(
-      "UPDATE orders SET status = 'entregado' WHERE id = ? AND status = 'en_proceso'",
+    // 1. Marcar como ENTREGADO
+    const [current] = await pool.query(
+      "SELECT caja_id FROM orders WHERE id = ? AND status = 'en_proceso'",
       [id]
     );
 
-    if (result.affectedRows === 0) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Solo se pueden entregar pedidos en proceso" });
+    if (current.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Solo se pueden entregar pedidos en proceso"
+      });
     }
 
-    // 2) Buscar el siguiente pendiente (por número de orden)
+    const cajaId = current[0].caja_id;
+
+    await pool.query(
+      "UPDATE orders SET status = 'entregado' WHERE id = ?",
+      [id]
+    );
+
+    // 2. Buscar el siguiente, PERO SOLO DE ESTA CAJA
     const [next] = await pool.query(
-      "SELECT id FROM orders WHERE status = 'pendiente' ORDER BY order_number ASC LIMIT 1"
+      `SELECT id
+       FROM orders
+       WHERE caja_id = ?
+         AND status = 'pendiente'
+       ORDER BY order_number ASC
+       LIMIT 1`,
+      [cajaId]
     );
 
     if (next.length > 0) {
@@ -153,12 +188,16 @@ export const deliverOrder = async (req, res) => {
       );
     }
 
-    res.json({ success: true, message: "Pedido entregado y turno avanzado" });
+    res.json({
+      success: true,
+      message: "Pedido entregado y turno avanzado"
+    });
   } catch (error) {
     console.log("ERROR deliverOrder:", error);
     res.status(500).json({ error: "Error entregando el pedido" });
   }
 };
+
 
 //cancelar pedido
 export const cancelOrder = async (req, res) => {
