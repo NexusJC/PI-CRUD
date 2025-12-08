@@ -16,15 +16,16 @@ toggle?.addEventListener("click", () => {
   }
 });
 
-enlacesMenu.forEach(enlace => {
+enlacesMenu.forEach((enlace) => {
   enlace.addEventListener("click", () => {
     menuDashboard.classList.add("open");
     iconoMenu?.classList.replace("bx-menu", "bx-x");
   });
 });
-// =========================
-// GESTIÓN EMPLEADOS
-// =========================
+
+// ===================================================
+// GESTIÓN EMPLEADOS (fetch / modal / CRUD)
+// ===================================================
 
 // Elementos tabla / controles
 const tbody = document.getElementById("tbodyEmpleados");
@@ -43,47 +44,21 @@ const btnEliminarEmpleado = document.getElementById("btnEliminarEmpleado");
 const formEmpleado = document.getElementById("formEmpleado");
 const inputNombre = document.getElementById("nombreEmpleado");
 const inputTelefono = document.getElementById("telefonoEmpleado");
+const inputEmail = document.getElementById("emailEmpleado");
+const inputPassword = document.getElementById("passwordEmpleado");
 
 // Imagen
-const tabArchivo = document.getElementById("tabArchivo");
-const contArchivo = document.getElementById("contenedorArchivo");
 const archivoInput = document.getElementById("archivoEmpleado");
 const preview = document.getElementById("previewImagen");
 const zonaImagen = document.getElementById("zonaImagen");
 
-// Datos en memoria (simulación, luego se reemplaza con BD)
+// Datos
 let empleados = [];
-// =====================================
-// CARGAR EMPLEADOS REALES DESDE BACKEND
-// =====================================
-fetch("/api/users")
-  .then(res => res.json())
-  .then(data => {
-    console.log("Empleados desde BD:", data);
-
-    // Normalizar los datos según la tabla
-    empleados = data.map(emp => ({
-        id: emp.id,
-        nombre: emp.name,
-        telefono: emp.telefono ?? "-",
-        caja: emp.caja ?? "-",
-        estado: "activo",        // Ajusta si luego tienes columna estado
-        fechaRegistro: emp.created_at?.split("T")[0] ?? "",
-      foto: emp.profile_picture 
-      ? "/uploads/" + emp.profile_picture
-      : "/assets/img/avatar-placeholder.png"
-    }));
-
-    renderEmpleados();
-  })
-  .catch(err => {
-    console.error("Error cargando empleados:", err);
-  });
-
-let idCounter = 1;
-let modo = "crear";           
+let modo = "crear";
 let empleadoEditandoId = null;
 
+// idioma actual (para los textos "Activo/Active")
+let currentLang = localStorage.getItem("employees-lang") || "es";
 
 function hoyISO() {
   const d = new Date();
@@ -109,91 +84,94 @@ function resetPreview() {
   if (archivoInput) archivoInput.value = "";
 }
 
+// ================== CARGAR EMPLEADOS DESDE BACKEND ==================
+(function loadEmpleadosInicial() {
+  fetch("/api/users")
+    .then((res) => {
+      if (!res.ok) {
+        // Aquí evitas el "Unexpected token '<'"
+        console.error("Error /api/users:", res.status, res.statusText);
+        return [];
+      }
+      return res.json();
+    })
+    .then((data) => {
+      if (!Array.isArray(data)) {
+        console.warn("Respuesta inesperada de /api/users:", data);
+        return;
+      }
 
-function abrirModalCrear() {
-  modo = "crear";
-  empleadoEditandoId = null;
+      empleados = data.map((emp) => ({
+        id: emp.id,
+        nombre: emp.name,
+        telefono: emp.telefono ?? "-",
+        caja: emp.caja ?? "-",
+        estado: emp.estado || "activo",
+        fechaRegistro: emp.created_at?.split("T")[0] ?? hoyISO(),
+        foto: emp.profile_picture
+          ? "/uploads/" + emp.profile_picture
+          : "/img/userplaceholder.png",
+      }));
 
-  modalTitulo.textContent = "Crear empleado";
-  formEmpleado.reset();
-  resetPreview();
+      renderEmpleados();
+    })
+    .catch((err) => {
+      console.error("Error cargando empleados:", err);
+    });
+})();
 
-  btnEliminarEmpleado.classList.add("oculto");
-
-  overlay.classList.add("activa");
-  modal.classList.add("activa");
-  modal.setAttribute("aria-hidden", "false");
-}
-
-function abrirModalEditar(id) {
-  const emp = empleados.find(e => e.id === id);
-  if (!emp) return;
-
-  modo = "editar";
-  empleadoEditandoId = id;
-
-  modalTitulo.textContent = "Editar empleado";
-  inputNombre.value = emp.nombre;
-  inputTelefono.value = emp.telefono || "";
-
-  if (emp.foto) setPreview(emp.foto);
-  else resetPreview();
-
-  btnEliminarEmpleado.classList.remove("oculto");
-
-  overlay.classList.add("activa");
-  modal.classList.add("activa");
-  modal.setAttribute("aria-hidden", "false");
-}
-
-function cerrarModal() {
-  overlay.classList.remove("activa");
-  modal.classList.remove("activa");
-  modal.setAttribute("aria-hidden", "true");
-}
-
-
+// ================== RENDER TABLA ==================
 function renderEmpleados() {
   if (!tbody) return;
   tbody.innerHTML = "";
 
   const filtro = filtroEstado?.value || "todos";
 
-  empleados.forEach(emp => {
+  empleados.forEach((emp) => {
     const estado = emp.estado || "activo";
     if (filtro !== "todos" && estado !== filtro) return;
 
     const tr = document.createElement("tr");
-    const fotoFinal = emp.foto || "/assets/img/avatar-placeholder.png";
+    const fotoFinal = emp.foto || "/img/userplaceholder.png";
 
     const esActivo = estado === "activo";
-    const bolitaClase = esActivo ? "bolita-verde" : "bolita-roja";
-    const estadoTextoClase = esActivo ? "estado-activo" : "estado-inactivo";
-    const estadoTexto = esActivo ? "Activo" : "Inactivo";
+    const estadoTexto =
+      currentLang === "en"
+        ? esActivo
+          ? "Active"
+          : "Inactive"
+        : esActivo
+        ? "Activo"
+        : "Inactivo";
+
+    const badgeExtraClass = esActivo ? "" : "badge-inactive";
 
     tr.innerHTML = `
-      <td class="foto-empleado">
-        <img src="${fotoFinal}" alt="${emp.nombre}">
-        <span>${emp.nombre}</span>
+      <td>${emp.id}</td>
+
+      <td>
+        <div class="employee-cell">
+          <div class="table-img-wrapper">
+            <img src="${fotoFinal}" alt="${emp.nombre}">
+          </div>
+          <span class="table-name">${emp.nombre}</span>
+        </div>
       </td>
 
       <td>${emp.telefono || "-"}</td>
-
       <td>${emp.caja ?? "-"}</td>
 
       <td>
-        <span class="estado-pill">
-          <span class="bolita ${bolitaClase}"></span>
-          <span class="${estadoTextoClase}">${estadoTexto}</span>
+        <span class="badge badge-status ${badgeExtraClass}">
+          ${estadoTexto}
         </span>
       </td>
 
       <td>${emp.fechaRegistro || ""}</td>
 
-      <td style="text-align:right;">
-        <button class="btn-accion btn-editar" data-id="${emp.id}">
+      <td class="table-actions">
+        <button class="btn-icon btn-edit btn-editar" data-id="${emp.id}">
           <i class='bx bx-edit'></i>
-          Editar
         </button>
       </td>
     `;
@@ -202,8 +180,68 @@ function renderEmpleados() {
   });
 }
 
+// ================== MODAL ==================
+function abrirModalCrear() {
+  modo = "crear";
+  empleadoEditandoId = null;
 
-archivoInput?.addEventListener("change", e => {
+  modalTitulo.textContent =
+    currentLang === "en" ? "Create employee" : "Crear empleado";
+
+  formEmpleado.reset();
+  resetPreview();
+
+  btnEliminarEmpleado.style.display = "none";
+
+  overlay.style.display = "block";
+  modal.style.display = "block";
+  modal.setAttribute("aria-hidden", "false");
+}
+
+function abrirModalEditar(id) {
+  const emp = empleados.find((e) => e.id === id);
+  if (!emp) return;
+
+  modo = "editar";
+  empleadoEditandoId = id;
+
+  modalTitulo.textContent =
+    currentLang === "en" ? "Edit employee" : "Editar empleado";
+
+  inputNombre.value = emp.nombre;
+  inputTelefono.value = emp.telefono || "";
+  inputEmail.value = emp.email || "";
+  inputPassword.value = "";
+
+  if (emp.foto) setPreview(emp.foto);
+  else resetPreview();
+
+  btnEliminarEmpleado.style.display = "inline-flex";
+
+  overlay.style.display = "block";
+  modal.style.display = "block";
+  modal.setAttribute("aria-hidden", "false");
+}
+
+function cerrarModal() {
+  overlay.style.display = "none";
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
+}
+
+// Eventos modal
+btnNuevoEmpleado?.addEventListener("click", abrirModalCrear);
+btnCerrarModal?.addEventListener("click", cerrarModal);
+btnCancelarModal?.addEventListener("click", cerrarModal);
+overlay?.addEventListener("click", (e) => {
+  if (e.target === overlay) cerrarModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") cerrarModal();
+});
+
+// Imagen (click / drag & drop)
+archivoInput?.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (file) {
     const url = URL.createObjectURL(file);
@@ -213,18 +251,12 @@ archivoInput?.addEventListener("change", e => {
   }
 });
 
-zonaImagen?.addEventListener("dragover", e => {
+zonaImagen?.addEventListener("dragover", (e) => {
   e.preventDefault();
-  zonaImagen.classList.add("arrastrando");
 });
 
-zonaImagen?.addEventListener("dragleave", () => {
-  zonaImagen.classList.remove("arrastrando");
-});
-
-zonaImagen?.addEventListener("drop", e => {
+zonaImagen?.addEventListener("drop", (e) => {
   e.preventDefault();
-  zonaImagen.classList.remove("arrastrando");
   const file = e.dataTransfer.files[0];
   if (file) {
     const url = URL.createObjectURL(file);
@@ -232,22 +264,8 @@ zonaImagen?.addEventListener("drop", e => {
   }
 });
 
-
-btnNuevoEmpleado?.addEventListener("click", abrirModalCrear);
-
-btnCerrarModal?.addEventListener("click", cerrarModal);
-btnCancelarModal?.addEventListener("click", cerrarModal);
-
-overlay?.addEventListener("click", e => {
-  if (e.target === overlay) cerrarModal();
-});
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") cerrarModal();
-});
-
 // Click en botón Editar dentro de la tabla
-tbody?.addEventListener("click", e => {
+tbody?.addEventListener("click", (e) => {
   const btn = e.target.closest(".btn-editar");
   if (!btn) return;
   const id = Number(btn.dataset.id);
@@ -255,159 +273,237 @@ tbody?.addEventListener("click", e => {
   abrirModalEditar(id);
 });
 
-// Guardar (crear / editar)
-formEmpleado?.addEventListener("submit", e => {
+// ================== GUARDAR (crear / editar) ==================
+formEmpleado?.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const nombre = inputNombre.value.trim();
   const telefono = inputTelefono.value.trim();
+  const email = inputEmail.value.trim();
+  const password = inputPassword.value.trim();
 
-  if (!nombre || !telefono) return;
+  if (!nombre || !telefono || !email || !password) return;
 
-  let fotoFinal = null;
-  if (archivoInput?.files[0]) {
-    fotoFinal = URL.createObjectURL(archivoInput.files[0]);
-  }
-
- if (modo === "crear") {
-    const email = document.getElementById("emailEmpleado").value.trim();
-    const password = document.getElementById("passwordEmpleado").value.trim();
-
+  // Crear
+  if (modo === "crear") {
     const formData = new FormData();
     formData.append("name", nombre);
     formData.append("telefono", telefono);
     formData.append("email", email);
     formData.append("password", password);
 
-    if (archivoInput.files[0]) {
-        formData.append("profile_picture", archivoInput.files[0]);
+    if (archivoInput?.files[0]) {
+      formData.append("profile_picture", archivoInput.files[0]);
     }
 
     fetch("/api/users", {
-        method: "POST",
-        body: formData
+      method: "POST",
+      body: formData,
     })
-
-    .then(res => res.json())
-    .then(data => {
-        alert("Empleado creado correctamente.");
+      .then((res) => res.json())
+      .then(() => {
+        alert(
+          currentLang === "en"
+            ? "Employee created successfully."
+            : "Empleado creado correctamente."
+        );
         cerrarModal();
         location.reload();
-    })
-    .catch(err => {
+      })
+      .catch((err) => {
         console.error("Error creando empleado:", err);
-        alert("Error al crear empleado");
-    });
+        alert(
+          currentLang === "en"
+            ? "Error creating employee"
+            : "Error al crear empleado"
+        );
+      });
 
     return;
-}
+  }
 
-
-   else if (modo === "editar" && empleadoEditandoId !== null) {
-
+  // Editar
+  if (modo === "editar" && empleadoEditandoId !== null) {
     const body = {
-        name: nombre,
-        telefono: telefono
+      name: nombre,
+      telefono: telefono,
     };
 
     fetch(`/api/users/${empleadoEditandoId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
     })
-    .then(res => res.json())
-    .then(data => {
-        alert("Empleado actualizado correctamente");
+      .then((res) => res.json())
+      .then(() => {
+        alert(
+          currentLang === "en"
+            ? "Employee updated successfully."
+            : "Empleado actualizado correctamente."
+        );
         cerrarModal();
         location.reload();
-    })
-    .catch(err => {
+      })
+      .catch((err) => {
         console.error("Error editando:", err);
-    });
-}
-
-
-  renderEmpleados();
-  cerrarModal();
+      });
+  }
 });
 
-// Eliminar empleado
+// ================== ELIMINAR ==================
 btnEliminarEmpleado?.addEventListener("click", () => {
   if (empleadoEditandoId === null) return;
-  const conf = confirm("¿Seguro que deseas eliminar este empleado?");
-  if (!conf) return;
+
+  const msg =
+    currentLang === "en"
+      ? "Are you sure you want to delete this employee?"
+      : "¿Seguro que deseas eliminar este empleado?";
+
+  if (!confirm(msg)) return;
 
   fetch(`/api/users/${empleadoEditandoId}`, { method: "DELETE" })
-    .then(res => res.json())
-    .then(data => {
-        alert("Empleado eliminado correctamente.");
-        cerrarModal();
-        location.reload();
+    .then((res) => res.json())
+    .then(() => {
+      alert(
+        currentLang === "en"
+          ? "Employee deleted successfully."
+          : "Empleado eliminado correctamente."
+      );
+      cerrarModal();
+      location.reload();
     })
-    .catch(err => console.error("Error al eliminar:", err));
-
+    .catch((err) => console.error("Error al eliminar:", err));
 });
 
-// Filtro estado
+// Filtro por estado
 filtroEstado?.addEventListener("change", renderEmpleados);
 
-// Inicial
-renderEmpleados();
-
-//  // =========================
-// // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
 // // =========================
-function getLoginUrl() {
-    const isLocal =
-        location.hostname === "127.0.0.1" ||
-        location.hostname === "localhost";
+// // SESIÓN / LOGOUT
+// // =========================
+// function getLoginUrl() {
+//   const isLocal =
+//     location.hostname === "127.0.0.1" || location.hostname === "localhost";
 
-    if (isLocal) {
-        return "../../../login/login.html";
-    }
+//   if (isLocal) {
+//     return "../../../login/login.html";
+//   }
+//   return "/login/login.html";
+// }
 
-    return "/login/login.html";
-}
+// const logoutBtn = document.getElementById("logoutBtn");
+// const sidebarUserName = document.getElementById("sidebarUserName");
+// const sidebarUserImg = document.getElementById("sidebarUserImg");
 
-const logoutBtn = document.getElementById("logoutBtn");
-const sidebarUserName = document.getElementById("sidebarUserName");
-const sidebarUserImg = document.getElementById("sidebarUserImg");
+// const user = JSON.parse(localStorage.getItem("user"));
+// const token = localStorage.getItem("token");
 
-const user = JSON.parse(localStorage.getItem("user"));
-const token = localStorage.getItem("token");
+// if (!token || !user || user.role !== "admin") {
+//   window.location.href = getLoginUrl();
+// }
 
-if (!token || !user || user.role !== "admin") {
-    window.location.href = getLoginUrl();
-}
+// if (user && sidebarUserName) {
+//   sidebarUserName.textContent = user.name || "Usuario";
+//   if (user.profile_picture) {
+//     sidebarUserImg.src = "/uploads/" + user.profile_picture;
+//   }
+// }
 
-if (user && sidebarUserName) {
-    sidebarUserName.textContent = user.name || "Usuario";
-    if (user.profile_picture) {
-        sidebarUserImg.src = "/uploads/" + user.profile_picture;
-    }
-}
+// logoutBtn?.addEventListener("click", () => {
+//   const msg =
+//     currentLang === "en"
+//       ? "Are you sure you want to log out?"
+//       : "¿Seguro que quieres cerrar sesión?";
 
-logoutBtn?.addEventListener("click", () => {
-    const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
-    if (!confirmar) return;
+//   if (!confirm(msg)) return;
 
-    localStorage.clear();
-    window.location.href = getLoginUrl();
-});
+//   localStorage.clear();
+//   window.location.href = getLoginUrl();
+// });
+
 // =========================
 // MOSTRAR / OCULTAR CONTRASEÑA
 // =========================
-const passInput = document.getElementById("passwordEmpleado");
 const togglePass = document.getElementById("togglePass");
 
-if (togglePass && passInput) {
-    togglePass.addEventListener("click", () => {
-        if (passInput.type === "password") {
-            passInput.type = "text";
-            togglePass.classList.replace("bx-hide", "bx-show");
-        } else {
-            passInput.type = "password";
-            togglePass.classList.replace("bx-show", "bx-hide");
-        }
-    });
+if (togglePass && inputPassword) {
+  togglePass.addEventListener("click", () => {
+    if (inputPassword.type === "password") {
+      inputPassword.type = "text";
+      togglePass.classList.replace("bx-hide", "bx-show");
+    } else {
+      inputPassword.type = "password";
+      togglePass.classList.replace("bx-show", "bx-hide");
+    }
+  });
 }
+
+// ===================================================
+// MODO OSCURO LOCAL PARA EMPLEADOS
+// ===================================================
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.getElementById("adminThemeToggle");
+  const icon = themeToggle?.querySelector("i");
+  const text = themeToggle?.querySelector("span");
+
+  const savedTheme = localStorage.getItem("admin-theme") || "light";
+  if (savedTheme === "dark") {
+    document.body.classList.add("admin-dark");
+    if (icon) icon.classList.replace("bx-moon", "bx-sun");
+    if (text) text.textContent = "Modo claro";
+  }
+
+  themeToggle?.addEventListener("click", () => {
+    const nowDark = document.body.classList.toggle("admin-dark");
+    localStorage.setItem("admin-theme", nowDark ? "dark" : "light");
+
+    if (!icon || !text) return;
+    if (nowDark) {
+      icon.classList.replace("bx-moon", "bx-sun");
+      text.textContent = "Modo claro";
+    } else {
+      icon.classList.replace("bx-sun", "bx-moon");
+      text.textContent = "Modo oscuro";
+    }
+  });
+
+  const langBtn = document.getElementById("banderaIdioma");
+  const flagSpan = langBtn?.querySelector(".bandera-container");
+
+  function updateFlag(lang) {
+    if (!flagSpan) return;
+    flagSpan.setAttribute(
+      "data-idioma-text",
+      lang === "es" ? "English" : "Español"
+    );
+  }
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+
+    const dict = EMP_I18N[lang];
+    if (!dict) return;
+
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      if (!key) return;
+      const text = dict[key];
+      if (text) el.textContent = text;
+    });
+
+    // refrescar tabla para que "Activo/Inactivo" también cambien
+    renderEmpleados();
+  }
+
+  // idioma inicial
+  updateFlag(currentLang);
+  applyLanguage(currentLang);
+
+  langBtn?.addEventListener("click", () => {
+    currentLang = currentLang === "es" ? "en" : "es";
+    localStorage.setItem("employees-lang", currentLang);
+    updateFlag(currentLang);
+    applyLanguage(currentLang);
+  });
+});
