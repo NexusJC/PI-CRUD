@@ -83,28 +83,23 @@
 
 
 <!-- ======== PANTALLA PRINCIPAL (TURNOS) ======== -->
-<main class="turnos-container">
+<main class="turnos-main">
 
-  <!-- SECCIÓN DEL TURNO ACTUAL -->
-  <section class="turno-actual-wrapper">
-    <h1 class="titulo-seccion">Turno Actual</h1>
+  <h1 class="titulo">Turno Actual</h1>
 
-    <div id="turnosActuales" class="turno-actual-card">
-      <!-- AQUÍ SE INSERTA DESDE shifts.js -->
-    </div>
+    <section id="turnosActuales" class="turno-actual">
+    <!-- Aquí van los pedidos EN PROCESO -->
   </section>
 
-  <!-- SECCIÓN DE TODOS LOS TURNOS -->
-  <section class="todos-turnos-wrapper">
-    <h2 class="titulo-seccion secundarios">Todos los turnos</h2>
 
-    <div id="listaTurnos" class="turnos-grid">
-      <!-- AQUÍ VA EL GRID DESDE shifts.js -->
-    </div>
-  </section>
+  <h2 class="titulo-secundario">Todos los turnos</h2>
+
+    <section id="listaTurnos" class="lista-turnos">
+    <!-- Aquí van TODOS los pedidos -->
+    </section>
+
 
 </main>
-
 
 <!-- JS -->
 <script src="./js/shifts.js"></script>
