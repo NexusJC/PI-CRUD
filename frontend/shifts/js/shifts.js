@@ -65,13 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
   }
 
-  /* === LOGOUT === */
-  btnLogout.addEventListener("click", () => {
-    if (confirm("¿Cerrar sesión?")) {
-      localStorage.clear();
-      window.location.href = "/menu/index.html";
-    }
-  });
 
   /* === MENÚ POR ROL === */
   if (user.role === "usuario") {
