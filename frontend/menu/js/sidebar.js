@@ -300,16 +300,28 @@ function showConfirmCustomLogout(message, onYes, onNo) {
   });
 }
 
-const logoutPerfil = document.getElementById("btn-logout");
+function initMenuLogout() {
+  const logoutBtn = document.getElementById("btn-logout");
 
-if (logoutPerfil) {
-  logoutPerfil.addEventListener("click", () => {
-    showConfirmCustomLogout(
-      "¿Deseas cerrar sesión?",
-      () => {
-        localStorage.clear();
-        window.location.href = "../login/login.html";
-      }
-    );
-  });
+  // Verificar si ESTAMOS EN EL MENÚ
+  const estaEnMenu =
+    window.location.pathname.includes("/menu/") ||
+    window.location.pathname.endsWith("menu") ||
+    window.location.pathname.endsWith("index.html");
+
+  if (!estaEnMenu) return; // ❌ Si NO es menú, NO activar logout
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      showConfirmCustomLogout(
+        "¿Deseas cerrar sesión?",
+        () => {
+          localStorage.clear();
+          window.location.href = "../login/login.html";
+        }
+      );
+    });
+  }
 }
+
+initMenuLogout();

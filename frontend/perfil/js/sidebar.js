@@ -85,7 +85,6 @@ btnLogout.addEventListener("click", () => {
   });
 });
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
 
