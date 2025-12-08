@@ -361,7 +361,7 @@ async function translateContent(targetLanguage) {
         const [, info] = batch[index];
         const translatedText = decodeHTMLEntities(tr.translatedText);
         // Si es un botón con icono → traducir solo el texto, no los hijos
-if (info.element.tagName === 'BUTTON' && info.element.querySelector('i, svg')) {
+/*if (info.element.tagName === 'BUTTON' && info.element.querySelector('i, svg')) {
     const textNodes = Array.from(info.element.childNodes)
       .filter(node => node.nodeType === Node.TEXT_NODE);
 
@@ -374,10 +374,10 @@ if (info.element.tagName === 'BUTTON' && info.element.querySelector('i, svg')) {
     }
 
     textNode.textContent = ' ' + translatedText;
-} else {
+} else {*/
     // Elementos normales
     info.element.innerText = translatedText;
-}
+//}
 
       });
     }
