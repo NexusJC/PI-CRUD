@@ -219,21 +219,21 @@ ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR
     } else if (role === "usuario") {
       menuList.innerHTML = `  
         <li data-no-translate>
-          <a href="/menu/index.html" data-no-translate>
-            <i class="fas fa-utensils" data-no-translate></i>
-            <span>Ver Menú</span>
+          <a href="/menu/index.html">
+            <i class="fas fa-utensils"></i>
+            <span class="sb-label menu-label">Ver Menú</span>
           </a>
         </li>
         <li data-no-translate>
-          <a href="/perfil/perfil.html" data-no-translate>
-            <i class="fas fa-user" data-no-translate></i>
-            <span>Mi Perfil</span>
+          <a href="/perfil/perfil.html">
+            <i class="fas fa-user"></i>
+            <span class="sb-label perfil-label">Mi Perfil</span>
           </a>
         </li>
         <li data-no-translate>
-          <a href="/shifts/shifts.html" data-no-translate>
-            <i class="fas fa-clock icon" data-no-translate></i>
-            <span>Turnos</span>
+          <a href="/shifts/shifts.html">
+            <i class="fas fa-clock icon"></i>
+            <span class="sb-label shifts-label">Turnos</span>
           </a>
         </li>
       `;
