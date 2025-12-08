@@ -145,7 +145,6 @@ btnLogout.addEventListener("click", () => {
 
     }
   }
-  
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   
   if (sidebarAvatar && user) {
