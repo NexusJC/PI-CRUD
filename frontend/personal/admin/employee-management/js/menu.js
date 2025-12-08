@@ -69,9 +69,9 @@ fetch("/api/users")
         caja: emp.caja ?? "-",
         estado: "activo",        // Ajusta si luego tienes columna estado
         fechaRegistro: emp.created_at?.split("T")[0] ?? "",
-      foto: emp.profile_picture 
-      ? "/uploads/" + emp.profile_picture
-      : "/assets/img/avatar-placeholder.png"
+        foto: emp.profile_picture 
+              ? "/uploads/" + emp.profile_picture
+              : "/img/userplaceholder.png"
     }));
 
     renderEmpleados();
@@ -164,7 +164,7 @@ function renderEmpleados() {
     if (filtro !== "todos" && estado !== filtro) return;
 
     const tr = document.createElement("tr");
-    const fotoFinal = emp.foto || "/assets/img/avatar-placeholder.png";
+    const fotoFinal = emp.foto || "/img/userplaceholder.png";
 
     const esActivo = estado === "activo";
     const bolitaClase = esActivo ? "bolita-verde" : "bolita-roja";
@@ -354,9 +354,9 @@ filtroEstado?.addEventListener("change", renderEmpleados);
 // Inicial
 renderEmpleados();
 
-//  // =========================
-// // SESIÓN / LOGOUT (MISMO QUE EN INDEX)
-// // =========================
+ // =========================
+// SESIÓN / LOGOUT (MISMO QUE EN INDEX)
+// =========================
 function getLoginUrl() {
     const isLocal =
         location.hostname === "127.0.0.1" ||

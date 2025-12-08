@@ -704,3 +704,137 @@ body.dark .turno-card.resaltado:hover {
 .topbar-right {
   margin-right: 30px; /* Mueve el botón más a la izquierda */
 }
+
+/* ============================================
+   NUEVO DISEÑO SHIFTS — ESTILO PARRILLA AZTECA
+   ============================================ */
+
+.screen-turnos {
+  margin-top: 80px;
+  display: grid;
+  grid-template-columns: 32% 68%;
+  height: calc(100vh - 80px);
+  gap: 16px;
+  padding: 16px;
+}
+
+/* PANEL IZQUIERDO */
+.panel-izquierdo {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header-left {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #e36842;
+  color: #fff;
+  padding: 14px 20px;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.turnos-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+}
+
+/* TARJETAS DE LISTA */
+.turno-item {
+  background: #fff7ea;
+  border-left: 6px solid #e36842;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.turno-item:hover {
+  transform: translateX(4px);
+  background: #ffe7d5;
+}
+
+.turno-item .nombre {
+  grid-column: 1 / 3;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+/* PANEL DERECHO */
+.panel-derecho {
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header-right {
+  background: #e36842;
+  color: #fff;
+  padding: 14px 20px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* TURNO ACTUAL — CAJA GRANDE */
+.turno-actual-box {
+  flex: 1;
+  background: linear-gradient(90deg, #ff875a, #e36842);
+  margin-top: 16px;
+  border-radius: 18px;
+  padding: 50px 20px;
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+  text-align: center;
+  font-size: 5rem;
+  font-weight: 900;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.25);
+}
+
+/* NOMBRE DEL CLIENTE */
+.usuario-actual-info {
+  text-align: center;
+  margin-top: 18px;
+}
+
+.usuario-actual-info h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.usuario-actual-info p {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .screen-turnos {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .turno-actual-box {
+    font-size: 3.3rem;
+  }
+}
