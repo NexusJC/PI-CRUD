@@ -5,6 +5,13 @@
   --text: #2b2b2b;
 }
 
+/* Aplicar misma fuente del menú a toda la vista shifts */
+body, .screen-turnos, .panel-izquierdo, .panel-derecho,
+.turno-item, .turno-actual-box, .usuario-actual-info {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+
 /*TOPBAR*/
 .topbar {
   display: flex;
