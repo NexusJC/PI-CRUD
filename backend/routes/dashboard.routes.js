@@ -1,31 +1,19 @@
 import { Router } from "express";
-import { getDashboardStats } from "../controllers/dashboard.controller.js";
-import { pool } from "../db.js"; // ← IMPORTACIÓN CORRECTA
+import {
+  getDashboardStats,
+  getTopDishes,
+  getOrdersLast7Days
+} from "../controllers/dashboard.controller.js";
 
 const router = Router();
 
-// ===== Ruta que ya existía (NO SE TOCA) =====
+// ===== Ruta que ya existía (NO se toca su URL) =====
 router.get("/stats", getDashboardStats);
 
+// ===== NUEVA RUTA: Órdenes en los últimos 7 días =====
+router.get("/orders-last-7-days", getOrdersLast7Days);
+
 // ===== NUEVA RUTA: Platillos más vendidos =====
-router.get("/top-dishes", async (req, res) => {
-    try {
-        const [rows] = await pool.query(`
-            SELECT 
-                od.dish_name AS dish,
-                SUM(od.quantity) AS total_sold
-            FROM order_details od
-            GROUP BY od.dish_name
-            ORDER BY total_sold DESC
-            LIMIT 5;
-        `);
-
-        res.json(rows);
-    } catch (error) {
-        console.error("Error al obtener platillos más vendidos:", error);
-        res.status(500).json({ error: "Error al obtener datos" });
-    }
-});
-
+router.get("/top-dishes", getTopDishes);
 
 export default router;
