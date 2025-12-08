@@ -121,11 +121,6 @@ const getProfileData = async () => {
     // Sidebar avatar
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) sidebarAvatar.src = finalImg;
-
-
-
-
-
   } catch (error) {
     console.error("Error al obtener datos del perfil", error);
     alert("Error al obtener datos del perfil");
@@ -249,7 +244,7 @@ btnReset.addEventListener("click", () => {
   );
 });
 
-function showConfirmCustom(message, onYes, onNo) {
+function showConfirmCustomLogout(message, onYes, onNo) {
   const overlay = document.createElement("div");
   overlay.className = "custom-confirm-overlay";
 
@@ -273,5 +268,19 @@ function showConfirmCustom(message, onYes, onNo) {
   overlay.querySelector(".confirm-yes").addEventListener("click", () => {
     overlay.remove();
     onYes();
+  });
+}
+
+const logoutPerfil = document.getElementById("btn-logout");
+
+if (logoutPerfil) {
+  logoutPerfil.addEventListener("click", () => {
+    showConfirmCustomLogout(
+      "¿Deseas cerrar sesión?",
+      () => {
+        localStorage.clear();
+        window.location.href = "../login/login.html";
+      }
+    );
   });
 }
