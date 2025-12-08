@@ -167,6 +167,36 @@ h2{text-align: center;}
   opacity:0.8;
 }
 
+/* Botón modo oscuro en el footer del sidebar */
+.theme-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+.theme-toggle-btn i {
+  font-size: 1rem;
+}
+
+
 .sidebar-footer span {
   color:var(--topbar);
   font-weight:700;
@@ -260,4 +290,47 @@ body {
 
 @media (max-width:480px){
   .turno-numero { font-size:32px; }
+}
+
+/* ====== MODO OSCURO PARA EL SIDEBAR (MISMOS COLORES QUE MENÚ) ====== */
+body.dark .sidebar {
+  background: #020617;
+  border-right: 1px solid #1f2937;
+}
+
+body.dark .sidebar-profile {
+  background: #020617 !important;
+  border-bottom: 1px solid #1f2937;
+}
+
+body.dark .sidebar-profile p {
+  color: #9ca3af;
+}
+
+body.dark .sidebar ul li a {
+  color: #e5e7eb;
+}
+
+body.dark .sidebar ul li a:hover {
+  background: #111827;
+  transform: translateX(8px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.9);
+}
+
+body.dark .sidebar-footer {
+  color: #9ca3af;
+}
+
+body.dark .sidebar-footer span {
+  color: #fb923c;  /* mismo acento naranja del menú */
+}
+
+body.dark #themeToggle {
+  background: #111827;
+  color: #e5e7eb;
+  border: 1px solid #1f2937;
+}
+
+body.dark #themeToggle:hover {
+  background: #020617;
 }

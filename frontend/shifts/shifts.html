@@ -27,11 +27,10 @@
 </header>
 
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR (IGUAL AL DEL MENÚ) -->
 <nav class="sidebar" id="sidebar">
-
   <div class="sidebar-header">
-    <img src="/img/logo_1.png" alt="Logo">
+    <img src="../img/logo_1.png" alt="Logo">
   </div>
 
   <div class="sidebar-profile">
@@ -40,12 +39,32 @@
     <p id="sidebarUserInfo">¡Explora el menú!</p>
 
     <div class="sidebar-login-btn">
-      <a href="/login/login.html" class="btn-login" id="btn-login">Iniciar sesión</a>
+      <a href="../login/login.html" class="btn-login" id="btn-login">
+        Iniciar sesión
+      </a>
       <button class="btn-logout" id="btn-logout" style="display:none;">
         <i class="fas fa-sign-out-alt"></i> Cerrar sesión
       </button>
     </div>
   </div>
+
+  <hr>
+
+  <ul id="menuList" data-no-translate>
+    <!-- El contenido se rellena según el rol desde JS -->
+  </ul>
+
+  <hr>
+
+  <div class="sidebar-footer">
+    <button id="themeToggle" class="theme-toggle-btn">
+      <i class="fas fa-moon"></i>
+      <span>Modo oscuro</span>
+    </button>
+    <p>© 2025 <span>Innovatech</span><br>Versión 3.0.4</p>
+  </div>
+</nav>
+
 
   <hr>
 
