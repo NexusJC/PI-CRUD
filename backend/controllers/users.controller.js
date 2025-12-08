@@ -23,37 +23,35 @@ export const createEmployee = async (req, res) => {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
-    // Imagen opcional
+    // Imagen opcional (multer)
     const photo = req.file ? req.file.filename : null;
 
     // Encriptar la contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insertar empleado REAL
+    // Insertar empleado
     await pool.query(
-      `INSERT INTO users (name, email, telefono, role, profile_picture, password)
+      `INSERT INTO users (name, email, telefono, role, image_url, password)
        VALUES (?, ?, ?, 'empleado', ?, ?)`,
       [name, email, telefono, photo, hashedPassword]
     );
 
-    res.json({ message: "Empleado creado correctamente" });
-
+    res.status(201).json({ message: "Empleado creado correctamente" });
   } catch (error) {
     console.error("Error creando empleado:", error);
     res.status(500).json({ error: "Error en el servidor" });
   }
 };
 
-
-// Editar empleado
+// Editar empleado (nombre, teléfono, email)
 export const updateEmployee = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, telefono } = req.body;
+    const { name, telefono, email } = req.body;
 
     await pool.query(
-      "UPDATE users SET name = ?, telefono = ? WHERE id = ?",
-      [name, telefono, id]
+      "UPDATE users SET name = ?, telefono = ?, email = ? WHERE id = ?",
+      [name, telefono, email, id]
     );
 
     res.json({ message: "Empleado actualizado correctamente" });
@@ -62,15 +60,15 @@ export const updateEmployee = async (req, res) => {
     res.status(500).json({ error: "Error actualizando empleado" });
   }
 };
+
 // Actualizar foto del empleado
 export const updateEmployeePhoto = async (req, res) => {
   try {
     const { id } = req.params;
-
     const photo = req.file ? req.file.filename : null;
 
     await pool.query(
-      "UPDATE users SET profile_picture = ? WHERE id = ?",
+      "UPDATE users SET image_url = ? WHERE id = ?",
       [photo, id]
     );
 
@@ -80,6 +78,7 @@ export const updateEmployeePhoto = async (req, res) => {
     res.status(500).json({ error: "Error actualizando foto" });
   }
 };
+
 // Eliminar empleado
 export const deleteEmployee = async (req, res) => {
   try {
