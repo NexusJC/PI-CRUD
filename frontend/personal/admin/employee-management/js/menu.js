@@ -113,6 +113,25 @@ if (inputTelefono) {
   });
 }
 
+// ==========================
+// SOLO LETRAS (SIN NÚMEROS) Y MÁX 50 CARACTERES EN NOMBRE
+// ==========================
+if (inputNombre) {
+  inputNombre.addEventListener("input", () => {
+    let val = inputNombre.value;
+
+    // Permitimos: letras (con acentos y ñ) + espacios
+    val = val.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+
+    // Limitar a 50 caracteres
+    if (val.length > 50) {
+      val = val.slice(0, 50);
+    }
+
+    inputNombre.value = val;
+  });
+}
+
 // ================== CARGAR EMPLEADOS DESDE BACKEND ==================
 (function loadEmpleadosInicial() {
   fetch(`${API_BASE}/api/users`)
@@ -337,7 +356,7 @@ tbody?.addEventListener("click", (e) => {
 formEmpleado?.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const nombre = inputNombre.value.trim();
+  let nombre = inputNombre.value.trim();
   let telefono = inputTelefono.value.trim();
   const email = inputEmail.value.trim();
   const password = inputPassword.value.trim();
@@ -345,8 +364,23 @@ formEmpleado?.addEventListener("submit", (e) => {
   // normalizar teléfono a solo dígitos
   telefono = telefono.replace(/\D/g, "");
 
+  // normalizar nombre a solo letras/espacios (por si alguien pega cosas raras)
+  nombre = nombre.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+
   if (!nombre || !telefono || !email || !password) {
     alert("Completa todos los campos.");
+    return;
+  }
+
+  if (nombre.length > 50) {
+    alert("El nombre no puede tener más de 50 caracteres.");
+    inputNombre.focus();
+    return;
+  }
+
+  if (/\d/.test(nombre)) {
+    alert("El nombre no puede contener números.");
+    inputNombre.focus();
     return;
   }
 
