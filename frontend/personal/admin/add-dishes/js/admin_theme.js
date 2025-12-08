@@ -84,88 +84,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* =========================
-   LOGOUT ADMIN
-========================= */
-const logoutBtn = document.getElementById("logoutBtn");
+// =========================
+// SESIÓN / LOGOUT (MISMO QUE EN INDEX)
+// =========================
+function getLoginUrl() {
+    const isLocal =
+        location.hostname === "127.0.0.1" ||
+        location.hostname === "localhost";
 
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", () => {
+    if (isLocal) {
+        return "../../../login/login.html";
+    }
 
-    // Crear modal de confirmación
-    const modal = document.createElement("div");
-    modal.id = "logoutConfirmModal";
-    modal.style.position = "fixed";
-    modal.style.inset = "0";
-    modal.style.background = "rgba(0,0,0,0.55)";
-    modal.style.display = "flex";
-    modal.style.alignItems = "center";
-    modal.style.justifyContent = "center";
-    modal.style.zIndex = "9999";
-
-    modal.innerHTML = `
-      <div style="
-        background: #fff;
-        padding: 22px 26px;
-        border-radius: 14px;
-        width: 320px;
-        text-align: center;
-        font-family: Poppins;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-      ">
-        <h3 style="margin: 0 0 10px; font-size: 1.1rem; font-weight: 700;">Cerrar sesión</h3>
-        <p style="margin: 0 0 18px; font-size: 0.92rem;">
-          ¿Seguro que deseas cerrar tu sesión?
-        </p>
-
-        <div style="display:flex; gap:12px; justify-content:center;">
-          <button id="cancelLogout" style="
-            padding: 8px 14px;
-            border-radius: 999px;
-            border: 1px solid #ccc;
-            background: #f8f8f8;
-            cursor: pointer;
-            font-weight: 600;
-          ">Cancelar</button>
-
-          <button id="confirmLogout" style="
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: linear-gradient(90deg,#ef4444,#f97316);
-            color:#fff;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-          ">Salir</button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(modal);
-
-    // Botón cancelar → cerrar modal
-    document.getElementById("cancelLogout").onclick = () => {
-      modal.remove();
-    };
-
-    // Botón confirmar → limpiar sesión + redirigir
-    document.getElementById("confirmLogout").onclick = () => {
-
-      // Limpieza completa
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      localStorage.removeItem("preferredLanguage");
-      localStorage.removeItem("admin-theme");
-      localStorage.removeItem("admin-sidebar-open");
-
-      // Mensaje suave antes de irse
-      modal.querySelector("div").innerHTML = `
-        <p style="font-size:1rem; margin-bottom:12px;">Cerrando sesión...</p>
-      `;
-
-      setTimeout(() => {
-        window.location.href = "/login/login.html";
-      }, 600);
-    };
-  });
+    return "/login/login.html";
 }
+
+const logoutBtn = document.getElementById("logoutBtn");
+const sidebarUserName = document.getElementById("sidebarUserName");
+const sidebarUserImg = document.getElementById("sidebarUserImg");
+
+const user = JSON.parse(localStorage.getItem("user"));
+const token = localStorage.getItem("token");
+
+if (!token || !user || user.role !== "admin") {
+    window.location.href = getLoginUrl();
+}
+
+if (user && sidebarUserName) {
+    sidebarUserName.textContent = user.name || "Usuario";
+    if (user.profile_picture) {
+        sidebarUserImg.src = "/uploads/" + user.profile_picture;
+    }
+}
+
+logoutBtn?.addEventListener("click", () => {
+    const confirmar = confirm("¿Seguro que quieres cerrar sesión?");
+    if (!confirmar) return;
+
+    localStorage.clear();
+    window.location.href = getLoginUrl();
+});
