@@ -132,16 +132,6 @@ ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR
       btnLogin.style.display  = "block";
       btnLogout.style.display = "none";
     }
-
-    if (btnLogout) {
-      btnLogout.addEventListener("click", () => {
-        const confirmLogout = confirm("¿Deseas cerrar sesión?");
-        if (confirmLogout) {
-          localStorage.clear();
-          window.location.href = "../login/login.html";
-        }
-      });
-    }
   }
   
   const sidebarAvatar = document.getElementById("sidebarAvatar");
