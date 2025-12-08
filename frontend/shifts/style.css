@@ -334,3 +334,40 @@ body.dark #themeToggle {
 body.dark #themeToggle:hover {
   background: #020617;
 }
+
+/* BOTÓN DE CERRAR SESIÓN – MISMO DISEÑO QUE EL MENÚ */
+.btn-logout {
+  width: 100%;
+  padding: 10px 14px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.btn-logout i {
+  font-size: 1rem;
+}
+
+.btn-logout:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* MODO OSCURO */
+body.dark .btn-logout {
+  background: #b9362a;
+  color: #fff;
+}
+
+body.dark .btn-logout:hover {
+  background: #992b22;
+}
