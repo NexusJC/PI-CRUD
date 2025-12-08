@@ -116,6 +116,8 @@ async function ensureAvatarIsLoaded() {
 
 ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR LA PÁGINA
 
+
+
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
   const usernameText    = document.getElementById("username-text");
@@ -131,6 +133,16 @@ ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR
     } else {
       btnLogin.style.display  = "block";
       btnLogout.style.display = "none";
+    }
+
+    if (btnLogout) {
+      btnLogout.addEventListener("click", () => {
+        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
+        if (confirmLogout) {
+          localStorage.clear();
+          window.location.href = "../login/login.html";
+        }
+      });
     }
   }
   
@@ -148,17 +160,20 @@ ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR
   }
 }
 
+  // ----- Nombre del usuario en el sidebar -----
   if (sidebarUserName && sidebarUserInfo) {
     if (token && user) {
-
+      // Título fijo y abajo el nombre del usuario
       sidebarUserName.textContent = "Te Damos La Bienvenida";
       sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
     } else {
-
+      // Texto por defecto cuando no hay sesión
       sidebarUserName.textContent = "Te Damos La Bienvenida";
       sidebarUserInfo.textContent = "¡Explora el menú!";
     }
   }
+
+
 
   if (usernameText && usernameValue && usernameDefault) {
     if (token && user) {
@@ -272,56 +287,3 @@ document.addEventListener("click", (e) => {
     }
   }
 });
-
-function showConfirmCustomLogout(message, onYes, onNo) {
-  const overlay = document.createElement("div");
-  overlay.className = "custom-confirm-overlay";
-
-  overlay.innerHTML = `
-    <div class="custom-confirm-box">
-      <h3>${message}</h3>
-      <div class="confirm-btn-row">
-        <button class="confirm-btn confirm-no">Cancelar</button>
-        <button class="confirm-btn confirm-yes">Sí, continuar</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  overlay.querySelector(".confirm-no").addEventListener("click", () => {
-    overlay.remove();
-    if (onNo) onNo();
-  });
-
-  overlay.querySelector(".confirm-yes").addEventListener("click", () => {
-    overlay.remove();
-    onYes();
-  });
-}
-
-function initMenuLogout() {
-  const logoutBtn = document.getElementById("btn-logout");
-
-  // Verificar si ESTAMOS EN EL MENÚ
-  const estaEnMenu =
-    window.location.pathname.includes("/menu/") ||
-    window.location.pathname.endsWith("menu") ||
-    window.location.pathname.endsWith("index.html");
-
-  if (!estaEnMenu) return; // ❌ Si NO es menú, NO activar logout
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      showConfirmCustomLogout(
-        "¿Deseas cerrar sesión?",
-        () => {
-          localStorage.clear();
-          window.location.href = "../login/login.html";
-        }
-      );
-    });
-  }
-}
-
-initMenuLogout();
