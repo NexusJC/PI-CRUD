@@ -1,5 +1,5 @@
 import { Router } from "express";
-import upload from "../middlewares/upload.middleware.js";
+// import upload from "../middlewares/upload.middleware.js";
 import {
   getEmployees,
   createEmployee,
@@ -13,14 +13,14 @@ const router = Router();
 // Obtener SOLO empleados
 router.get("/", getEmployees);
 
-// Crear empleado nuevo (con imagen opcional)
-router.post("/", upload.single("profile_picture"), createEmployee);
+// Crear empleado nuevo (recibe JSON con image_url desde el frontend)
+router.post("/", createEmployee);
 
-// Editar empleado sin imagen
+// Editar empleado (nombre, teléfono, email)
 router.put("/:id", updateEmployee);
 
-// Actualizar solo la foto del empleado
-router.put("/:id/photo", upload.single("profile_picture"), updateEmployeePhoto);
+// Actualizar solo la foto del empleado (también con image_url por JSON)
+router.put("/:id/photo", updateEmployeePhoto);
 
 // Borrar empleado
 router.delete("/:id", deleteEmployee);

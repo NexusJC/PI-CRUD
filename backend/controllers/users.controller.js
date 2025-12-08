@@ -4,8 +4,9 @@ import bcrypt from "bcrypt";
 // Obtener SOLO empleados
 export const getEmployees = async (req, res) => {
   try {
+    // Traemos image_url y profile_picture por compatibilidad
     const [rows] = await pool.query(
-      "SELECT id, name, email, telefono, image_url, created_at FROM users WHERE role = 'empleado'"
+      "SELECT id, name, email, telefono, image_url, profile_picture, created_at FROM users WHERE role = 'empleado'"
     );
     res.json(rows);
   } catch (error) {
@@ -14,29 +15,27 @@ export const getEmployees = async (req, res) => {
   }
 };
 
+// Crear empleado usando Cloudinary (image_url viene del frontend)
 export const createEmployee = async (req, res) => {
   try {
-    const { name, telefono, email, password } = req.body;
+    const { name, telefono, email, password, image_url } = req.body;
 
     // Validación básica
     if (!name || !telefono || !email || !password) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
-    // Imagen opcional
-    const photo = req.file ? req.file.filename : null;
-
     // Encriptar la contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insertar empleado REAL
+    // Guardamos la URL de Cloudinary en image_url
     await pool.query(
-      `INSERT INTO users (name, email, telefono, role, profile_picture, password)
+      `INSERT INTO users (name, email, telefono, role, image_url, password)
        VALUES (?, ?, ?, 'empleado', ?, ?)`,
-      [name, email, telefono, photo, hashedPassword]
+      [name, email, telefono, image_url || null, hashedPassword]
     );
 
-    res.json({ message: "Empleado creado correctamente" });
+    res.status(201).json({ message: "Empleado creado correctamente" });
 
   } catch (error) {
     console.error("Error creando empleado:", error);
@@ -44,16 +43,15 @@ export const createEmployee = async (req, res) => {
   }
 };
 
-
-// Editar empleado
+// Editar empleado (nombre, teléfono, email)
 export const updateEmployee = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, telefono } = req.body;
+    const { name, telefono, email } = req.body;
 
     await pool.query(
-      "UPDATE users SET name = ?, telefono = ? WHERE id = ?",
-      [name, telefono, id]
+      "UPDATE users SET name = ?, telefono = ?, email = ? WHERE id = ?",
+      [name, telefono, email, id]
     );
 
     res.json({ message: "Empleado actualizado correctamente" });
@@ -62,16 +60,16 @@ export const updateEmployee = async (req, res) => {
     res.status(500).json({ error: "Error actualizando empleado" });
   }
 };
-// Actualizar foto del empleado
+
+// Actualizar foto del empleado (también usando image_url desde el frontend)
 export const updateEmployeePhoto = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const photo = req.file ? req.file.filename : null;
+    const { image_url } = req.body;
 
     await pool.query(
-      "UPDATE users SET profile_picture = ? WHERE id = ?",
-      [photo, id]
+      "UPDATE users SET image_url = ? WHERE id = ?",
+      [image_url || null, id]
     );
 
     res.json({ message: "Foto actualizada correctamente" });
@@ -80,6 +78,7 @@ export const updateEmployeePhoto = async (req, res) => {
     res.status(500).json({ error: "Error actualizando foto" });
   }
 };
+
 // Eliminar empleado
 export const deleteEmployee = async (req, res) => {
   try {
