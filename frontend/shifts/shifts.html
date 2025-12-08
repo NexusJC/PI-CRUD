@@ -18,13 +18,22 @@
 <header class="topbar">
   <div class="topbar-left">
     <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <a href="/menu/index.html" class="brand">
+      <img class="logo" src="../img/logo_1.png" alt="Logo">
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </a>
   </div>
 
-  <div class="brand">
-    <img class="logo" src="../img/logo_1.png">
-    <span class="brand-text">LA PARRILLA AZTECA</span>
+  <div class="topbar-right">
+    <div class="idiomaToggle">
+      <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
+        <div class="bandera-container"></div>
+      </button>
+    </div>
   </div>
 </header>
+
 
 
 <!-- SIDEBAR (IGUAL AL DEL MENÚ) -->
@@ -92,6 +101,7 @@
 
 <!-- JS -->
 <script src="./js/shifts.js"></script>
+<script src="../login/js/translate.js"></script>
 
 </body>
 </html>

@@ -499,3 +499,103 @@ body.dark .turno-card.resaltado {
 body.dark .turno-card.resaltado:hover {
   transform: translateY(-4px);
 }
+
+/* === TOPBAR COMPLETO IGUAL AL MENÚ === */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--topbar);
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1100;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.8);
+}
+
+.brand-text {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+/* Botón de idioma */
+.idiomaToggle {
+  position: static;
+}
+
+.idioma-btn {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(15,23,42,0.35);
+  transition: background .15s ease, transform .1s ease, box-shadow .15s ease;
+}
+
+.idioma-btn:hover {
+  background: rgba(255,255,255,0.16);
+  transform: translateY(-1px);
+  box-shadow: 0 9px 20px rgba(15,23,42,0.45);
+}
+
+.bandera-container::before {
+  content: "\f0ac";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #fff;
+  font-size: 16px;
+}
+
+.bandera-container::after {
+  content: attr(data-idioma-text);
+  margin-left: 6px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.idioma-btn::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #fff;
+  font-size: 12px;
+}
