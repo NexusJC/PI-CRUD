@@ -78,20 +78,29 @@ function hoyISO() {
   return `${year}-${month}-${day}`;
 }
 
+// ==========================
+// PREVIEW DE IMAGEN EN EL CÍRCULO
+// ==========================
 function setPreview(src) {
   if (!preview) return;
 
   if (!src) {
-    // Sin imagen -> mostramos ícono
+    // Sin imagen -> mostramos ícono y ocultamos img
     preview.classList.add("preview-empty");
     preview.removeAttribute("src");
+    preview.style.display = "none";
     if (previewIcon) previewIcon.style.display = "block";
     return;
   }
 
-  // Con imagen -> ocultamos ícono y mostramos foto
+  // Con imagen -> mostramos img y ocultamos ícono
   preview.classList.remove("preview-empty");
   preview.src = src;
+  preview.style.display = "block";
+  preview.style.width = "100%";
+  preview.style.height = "100%";
+  preview.style.objectFit = "cover";
+  preview.style.borderRadius = "50%";
   if (previewIcon) previewIcon.style.display = "none";
 }
 
@@ -105,9 +114,7 @@ function resetPreview() {
 // ==========================
 if (inputTelefono) {
   inputTelefono.addEventListener("input", () => {
-    // quitar todo lo que no sea dígito
     let val = inputTelefono.value.replace(/\D/g, "");
-    // limitar a 10
     if (val.length > 10) val = val.slice(0, 10);
     inputTelefono.value = val;
   });
@@ -150,7 +157,6 @@ if (inputNombre) {
       }
 
       empleados = data.map((emp) => {
-        // tomamos tanto profile_picture como image_url por compatibilidad
         const rawFoto = emp.profile_picture ?? emp.image_url ?? "";
 
         const normalizado = {
@@ -202,14 +208,11 @@ function renderEmpleados() {
 
     const tr = document.createElement("tr");
 
-    // Construimos la URL final de la foto
     let fotoFinal = "/img/userplaceholder.png";
     if (emp.foto) {
       if (typeof emp.foto === "string" && emp.foto.startsWith("http")) {
-        // Cloudinary u otra URL completa
         fotoFinal = emp.foto;
       } else {
-        // archivo local guardado con multer
         fotoFinal = `/uploads/${emp.foto}`;
       }
     }
@@ -283,7 +286,6 @@ function abrirModalEditar(id) {
   inputEmail.value = emp.email || "";
   inputPassword.value = "";
 
-  // reconstruimos la preview igual que en la tabla
   let fotoPreview = null;
   if (emp.foto) {
     fotoPreview =
@@ -361,10 +363,7 @@ formEmpleado?.addEventListener("submit", (e) => {
   const email = inputEmail.value.trim();
   const password = inputPassword.value.trim();
 
-  // normalizar teléfono a solo dígitos
   telefono = telefono.replace(/\D/g, "");
-
-  // normalizar nombre a solo letras/espacios (por si alguien pega cosas raras)
   nombre = nombre.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
 
   if (!nombre || !telefono || !email || !password) {
@@ -576,7 +575,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Texto del botón de idioma según localStorage
   const langBtn = document.getElementById("banderaIdioma");
   const flagSpan = langBtn?.querySelector(".bandera-container");
 
