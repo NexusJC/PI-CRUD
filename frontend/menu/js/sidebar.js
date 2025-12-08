@@ -136,18 +136,17 @@ ensureAvatarIsLoaded();
     if (btnLogout) {
 
 btnLogout.addEventListener("click", () => {
-  showAlert("¿Seguro que quieres cerrar sesión?", "confirm", () => {
-      localStorage.clear();
-      window.location.href = "../login/login.html";
+  showLogoutConfirm(() => {
+    localStorage.clear();
+    window.location.href = "../login/login.html";
   });
 });
-
 
     }
   }
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   
-  if (sidebarAvatar && user) {
+  if (sidebarAvatar && user) {w
   // Puede venir como URL completa (image_url) o solo el filename (profile_picture)
   let avatarUrl = user.image_url || user.profile_picture;
 
@@ -286,3 +285,32 @@ document.addEventListener("click", (e) => {
     }
   }
 });
+
+function showLogoutConfirm(onYes) {
+  const overlay = document.createElement("div");
+  overlay.className = "alert-overlay";
+
+  overlay.innerHTML = `
+    <div class="alert-box">
+      <div class="alert-message">¿Seguro que quieres cerrar sesión?</div>
+
+      <div class="alert-actions">
+        <button class="alert-btn cancel">Cancelar</button>
+        <button class="alert-btn confirm">Cerrar sesión</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // Botón cancelar
+  overlay.querySelector(".cancel").addEventListener("click", () => {
+    overlay.remove();
+  });
+
+  // Botón confirmar
+  overlay.querySelector(".confirm").addEventListener("click", () => {
+    overlay.remove();
+    if (onYes) onYes();
+  });
+}

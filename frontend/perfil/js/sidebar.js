@@ -77,3 +77,10 @@ document.getElementById('perfilNumeroText').addEventListener('input', function(e
   const cleanedValue = inputValue.replace(/[^0-9\s\+\-\(\)]/g, ''); // Elimina todo lo que no sea números, espacios, +, -, ( o )
   e.target.value = cleanedValue;
 });
+
+btnLogout.addEventListener("click", () => {
+  showLogoutConfirm(() => {
+    localStorage.clear();
+    window.location.href = "../login/login.html";
+  });
+});
