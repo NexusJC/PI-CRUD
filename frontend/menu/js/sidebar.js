@@ -79,33 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const user  = JSON.parse(localStorage.getItem("user") || "null");
 
-  function showConfirmCustom(message, onYes, onNo) {
-    const overlay = document.createElement("div");
-    overlay.className = "custom-confirm-overlay";
-
-    overlay.innerHTML = `
-      <div class="custom-confirm-box">
-        <h3>${message}</h3>
-        <div class="confirm-btn-row">
-          <button class="confirm-btn confirm-no">Cancelar</button>
-          <button class="confirm-btn confirm-yes">Sí, continuar</button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-
-    overlay.querySelector(".confirm-no").addEventListener("click", () => {
-      overlay.remove();
-      if (onNo) onNo();
-    });
-
-    overlay.querySelector(".confirm-yes").addEventListener("click", () => {
-      overlay.remove();
-      if (onYes) onYes();
-    });
-  }
-
 async function ensureAvatarIsLoaded() {
   let u = JSON.parse(localStorage.getItem("user") || "{}");
   const sidebarAvatar = document.getElementById("sidebarAvatar");
@@ -141,7 +114,9 @@ async function ensureAvatarIsLoaded() {
   }
 }
 
-ensureAvatarIsLoaded();   
+ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR LA PÁGINA
+
+
 
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
@@ -160,19 +135,17 @@ ensureAvatarIsLoaded();
       btnLogout.style.display = "none";
     }
 
-    // === CERRAR SESIÓN · SOLO MENÚ ===
-    btnLogout.addEventListener("click", () => {
-      showConfirmCustom(
-        "¿Deseas continuar y cerrar tu sesión?",
-        () => {
+    if (btnLogout) {
+      btnLogout.addEventListener("click", () => {
+        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
+        if (confirmLogout) {
           localStorage.clear();
-          setTimeout(() => {
-            window.location.href = "../login/login.html";
-          }, 500);
+          window.location.href = "../login/login.html";
         }
-      );
-    });
+      });
+    }
   }
+  
   const sidebarAvatar = document.getElementById("sidebarAvatar");
   
   if (sidebarAvatar && user) {
