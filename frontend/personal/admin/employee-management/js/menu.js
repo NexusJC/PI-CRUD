@@ -61,6 +61,7 @@ const inputPassword = document.getElementById("passwordEmpleado");
 // Imagen
 const archivoInput = document.getElementById("archivoEmpleado");
 const preview = document.getElementById("previewImagen");
+const previewIcon = document.getElementById("previewIcon");
 const zonaImagen = document.getElementById("zonaImagen");
 
 // Datos
@@ -79,18 +80,37 @@ function hoyISO() {
 
 function setPreview(src) {
   if (!preview) return;
+
   if (!src) {
+    // Sin imagen -> mostramos ícono
     preview.classList.add("preview-empty");
     preview.removeAttribute("src");
+    if (previewIcon) previewIcon.style.display = "block";
     return;
   }
+
+  // Con imagen -> ocultamos ícono y mostramos foto
   preview.classList.remove("preview-empty");
   preview.src = src;
+  if (previewIcon) previewIcon.style.display = "none";
 }
 
 function resetPreview() {
   setPreview(null);
   if (archivoInput) archivoInput.value = "";
+}
+
+// ==========================
+// SOLO NÚMEROS Y 10 DÍGITOS EN TELÉFONO
+// ==========================
+if (inputTelefono) {
+  inputTelefono.addEventListener("input", () => {
+    // quitar todo lo que no sea dígito
+    let val = inputTelefono.value.replace(/\D/g, "");
+    // limitar a 10
+    if (val.length > 10) val = val.slice(0, 10);
+    inputTelefono.value = val;
+  });
 }
 
 // ================== CARGAR EMPLEADOS DESDE BACKEND ==================
@@ -240,7 +260,7 @@ function abrirModalEditar(id) {
   modalTitulo.textContent = "Editar empleado";
 
   inputNombre.value = emp.nombre || "";
-  inputTelefono.value = emp.telefono || "";
+  inputTelefono.value = (emp.telefono || "").toString();
   inputEmail.value = emp.email || "";
   inputPassword.value = "";
 
@@ -318,12 +338,21 @@ formEmpleado?.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const nombre = inputNombre.value.trim();
-  const telefono = inputTelefono.value.trim();
+  let telefono = inputTelefono.value.trim();
   const email = inputEmail.value.trim();
   const password = inputPassword.value.trim();
 
+  // normalizar teléfono a solo dígitos
+  telefono = telefono.replace(/\D/g, "");
+
   if (!nombre || !telefono || !email || !password) {
     alert("Completa todos los campos.");
+    return;
+  }
+
+  if (telefono.length !== 10) {
+    alert("El número de teléfono debe tener exactamente 10 dígitos.");
+    inputTelefono.focus();
     return;
   }
 
@@ -486,7 +515,6 @@ if (togglePass && inputPassword) {
 
 // ===================================================
 // MODO OSCURO LOCAL PARA EMPLEADOS
-// (independiente, pero visual igual al de Add Dishes)
 // ===================================================
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("adminThemeToggle");
@@ -514,8 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 🔹 SOLO sincronizamos el texto del botón de idioma con el idioma guardado.
-  // La traducción real la maneja translate.js usando la API.
+  // Texto del botón de idioma según localStorage
   const langBtn = document.getElementById("banderaIdioma");
   const flagSpan = langBtn?.querySelector(".bandera-container");
 
@@ -530,7 +557,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   syncFlagLabel();
 
-  // Si cambia preferredLanguage (otra pestaña, etc) actualizamos texto
   window.addEventListener("storage", (e) => {
     if (e.key === "preferredLanguage") {
       syncFlagLabel();
