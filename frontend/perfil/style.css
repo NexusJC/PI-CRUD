@@ -735,7 +735,7 @@ body.dark .confirm-no {
 }
 
 body.dark .confirm-yes {
-  background: var(--topbar);
+  background: #e36842;
   color: #020617;
 }
 
