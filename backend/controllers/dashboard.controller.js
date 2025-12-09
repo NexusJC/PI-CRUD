@@ -87,24 +87,23 @@ export const getOrdersLast7Days = async (req, res) => {
 // ================================
 export const getTopDishes = async (req, res) => {
   try {
-    const [rows] = await pool.query(
-      `
+    const [rows] = await pool.query(`
       SELECT 
-        od.dish_name AS nombre,
-        SUM(od.quantity) AS total_vendidos
-      FROM order_details od
-      GROUP BY od.dish_name
-      ORDER BY total_vendidos DESC
-      LIMIT 5;
-      `
-    );
+        dish_name AS nombre,
+        SUM(quantity) AS vendidos
+      FROM order_details
+      GROUP BY dish_name
+      ORDER BY vendidos DESC
+      LIMIT 5
+    `);
 
     res.json(rows);
   } catch (error) {
-    console.error("Error en getTopDishes:", error);
-    res.status(500).json({ error: "Error obteniendo platillos más vendidos" });
+    console.error("Error cargando top dishes:", error);
+    res.status(500).json({ error: "Error en servidor" });
   }
 };
+
 //datos ingresos totales
 export const getIngresosTotales = async (req, res) => {
   try {
