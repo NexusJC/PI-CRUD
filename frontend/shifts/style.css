@@ -1,180 +1,313 @@
+/* ===========================
+   PALETA Y RESETEO GENERAL
+   =========================== */
+
 :root {
   --topbar: #e36842;
-  --panel: #fff7ea;
-  --card: #ffffff;
-  --text: #2b2b2b;
+  --topbar-grad: linear-gradient(90deg, #e36842, #f97316);
+
+  --bg-light: #fdf6ec;
+  --surface-light: #ffffff;
+  --surface-muted: #fff7ea;
+
+  --text-main: #111827;
+  --text-soft: #4b5563;
+  --text-muted: #6b7280;
+
+  --accent: #e36842;
+  --accent-strong: #f97316;
+
+  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.14);
+  --radius-panel: 22px;
 }
 
-/* Aplicar misma fuente del menú a toda la vista shifts */
-body, .screen-turnos, .panel-izquierdo, .panel-derecho,
-.turno-item, .turno-actual-box, .usuario-actual-info {
-    font-family: 'Poppins', sans-serif !important;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
 
-/*TOPBAR*/
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg-light);
+  color: var(--text-main);
+}
+
+/* Modo oscuro general */
+body.dark {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+/* En tu proyecto ya usas enlaces sin subrayar */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =====================================
+   TOPBAR (MISMO ESTILO QUE EL MENÚ)
+   ===================================== */
+
 .topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  padding: 10px 16px;
-  background: var(--topbar);
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1100;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 22px;
+
+  background: var(--topbar-grad);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
 }
 
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Botón hamburguesa circular como en el menú */
 .menu-toggle {
-  background: none;
-  border: none;
-  font-size: 1.8rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.8px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
   cursor: pointer;
-  color: white;
-  margin-left: 10px; 
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  justify-content: center; 
-  width: 100%;  
-}
-
-.brand-text {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: white;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo {
   width: 40px;
   height: 40px;
+  object-fit: cover;
   border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
 }
-h2{text-align: center;}
-/*SIDEBAR*/
+
+.brand-text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* TOPBAR RIGHT: botón de idioma */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 30px;
+}
+
+/* Botón idioma con icono y texto */
+.idioma-btn {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+}
+
+.idioma-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.bandera-container::before {
+  content: "\f0ac"; /* icono globo */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #fff;
+  font-size: 16px;
+}
+
+.bandera-container::after {
+  content: attr(data-idioma-text);
+  margin-left: 6px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.idioma-btn::after {
+  content: "\f078"; /* caret */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #fff;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+/* Dark mode del topbar */
+body.dark .topbar {
+  background: #020617;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85);
+}
+
+/* ===========================
+   SIDEBAR (MISMO LOOK ADMIN)
+   =========================== */
 
 .sidebar {
-  position:fixed;
-  top:0;
-  left:-300px;
-  width:300px;
-  height:100%;
-  background:linear-gradient(180deg,#fff7ea 0%,#fde3ca 100%);
-  backdrop-filter:blur(10px);
-  box-shadow:6px 0 30px rgba(0,0,0,0.25);
-  border-right:2px solid rgba(255,255,255,0.2);
-  border-top-right-radius:24px;
-  border-bottom-right-radius:24px;
-  transition:all 0.6s ease;
-  z-index:999;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff7ea 0%, #fde3ca 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.25);
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  transition: all 0.6s ease;
+  z-index: 999;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .sidebar.active {
-  left:0;
-  box-shadow:10px 0 40px rgba(0,0,0,0.4);
+  left: 0;
+  box-shadow: 10px 0 40px rgba(0, 0, 0, 0.4);
 }
 
 .sidebar-header {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:18px 22px;
-  border-bottom:1px solid rgba(227,104,66,0.15);
-  color:var(--topbar);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(227, 104, 66, 0.15);
+  color: var(--topbar);
 }
 
 .sidebar-header img {
-  width:42px;
-  height:42px;
-  object-fit:cover;
-  border-radius:50%;
-  border:2px solid rgba(255,255,255,0.7);
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
 }
 
 .sidebar-profile {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:20px;
-  text-align:center;
-  background:rgba(255,255,255,0.3);
-  border-bottom:1px solid rgba(227,104,66,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(227, 104, 66, 0.2);
 }
 
 .sidebar-profile img {
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  object-fit:cover;
-  box-shadow:0 0 12px rgba(227,104,66,0.4);
-  border:2px solid white;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 12px rgba(227, 104, 66, 0.4);
+  border: 2px solid white;
 }
 
 .sidebar-profile h4 {
-  margin:10px 0 4px;
-  font-weight:700;
-  color:var(--topbar);
+  margin: 10px 0 4px;
+  font-weight: 700;
+  color: var(--topbar);
 }
 
 .sidebar-profile p {
-  margin:0;
-  font-size:0.85rem;
-  color:#444;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #444;
 }
 
 .sidebar hr {
-  border:none;
-  border-top:1px solid rgba(227,104,66,0.2);
-  margin:16px 20px;
+  border: none;
+  border-top: 1px solid rgba(227, 104, 66, 0.2);
+  margin: 16px 20px;
 }
 
 .sidebar ul {
-  list-style:none;
-  padding:0;
-  margin:0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.sidebar ul li { margin:6px 0; }
+.sidebar ul li {
+  margin: 6px 0;
+}
 
 .sidebar ul li a {
-  display:flex;
-  align-items:center;
-  gap:16px;
-  padding:14px 28px;
-  font-weight:600;
-  text-decoration:none;
-  color:#3b2d25;
-  border-radius:14px;
-  position:relative;
-  overflow:hidden;
-  transition:all 0.35s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 28px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #3b2d25;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
 }
 
 .sidebar ul li a:hover {
-  background:linear-gradient(90deg,rgba(227,104,66,0.12),rgba(227,104,66,0.25));
-  transform:translateX(8px) scale(1.03);
-  box-shadow:0 6px 14px rgba(227,104,66,0.2);
+  background: linear-gradient(
+    90deg,
+    rgba(227, 104, 66, 0.12),
+    rgba(227, 104, 66, 0.25)
+  );
+  transform: translateX(8px) scale(1.03);
+  box-shadow: 0 6px 14px rgba(227, 104, 66, 0.2);
 }
 
 .sidebar-footer {
-  margin-top:auto;
-  padding:16px 20px;
-  border-top:1px solid rgba(227,104,66,0.2);
-  text-align:center;
-  font-size:0.85rem;
-  color:#333;
-  opacity:0.8;
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(227, 104, 66, 0.2);
+  text-align: center;
+  font-size: 0.85rem;
+  color: #333;
+  opacity: 0.8;
 }
 
-/* Botón modo oscuro en el footer del sidebar */
+.sidebar-footer span {
+  color: var(--topbar);
+  font-weight: 700;
+}
+
+/* Botón modo oscuro */
 .theme-toggle-btn {
   width: 100%;
   display: flex;
@@ -190,256 +323,50 @@ h2{text-align: center;}
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.theme-toggle-btn:hover {
-  background: #f3f4f6;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
 }
 
 .theme-toggle-btn i {
   font-size: 1rem;
 }
 
-
-.sidebar-footer span {
-  color:var(--topbar);
-  font-weight:700;
-}
-
-/* Botón de login */
+/* Botón login */
 .sidebar-login-btn {
-  margin-top:auto;
-  padding:20px;
-  text-align:center;
+  margin-top: auto;
+  padding: 20px;
+  text-align: center;
 }
 
 .btn-login {
-  display:inline-block;
-  padding:10px 20px;
-  background-color:var(--topbar);
-  color:white;
-  font-weight:600;
-  border-radius:16px;
-  text-decoration:none;
-  transition:background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn-login:hover {
-  background-color:#e36842;
-  transform:scale(1.05);
-}
-
-/* ===== MODAL CONFIRM LOGOUT ===== */
-.custom-confirm-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(3px);
-}
-
-.custom-confirm-box {
-  background: #ffffff;
-  padding: 28px 30px;
-  border-radius: 18px;
-  width: 360px;
-  max-width: 90%;
-  text-align: center;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
-  animation: popIn .25s ease-out;
-}
-
-.custom-confirm-box h3 {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #333;
-  margin: 0 0 20px;
-}
-
-.confirm-btn-row {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-}
-
-.confirm-btn {
-  padding: 10px 18px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  transition: 0.2s;
-}
-
-.confirm-no {
-  background: #e6e6e6;
-  color: #3d3d3d;
-}
-
-.confirm-no:hover {
-  background: #d5d5d5;
-}
-
-.confirm-yes {
-  background: #ff6b32;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(255,107,50,0.35);
-}
-
-.confirm-yes:hover {
-  background: #ff5c18;
-  transform: translateY(-2px);
-}
-
-@keyframes popIn {
-  from { transform: scale(0.86); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-/* =============================
-   NUEVO DISEÑO ESTILO PANTALLA TV
-   ============================= */
-
-.screen-turnos {
-  margin-top: 80px;
-  display: grid;
-  grid-template-columns: 32% 68%;
-  height: calc(100vh - 80px);
-  gap: 10px;
-  padding: 10px;
-}
-
-/* PANEL IZQUIERDO ---------------*/
-.panel-izquierdo {
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.encabezado-lista {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: var(--topbar);
-  padding: 12px 20px;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--topbar);
   color: white;
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-
-.turnos-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-}
-
-/* Tarjeta turno pequeño */
-.turno-item {
-  background: #f0f6ff;
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 10px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  cursor: pointer;
-  font-weight: 700;
-  transition: 0.2s ease;
-}
-
-.turno-item:hover {
-  transform: scale(1.02);
-  background: #e3edff;
-}
-
-.turno-item .nombre {
-  grid-column: 1 / 3;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-top: 4px;
-}
-
-
-/* PANEL DERECHO ---------------*/
-
-.panel-derecho {
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-}
-
-.encabezado-actual {
-  background: var(--topbar);
-  color: white;
-  padding: 12px 25px;
-  border-radius: 10px;
-  font-size: 1.3rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-/* Turno actual grande estilo TV */
-.turno-contenedor {
-  flex: 1;
-  background: linear-gradient(90deg, #007BFF, #003b94);
-  margin: 5px 0;
+  font-weight: 600;
   border-radius: 16px;
-  padding: 40px 20px;
-  color: white;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  font-size: 4.5rem;
-  font-weight: 900;
-  place-items: center;
-  text-align: center;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.25);
 }
 
-/* Nombre del usuario debajo */
-.usuario-actual {
-  text-align: center;
-  margin-top: 20px;
+/* Botón logout (igual que menú/admin) */
+.btn-logout {
+  width: 100%;
+  padding: 10px 14px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.usuario-actual h2 {
-  font-size: 2rem;
-  margin: 0;
-  font-weight: 800;
-}
-
-.usuario-actual p {
+.btn-logout i {
   font-size: 1rem;
-  margin-top: 5px;
-  opacity: 0.8;
 }
 
-/* RESPONSIVE --------------------------------*/
-@media (max-width: 900px) {
-  .screen-turnos {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-
-  .turno-contenedor {
-    font-size: 3rem;
-    padding: 30px 10px;
-  }
-}
-
-/* ====== MODO OSCURO PARA EL SIDEBAR (MISMOS COLORES QUE MENÚ) ====== */
+/* Modo oscuro sidebar */
 body.dark .sidebar {
   background: #020617;
   border-right: 1px solid #1f2937;
@@ -460,7 +387,6 @@ body.dark .sidebar ul li a {
 
 body.dark .sidebar ul li a:hover {
   background: #111827;
-  transform: translateX(8px) scale(1.03);
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.9);
 }
 
@@ -469,540 +395,31 @@ body.dark .sidebar-footer {
 }
 
 body.dark .sidebar-footer span {
-  color: #fb923c;  /* mismo acento naranja del menú */
+  color: #fb923c;
 }
 
-body.dark #themeToggle {
+body.dark .theme-toggle-btn {
   background: #111827;
   color: #e5e7eb;
   border: 1px solid #1f2937;
 }
 
-body.dark #themeToggle:hover {
-  background: #020617;
+body.dark .btn-login {
+  background-color: #fb923c;
 }
 
-/* BOTÓN DE CERRAR SESIÓN – MISMO DISEÑO QUE EL MENÚ */
-.btn-logout {
-  width: 100%;
-  padding: 10px 14px;
-  background: #e74c3c;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.25s ease, transform 0.2s ease;
-}
-
-.btn-logout i {
-  font-size: 1rem;
-}
-
-.btn-logout:hover {
-  background: #c0392b;
-  transform: translateY(-2px);
-}
-
-/* MODO OSCURO */
 body.dark .btn-logout {
   background: #b9362a;
-  color: #fff;
 }
 
-body.dark .btn-logout:hover {
-  background: #992b22;
-}
-
-/* ============================================================
-   ESTILO MEJORADO PARA SHIFTS – DISEÑO PROFESIONAL Y MODERNO
-   ============================================================ */
-
-/* Fondo general */
-body {
-  background: #fdf6ec;
-}
-
-/* Títulos */
-.titulo {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 20px;
-  color: #2b2b2b;
-}
-
-.titulo-secundario {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 25px 0 15px;
-}
-
-/* Turno Actual destacado */
-.turno-actual .turno-card.resaltado {
-  background: #ffe5d5;
-  border-radius: 20px;
-  padding: 20px;
-  border: 2px solid #e36842;
-  box-shadow: 0 5px 15px rgba(227, 104, 66, 0.25);
-  transition: transform 0.25s ease, box-shadow 0.3s ease;
-}
-
-.turno-actual .turno-card.resaltado:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(227, 104, 66, 0.35);
-}
-
-/* Tarjetas generales de turnos */
-.turno-card {
-  background: white;
-  border-radius: 18px;
-  padding: 16px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border: 1px solid rgba(0,0,0,0.06);
-}
-
-.turno-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.13);
-}
-
-/* Textos dentro de tarjetas */
-.turno-card h3 {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #2b2b2b;
-}
-
-.turno-card p {
-  margin: 4px 0;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-.turno-card span {
-  display: block;
-  margin-top: 6px;
-  font-weight: bold;
-  color: #2b2b2b;
-}
-
-/* Grid más elegante */
-.lista-turnos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 25px;
-  margin-top: 20px;
-}
-
-.turno-actual {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  margin-top: 15px;
-}
-
-/* ============================
-     MODO OSCURO COMPLETO
-============================ */
-body.dark {
-  background: #0f172a;
-}
-
-body.dark .titulo,
-body.dark .titulo-secundario {
-  color: #e2e8f0;
-}
-
-body.dark .turno-card {
-  background: #1e293b;
-  border: 1px solid #334155;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-body.dark .turno-card:hover {
-  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-}
-
-body.dark .turno-card h3,
-body.dark .turno-card p,
-body.dark .turno-card span {
-  color: #f1f5f9;
-}
-
-body.dark .turno-card.resaltado {
-  background: #2b3445;
-  border: 2px solid #e36842;
-  box-shadow: 0 6px 15px rgba(255, 125, 72, 0.25);
-}
-
-body.dark .turno-card.resaltado:hover {
-  transform: translateY(-4px);
-}
-
-/* === TOPBAR === */
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background: var(--topbar);
-  color: #fff;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1100;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
-}
-
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.menu-toggle {
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: white;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.logo {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.7);
-}
-
-.brand-text {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: white;
-  white-space: nowrap;
-}
-
-/* === TOPBAR RIGHT === */
-
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* === BOTÓN DE IDIOMA === */
-
-.idioma-btn {
-  height: 38px;
-  padding: 0 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.55);
-  background: rgba(255,255,255,0.08);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 6px 14px rgba(15,23,42,0.35);
-  transition: background .15s ease, transform .1s ease, box-shadow .15s ease;
-}
-
-.idioma-btn:hover {
-  background: rgba(255,255,255,0.16);
-  transform: translateY(-1px);
-  box-shadow: 0 9px 20px rgba(15,23,42,0.45);
-}
-
-.bandera-container::before {
-  content: "\f0ac";
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
-  color: #fff;
-  font-size: 16px;
-}
-
-.bandera-container::after {
-  content: attr(data-idioma-text);
-  margin-left: 6px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.idioma-btn::after {
-  content: "\f078";
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
-  color: #fff;
-  font-size: 12px;
-}
-
-/* === BOTÓN TOGGLE EXACTO DEL MENÚ === */
-.menu-toggle {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1.8px solid rgba(255, 255, 255, 0.85);
-  background: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  cursor: pointer;
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
-}
-
-.menu-toggle:hover {
-  background: rgba(255, 255, 255, 0.20);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.32);
-}
-
-/* Ajustar la posición del botón de idioma en SHIFTS */
-.topbar-right {
-  margin-right: 30px; /* Mueve el botón más a la izquierda */
-}
-
-/* ============================================
-   NUEVO DISEÑO SHIFTS — ESTILO PARRILLA AZTECA
-   ============================================ */
-
-.screen-turnos {
-  margin-top: 80px;
-  display: grid;
-  grid-template-columns: 32% 68%;
-  height: calc(100vh - 80px);
-  gap: 16px;
-  padding: 16px;
-}
-
-/* PANEL IZQUIERDO */
-.panel-izquierdo {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 0;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.panel-header-left {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: #e36842;
-  color: #fff;
-  padding: 14px 20px;
-  font-weight: 700;
-  font-size: 1.15rem;
-}
-
-.turnos-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px;
-}
-
-/* TARJETAS DE LISTA */
-.turno-item {
-  background: #fff7ea;
-  border-left: 6px solid #e36842;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 12px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.turno-item:hover {
-  transform: translateX(4px);
-  background: #ffe7d5;
-}
-
-.turno-item .nombre {
-  grid-column: 1 / 3;
-  font-size: 0.9rem;
-  opacity: 0.9;
-  margin-top: 2px;
-  font-weight: 600;
-}
-
-/* PANEL DERECHO */
-.panel-derecho {
-  background: #ffffff;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-  border-radius: 16px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-}
-
-.panel-header-right {
-  background: #e36842;
-  color: #fff;
-  padding: 14px 20px;
-  font-weight: 700;
-  font-size: 1.2rem;
-  border-radius: 12px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-/* TURNO ACTUAL — CAJA GRANDE */
-.turno-actual-box {
-  flex: 1;
-  background: linear-gradient(90deg, #ff875a, #e36842);
-  margin-top: 16px;
-  border-radius: 18px;
-  padding: 50px 20px;
-  color: white;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  place-items: center;
-  text-align: center;
-  font-size: 5rem;
-  font-weight: 900;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.25);
-}
-
-/* NOMBRE DEL CLIENTE */
-.usuario-actual-info {
-  text-align: center;
-  margin-top: 18px;
-}
-
-.usuario-actual-info h2 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin: 0;
-}
-
-.usuario-actual-info p {
-  font-size: 1rem;
-  opacity: 0.8;
-  margin-top: 4px;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .screen-turnos {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-  .turno-actual-box {
-    font-size: 3.3rem;
-  }
-}
-
-/* Quitar animaciones al cambiar entre modo claro / oscuro */
-body.dark *, body * {
-  transition: none !important;
-}
-
-/* ============================================
-   MODO OSCURO — VISTA SHIFTS COMPLETA
-   ============================================ */
-
-/* Fondo general */
-body.dark {
-  background: #0f172a;
-}
-
-/* GRID PRINCIPAL */
-body.dark .screen-turnos {
-  background: #0f172a;
-}
-
-/* PANEL IZQUIERDO */
-body.dark .panel-izquierdo {
-  background: #1e293b;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
-}
-
-/* Encabezado izquierdo */
-body.dark .panel-header-left {
-  background: #e36842;
-  color: white;
-}
-
-/* Tarjetas de lista */
-body.dark .turno-item {
-  background: #1e293b;
-  border-left: 6px solid #e36842;
-  color: #e2e8f0;
-}
-
-body.dark .turno-item:hover {
-  background: #2b3445;
-  transform: translateX(4px);
-}
-
-body.dark .turno-item .nombre {
-  color: #f1f5f9;
-  opacity: .85;
-}
-
-/* Scroll */
-body.dark .turnos-scroll {
-  scrollbar-color: #e36842 #0f172a;
-}
-
-/* PANEL DERECHO */
-body.dark .panel-derecho {
-  background: #1e293b;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
-}
-
-/* Encabezado derecho */
-body.dark .panel-header-right {
-  background: #e36842;
-  color: white;
-}
-
-/* TURNO ACTUAL — caja grande */
-body.dark .turno-actual-box {
-  background: linear-gradient(90deg, #e36842, #8a3d21);
-  color: white;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.45);
-}
-
-/* Nombre del cliente */
-body.dark .usuario-actual-info h2 {
-  color: #f1f5f9;
-}
-
-body.dark .usuario-actual-info p {
-  color: #e2e8f0;
-  opacity: .75;
-}
+/* ==========================
+   MODAL CONFIRMAR LOGOUT
+   ========================== */
 
-/*modal de logout*/
 .custom-confirm-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1017,8 +434,7 @@ body.dark .usuario-actual-info p {
   width: 360px;
   max-width: 90%;
   text-align: center;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
-  animation: popIn .25s ease-out;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
 }
 
 .custom-confirm-box h3 {
@@ -1040,7 +456,6 @@ body.dark .usuario-actual-info p {
   border: none;
   cursor: pointer;
   font-weight: 700;
-  transition: 0.2s;
 }
 
 .confirm-no {
@@ -1048,30 +463,15 @@ body.dark .usuario-actual-info p {
   color: #3d3d3d;
 }
 
-.confirm-no:hover {
-  background: #d5d5d5;
-}
-
 .confirm-yes {
   background: #ff6b32;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(255,107,50,0.35);
 }
 
-.confirm-yes:hover {
-  background: #ff5c18;
-  transform: translateY(-2px);
-}
-
-@keyframes popIn {
-  from { transform: scale(0.86); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-/* Modo oscuro */
+/* Modal en modo oscuro */
 body.dark .custom-confirm-box {
   background: #0f172a;
-  color: white;
+  color: #e5e7eb;
 }
 
 body.dark .confirm-no {
@@ -1079,31 +479,11 @@ body.dark .confirm-no {
   color: #e2e8f0;
 }
 
-body.dark .confirm-no:hover {
-  background: #334155;
-}
-.topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 22px;
-    background: linear-gradient(90deg, var(--topbar), #f97316);
-    color: #ffffff;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
-}
-body.dark .topbar {
-    background: #020617;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85);
-}
-/* =============================
-   NUEVO DISEÑO ESTILO PANTALLA TV
-   ============================= */
+/* ==============================
+   PANTALLA DE TURNOS (LAYOUT)
+   ============================== */
 
+/* Fondo con ligero degradado como admin */
 .screen-turnos {
   margin-top: 80px;
   display: grid;
@@ -1116,18 +496,17 @@ body.dark .topbar {
     radial-gradient(circle at bottom right, rgba(248, 250, 252, 0.9), transparent 55%);
 }
 
-/* PANEL IZQUIERDO (lista de turnos) */
+/* PANEL IZQUIERDO — lista de turnos */
 .panel-izquierdo {
-  background: #ffffff;
-  border-radius: 22px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
+  background: var(--surface-light);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
-/* Encabezado izquierdo */
 .panel-header-left {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1140,21 +519,20 @@ body.dark .topbar {
   color: #78350f;
 }
 
-.panel-header-left span:nth-child(1) {
+.panel-header-left span:first-child {
   text-align: left;
 }
 
-.panel-header-left span:nth-child(2) {
+.panel-header-left span:last-child {
   text-align: right;
 }
 
-/* Scroll lista de turnos */
 .turnos-scroll {
   flex: 1;
   padding: 16px 14px 18px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #e36842 #f3f4f6;
+  scrollbar-color: var(--accent) #f3f4f6;
 }
 
 .turnos-scroll::-webkit-scrollbar {
@@ -1167,13 +545,13 @@ body.dark .topbar {
 }
 
 .turnos-scroll::-webkit-scrollbar-thumb {
-  background: #e36842;
+  background: var(--accent);
   border-radius: 999px;
 }
 
 /* Tarjeta turno pequeño */
 .turno-item {
-  background: #fff7ea;
+  background: var(--surface-muted);
   border-radius: 16px;
   padding: 12px 14px;
   margin-bottom: 10px;
@@ -1187,13 +565,9 @@ body.dark .topbar {
   font-size: 0.98rem;
   border: 1px solid rgba(248, 113, 37, 0.22);
   box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
-  transition:
-    transform 0.16s ease,
-    box-shadow 0.2s ease,
-    background 0.16s ease;
 }
 
-.turno-item span:nth-child(1) {
+.turno-item span:first-child {
   text-align: left;
 }
 
@@ -1203,32 +577,25 @@ body.dark .topbar {
 
 .turno-item .nombre {
   grid-column: 1 / 3;
-  font-size: 0.80rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: #4b5563;
+  color: var(--text-soft);
   opacity: 0.9;
 }
 
-.turno-item:hover {
-  transform: translateY(-2px);
-  background: #ffe1c3;
-  box-shadow: 0 6px 16px rgba(248, 113, 37, 0.26);
-}
-
-/* PANEL DERECHO (turno actual) */
+/* PANEL DERECHO — turno actual grande */
 .panel-derecho {
-  background: #ffffff;
-  border-radius: 22px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
+  background: var(--surface-light);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-soft);
   padding: 18px 20px 22px;
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
-/* Encabezado derecho */
 .panel-header-right {
-  background: radial-gradient(circle at top left, #e36842, #fb923c);
+  background: radial-gradient(circle at top left, var(--accent), var(--accent-strong));
   color: #ffffff;
   padding: 14px 20px;
   font-weight: 700;
@@ -1240,15 +607,15 @@ body.dark .topbar {
   box-shadow: 0 12px 30px rgba(248, 113, 37, 0.55);
 }
 
-.panel-header-right span:nth-child(1) {
+.panel-header-right span:first-child {
   text-align: left;
 }
 
-.panel-header-right span:nth-child(2) {
+.panel-header-right span:last-child {
   text-align: right;
 }
 
-/* TURNO ACTUAL — caja grande */
+/* Caja con turno actual (tipo pantalla TV) */
 .turno-actual-box {
   flex: 1;
   margin-top: 18px;
@@ -1270,17 +637,6 @@ body.dark .topbar {
     inset 0 0 40px rgba(0, 0, 0, 0.25);
 }
 
-/* Por si quieres marcar número/caja con clases en JS */
-.turno-actual-box .turno-numero {
-  font-size: clamp(3.4rem, 5vw, 4.6rem);
-}
-
-.turno-actual-box .turno-caja {
-  font-size: 1.2rem;
-  font-weight: 600;
-  opacity: 0.9;
-}
-
 /* Nombre del cliente debajo */
 .usuario-actual-info {
   text-align: center;
@@ -1297,10 +653,13 @@ body.dark .topbar {
 .usuario-actual-info p {
   font-size: 0.98rem;
   margin-top: 4px;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
-/* RESPONSIVE */
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
 @media (max-width: 900px) {
   .screen-turnos {
     grid-template-columns: 1fr;
@@ -1314,4 +673,67 @@ body.dark .topbar {
     grid-template-columns: 1fr;
     padding: 32px 18px;
   }
+}
+
+/* ==============================
+   MODO OSCURO ESPECÍFICO SHIFTS
+   ============================== */
+
+body.dark .screen-turnos {
+  background: radial-gradient(circle at top left, #020617, transparent 55%),
+              radial-gradient(circle at bottom right, #020617, transparent 55%);
+}
+
+body.dark .panel-izquierdo,
+body.dark .panel-derecho {
+  background: #0f172a;
+  border-color: #1f2937;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+}
+
+body.dark .panel-header-left {
+  background: linear-gradient(90deg, #111827, #020617);
+  color: #f9fafb;
+  border-bottom-color: #1f2937;
+}
+
+body.dark .turnos-scroll {
+  scrollbar-color: #fb923c #020617;
+}
+
+body.dark .turno-item {
+  background: #020617;
+  border-color: #fb923c;
+  color: #e5e7eb;
+}
+
+body.dark .turno-item .nombre {
+  color: #e5e7eb;
+}
+
+body.dark .panel-header-right {
+  background: radial-gradient(circle at top left, #fb923c, #f97316);
+}
+
+body.dark .turno-actual-box {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(248, 250, 252, 0.18), transparent 55%),
+    linear-gradient(110deg, #f97316, #ea580c 55%, #b91c1c);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.85),
+    inset 0 0 40px rgba(0, 0, 0, 0.45);
+}
+
+body.dark .usuario-actual-info h2 {
+  color: #f9fafb;
+}
+
+body.dark .usuario-actual-info p {
+  color: #e5e7eb;
+}
+
+/* Quitar animación fea al cambiar modo claro/oscuro */
+body.dark *,
+body * {
+  transition: none !important;
 }
