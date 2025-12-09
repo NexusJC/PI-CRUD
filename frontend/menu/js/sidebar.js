@@ -1,3 +1,6 @@
+// ===============================
+// ALERTA PERSONALIZADA LOGOUT (MENÚ/USUARIO)
+// ===============================
 function showLogoutConfirmMenu(onYes) {
   const overlay = document.createElement("div");
   overlay.className = "logout-modal-menu";
@@ -102,49 +105,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.addEventListener("dishesLoaded", initCategoryFilter);
-
   setTimeout(initCategoryFilter, 1200);
 
   /* ----- SESIÓN: LOGIN / LOGOUT + NOMBRE ----- */
   const token = localStorage.getItem("token");
   const user  = JSON.parse(localStorage.getItem("user") || "null");
 
-async function ensureAvatarIsLoaded() {
-  let u = JSON.parse(localStorage.getItem("user") || "{}");
-  const sidebarAvatar = document.getElementById("sidebarAvatar");
+  async function ensureAvatarIsLoaded() {
+    let u = JSON.parse(localStorage.getItem("user") || "{}");
+    const sidebarAvatar = document.getElementById("sidebarAvatar");
 
-  // Si ya existe imagen válida → úsala
-  if (u.image_url && sidebarAvatar) {
-    sidebarAvatar.src = u.image_url;
-    return;
+    // Si ya existe imagen válida → úsala
+    if (u.image_url && sidebarAvatar) {
+      sidebarAvatar.src = u.image_url;
+      return;
+    }
+
+    // Si no hay token, no hacemos nada
+    if (!token) return;
+
+    try {
+      const res = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) return;
+
+      const data = await res.json();
+
+      // Guardar la imagen en localStorage
+      u.image_url = data.image_url;
+      localStorage.setItem("user", JSON.stringify(u));
+
+      // Aplicarla al sidebar
+      if (sidebarAvatar) sidebarAvatar.src = data.image_url;
+
+    } catch (err) {
+      console.warn("Error cargando avatar:", err);
+    }
   }
 
-  // Si no hay token, no hacemos nada
-  if (!token) return;
-
-  try {
-    const res = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (!res.ok) return;
-
-    const data = await res.json();
-
-    // Guardar la imagen en localStorage
-    u.image_url = data.image_url;
-    localStorage.setItem("user", JSON.stringify(u));
-
-    // Aplicarla al sidebar
-    if (sidebarAvatar) sidebarAvatar.src = data.image_url;
-
-  } catch (err) {
-    console.warn("Error cargando avatar:", err);
-  }
-}
-
-ensureAvatarIsLoaded();
+  ensureAvatarIsLoaded();
 
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
@@ -162,35 +164,46 @@ ensureAvatarIsLoaded();
       btnLogin.style.display  = "block";
       btnLogout.style.display = "none";
     }
-    
+
+    // ====== LOGOUT MENÚ / USUARIO (con bloqueo de "Atrás") ======
     if (btnLogout) {
       const isPerfilPage = window.location.pathname.includes("/perfil/");
       if (!isPerfilPage) {
         btnLogout.addEventListener("click", (e) => {
           e.preventDefault();
-          
+
           showLogoutConfirmMenu(() => {
-            localStorage.clear();
-            window.location.href = "../login/login.html";
+            // Limpia toda la sesión
+            try {
+              localStorage.clear();
+              if (window.sessionStorage) sessionStorage.clear();
+            } catch (err) {
+              console.warn("Error limpiando storage en logout:", err);
+            }
+
+            // Usamos replace para que la página actual NO quede en el historial.
+            // Así, al darle a "Atrás" no regresa a la pestaña donde cerraste sesión.
+            const loginUrl = "../login/login.html";
+            window.location.replace(loginUrl);
           });
         });
       }
     }
   }
-  
-  const sidebarAvatar = document.getElementById("sidebarAvatar");
-  
-  if (sidebarAvatar && user) {
-  // Puede venir como URL completa (image_url) o solo el filename (profile_picture)
-  let avatarUrl = user.image_url || user.profile_picture;
 
-  if (avatarUrl) {
-    if (!avatarUrl.startsWith("http")) {
-      avatarUrl = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
+  const sidebarAvatar = document.getElementById("sidebarAvatar");
+
+  if (sidebarAvatar && user) {
+    // Puede venir como URL completa (image_url) o solo el filename (profile_picture)
+    let avatarUrl = user.image_url || user.profile_picture;
+
+    if (avatarUrl) {
+      if (!avatarUrl.startsWith("http")) {
+        avatarUrl = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
+      }
+      sidebarAvatar.src = avatarUrl;
     }
-    sidebarAvatar.src = avatarUrl;
   }
-}
 
   // ----- Nombre del usuario en el sidebar -----
   if (sidebarUserName && sidebarUserInfo) {
@@ -204,8 +217,6 @@ ensureAvatarIsLoaded();
       sidebarUserInfo.textContent = "¡Explora el menú!";
     }
   }
-
-
 
   if (usernameText && usernameValue && usernameDefault) {
     if (token && user) {
@@ -247,7 +258,7 @@ ensureAvatarIsLoaded();
             <i class="fas fa-pizza-slice" data-no-translate></i>
             <span>Menú</span>
           </a>
-        </li>      `;
+        </li>`;
     } else if (role === "usuario") {
       menuList.innerHTML = `  
         <li data-no-translate>
