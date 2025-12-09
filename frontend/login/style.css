@@ -576,12 +576,37 @@ footer p {
   }
 
 }
-/* Logo pequeño en tarjetas de iniciar / registrar sesión */
-.login-logo {
-  display: block;
-  width: 80px;        /* tamaño pequeño */
+.login{
+  width:420px; 
+  height:450px; 
+  background:rgb(255, 255, 255, 0.8); 
+  border-radius: 35px; 
+  border: 2px solid rgba(74,43,22,.45); 
+  padding: 24px 20px 22px;
+  text-align: center;   
+  align-items: center;
+  position: relative; /* para colocar el logo en la esquina */
+}
+
+.login-registro{
+  width:420px; 
+  height:450px; 
+  background:rgb(255, 255, 255, 0.8); 
+  border-radius: 35px; 
+  border: 2px solid rgba(74,43,22,.45); 
+  padding: 50px 20px 22px;
+  text-align: center;
+  position: relative; /* para colocar el logo en la esquina */
+}
+
+/* Logo pequeño en esquina dentro de las tarjetas de login/registro */
+.login-logo-corner{
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 48px;
   height: auto;
-  margin: 8px auto 16px;
   object-fit: contain;
+  pointer-events: none;
   background: transparent;
 }
