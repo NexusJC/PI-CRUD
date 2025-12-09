@@ -16,11 +16,10 @@ async function cargarPedidos() {
     const user = JSON.parse(localStorage.getItem("user"));
     const cajaId = user?.caja_id;
 
-        if (!cajaId) {
+    if (!cajaId) {
       console.error("❌ Empleado sin caja asignada.");
       return;
     }
-
 
     // 🔥 Ahora cargamos SOLO los pedidos de esa caja
     const res = await fetch(`/api/orders/list?caja_id=${cajaId}`);
@@ -43,12 +42,24 @@ async function cargarPedidos() {
         };
       });
 
+    // 🔧 Si por cualquier motivo ningún pedido viene como "en_proceso",
+    // marcamos el PRIMERO como "en_proceso" para no quedarnos trabados.
+    const numerosPedidos = Object.keys(pedidosData).sort(
+      (a, b) => Number(a) - Number(b)
+    );
+    const hayEnProceso = numerosPedidos.some(
+      (n) => pedidosData[n].estado === "en_proceso"
+    );
+    if (!hayEnProceso && numerosPedidos.length > 0) {
+      const primero = numerosPedidos[0];
+      pedidosData[primero].estado = "en_proceso";
+    }
+
     await cargarDetallesDeCadaPedido();
     renderizarCarrusel();
 
     const first = Object.keys(pedidosData)[0];
     if (first) seleccionarPedido(first);
-
   } catch (err) {
     console.error("Error cargando pedidos:", err);
     console.warn("⚠ No se pudieron cargar los pedidos:", err);
@@ -57,20 +68,19 @@ async function cargarPedidos() {
 let cargando = false;
 
 async function actualizarPedidos() {
-    if (cargando) return; // evita duplicados
-    cargando = true;
+  if (cargando) return; // evita duplicados
+  cargando = true;
 
-    try {
-        await cargarPedidos(); 
-    } catch (err) {
-        console.warn("⚠ Error actualizando pedidos:", err);
-    } finally {
-        cargando = false;
-    }
+  try {
+    await cargarPedidos();
+  } catch (err) {
+    console.warn("⚠ Error actualizando pedidos:", err);
+  } finally {
+    cargando = false;
+  }
 }
 
 setInterval(actualizarPedidos, 3000);
-
 
 /* ============================================================
    📥 CARGAR PLATILLOS (para NUEVO PEDIDO)
@@ -393,11 +403,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   inicializarNuevoPedidoModal();
 
   // Mostrar caja en la parte superior
-const user = JSON.parse(localStorage.getItem("user"));
-const cajaSpan = document.getElementById("infoCajaEmpleado");
-if (cajaSpan && user?.caja_id) {
-  cajaSpan.textContent = `Caja ${user.caja_id}`;
-}
+  const user = JSON.parse(localStorage.getItem("user"));
+  const cajaSpan = document.getElementById("infoCajaEmpleado");
+  if (cajaSpan && user?.caja_id) {
+    cajaSpan.textContent = `Caja ${user.caja_id}`;
+  }
 
   console.log("Panel de cocina listo con pedidos reales");
 });
@@ -924,7 +934,9 @@ function renderItemsEdicion() {
           </div>
           <div class="edit-item-controls">
             <button type="button" class="edit-qty-btn edit-qty-dec">−</button>
-            <input type="number" class="edit-qty-input" min="1" max="99" value="${item.cantidad}">
+            <input type="number" class="edit-qty-input" min="1" max="99" value="${
+              item.cantidad
+            }">
             <button type="button" class="edit-qty-btn edit-qty-inc">+</button>
             <button type="button" class="edit-remove-btn">
               <i class="fa-solid fa-trash"></i>
@@ -1032,41 +1044,41 @@ async function guardarCambiosEdicion() {
     alert("No se pudo actualizar el pedido.");
   }
 }
+
 // =========================
 // SESIÓN / LOGOUT EMPLEADO (versión completa)
 // =========================
 
 // URL del login según entorno
 function getLoginUrl() {
-    const isLocal =
-      location.hostname === "127.0.0.1" ||
-      location.hostname === "localhost";
+  const isLocal =
+    location.hostname === "127.0.0.1" || location.hostname === "localhost";
 
-    return isLocal ? "../../../login/login.html" : "/login/login.html";
+  return isLocal ? "../../../login/login.html" : "/login/login.html";
 }
 
 // Leer y validar el usuario guardado
 function readCurrentUser() {
-    try {
-        const raw = localStorage.getItem("user");
-        return raw ? JSON.parse(raw) : null;
-    } catch (e) {
-        console.error("Error parseando user:", e);
-        return null;
-    }
+  try {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    console.error("Error parseando user:", e);
+    return null;
+  }
 }
 
 // Verificar que exista sesión de EMPLEADO
 function ensureEmployeeSession() {
-    const token = localStorage.getItem("token");
-    const user = readCurrentUser();
+  const token = localStorage.getItem("token");
+  const user = readCurrentUser();
 
-    if (!token || !user || user.role !== "empleado") {
-        window.location.replace(getLoginUrl());
-        return null;
-    }
+  if (!token || !user || user.role !== "empleado") {
+    window.location.replace(getLoginUrl());
+    return null;
+  }
 
-    return user;
+  return user;
 }
 
 const empleado = ensureEmployeeSession(); // se valida al cargar
@@ -1078,25 +1090,25 @@ const sidebarUserName = document.getElementById("sidebarUserName");
 const sidebarUserImg = document.getElementById("sidebarUserImg");
 
 if (empleado && sidebarUserName) {
-    sidebarUserName.textContent = empleado.name || "Empleado";
+  sidebarUserName.textContent = empleado.name || "Empleado";
 
-    if (empleado.profile_picture && sidebarUserImg) {
-        sidebarUserImg.src = "/uploads/" + empleado.profile_picture;
-    }
+  if (empleado.profile_picture && sidebarUserImg) {
+    sidebarUserImg.src = "/uploads/" + empleado.profile_picture;
+  }
 }
 
 // =========================
 // PROTEGER CON BFCACHE (botón atrás del navegador)
 // =========================
 window.addEventListener("pageshow", (event) => {
-    if (event.persisted) {
-        const token = localStorage.getItem("token");
-        const user = readCurrentUser();
+  if (event.persisted) {
+    const token = localStorage.getItem("token");
+    const user = readCurrentUser();
 
-        if (!token || !user || user.role !== "empleado") {
-            window.location.replace(getLoginUrl());
-        }
+    if (!token || !user || user.role !== "empleado") {
+      window.location.replace(getLoginUrl());
     }
+  }
 });
 
 // =========================
@@ -1105,37 +1117,39 @@ window.addEventListener("pageshow", (event) => {
 const logoutBtn = document.getElementById("logoutBtn");
 
 if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-        const isDark = document.body.classList.contains("admin-dark");
+  logoutBtn.addEventListener("click", () => {
+    const isDark = document.body.classList.contains("admin-dark");
 
-        const modalBg      = isDark ? "#020617" : "#ffffff";
-        const modalText    = isDark ? "#e5e7eb" : "#111827";
-        const modalShadow  = isDark ? "0 8px 25px rgba(0,0,0,0.65)" : "0 8px 25px rgba(0,0,0,0.25)";
+    const modalBg = isDark ? "#020617" : "#ffffff";
+    const modalText = isDark ? "#e5e7eb" : "#111827";
+    const modalShadow = isDark
+      ? "0 8px 25px rgba(0,0,0,0.65)"
+      : "0 8px 25px rgba(0,0,0,0.25)";
 
-        const cancelBg     = isDark ? "#020617" : "#f9fafb";
-        const cancelBorder = isDark ? "#1f2937" : "#e5e7eb";
-        const cancelColor  = isDark ? "#e5e7eb" : "#111827";
+    const cancelBg = isDark ? "#020617" : "#f9fafb";
+    const cancelBorder = isDark ? "#1f2937" : "#e5e7eb";
+    const cancelColor = isDark ? "#e5e7eb" : "#111827";
 
-        const confirmGradient = isDark
-            ? "linear-gradient(90deg,#b91c1c,#f97316)"
-            : "linear-gradient(90deg,#ef4444,#f97316)";
+    const confirmGradient = isDark
+      ? "linear-gradient(90deg,#b91c1c,#f97316)"
+      : "linear-gradient(90deg,#ef4444,#f97316)";
 
-        const confirmShadow = isDark
-          ? "0 0 0 rgba(0,0,0,0)"
-          : "0 4px 12px rgba(0,0,0,0.25)";
+    const confirmShadow = isDark
+      ? "0 0 0 rgba(0,0,0,0)"
+      : "0 4px 12px rgba(0,0,0,0.25)";
 
-        // Crear modal
-        const modal = document.createElement("div");
-        modal.id = "logoutConfirmModal";
-        modal.style.position = "fixed";
-        modal.style.inset = "0";
-        modal.style.background = "rgba(0,0,0,0.55)";
-        modal.style.display = "flex";
-        modal.style.alignItems = "center";
-        modal.style.justifyContent = "center";
-        modal.style.zIndex = "9999";
+    // Crear modal
+    const modal = document.createElement("div");
+    modal.id = "logoutConfirmModal";
+    modal.style.position = "fixed";
+    modal.style.inset = "0";
+    modal.style.background = "rgba(0,0,0,0.55)";
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+    modal.style.zIndex = "9999";
 
-        modal.innerHTML = `
+    modal.innerHTML = `
         <div style="
           background:${modalBg};
           color:${modalText};
@@ -1176,32 +1190,32 @@ if (logoutBtn) {
         </div>
         `;
 
-        document.body.appendChild(modal);
+    document.body.appendChild(modal);
 
-        // CANCELAR = cerrar modal
-        document.getElementById("cancelLogout").onclick = () => modal.remove();
+    // CANCELAR = cerrar modal
+    document.getElementById("cancelLogout").onclick = () => modal.remove();
 
-        // CONFIRMAR = cerrar sesión
-        document.getElementById("confirmLogout").onclick = () => {
-            // limpiar sesión completa
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            localStorage.removeItem("preferredLanguage");
-            localStorage.removeItem("admin-theme");
-            localStorage.removeItem("admin-sidebar-open");
+    // CONFIRMAR = cerrar sesión
+    document.getElementById("confirmLogout").onclick = () => {
+      // limpiar sesión completa
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("preferredLanguage");
+      localStorage.removeItem("admin-theme");
+      localStorage.removeItem("admin-sidebar-open");
 
-            const box = modal.querySelector("div");
-            box.innerHTML = `
+      const box = modal.querySelector("div");
+      box.innerHTML = `
               <p style="font-size:1rem;margin-bottom:12px;color:${modalText}">
                 Cerrando sesión...
               </p>
             `;
 
-            setTimeout(() => {
-                window.location.replace(getLoginUrl());
-            }, 500);
-        };
-    });
+      setTimeout(() => {
+        window.location.replace(getLoginUrl());
+      }, 500);
+    };
+  });
 }
 
 /* ============================================================
@@ -1262,7 +1276,11 @@ function showKitchenConfirm(message, onYes, options = {}) {
    🧾 IMPRIMIR TICKET DEL PEDIDO (COCINA)
 ============================================================ */
 function imprimirTicketPedido(pedidoSnapshot) {
-  if (!pedidoSnapshot || !Array.isArray(pedidoSnapshot.ordenes) || !pedidoSnapshot.ordenes.length) {
+  if (
+    !pedidoSnapshot ||
+    !Array.isArray(pedidoSnapshot.ordenes) ||
+    !pedidoSnapshot.ordenes.length
+  ) {
     alert("No hay información de productos para imprimir este ticket.");
     return;
   }
@@ -1281,9 +1299,9 @@ function imprimirTicketPedido(pedidoSnapshot) {
   let totalGeneral = 0;
 
   items.forEach((i) => {
-    const lineTotal = i.unit * i.qty;         // total con IVA
-    const ivaProd = lineTotal * IVA_RATE;     // parte de IVA
-    const baseProd = lineTotal - ivaProd;     // base sin IVA
+    const lineTotal = i.unit * i.qty; // total con IVA
+    const ivaProd = lineTotal * IVA_RATE; // parte de IVA
+    const baseProd = lineTotal - ivaProd; // base sin IVA
 
     subtotalCalc += baseProd;
     ivaCalc += ivaProd;
@@ -1343,7 +1361,6 @@ function imprimirTicketPedido(pedidoSnapshot) {
           height: 70px;
           border-radius: 50%;
           overflow: hidden;
-          border: 2px solid #f97316;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1420,11 +1437,36 @@ function imprimirTicketPedido(pedidoSnapshot) {
           font-weight: 700;
         }
 
-        .footer-text {
+        .policy-summary {
+          margin-top: 16px;
           font-size: 11px;
+          line-height: 1.35;
+          color: #555;
+        }
+
+        .policy-summary ul {
+          margin: 0;
+          padding-left: 16px;
+        }
+
+        .policy-summary li {
+          margin-bottom: 2px;
+        }
+
+        .footer-text {
+          font-size: 13px;
           text-align: center;
-          margin-top: 10px;
-          color: #666;
+          margin-top: 18px;
+          color: #444;
+        }
+
+        @media print {
+          body { padding: 0; }
+          .ticket {
+            border: none;
+            width: 100%;
+            padding: 10px;
+          }
         }
       </style>
     </head>
@@ -1493,6 +1535,16 @@ function imprimirTicketPedido(pedidoSnapshot) {
           </div>
         </div>
 
+        <div class="policy-summary">
+          <ul>
+            <li>Los turnos y reservaciones dependen de disponibilidad; se recomienda llegar con anticipación.</li>
+            <li>Las cancelaciones de pedidos solo son válidas antes de que la orden entre en preparación.</li>
+            <li>El pago se realiza antes de recibir el pedido; aceptamos efectivo y tarjeta.</li>
+            <li>Los datos personales se usan solo para la gestión interna del restaurante y no se comparten sin consentimiento.</li>
+            <li>Las políticas pueden actualizarse; la versión completa está disponible en el sitio web y en caja.</li>
+          </ul>
+        </div>
+
         <div class="footer-text">
           ¡Gracias por tu visita!<br />
           Vuelve pronto a La Parrilla Azteca.
@@ -1504,12 +1556,19 @@ function imprimirTicketPedido(pedidoSnapshot) {
 
   const printWindow = window.open("", "_blank", "width=600,height=800");
   if (!printWindow) {
-    alert("No se pudo abrir la ventana de impresión. Revisa si el navegador bloquea ventanas emergentes.");
+    alert(
+      "No se pudo abrir la ventana de impresión. Revisa si el navegador bloquea ventanas emergentes."
+    );
     return;
   }
 
+  printWindow.document.open();
   printWindow.document.write(ticketHTML);
   printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
+
+  // Esperamos a que cargue todo (incluyendo el logo) antes de imprimir
+  printWindow.onload = () => {
+    printWindow.focus();
+    printWindow.print();
+  };
 }
