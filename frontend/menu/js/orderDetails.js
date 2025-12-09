@@ -697,6 +697,11 @@ if (modal && modalImg && modalTitle && modalDesc && modalAddBtn && modalClose) {
   document.querySelectorAll(".menu-card img").forEach(img => {
     img.style.cursor = "pointer";
     img.addEventListener("click", () => {
+      if (!token || !user) {
+        mostrarAlertaLogin();
+        return;
+      }
+
       const card = img.closest(".menu-card");
       modalImg.src = img.src;
       modalTitle.textContent =
