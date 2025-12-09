@@ -344,7 +344,8 @@ async function cargarDetallesDeCadaPedido() {
       const data = await res.json();
 
       pedidosData[num].ordenes = (data.items || []).map((i) => ({
-        nombre: i.dish_name,
+        // 🟢 AQUÍ EL CAMBIO: tomamos name o dish_name
+        nombre: i.name || i.dish_name || "Platillo",
         cantidad: Number(i.quantity),
         precio: Number(i.price),
         // aceptamos "comments" o "comment" desde el backend
