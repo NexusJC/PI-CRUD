@@ -5,7 +5,6 @@ function showLogoutConfirmMenu(onYes) {
   overlay.innerHTML = `
     <div class="logout-modal-menu-box">
       <h3>¿Seguro que quieres cerrar sesión?</h3>
-      <p>Se cerrará tu sesión actual en La Parrilla Azteca.</p>
       <div class="logout-modal-menu-actions">
         <button class="logout-modal-menu-btn cancel">Cancelar</button>
         <button class="logout-modal-menu-btn confirm">Sí, cerrar sesión</button>
