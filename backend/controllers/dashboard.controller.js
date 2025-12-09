@@ -105,3 +105,36 @@ export const getTopDishes = async (req, res) => {
     res.status(500).json({ error: "Error obteniendo platillos más vendidos" });
   }
 };
+//datos ingresos totales
+export const getIngresosTotales = async (req, res) => {
+  try {
+    const [[rows]] = await pool.query(`
+      SELECT SUM(total) AS ingresos
+      FROM orders
+      WHERE status = 'entregado'
+    `);
+
+    res.json({
+      ingresos: rows.ingresos || 0
+    });
+  } catch (error) {
+    console.error("Error en getIngresosTotales:", error);
+    res.status(500).json({ error: "Error obteniendo ingresos totales" });
+  }
+};
+//datos ordenes hoy
+export const getOrdenesHoy = async (req, res) => {
+  try {
+    const [[rows]] = await pool.query(`
+      SELECT COUNT(*) AS ordenesHoy
+      FROM orders
+      WHERE DATE(created_at) = CURDATE()
+    `);
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error en getOrdenesHoy:", error);
+    res.status(500).json({ error: "Error obteniendo órdenes de hoy" });
+  }
+};
+

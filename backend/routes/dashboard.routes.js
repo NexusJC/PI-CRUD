@@ -13,7 +13,10 @@ router.get("/stats", getDashboardStats);
 // ===== NUEVA RUTA: Órdenes en los últimos 7 días =====
 router.get("/orders-last-7-days", getOrdersLast7Days);
 
-// ===== NUEVA RUTA: Platillos más vendidos =====
+//platillos más vendidos
 router.get("/top-dishes", getTopDishes);
-
+//Ingresos totales
+router.get("/ingresos", getIngresosTotales);
+//Ordenes hoy
+router.get("/ordenes-hoy", getOrdenesHoy);
 export default router;

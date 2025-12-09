@@ -203,24 +203,34 @@
 
     <!-- MINI CARDS INFERIORES (placeholders vacíos) -->
     <section class="dashboard-bottom">
-      <article class="mini-card">
-        <h4>Ingresos totales</h4>
-        <p class="mini-value">—</p>
-        <p class="mini-caption">Conecta /api/dashboard/revenue</p>
-      </article>
 
-      <article class="mini-card">
-        <h4>Órdenes del día</h4>
-        <p class="mini-value">—</p>
-        <p class="mini-caption">Conecta /api/dashboard/orders-today</p>
-      </article>
+  <!-- INGRESOS TOTALES -->
+  <article class="mini-card">
+    <h4>Ingresos totales</h4>
+    <p class="mini-value" id="ingresosTotales">—</p>
+    <p class="mini-caption">Total de ventas completadas</p>
+  </article>
 
-      <article class="mini-card">
-        <h4>Platillos destacados</h4>
-        <p class="mini-value">—</p>
-        <p class="mini-caption">Conecta /api/dashboard/top-dishes</p>
-      </article>
-    </section>
+  <!-- ÓRDENES DEL DÍA -->
+  <article class="mini-card">
+    <h4>Órdenes del día</h4>
+    <p class="mini-value" id="ordenesHoy">—</p>
+    <p class="mini-caption">Pedidos generados hoy</p>
+  </article>
+
+  <!-- PLATILLOS DESTACADOS -->
+  <article class="mini-card">
+    <h4>Platillos destacados</h4>
+
+    <!-- Aquí se pintará la lista -->
+    <div id="topPlatillos" class="top-platillos-list">Cargando...</div>
+
+    <p class="mini-caption">Platillos más vendidos</p>
+  </article>
+
+</section>
+
+
   </main>
 
   <!-- JS -->

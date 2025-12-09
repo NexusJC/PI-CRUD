@@ -271,10 +271,104 @@ if (logoutBtn) {
           </p>
         `;
       }
-
       setTimeout(() => {
         window.location.replace(getLoginUrl());
       }, 500);
     };
   });
+  // ===============================
+// FUNCIONES DEL DASHBOARD
+// ===============================
 }
+// Órdenes del día
+async function cargarOrdenesHoy() {
+  try {
+    const res = await fetch("/api/dashboard/ordenes-hoy");
+    const data = await res.json();
+    const el = document.getElementById("ordenesHoy");
+    if (el) el.textContent = data.ordenesHoy ?? 0;
+  } catch (err) {
+    console.error("Error cargando órdenes del día:", err);
+  }
+}
+
+// Ingresos totales
+async function cargarIngresosTotales() {
+  try {
+    const res = await fetch("/api/dashboard/ingresos");
+    const data = await res.json();
+    const el = document.getElementById("ingresosTotales");
+    if (el) el.textContent = data.ingresos ? `$${data.ingresos}` : "$0";
+  } catch (err) {
+    console.error("Error cargando ingresos:", err);
+  }
+}
+
+// Platillos destacados (lista)
+async function cargarTopPlatillos() {
+  try {
+    const res = await fetch("/api/dashboard/top-dishes");
+    const data = await res.json();
+    const cont = document.getElementById("topPlatillos");
+
+    if (!cont) return;
+
+    if (!data.length) {
+      cont.innerHTML = "<p>No hay ventas registradas aún.</p>";
+      return;
+    }
+
+    cont.innerHTML = data.map(p => `
+      <div class="top-item">
+        <span>${p.nombre}</span>
+        <strong>${p.vendidos}</strong>
+      </div>
+    `).join("");
+
+  } catch (err) {
+    console.error("Error cargando top platillos:", err);
+  }
+}
+
+// Gráfica de platillos más vendidos
+async function renderTopDishesChart() {
+  try {
+    const res = await fetch("/api/dashboard/top-dishes");
+    const data = await res.json();
+    const canvas = document.getElementById("chartTopDishes");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: data.map(d => d.nombre),
+        datasets: [
+          {
+            data: data.map(d => d.vendidos),
+            backgroundColor: "#f97316"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+
+  } catch (err) {
+    console.error("Error renderizando gráfica top dishes:", err);
+  }
+}
+
+
+// ===============================
+// EJECUTAR DASHBOARD AL CARGAR
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+  cargarOrdenesHoy();
+  cargarIngresosTotales();
+  cargarTopPlatillos();
+  renderTopDishesChart();
+});
