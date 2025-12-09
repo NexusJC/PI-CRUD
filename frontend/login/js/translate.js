@@ -119,8 +119,27 @@ function decodeHTMLEntities(text) {
 
 // Cambia SOLO el texto de un botón que tiene icono,
 // sin borrar el <i> o <svg> y sin deformar el botón.
+// Cambia SOLO el texto visible de un botón con icono,
+// dando prioridad a un <span> etiqueta de texto.
 function setButtonLabelWithIcon(btn, label) {
   if (!btn) return;
+
+  // 1) Si el botón tiene un <span>, usamos ese como label
+  const labelSpan = btn.querySelector('span');
+  if (labelSpan) {
+    labelSpan.textContent = label;
+
+    // 2) Limpiamos posibles nodos de texto sueltos que quedaron
+    //    directamente dentro del botón (para evitar duplicados).
+    const textNodes = Array.from(btn.childNodes).filter(
+      node => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ''
+    );
+    textNodes.forEach(node => node.remove());
+
+    return;
+  }
+
+  // 3) Si NO hay span (ej: btn-logout), usamos el método de nodo de texto
   const textNodes = Array.from(btn.childNodes).filter(
     node => node.nodeType === Node.TEXT_NODE
   );
@@ -291,6 +310,9 @@ function updateLanguageUI(targetLanguage) {
       : 'Turnos';
   }
 }
+
+// Hacemos accesible updateLanguageUI desde otros scripts (sidebar.js)
+window.updateLanguageUI = updateLanguageUI;
 
 // =====================================================================
 // FUNCIÓN PRINCIPAL DE TRADUCCIÓN (toda la página)
