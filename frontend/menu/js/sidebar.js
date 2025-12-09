@@ -1,6 +1,37 @@
+function showLogoutConfirmMenu(onYes) {
+  const overlay = document.createElement("div");
+  overlay.className = "logout-modal-menu";
+
+  overlay.innerHTML = `
+    <div class="logout-modal-menu-box">
+      <h3>¿Seguro que quieres cerrar sesión?</h3>
+      <div class="logout-modal-menu-actions">
+        <button class="logout-modal-menu-btn cancel">Cancelar</button>
+        <button class="logout-modal-menu-btn confirm">Sí, cerrar sesión</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const btnCancel  = overlay.querySelector(".cancel");
+  const btnConfirm = overlay.querySelector(".confirm");
+
+  const closeOverlay = () => overlay.remove();
+
+  btnCancel.addEventListener("click", () => {
+    closeOverlay();
+  });
+
+  btnConfirm.addEventListener("click", () => {
+    closeOverlay();
+    if (typeof onYes === "function") onYes();
+  });
+}
+
 // ================== SIDEBAR, CATEGORÍAS, SESIÓN, TEMA ==================
 document.addEventListener("DOMContentLoaded", () => {
-  /* ----- TOGGLE DEL SIDEBAR IZQUIERDO ----- */
+
   const menuToggle = document.getElementById("menuToggle");
   const sidebar    = document.getElementById("sidebar");
 
@@ -12,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----- FILTRO DE CATEGORÍAS (MENÚ NUEVO) ----- */
-
   const normalize = (s) => (s || "").toString().trim().toLowerCase();
 
   function initCategoryFilter() {
@@ -114,9 +144,7 @@ async function ensureAvatarIsLoaded() {
   }
 }
 
-ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR LA PÁGINA
-
-
+ensureAvatarIsLoaded();
 
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
@@ -134,15 +162,19 @@ ensureAvatarIsLoaded();   // 👈 ESTA LÍNEA HACE QUE SE CARGUE SOLITO AL ABRIR
       btnLogin.style.display  = "block";
       btnLogout.style.display = "none";
     }
-
+    
     if (btnLogout) {
-      btnLogout.addEventListener("click", () => {
-        const confirmLogout = confirm("¿Seguro que quieres cerrar sesión?");
-        if (confirmLogout) {
-          localStorage.clear();
-          window.location.href = "../login/login.html";
-        }
-      });
+      const isPerfilPage = window.location.pathname.includes("/perfil/");
+      if (!isPerfilPage) {
+        btnLogout.addEventListener("click", (e) => {
+          e.preventDefault();
+          
+          showLogoutConfirmMenu(() => {
+            localStorage.clear();
+            window.location.href = "../login/login.html";
+          });
+        });
+      }
     }
   }
   
