@@ -7,7 +7,7 @@ function showLogoutConfirmMenu(onYes) {
       <h3>¿Seguro que quieres cerrar sesión?</h3>
       <div class="logout-modal-menu-actions">
         <button class="logout-modal-menu-btn cancel">Cancelar</button>
-        <button class="logout-modal-menu-btn confirm">Sí, cerrar sesión</button>
+        <button class="logout-modal-menu-btn confirm">Sí, continuar</button>
       </div>
     </div>
   `;
