@@ -773,7 +773,7 @@ body * {
   letter-spacing: 0.08em;
 
 
-  background: radial-gradient(circle at top left, #0b1120, #020617);
+  background: radial-gradient(circle at top left, #ff9e43, #f48f30);
   color: #f9fafb;
 
 
@@ -783,7 +783,7 @@ body * {
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
 }
 body.dark .turno-actual-box {
-  background: radial-gradient(circle at top left, #020617, #020617 70%);
+  background: radial-gradient(circle at top left, #ff9e43, #f48f30);
   border-color: #fb923c;
   box-shadow: 0 20px 42px rgba(0, 0, 0, 0.9);
 }
@@ -796,9 +796,4 @@ body.dark .turno-actual-box {
 body.dark .turno-item:hover {
   background: #111827;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-}
-body.dark .turno-actual-box {
-    background: radial-gradient(circle at top left, #fb923c #da752c 70%);
-    border-color: #fb923c;
-    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.9);
 }
