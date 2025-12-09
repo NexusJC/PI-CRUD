@@ -98,7 +98,24 @@
       </form>
     </section>
   </div>
+  <script>
+    // Bloquear acceso al login si ya hay sesión activa
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
 
+    if (token && user) {
+      
+      // Empleado → al carrusel
+      if (user.role === "empleado") {
+        window.location.href = "/personal/employees/carousel/carousel.html";
+      }
+
+      // Usuario normal → al menú
+      else {
+        window.location.href = "/menu/index.html";
+      }
+    }
+  </script>
   <script src="./js/register.js"></script>
   <script src="./js/login.js"></script>
   <div id="toast" class="toast"></div>
