@@ -1082,3 +1082,21 @@ body.dark .confirm-no {
 body.dark .confirm-no:hover {
   background: #334155;
 }
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 22px;
+    background: linear-gradient(90deg, var(--topbar), #f97316);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
+}
+body.dark .topbar {
+    background: #020617;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85);
+}
