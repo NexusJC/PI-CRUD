@@ -13,8 +13,11 @@ export const getDashboardStats = async (req, res) => {
     );
 
     // === TOTAL DE EMPLEADOS ===
+    // CAMBIO ÚNICO: antes era role = 'employee'
+    // ahora usamos el rol real de tu sistema: 'empleado'
+    // y mantenemos 'employee' por si alguno se guardó así.
     const [empleados] = await pool.query(
-      "SELECT COUNT(*) AS total FROM users WHERE role = 'employee'"
+      "SELECT COUNT(*) AS total FROM users WHERE role IN ('empleado', 'employee')"
     );
 
     // === TOTAL DE ADMINISTRADORES ===
