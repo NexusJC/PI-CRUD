@@ -12,24 +12,57 @@ async function loadDashboard() {
     }
 
     const data = await res.json();
-    lastStats = data;
+
+    // 👀 Para depurar: ver exactamente qué manda el backend
+    console.log("[Dashboard] Stats desde backend:", data);
 
     const setText = (id, value) => {
       const el = document.getElementById(id);
       if (el) el.textContent = value ?? "0";
     };
 
-    // ✅ Aquí el cambio:
-    // El backend manda empleadosTotales, pero dejamos fallback a empleadosActivos
-    const empleadosFromApi =
-      data.empleadosTotales ?? data.empleadosActivos ?? 0;
+    // ================================
+    // NORMALIZACIÓN DE EMPLEADOS
+    // ================================
+    // Buscamos cualquier clave que contenga "emplead"
+    const empleadosKey = Object.keys(data).find((k) =>
+      k.toLowerCase().includes("emplead")
+    );
 
-    setText("platillosTotales", data.platillosTotales);
-    setText("usuariosRegistrados", data.usuariosRegistrados);
-    setText("empleadosActivos", empleadosFromApi);
-    setText("adminsTotales", data.adminsTotales);
+    let empleadosFromApi = 0;
+    if (empleadosKey) {
+      empleadosFromApi = Number(data[empleadosKey] ?? 0);
+    }
 
-    initRolesChart(data);
+    if (!Number.isFinite(empleadosFromApi) || empleadosFromApi < 0) {
+      empleadosFromApi = 0;
+    }
+
+    // Normalizamos el objeto para que SIEMPRE tengamos:
+    // - empleadosActivos
+    // - empleadosTotales
+    const normalized = {
+      ...data,
+      empleadosActivos:
+        data.empleadosActivos ?? data.empleadosTotales ?? empleadosFromApi,
+      empleadosTotales:
+        data.empleadosTotales ?? data.empleadosActivos ?? empleadosFromApi,
+    };
+
+    lastStats = normalized;
+
+    // ================================
+    // TARJETAS
+    // ================================
+    setText("platillosTotales", normalized.platillosTotales);
+    setText("usuariosRegistrados", normalized.usuariosRegistrados);
+    setText("empleadosActivos", normalized.empleadosActivos);
+    setText("adminsTotales", normalized.adminsTotales);
+
+    // ================================
+    // GRÁFICA DE ROLES
+    // ================================
+    initRolesChart(normalized);
   } catch (err) {
     console.error("Error cargando dashboard:", err);
   }
@@ -39,7 +72,7 @@ async function loadDashboard() {
  * Crea / actualiza la gráfica de distribución de roles.
  * Usa los datos que ya tienes en /api/dashboard/stats:
  *  - usuariosRegistrados
- *  - empleadosTotales / empleadosActivos
+ *  - empleadosActivos / empleadosTotales
  *  - adminsTotales
  */
 function initRolesChart(data) {
@@ -48,8 +81,7 @@ function initRolesChart(data) {
 
   const ctx = canvas.getContext("2d");
 
-  // ✅ Aquí el otro cambio:
-  // Usar empleadosTotales, con respaldo en empleadosActivos
+  // Usamos empleadosTotales con respaldo en empleadosActivos
   const empleados = Number(
     (data.empleadosTotales ?? data.empleadosActivos) || 0
   );
@@ -81,9 +113,9 @@ function initRolesChart(data) {
           data: dataset,
           backgroundColor: colors,
           borderWidth: 0,
-          hoverOffset: 6
-        }
-      ]
+          hoverOffset: 6,
+        },
+      ],
     },
     options: {
       responsive: true,
@@ -97,18 +129,18 @@ function initRolesChart(data) {
             padding: 16,
             font: {
               size: 11,
-              family: "Poppins"
-            }
-          }
+              family: "Poppins",
+            },
+          },
         },
         tooltip: {
           callbacks: {
-            label: (ctx) => `${ctx.label}: ${ctx.formattedValue}`
-          }
-        }
+            label: (ctx) => `${ctx.label}: ${ctx.formattedValue}`,
+          },
+        },
       },
-      cutout: "65%"
-    }
+      cutout: "65%",
+    },
   });
 }
 
