@@ -39,38 +39,29 @@ async function uploadToCloudinary(file) {
 }
 
 /* ===============================
-   VARIABLES
+   VARIABLES / PROTECCIÓN DE RUTA
 ==================================*/
 const token = localStorage.getItem("token");
 
-// 🔒 Si no hay token y entran directo, se manda al login
+// Si entran directo sin token, manda al login
 if (!token) {
   alert("No estás autenticado. Inicia sesión de nuevo.");
   window.location.href = "../login/login.html";
 }
 
-// 🧠 Al regresar con el botón ATRÁS, volvemos a checar el token
-// y también si hay una bandera de logout en sessionStorage.
-// Si ya se cerró sesión, siempre mandamos al login.
-window.addEventListener("pageshow", (event) => {
+// IMPORTANTE: si vuelven con el botón ATRÁS y ya no hay token,
+// volvemos a mandar al login (aunque la página venga de la caché).
+window.addEventListener("pageshow", () => {
   const currentToken = localStorage.getItem("token");
-  const logoutFlag =
-    typeof sessionStorage !== "undefined"
-      ? sessionStorage.getItem("logout")
-      : null;
-
-  if (!currentToken || logoutFlag === "1") {
-    if (typeof sessionStorage !== "undefined") {
-      sessionStorage.removeItem("logout");
-    }
+  if (!currentToken) {
     window.location.replace("../login/login.html");
   }
 });
 
 const inputNombre = document.getElementById("perfilNombreText");
 const inputNumero = document.getElementById("perfilNumeroText");
-const spanEmail = document.getElementById("perfilEmail");
-const imgPerfil = document.getElementById("perfilImg");
+const spanEmail   = document.getElementById("perfilEmail");
+const imgPerfil   = document.getElementById("perfilImg");
 
 // Máximo de dígitos permitidos
 const MAX_PHONE_LENGTH = 10;
@@ -317,20 +308,23 @@ function showConfirmCustom(message, onYes, onNo) {
 }
 
 /* ===============================
-   LOGOUT PERFIL (CORREGIDO)
+   LOGOUT PERFIL
 ==================================*/
 
-// Helper para cerrar sesión y evitar volver con "atrás"
+// Helper para cerrar sesión
 function handleLogoutRedirect() {
-  localStorage.clear();
-
-  if (typeof sessionStorage !== "undefined") {
-    // Marcamos que hubo logout para que cualquier "back" fuerce login
-    sessionStorage.setItem("logout", "1");
+  try {
+    localStorage.clear();
+    if (typeof sessionStorage !== "undefined") {
+      sessionStorage.clear();
+    }
+  } catch (e) {
+    console.warn("Error limpiando storage en logout:", e);
   }
 
-  // replace quita esta página del historial, así que "Atrás" ya no vuelve aquí
-  window.location.replace("../login/login.html");
+  // Vamos al login. Con el pageshow de arriba, si intentas volver con "Atrás"
+  // desde el login a Perfil, te redirige otra vez al login.
+  window.location.href = "../login/login.html";
 }
 
 const btnLogoutPerfil = document.getElementById("btn-logout");

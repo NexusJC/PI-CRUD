@@ -3,48 +3,61 @@
  *************************************************/
 document.addEventListener("DOMContentLoaded", () => {
 
-  const sidebar = document.getElementById("sidebar");
-  const toggle = document.getElementById("menuToggle");
-  const btnLogin = document.getElementById("btn-login");
+  const sidebar   = document.getElementById("sidebar");
+  const toggle    = document.getElementById("menuToggle");
+  const btnLogin  = document.getElementById("btn-login");
   const btnLogout = document.getElementById("btn-logout");
-  const menuList = document.getElementById("menuList");
+  const menuList  = document.getElementById("menuList");
+  const sidebarAvatar   = document.getElementById("sidebarAvatar");
+  const sidebarUserName = document.getElementById("sidebarUserName");
+  const sidebarUserInfo = document.getElementById("sidebarUserInfo");
 
   function showConfirmCustomLogout(message, onYes, onNo) {
-  const overlay = document.createElement("div");
-  overlay.className = "custom-confirm-overlay";
+    const overlay = document.createElement("div");
+    overlay.className = "custom-confirm-overlay";
 
-  overlay.innerHTML = `
-    <div class="custom-confirm-box">
-      <h3>${message}</h3>
-      <div class="confirm-btn-row">
-        <button class="confirm-btn confirm-no">Cancelar</button>
-        <button class="confirm-btn confirm-yes">Sí, continuar</button>
+    overlay.innerHTML = `
+      <div class="custom-confirm-box">
+        <h3>${message}</h3>
+        <div class="confirm-btn-row">
+          <button class="confirm-btn confirm-no">Cancelar</button>
+          <button class="confirm-btn confirm-yes">Sí, continuar</button>
+        </div>
       </div>
-    </div>
-  `;
+    `;
 
-  document.body.appendChild(overlay);
+    document.body.appendChild(overlay);
 
-  overlay.querySelector(".confirm-no").addEventListener("click", () => {
-    overlay.remove();
-    if (onNo) onNo();
-  });
+    overlay.querySelector(".confirm-no").addEventListener("click", () => {
+      overlay.remove();
+      if (onNo) onNo();
+    });
 
-  overlay.querySelector(".confirm-yes").addEventListener("click", () => {
-    overlay.remove();
-    onYes();
-  });
-}
+    overlay.querySelector(".confirm-yes").addEventListener("click", () => {
+      overlay.remove();
+      onYes();
+    });
+  }
 
-btnLogout.addEventListener("click", () => {
-  showConfirmCustomLogout(
-    "¿Deseas cerrar sesión?",
-    () => {
-      localStorage.clear();
-      window.location.href = "../login/login.html";
-    }
-  );
-});
+  // LOGOUT desde shifts
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      showConfirmCustomLogout(
+        "¿Deseas cerrar sesión?",
+        () => {
+          try {
+            localStorage.clear();
+            if (window.sessionStorage) {
+              window.sessionStorage.clear();
+            }
+          } catch (e) {
+            console.warn("Error limpiando storage en logout:", e);
+          }
+          window.location.href = "../login/login.html";
+        }
+      );
+    });
+  }
 
   /* === ABRIR / CERRAR SIDEBAR === */
   toggle.addEventListener("click", () => {
@@ -64,65 +77,93 @@ btnLogout.addEventListener("click", () => {
     }
   });
 
-  /* === SESIÓN === */
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  function renderSidebarState() {
+    const token = localStorage.getItem("token");
+    let user    = null;
+    try {
+      user = JSON.parse(localStorage.getItem("user"));
+    } catch {
+      user = null;
+    }
 
-  if (token && user) {
-    btnLogin.style.display = "none";
-    btnLogout.style.display = "block";
-  } else {
-    btnLogin.style.display = "block";
-    btnLogout.style.display = "none";
-    menuList.innerHTML = `
-      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Menú</span></a></li>
-    `;
-    return;
-  }
+    // Botones login / logout
+    if (token && user) {
+      btnLogin.style.display  = "none";
+      btnLogout.style.display = "block";
+    } else {
+      btnLogin.style.display  = "block";
+      btnLogout.style.display = "none";
 
-  /* === AVATAR EN SIDEBAR === */
-  const sidebarAvatar = document.getElementById("sidebarAvatar");
-  if (sidebarAvatar && user) {
-    let avatarUrl = user.image_url || user.profile_picture;
-
-    if (avatarUrl) {
-      if (avatarUrl.includes("cloudinary")) {
-        sidebarAvatar.src = avatarUrl;
-      } else if (!avatarUrl.startsWith("http")) {
-        sidebarAvatar.src = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
-      } else {
-        sidebarAvatar.src = avatarUrl;
+      if (menuList) {
+        menuList.innerHTML = `
+          <li>
+            <a href="/menu/index.html">
+              <i class="fas fa-utensils"></i>
+              <span>Menú</span>
+            </a>
+          </li>
+        `;
       }
+    }
+
+    if (!token || !user) {
+      // Sin sesión: avatar por defecto, título genérico
+      if (sidebarAvatar) {
+        sidebarAvatar.src = "../img/user.deflt.png";
+      }
+      if (sidebarUserName && sidebarUserInfo) {
+        sidebarUserName.textContent = "Te Damos La Bienvenida";
+        sidebarUserInfo.textContent = "¡Explora el menú!";
+      }
+      return;
+    }
+
+    // === AVATAR EN SIDEBAR ===
+    if (sidebarAvatar) {
+      let avatarUrl = user.image_url || user.profile_picture;
+      if (avatarUrl) {
+        if (avatarUrl.includes("cloudinary")) {
+          sidebarAvatar.src = avatarUrl;
+        } else if (!avatarUrl.startsWith("http")) {
+          sidebarAvatar.src = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
+        } else {
+          sidebarAvatar.src = avatarUrl;
+        }
+      }
+    }
+
+    // === NOMBRE EN SIDEBAR ===
+    if (sidebarUserName && sidebarUserInfo) {
+      sidebarUserName.textContent = "Bienvenido";
+      sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
+    }
+
+    // === MENÚ POR ROL ===
+    if (!menuList) return;
+
+    if (user.role === "usuario") {
+      menuList.innerHTML = `
+        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Ver Menú</span></a></li>
+        <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> <span>Mi Perfil</span></a></li>
+        <li><a href="/shifts/shifts.html"><i class="fas fa-clock"></i> <span>Turnos</span></a></li>
+      `;
+    } else if (user.role === "admin") {
+      menuList.innerHTML = `
+        <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a></li>
+        <li><a href="/personal/admin/add-dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Platillos</a></li>
+        <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
+        <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
+      `;
     }
   }
 
-  /* === NOMBRE EN SIDEBAR === */
-  const sidebarUserName = document.getElementById("sidebarUserName");
-  const sidebarUserInfo = document.getElementById("sidebarUserInfo");
+  // Inicial
+  renderSidebarState();
 
-  if (sidebarUserName && sidebarUserInfo) {
-    sidebarUserName.textContent = "Bienvenido";
-    sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
-  }
-
-
-  /* === MENÚ POR ROL === */
-  if (user.role === "usuario") {
-    menuList.innerHTML = `
-      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Ver Menú</span></a></li>
-      <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> <span>Mi Perfil</span></a></li>
-      <li><a href="/shifts/shifts.html"><i class="fas fa-clock"></i> <span>Turnos</span></a></li>
-    `;
-  }
-
-  if (user.role === "admin") {
-    menuList.innerHTML = `
-      <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a></li>
-      <li><a href="/personal/admin/add-dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Platillos</a></li>
-      <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
-      <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
-    `;
-  }
+  // Si vuelves con la flecha ATRÁS al shifts, recalculamos el sidebar:
+  window.addEventListener("pageshow", () => {
+    renderSidebarState();
+  });
 
   /* === MODO OSCURO === */
   const themeToggle = document.getElementById("themeToggle");
@@ -183,7 +224,7 @@ async function cargarTurnos() {
  *   PANEL DERECHO — TURNO ACTUAL GRANDE
  *************************************************/
 function renderTurnoActual(lista) {
-  const cont = document.getElementById("turnosActuales");
+  const cont   = document.getElementById("turnosActuales");
   const nombre = document.getElementById("nombreUsuarioActual");
 
   cont.innerHTML = "";

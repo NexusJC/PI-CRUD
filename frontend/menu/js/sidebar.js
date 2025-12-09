@@ -34,7 +34,6 @@ function showLogoutConfirmMenu(onYes) {
 
 // ================== SIDEBAR, CATEGORÍAS, SESIÓN, TEMA ==================
 document.addEventListener("DOMContentLoaded", () => {
-
   const menuToggle = document.getElementById("menuToggle");
   const sidebar    = document.getElementById("sidebar");
 
@@ -46,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----- FILTRO DE CATEGORÍAS (MENÚ NUEVO) ----- */
+
   const normalize = (s) => (s || "").toString().trim().toLowerCase();
 
   function initCategoryFilter() {
@@ -108,46 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(initCategoryFilter, 1200);
 
   /* ----- SESIÓN: LOGIN / LOGOUT + NOMBRE ----- */
-  const token = localStorage.getItem("token");
-  const user  = JSON.parse(localStorage.getItem("user") || "null");
-
-  async function ensureAvatarIsLoaded() {
-    let u = JSON.parse(localStorage.getItem("user") || "{}");
-    const sidebarAvatar = document.getElementById("sidebarAvatar");
-
-    // Si ya existe imagen válida → úsala
-    if (u.image_url && sidebarAvatar) {
-      sidebarAvatar.src = u.image_url;
-      return;
-    }
-
-    // Si no hay token, no hacemos nada
-    if (!token) return;
-
-    try {
-      const res = await fetch("https://www.laparrilaazteca.online/api/profile/get-profile", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      if (!res.ok) return;
-
-      const data = await res.json();
-
-      // Guardar la imagen en localStorage
-      u.image_url = data.image_url;
-      localStorage.setItem("user", JSON.stringify(u));
-
-      // Aplicarla al sidebar
-      if (sidebarAvatar) sidebarAvatar.src = data.image_url;
-
-    } catch (err) {
-      console.warn("Error cargando avatar:", err);
-    }
-  }
-
-  ensureAvatarIsLoaded();
-
   const btnLogin        = document.getElementById("btn-login");
   const btnLogout       = document.getElementById("btn-logout");
   const usernameText    = document.getElementById("username-text");
@@ -155,131 +115,203 @@ document.addEventListener("DOMContentLoaded", () => {
   const usernameDefault = document.getElementById("username-default");
   const sidebarUserName = document.getElementById("sidebarUserName");
   const sidebarUserInfo = document.getElementById("sidebarUserInfo");
+  const menuList        = document.getElementById("menuList");
+  const sidebarAvatar   = document.getElementById("sidebarAvatar");
 
-  if (btnLogin && btnLogout) {
-    if (token && user) {
-      btnLogin.style.display  = "none";
-      btnLogout.style.display = "block";
-    } else {
-      btnLogin.style.display  = "block";
-      btnLogout.style.display = "none";
+  function getStoredUser() {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
+  }
+
+  // Renderiza TODO el sidebar según el token/user actuales
+  function renderSidebarSessionState() {
+    const token = localStorage.getItem("token");
+    const user  = getStoredUser();
+
+    // Botones login / logout
+    if (btnLogin && btnLogout) {
+      if (token && user) {
+        btnLogin.style.display  = "none";
+        btnLogout.style.display = "block";
+      } else {
+        btnLogin.style.display  = "block";
+        btnLogout.style.display = "none";
+      }
     }
 
-    // ====== LOGOUT MENÚ / USUARIO (con bloqueo de "Atrás") ======
-    if (btnLogout) {
-      const isPerfilPage = window.location.pathname.includes("/perfil/");
-      if (!isPerfilPage) {
-        btnLogout.addEventListener("click", (e) => {
-          e.preventDefault();
+    // Avatar
+    if (sidebarAvatar) {
+      let avatarUrl = token && user ? (user.image_url || user.profile_picture) : null;
 
-          showLogoutConfirmMenu(() => {
-            // Limpia toda la sesión
-            try {
-              localStorage.clear();
-              if (window.sessionStorage) sessionStorage.clear();
-            } catch (err) {
-              console.warn("Error limpiando storage en logout:", err);
+      if (avatarUrl) {
+        if (!avatarUrl.startsWith("http")) {
+          avatarUrl = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
+        }
+        sidebarAvatar.src = avatarUrl;
+      } else {
+        sidebarAvatar.src = "../img/user.deflt.png";
+      }
+    }
+
+    // Nombre / subtítulo en sidebar
+    if (sidebarUserName && sidebarUserInfo) {
+      if (token && user) {
+        sidebarUserName.textContent = "Te Damos La Bienvenida";
+        sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
+      } else {
+        sidebarUserName.textContent = "Te Damos La Bienvenida";
+        sidebarUserInfo.textContent = "¡Explora el menú!";
+      }
+    }
+
+    // Nombre en el topbar (si lo tienes)
+    if (usernameText && usernameValue && usernameDefault) {
+      if (token && user) {
+        usernameText.style.display    = "block";
+        usernameValue.textContent     = user.name;
+        usernameDefault.style.display = "none";
+      } else {
+        usernameText.style.display    = "none";
+        usernameDefault.style.display = "block";
+      }
+    }
+
+    // Menú lateral según rol
+    if (menuList) {
+      const role = user?.role;
+
+      if (!token || !user || !role) {
+        // Invitado / sin sesión
+        menuList.innerHTML = `
+          <li data-no-translate>
+            <a href="/menu/index.html">
+              <i class="fas fa-utensils"></i>
+              <span class="sb-label menu-label">Ver Menú</span>
+            </a>
+          </li>
+        `;
+      } else if (role === "admin") {
+        menuList.innerHTML = `
+          <li data-no-translate>
+            <a href="/personal/admin/add-dishes/add_dishes.html" data-no-translate>
+              <i class="fas fa-pizza-slice" data-no-translate></i>
+              <span>Gestionar Platillos</span>
+            </a>
+          </li>
+          <li data-no-translate>
+            <a href="/personal/employee-management/employee.html" data-no-translate>
+              <i class="fas fa-users" data-no-translate></i>
+              <span>Gestionar Empleados</span>
+            </a>
+          </li>
+        `;
+      } else if (role === "empleado") {
+        menuList.innerHTML = `
+          <li data-no-translate>
+            <a href="/menu/index.html" data-no-translate>
+              <i class="fas fa-pizza-slice" data-no-translate></i>
+              <span>Menú</span>
+            </a>
+          </li>
+        `;
+      } else if (role === "usuario") {
+        menuList.innerHTML = `
+          <li data-no-translate>
+            <a href="/menu/index.html">
+              <i class="fas fa-utensils"></i>
+              <span class="sb-label menu-label">Ver Menú</span>
+            </a>
+          </li>
+          <li data-no-translate>
+            <a href="/perfil/perfil.html">
+              <i class="fas fa-user"></i>
+              <span class="sb-label perfil-label">Mi Perfil</span>
+            </a>
+          </li>
+          <li data-no-translate>
+            <a href="/shifts/shifts.html">
+              <i class="fas fa-clock icon"></i>
+              <span class="sb-label shifts-label">Turnos</span>
+            </a>
+          </li>
+        `;
+      }
+    }
+  }
+
+  // Cargar avatar desde backend si hace falta
+  async function ensureAvatarIsLoaded() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    let user = getStoredUser();
+    const hasImage = user && user.image_url;
+    const sidebarAvatarEl = document.getElementById("sidebarAvatar");
+
+    if (hasImage && sidebarAvatarEl) {
+      sidebarAvatarEl.src = user.image_url;
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "https://www.laparrilaazteca.online/api/profile/get-profile",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!res.ok) return;
+
+      const data = await res.json();
+
+      user = user || {};
+      user.image_url = data.image_url;
+      localStorage.setItem("user", JSON.stringify(user));
+
+      if (sidebarAvatarEl && data.image_url) {
+        sidebarAvatarEl.src = data.image_url;
+      }
+    } catch (err) {
+      console.warn("Error cargando avatar:", err);
+    }
+  }
+
+  // Inicial
+  renderSidebarSessionState();
+  ensureAvatarIsLoaded();
+
+  // Cuando el usuario usa la flecha de ATRÁS y vuelve al menú,
+  // recalculamos el estado del sidebar para que ya aparezca deslogueado.
+  window.addEventListener("pageshow", () => {
+    renderSidebarSessionState();
+  });
+
+  // ====== LOGOUT MENÚ / USUARIO ======
+  if (btnLogout) {
+    const isPerfilPage = window.location.pathname.includes("/perfil/");
+    if (!isPerfilPage) {
+      btnLogout.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        showLogoutConfirmMenu(() => {
+          try {
+            localStorage.clear();
+            if (window.sessionStorage) {
+              window.sessionStorage.clear();
             }
+          } catch (err) {
+            console.warn("Error limpiando storage en logout:", err);
+          }
 
-            // Usamos replace para que la página actual NO quede en el historial.
-            // Así, al darle a "Atrás" no regresa a la pestaña donde cerraste sesión.
-            const loginUrl = "../login/login.html";
-            window.location.replace(loginUrl);
-          });
+          // No usamos replace aquí para que el historial siga siendo normal.
+          window.location.href = "../login/login.html";
         });
-      }
-    }
-  }
-
-  const sidebarAvatar = document.getElementById("sidebarAvatar");
-
-  if (sidebarAvatar && user) {
-    // Puede venir como URL completa (image_url) o solo el filename (profile_picture)
-    let avatarUrl = user.image_url || user.profile_picture;
-
-    if (avatarUrl) {
-      if (!avatarUrl.startsWith("http")) {
-        avatarUrl = `https://www.laparrilaazteca.online/uploads/${avatarUrl}`;
-      }
-      sidebarAvatar.src = avatarUrl;
-    }
-  }
-
-  // ----- Nombre del usuario en el sidebar -----
-  if (sidebarUserName && sidebarUserInfo) {
-    if (token && user) {
-      // Título fijo y abajo el nombre del usuario
-      sidebarUserName.textContent = "Te Damos La Bienvenida";
-      sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
-    } else {
-      // Texto por defecto cuando no hay sesión
-      sidebarUserName.textContent = "Te Damos La Bienvenida";
-      sidebarUserInfo.textContent = "¡Explora el menú!";
-    }
-  }
-
-  if (usernameText && usernameValue && usernameDefault) {
-    if (token && user) {
-      usernameText.style.display    = "block";
-      usernameValue.textContent     = user.name;
-      usernameDefault.style.display = "none";
-    } else {
-      usernameText.style.display    = "none";
-      usernameDefault.style.display = "block";
-    }
-  }
-
-  /* ----- MENÚ LATERAL SEGÚN ROL ----- */
-  const menuList = document.getElementById("menuList");
-  const role     = user?.role;
-
-  if (menuList) {
-    if (!role) {
-      menuList.innerHTML = ``;
-    } else if (role === "admin") {
-      menuList.innerHTML = `
-        <li data-no-translate>
-          <a href="/personal/admin/add-dishes/add_dishes.html" data-no-translate>
-            <i class="fas fa-pizza-slice" data-no-translate></i>
-            <span>Gestionar Platillos</span>
-          </a>
-        </li>
-        <li data-no-translate>
-          <a href="/personal/employee-management/employee.html" data-no-translate>
-            <i class="fas fa-users" data-no-translate></i>
-            <span>Gestionar Empleados</span>
-          </a>
-        </li>
-      `;
-    } else if (role === "empleado") {
-      menuList.innerHTML = `
-        <li data-no-translate>
-          <a href="/menu/index.html" data-no-translate>
-            <i class="fas fa-pizza-slice" data-no-translate></i>
-            <span>Menú</span>
-          </a>
-        </li>`;
-    } else if (role === "usuario") {
-      menuList.innerHTML = `  
-        <li data-no-translate>
-          <a href="/menu/index.html">
-            <i class="fas fa-utensils"></i>
-            <span class="sb-label menu-label">Ver Menú</span>
-          </a>
-        </li>
-        <li data-no-translate>
-          <a href="/perfil/perfil.html">
-            <i class="fas fa-user"></i>
-            <span class="sb-label perfil-label">Mi Perfil</span>
-          </a>
-        </li>
-        <li data-no-translate>
-          <a href="/shifts/shifts.html">
-            <i class="fas fa-clock icon"></i>
-            <span class="sb-label shifts-label">Turnos</span>
-          </a>
-        </li>
-      `;
+      });
     }
   }
 
