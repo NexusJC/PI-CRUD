@@ -457,66 +457,64 @@ formEmpleado?.addEventListener("submit", async (e) => {
   }
 
   // ============== CREAR EMPLEADO ==============
-  if (modo === "crear") {
-    try {
-      // 🔹 Enviar datos como FormData para que multer reciba el archivo
-      const formData = new FormData();
-      formData.append("name", nombre);
-      formData.append("telefono", telefono);
-      formData.append("email", email);
-      formData.append("password", password);
+if (modo === "crear") {
+  try {
 
-      if (archivoInput?.files[0]) {
-        formData.append("profile_picture", archivoInput.files[0]);
-      }
+    let image_url = null;
 
-      const res = await fetch(`${API_BASE}/api/users`, {
-        method: "POST",
-        body: formData, // ❗ Sin headers, sin JSON
-      });
-
-      const text = await res.text().catch(() => "");
-      if (!res.ok) {
-        console.error(
-          "Respuesta POST /api/users no OK:",
-          res.status,
-          res.statusText,
-          text
-        );
-        throw new Error(
-          `Error POST /api/users: ${res.status} ${res.statusText}`
-        );
-      }
-
-      let json;
-      try {
-        json = text ? JSON.parse(text) : {};
-      } catch {
-        json = {};
-      }
-
-      console.log("Empleado creado backend:", json);
-      alert("Empleado creado correctamente.");
-      cerrarModal();
-      // Recargamos para que la tabla vuelva a pedir /api/users
-      location.reload();
-    } catch (err) {
-      console.error("Error creando empleado:", err);
-      alert("Error al crear empleado. Revisa la consola para más detalles.");
+    // 1️⃣ Subir la imagen a Cloudinary si existe
+    if (archivoInput?.files[0]) {
+      image_url = await uploadToCloudinary(archivoInput.files[0]);
     }
 
-    return;
-  }
-
-  // ============== EDITAR EMPLEADO (SIN CAMBIAR FOTO NI CONTRASEÑA) ==============
-  if (modo === "editar" && empleadoEditandoId !== null) {
+    // 2️⃣ Enviar datos como JSON
     const body = {
       name: nombre,
       telefono: telefono,
       email: email,
-      // Si más adelante quieres permitir editar la foto,
-      // aquí podrías hacer otra subida a Cloudinary y mandar image_url también.
+      password: password,
+      image_url: image_url
     };
+
+    const res = await fetch(`${API_BASE}/api/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    const text = await res.text().catch(() => "");
+    if (!res.ok) {
+      console.error("Error backend creación:", text);
+      alert("Error al crear empleado.");
+      return;
+    }
+
+    alert("Empleado creado correctamente.");
+    cerrarModal();
+    location.reload();
+
+  } catch (err) {
+    console.error("Error creando empleado:", err);
+    alert("Error interno al crear empleado.");
+  }
+  return;
+}
+
+  // ============== EDITAR EMPLEADO (SIN CAMBIAR FOTO NI CONTRASEÑA) ==============
+  if (modo === "editar" && empleadoEditandoId !== null) {
+    let image_url = emp.foto ?? null;
+
+if (archivoInput?.files[0]) {
+  image_url = await uploadToCloudinary(archivoInput.files[0]);
+}
+
+const body = {
+  name: nombre,
+  telefono: telefono,
+  email: email,
+  image_url: image_url
+};
+
 
     try {
       const res = await fetch(`${API_BASE}/api/users/${empleadoEditandoId}`, {

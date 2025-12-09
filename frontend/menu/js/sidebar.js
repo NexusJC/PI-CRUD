@@ -196,15 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (role === "admin") {
         menuList.innerHTML = `
           <li data-no-translate>
-            <a href="/personal/admin/add-dishes/add_dishes.html" data-no-translate>
-              <i class="fas fa-pizza-slice" data-no-translate></i>
-              <span>Gestionar Platillos</span>
-            </a>
-          </li>
-          <li data-no-translate>
-            <a href="/personal/employee-management/employee.html" data-no-translate>
+            <a href="/personal/admin/dashboard/dashboard.html" data-no-translate>
               <i class="fas fa-users" data-no-translate></i>
-              <span>Gestionar Empleados</span>
+              <span>Administración</span>
             </a>
           </li>
         `;
