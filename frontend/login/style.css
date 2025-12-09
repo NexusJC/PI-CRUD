@@ -576,3 +576,12 @@ footer p {
   }
 
 }
+/* Logo pequeño en tarjetas de iniciar / registrar sesión */
+.login-logo {
+  display: block;
+  width: 80px;        /* tamaño pequeño */
+  height: auto;
+  margin: 8px auto 16px;
+  object-fit: contain;
+  background: transparent;
+}
