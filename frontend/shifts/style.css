@@ -748,7 +748,6 @@ body * {
   grid-template-columns: 1fr 1fr;
   gap: 4px;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.45);  
-  border: 1px solid rgba(15, 23, 42, 0.9);
   border-bottom: 3px solid #e36842;              
 }
 
