@@ -790,3 +790,19 @@ body.admin-body:not(.admin-dark) .mini-value {
     width: 230px;
   }
 }
+.menu-dashboard {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 230px;
+    padding: 18px 18px 80px;
+    background: linear-gradient(180deg, #262b3a 0%, #171922 45%, #10121a 100%);
+    box-shadow: 8px 0 35px rgba(15, 23, 42, 0.55);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: width 0.35s 
+cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
