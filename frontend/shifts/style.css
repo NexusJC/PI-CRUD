@@ -732,8 +732,68 @@ body.dark .usuario-actual-info p {
   color: #e5e7eb;
 }
 
-/* Quitar animación fea al cambiar modo claro/oscuro */
+
 body.dark *,
 body * {
   transition: none !important;
+}
+.panel-header-right {
+  background: #111827;              
+  color: #f9fafb;
+  padding: 14px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.45);  
+  border: 1px solid rgba(15, 23, 42, 0.9);
+  border-bottom: 3px solid #e36842;              
+}
+
+.panel-header-right span:first-child {
+  text-align: left;
+}
+
+.panel-header-right span:last-child {
+  text-align: right;
+}
+.turno-actual-box {
+  flex: 1;
+  margin-top: 18px;
+  border-radius: 24px;
+  padding: 42px 26px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  place-items: center;
+  text-align: center;
+  font-size: 4.2rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+
+
+  background: radial-gradient(circle at top left, #0b1120, #020617);
+  color: #f9fafb;
+
+
+  border: 2px solid #e36842;
+
+
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
+}
+body.dark .turno-actual-box {
+  background: radial-gradient(circle at top left, #020617, #020617 70%);
+  border-color: #fb923c;
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.9);
+}
+.turno-item:hover {
+  transform: translateY(-1px);
+  background: #ffe1c3;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25); 
+}
+
+body.dark .turno-item:hover {
+  background: #111827;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
