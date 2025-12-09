@@ -1,18 +1,36 @@
 import { pool } from "../db.js";
 import bcrypt from "bcrypt";
 
-// Obtener SOLO empleados
+// Obtener solo empleados
+// Obtener empleados + caja asignada
+// Obtener empleados + caja asignada
 export const getEmployees = async (req, res) => {
   try {
-    const [rows] = await pool.query(
-      "SELECT id, name, email, telefono, image_url, created_at FROM users WHERE role = 'empleado'"
-    );
+    const [rows] = await pool.query(`
+      SELECT 
+        u.id,
+        u.name,
+        u.email,
+        u.telefono,
+        u.image_url,
+        u.created_at,
+        c.numero_caja AS numero_caja
+      FROM users u
+      LEFT JOIN cajas c
+        ON c.empleado_id = u.id
+      WHERE u.role = 'empleado'
+      ORDER BY u.created_at DESC
+    `);
+
     res.json(rows);
+
   } catch (error) {
     console.error("Error obteniendo empleados:", error);
     res.status(500).json({ error: "Error obteniendo empleados" });
   }
 };
+
+
 
 export const createEmployee = async (req, res) => {
   try {

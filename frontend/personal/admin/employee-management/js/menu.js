@@ -197,12 +197,14 @@ if (inputNombre) {
             emp.numero_telefono ??
             emp.phone_number ??
             "",
-          caja:
-            emp.caja ??
-            emp.box ??
-            emp.box_name ??
-            emp.nombre_caja ??
-            "",
+              caja:
+      emp.numero_caja ??
+      emp.caja ??
+      emp.box ??
+      emp.box_name ??
+      emp.nombre_caja ??
+      "",
+
           estado:
             emp.estado ??
             emp.status ??
