@@ -12,6 +12,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarUserName = document.getElementById("sidebarUserName");
   const sidebarUserInfo = document.getElementById("sidebarUserInfo");
 
+  /*************************************************
+   * PROTECCIÓN: SOLO ROL "usuario" PUEDE ENTRAR
+   *************************************************/
+  let token = null;
+  let user  = null;
+  try {
+    token = localStorage.getItem("token");
+    user  = JSON.parse(localStorage.getItem("user"));
+  } catch (e) {
+    user = null;
+  }
+
+  // Sin sesión -> login
+  if (!token || !user) {
+    window.location.href = "../login/login.html";
+    return;
+  }
+
+  // Con sesión pero rol diferente a "usuario" -> redirigir al menú
+  if (user.role !== "usuario") {
+    alert("Solo los usuarios pueden ver esta pantalla de turnos.");
+    window.location.href = "/menu/index.html";
+    return;
+  }
+
   function showConfirmCustomLogout(message, onYes, onNo) {
     const overlay = document.createElement("div");
     overlay.className = "custom-confirm-overlay";
@@ -60,14 +85,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* === ABRIR / CERRAR SIDEBAR === */
-  toggle.addEventListener("click", () => {
-    sidebar.classList.toggle("active");
-    toggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
-  });
+  if (toggle && sidebar) {
+    toggle.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      toggle.textContent = sidebar.classList.contains("active") ? "✖" : "☰";
+    });
+  }
 
   /* === CERRAR SI HACE CLICK FUERA === */
   document.addEventListener("click", (e) => {
     if (
+      sidebar &&
+      toggle &&
       sidebar.classList.contains("active") &&
       !sidebar.contains(e.target) &&
       !toggle.contains(e.target)
@@ -78,22 +107,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function renderSidebarState() {
-    const token = localStorage.getItem("token");
-    let user    = null;
+    const tokenLocal = localStorage.getItem("token");
+    let userLocal    = null;
     try {
-      user = JSON.parse(localStorage.getItem("user"));
+      userLocal = JSON.parse(localStorage.getItem("user"));
     } catch {
-      user = null;
+      userLocal = null;
     }
 
-    // Botones login / logout
-    if (token && user) {
-      btnLogin.style.display  = "none";
-      btnLogout.style.display = "block";
-    } else {
-      btnLogin.style.display  = "block";
-      btnLogout.style.display = "none";
-
+    // SI YA NO HAY SESIÓN, POR SEGURIDAD NO MOSTRAMOS NADA Y MANDAMOS AL LOGIN
+    if (!tokenLocal || !userLocal) {
+      if (btnLogin && btnLogout) {
+        btnLogin.style.display  = "block";
+        btnLogout.style.display = "none";
+      }
+      if (sidebarAvatar) {
+        sidebarAvatar.src = "../img/user.deflt.png";
+      }
+      if (sidebarUserName && sidebarUserInfo) {
+        sidebarUserName.textContent = "Te Damos La Bienvenida";
+        sidebarUserInfo.textContent = "¡Explora el menú!";
+      }
       if (menuList) {
         menuList.innerHTML = `
           <li>
@@ -104,23 +138,27 @@ document.addEventListener("DOMContentLoaded", () => {
           </li>
         `;
       }
+      // Además reforzamos redirección a login
+      window.location.href = "../login/login.html";
+      return;
     }
 
-    if (!token || !user) {
-      // Sin sesión: avatar por defecto, título genérico
-      if (sidebarAvatar) {
-        sidebarAvatar.src = "../img/user.deflt.png";
-      }
-      if (sidebarUserName && sidebarUserInfo) {
-        sidebarUserName.textContent = "Te Damos La Bienvenida";
-        sidebarUserInfo.textContent = "¡Explora el menú!";
-      }
+    // Solo debería llegar aquí si sigue siendo "usuario"
+    if (userLocal.role !== "usuario") {
+      alert("Solo los usuarios pueden ver esta pantalla de turnos.");
+      window.location.href = "/menu/index.html";
       return;
+    }
+
+    // Botones login / logout
+    if (btnLogin && btnLogout) {
+      btnLogin.style.display  = "none";
+      btnLogout.style.display = "block";
     }
 
     // === AVATAR EN SIDEBAR ===
     if (sidebarAvatar) {
-      let avatarUrl = user.image_url || user.profile_picture;
+      let avatarUrl = userLocal.image_url || userLocal.profile_picture;
       if (avatarUrl) {
         if (avatarUrl.includes("cloudinary")) {
           sidebarAvatar.src = avatarUrl;
@@ -129,38 +167,32 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           sidebarAvatar.src = avatarUrl;
         }
+      } else {
+        sidebarAvatar.src = "../img/user.deflt.png";
       }
     }
 
     // === NOMBRE EN SIDEBAR ===
     if (sidebarUserName && sidebarUserInfo) {
       sidebarUserName.textContent = "Bienvenido";
-      sidebarUserInfo.textContent = user.name || "¡Explora el menú!";
+      sidebarUserInfo.textContent = userLocal.name || "¡Explora el menú!";
     }
 
     // === MENÚ POR ROL ===
     if (!menuList) return;
 
-    if (user.role === "usuario") {
-      menuList.innerHTML = `
-        <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Ver Menú</span></a></li>
-        <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> <span>Mi Perfil</span></a></li>
-        <li><a href="/shifts/shifts.html"><i class="fas fa-clock"></i> <span>Turnos</span></a></li>
-      `;
-    } else if (user.role === "admin") {
-      menuList.innerHTML = `
-        <li><a href="/personal/admin/dashboard/dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a></li>
-        <li><a href="/personal/admin/add-dishes/add_dishes.html"><i class="fas fa-pizza-slice"></i> Platillos</a></li>
-        <li><a href="/personal/admin/employee-management/employee.html"><i class="fas fa-users"></i> Empleados</a></li>
-        <li><a href="/personal/admin/gestioncajas/gestioncajas.html"><i class="fas fa-cash-register"></i> Cajas</a></li>
-      `;
-    }
+    // Aquí ya sabemos que userLocal.role === "usuario"
+    menuList.innerHTML = `
+      <li><a href="/menu/index.html"><i class="fas fa-utensils"></i> <span>Ver Menú</span></a></li>
+      <li><a href="/perfil/perfil.html"><i class="fas fa-user"></i> <span>Mi Perfil</span></a></li>
+      <li><a href="/shifts/shifts.html"><i class="fas fa-clock"></i> <span>Turnos</span></a></li>
+    `;
   }
 
   // Inicial
   renderSidebarState();
 
-  // Si vuelves con la flecha ATRÁS al shifts, recalculamos el sidebar:
+  // Si vuelves con la flecha ATRÁS al shifts, recalculamos y reforzamos la protección
   window.addEventListener("pageshow", () => {
     renderSidebarState();
   });
@@ -183,6 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateThemeButton(isDark) {
       const icon = themeToggle.querySelector("i");
       const text = themeToggle.querySelector("span");
+
+      if (!icon || !text) return;
 
       if (isDark) {
         icon.classList.replace("fa-moon", "fa-sun");
