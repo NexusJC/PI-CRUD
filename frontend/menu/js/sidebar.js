@@ -205,9 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (role === "empleado") {
         menuList.innerHTML = `
           <li data-no-translate>
-            <a href="/menu/index.html" data-no-translate>
+            <a href="/personal/employees/carousel.html" data-no-translate>
               <i class="fas fa-pizza-slice" data-no-translate></i>
-              <span>Menú</span>
+              <span>Carusel</span>
             </a>
           </li>
         `;
