@@ -26,10 +26,13 @@ async function uploadToCloudinary(file) {
   fd.append("file", file);
   fd.append("upload_preset", UPLOAD_PRESET);
 
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-    method: "POST",
-    body: fd
-  });
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    {
+      method: "POST",
+      body: fd,
+    }
+  );
 
   const data = await res.json();
   return data.secure_url;
@@ -47,18 +50,27 @@ if (!token) {
 }
 
 // 🧠 Al regresar con el botón ATRÁS, volvemos a checar el token
-// Si ya se cerró sesión, forzamos ir al login aunque la página venga de la caché
+// y también si hay una bandera de logout en sessionStorage.
+// Si ya se cerró sesión, siempre mandamos al login.
 window.addEventListener("pageshow", (event) => {
   const currentToken = localStorage.getItem("token");
-  if (!currentToken) {
+  const logoutFlag =
+    typeof sessionStorage !== "undefined"
+      ? sessionStorage.getItem("logout")
+      : null;
+
+  if (!currentToken || logoutFlag === "1") {
+    if (typeof sessionStorage !== "undefined") {
+      sessionStorage.removeItem("logout");
+    }
     window.location.replace("../login/login.html");
   }
 });
 
 const inputNombre = document.getElementById("perfilNombreText");
 const inputNumero = document.getElementById("perfilNumeroText");
-const spanEmail   = document.getElementById("perfilEmail");
-const imgPerfil   = document.getElementById("perfilImg");
+const spanEmail = document.getElementById("perfilEmail");
+const imgPerfil = document.getElementById("perfilImg");
 
 // Máximo de dígitos permitidos
 const MAX_PHONE_LENGTH = 10;
@@ -77,15 +89,19 @@ inputNumero.addEventListener("input", () => {
 /* ===============================
    BOTONES DE EDICIÓN
 ==================================*/
-document.getElementById("btnEditarNombre").addEventListener("click", () => {
-  inputNombre.readOnly = !inputNombre.readOnly;
-  if (!inputNombre.readOnly) inputNombre.focus();
-});
+document
+  .getElementById("btnEditarNombre")
+  .addEventListener("click", () => {
+    inputNombre.readOnly = !inputNombre.readOnly;
+    if (!inputNombre.readOnly) inputNombre.focus();
+  });
 
-document.getElementById("btnEditarNumero").addEventListener("click", () => {
-  inputNumero.readOnly = !inputNumero.readOnly;
-  if (!inputNumero.readOnly) inputNumero.focus();
-});
+document
+  .getElementById("btnEditarNumero")
+  .addEventListener("click", () => {
+    inputNumero.readOnly = !inputNumero.readOnly;
+    if (!inputNumero.readOnly) inputNumero.focus();
+  });
 
 /* ===============================
    OBTENER PERFIL DEL BACKEND
@@ -132,7 +148,6 @@ const getProfileData = async () => {
     // Sidebar avatar
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) sidebarAvatar.src = finalImg;
-
   } catch (error) {
     console.error("Error al obtener datos del perfil", error);
     alert("Error al obtener datos del perfil");
@@ -144,104 +159,118 @@ window.addEventListener("load", getProfileData);
 /* ===============================
    GUARDAR CAMBIOS DEL PERFIL
 ==================================*/
-document.getElementById("guardarCambios").addEventListener("click", async () => {
-  let name = inputNombre.value.trim();
-  let telefono = inputNumero.value.trim();
-  const generoInput = document.querySelector('input[name="genero"]:checked');
-  const gender = generoInput ? generoInput.value : null;
-
-  if (!name) {
-    showAlert("El nombre es obligatorio.", "error");
-    return;
-  }
-
-  if (telefono.length !== MAX_PHONE_LENGTH) {
-    showAlert("El número debe tener exactamente 10 dígitos.", "error");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      "https://www.laparrilaazteca.online/api/profile/update-profile",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name, telefono, gender }),
-      }
+document
+  .getElementById("guardarCambios")
+  .addEventListener("click", async () => {
+    let name = inputNombre.value.trim();
+    let telefono = inputNumero.value.trim();
+    const generoInput = document.querySelector(
+      'input[name="genero"]:checked'
     );
+    const gender = generoInput ? generoInput.value : null;
 
-    const result = await response.json();
-
-    if (response.ok) {
-      showAlert("Perfil actualizado correctamente", "success");
-      getProfileData();
-    } else {
-      showAlert(result.message || "Error al actualizar", "error");
+    if (!name) {
+      showAlert("El nombre es obligatorio.", "error");
+      return;
     }
 
-  } catch (error) {
-    console.error("Error al enviar los cambios:", error);
-    showAlert("Error al actualizar", "error");
-  }
-});
+    if (telefono.length !== MAX_PHONE_LENGTH) {
+      showAlert(
+        "El número debe tener exactamente 10 dígitos.",
+        "error"
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "https://www.laparrilaazteca.online/api/profile/update-profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ name, telefono, gender }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showAlert("Perfil actualizado correctamente", "success");
+        getProfileData();
+      } else {
+        showAlert(
+          result.message || "Error al actualizar",
+          "error"
+        );
+      }
+    } catch (error) {
+      console.error("Error al enviar los cambios:", error);
+      showAlert("Error al actualizar", "error");
+    }
+  });
 
 /* ===============================
    SUBIR FOTO A CLOUDINARY
 ==================================*/
-document.getElementById("btnEditarImg").addEventListener("click", () => {
-  document.getElementById("inputImg").click();
-});
+document
+  .getElementById("btnEditarImg")
+  .addEventListener("click", () => {
+    document.getElementById("inputImg").click();
+  });
 
-document.getElementById("inputImg").addEventListener("change", async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+document
+  .getElementById("inputImg")
+  .addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  try {
-    // 1️⃣ Subir a Cloudinary
-    const cloudUrl = await uploadToCloudinary(file);
+    try {
+      // 1️⃣ Subir a Cloudinary
+      const cloudUrl = await uploadToCloudinary(file);
 
-    // 2️⃣ Guardar URL en backend
-    const response = await fetch(
-      "https://www.laparrilaazteca.online/api/profile/update-profile-image",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ image_url: cloudUrl }),
+      // 2️⃣ Guardar URL en backend
+      const response = await fetch(
+        "https://www.laparrilaazteca.online/api/profile/update-profile-image",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ image_url: cloudUrl }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        showAlert(
+          result.message || "Error al actualizar imagen",
+          "error"
+        );
+        return;
       }
-    );
 
-    const result = await response.json();
+      // 3️⃣ Actualizar UI
+      imgPerfil.src = cloudUrl;
 
-    if (!response.ok) {
-      showAlert(result.message || "Error al actualizar imagen", "error");
-      return;
+      const sidebarAvatar = document.getElementById("sidebarAvatar");
+      if (sidebarAvatar) sidebarAvatar.src = cloudUrl;
+
+      // 4️⃣ Guardar localmente
+      let user = JSON.parse(localStorage.getItem("user") || "{}");
+      user.image_url = cloudUrl;
+      localStorage.setItem("user", JSON.stringify(user));
+
+      showAlert("Foto actualizada correctamente", "success");
+    } catch (error) {
+      console.error("Error al actualizar la imagen:", error);
+      showAlert("Error al actualizar la imagen", "error");
     }
-
-    // 3️⃣ Actualizar UI
-    imgPerfil.src = cloudUrl;
-
-    const sidebarAvatar = document.getElementById("sidebarAvatar");
-    if (sidebarAvatar) sidebarAvatar.src = cloudUrl;
-
-    // 4️⃣ Guardar localmente
-    let user = JSON.parse(localStorage.getItem("user") || "{}");
-    user.image_url = cloudUrl;
-    localStorage.setItem("user", JSON.stringify(user));
-
-    showAlert("Foto actualizada correctamente", "success");
-
-  } catch (error) {
-    console.error("Error al actualizar la imagen:", error);
-    showAlert("Error al actualizar la imagen", "error");
-  }
-});
-
+  });
 
 const btnReset = document.getElementById("btnRestablecer");
 
@@ -272,15 +301,19 @@ function showConfirmCustom(message, onYes, onNo) {
 
   document.body.appendChild(overlay);
 
-  overlay.querySelector(".confirm-no").addEventListener("click", () => {
-    overlay.remove();
-    if (onNo) onNo();
-  });
+  overlay
+    .querySelector(".confirm-no")
+    .addEventListener("click", () => {
+      overlay.remove();
+      if (onNo) onNo();
+    });
 
-  overlay.querySelector(".confirm-yes").addEventListener("click", () => {
-    overlay.remove();
-    onYes();
-  });
+  overlay
+    .querySelector(".confirm-yes")
+    .addEventListener("click", () => {
+      overlay.remove();
+      onYes();
+    });
 }
 
 /* ===============================
@@ -290,9 +323,12 @@ function showConfirmCustom(message, onYes, onNo) {
 // Helper para cerrar sesión y evitar volver con "atrás"
 function handleLogoutRedirect() {
   localStorage.clear();
+
   if (typeof sessionStorage !== "undefined") {
-    sessionStorage.clear();
+    // Marcamos que hubo logout para que cualquier "back" fuerce login
+    sessionStorage.setItem("logout", "1");
   }
+
   // replace quita esta página del historial, así que "Atrás" ya no vuelve aquí
   window.location.replace("../login/login.html");
 }
