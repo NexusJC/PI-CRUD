@@ -23,7 +23,6 @@ export const getEmployees = async (req, res) => {
     `);
 
     res.json(rows);
-
   } catch (error) {
     console.error("Error obteniendo empleados:", error);
     res.status(500).json({ error: "Error obteniendo empleados" });
@@ -34,24 +33,18 @@ export const getEmployees = async (req, res) => {
 
 export const createEmployee = async (req, res) => {
   try {
-    const { name, telefono, email, password } = req.body;
+    const { name, telefono, email, password, image_url } = req.body;
 
-    // Validación básica
     if (!name || !telefono || !email || !password) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
-    // Imagen opcional
-    const photo = req.file ? req.file.filename : null;
-
-    // Encriptar la contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insertar empleado REAL
     await pool.query(
-      `INSERT INTO users (name, email, telefono, role, profile_picture, password)
+      `INSERT INTO users (name, email, telefono, role, image_url, password)
        VALUES (?, ?, ?, 'empleado', ?, ?)`,
-      [name, email, telefono, photo, hashedPassword]
+      [name, email, telefono, image_url || null, hashedPassword]
     );
 
     res.json({ message: "Empleado creado correctamente" });
@@ -67,35 +60,20 @@ export const createEmployee = async (req, res) => {
 export const updateEmployee = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, telefono } = req.body;
+    const { name, telefono, email, image_url } = req.body;
 
     await pool.query(
-      "UPDATE users SET name = ?, telefono = ? WHERE id = ?",
-      [name, telefono, id]
+      `UPDATE users 
+       SET name = ?, telefono = ?, email = ?, image_url = ? 
+       WHERE id = ?`,
+      [name, telefono, email, image_url || null, id]
     );
 
     res.json({ message: "Empleado actualizado correctamente" });
+
   } catch (error) {
     console.error("Error actualizando empleado:", error);
     res.status(500).json({ error: "Error actualizando empleado" });
-  }
-};
-// Actualizar foto del empleado
-export const updateEmployeePhoto = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const photo = req.file ? req.file.filename : null;
-
-    await pool.query(
-      "UPDATE users SET profile_picture = ? WHERE id = ?",
-      [photo, id]
-    );
-
-    res.json({ message: "Foto actualizada correctamente" });
-  } catch (error) {
-    console.error("Error actualizando foto:", error);
-    res.status(500).json({ error: "Error actualizando foto" });
   }
 };
 // Eliminar empleado
@@ -106,6 +84,7 @@ export const deleteEmployee = async (req, res) => {
     await pool.query("DELETE FROM users WHERE id = ?", [id]);
 
     res.json({ message: "Empleado eliminado correctamente" });
+
   } catch (error) {
     console.error("Error eliminando empleado:", error);
     res.status(500).json({ error: "Error eliminando empleado" });
