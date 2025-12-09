@@ -31,7 +31,51 @@ function decodeHTMLEntities(text) {
     textarea.innerHTML = text;
     return textarea.value;
 }
+// =====================================================================
+// TRADUCCIÓN DE RESPALDO (fallback)
+// Aquí puedes mapear textos concretos de tu interfaz que Google
+// no esté traduciendo bien. Si no hay coincidencia, regresa el
+// mismo texto y no rompe nada.
+// =====================================================================
+function fallbackTranslate(text, lang) {
+  if (!text) return text;
+  const key = text.trim();
 
+  const dict = {
+    en: {
+      // ==== Dashboard ====
+      "Dashboard general": "General dashboard",
+      "Resumen rápido de platillos, usuarios y equipo.": "Quick summary of dishes, users and staff.",
+      "Platillos totales": "Total dishes",
+      "Registros en el menú": "Records in the menu",
+      "Usuarios registrados": "Registered users",
+      "Clientes + personal": "Customers + staff",
+      "Empleados activos": "Active employees",
+      "Con acceso al sistema": "With system access",
+      "Admins totales": "Total admins",
+      "Usuarios con control completo": "Users with full control",
+      "Distribución de usuarios por rol": "User distribution by role",
+      "Relación entre clientes, empleados y administradores.": "Relationship between customers, employees and administrators.",
+      "Ventas / platillos más vendidos": "Sales / top selling dishes",
+      "Pendiente de conectar información del backend.": "Pending backend connection.",
+      "Ingresos totales": "Total revenue",
+      "Órdenes del día": "Today's orders",
+      "Platillos destacados": "Featured dishes",
+      "Panel en tiempo real": "Real-time panel"
+      // aquí puedes ir agregando más textos específicos si lo deseas
+    },
+    es: {
+      // Por ahora simplemente devolvemos el mismo texto,
+      // pero puedes mapear palabras en inglés → español si quieres.
+    }
+  };
+
+  const table = dict[lang];
+  if (table && table[key]) {
+    return table[key];
+  }
+  return text;
+}
 /**
  * Función principal que realiza la traducción de todo el contenido.
  * Procesa todos los elementos seleccionados por getTranslatableContent()
