@@ -18,6 +18,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     modalTitle.textContent = dish.nombre;
     modalDesc.textContent  = dish.descripcion || "Descripción no disponible.";
+    // Traducir los platillos "Sino funciona quitarlo"
+    try {
+    if (typeof translateElementText === "function") {
+      translateElementText(modalDesc, window.currentLanguage || 'es');
+    }
+    } catch (err) {
+      console.error("Error traduciendo la descripción:", err);
+    }//
 
     const precioNum = Number(dish.precio) || 0;
     modalPrice.textContent = `$${precioNum.toFixed(2)}`;

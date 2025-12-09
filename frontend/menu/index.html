@@ -31,7 +31,7 @@
       </button>
     </div>
 
-    <button id="open-sidebar-btn" class="open-btn">
+    <button id="open-sidebar-btn" class="open-btn" data-no-translate>
       <i class="fas fa-shopping-cart"></i>
       <span>Ver Orden</span>
     </button>
@@ -66,7 +66,7 @@
 
     <hr>
     <div class="sidebar-footer">
-      <button id="themeToggle" class="theme-toggle-btn">
+      <button id="themeToggle" class="theme-toggle-btn" data-no-translate>
         <i class="fas fa-moon"></i>
         <span>Modo oscuro</span>
       </button>
@@ -277,7 +277,7 @@
       <!-- Columna 1: Marca -->
       <div class="footer-col footer-brand">
         <div class="footer-logo">
-          <img id="sidebarAvatar" src="../img/default.png" alt="avatar" />
+          <img id="sidebarAvatar" src="../img/user.deflt.png" alt="avatar" />
           <span>La Parrilla Azteca</span>
         </div>
         <p>
@@ -291,23 +291,23 @@
         <h3>Explora</h3>
         <ul>
           <li data-no-translate>
-          <a href="/menu/index.html">
-            <i class="fas fa-utensils"></i>
-            <span class="sb-label menu-label">Ver Menú</span>
-          </a>
-        </li>
-        <li data-no-translate>
-          <a href="/perfil/perfil.html">
-            <i class="fas fa-user"></i>
-            <span class="sb-label perfil-label">Mi Perfil</span>
-          </a>
-        </li>
-        <li data-no-translate>
-          <a href="/shifts/shifts.html">
-            <i class="fas fa-clock icon"></i>
-            <span class="sb-label shifts-label">Turnos</span>
-          </a>
-        </li>
+            <a href="/menu/index.html">
+              <i class="fas fa-utensils"></i>
+              <span class="sb-label menu-label">Ver Menú</span>
+            </a>
+          </li>
+          <li data-no-translate>
+            <a href="/perfil/perfil.html">
+              <i class="fas fa-user"></i>
+              <span class="sb-label perfil-label">Mi Perfil</span>
+            </a>
+          </li>
+          <li data-no-translate>
+            <a href="/shifts/shifts.html">
+              <i class="fas fa-clock icon"></i>
+              <span class="sb-label shifts-label">Turnos</span>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -341,9 +341,11 @@
       </div>
     </div>
   </footer>
+  
+  <script src="../login/js/translate.js" defer></script>
   <script src="js/load-dishes.js" defer></script>
   <script src="js/orderDetails.js" defer></script>
   <script src="js/sidebar.js" defer></script>
-  <script src="../login/js/translate.js"></script>
+  
 </body>
 </html>

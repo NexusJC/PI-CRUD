@@ -35,8 +35,6 @@ export const getDashboardStats = async (req, res) => {
   }
 };
 
-import { pool } from "../db.js";
-
 // ================================
 // ÓRDENES EN LOS ÚLTIMOS 7 DÍAS
 // ================================

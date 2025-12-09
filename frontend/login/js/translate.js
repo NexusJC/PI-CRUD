@@ -94,7 +94,7 @@ function getTranslatableContent() {
 
       // No traducir el CONTENIDO de botones que tienen iconos dentro
       // (open-sidebar-btn, btn-logout, modalAddBtn, themeToggle, etc.)
-      if (isIconButton(el)) return;
+      //if (isIconButton(el)) return;
 
       // No traducir botones estructurales como las X de cierre
       if (isStructuralButton(el)) return;
@@ -119,8 +119,27 @@ function decodeHTMLEntities(text) {
 
 // Cambia SOLO el texto de un botón que tiene icono,
 // sin borrar el <i> o <svg> y sin deformar el botón.
+// Cambia SOLO el texto visible de un botón con icono,
+// dando prioridad a un <span> etiqueta de texto.
 function setButtonLabelWithIcon(btn, label) {
   if (!btn) return;
+
+  // 1) Si el botón tiene un <span>, usamos ese como label
+  const labelSpan = btn.querySelector('span');
+  if (labelSpan) {
+    labelSpan.textContent = label;
+
+    // 2) Limpiamos posibles nodos de texto sueltos que quedaron
+    //    directamente dentro del botón (para evitar duplicados).
+    const textNodes = Array.from(btn.childNodes).filter(
+      node => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ''
+    );
+    textNodes.forEach(node => node.remove());
+
+    return;
+  }
+
+  // 3) Si NO hay span (ej: btn-logout), usamos el método de nodo de texto
   const textNodes = Array.from(btn.childNodes).filter(
     node => node.nodeType === Node.TEXT_NODE
   );
@@ -266,7 +285,34 @@ function updateLanguageUI(targetLanguage) {
       ? 'Print Ticket'
       : 'Imprimir ticket';
   }
+
+    // ================================================================
+  //   TEXTOS DEL SIDEBAR (Ver Menú / Mi Perfil / Turnos)
+  // ================================================================
+  const menuLabel = document.querySelector('.menu-label');
+  if (menuLabel) {
+    menuLabel.textContent = targetLanguage === 'en'
+      ? 'View Menu'
+      : 'Ver Menú';
+  }
+
+  const perfilLabel = document.querySelector('.perfil-label');
+  if (perfilLabel) {
+    perfilLabel.textContent = targetLanguage === 'en'
+      ? 'My Profile'
+      : 'Mi Perfil';
+  }
+
+  const shiftsLabel = document.querySelector('.shifts-label');
+  if (shiftsLabel) {
+    shiftsLabel.textContent = targetLanguage === 'en'
+      ? 'Shifts'
+      : 'Turnos';
+  }
 }
+
+// Hacemos accesible updateLanguageUI desde otros scripts (sidebar.js)
+window.updateLanguageUI = updateLanguageUI;
 
 // =====================================================================
 // FUNCIÓN PRINCIPAL DE TRADUCCIÓN (toda la página)
@@ -336,7 +382,25 @@ async function translateContent(targetLanguage) {
       data.data.translations.forEach((tr, index) => {
         const [, info] = batch[index];
         const translatedText = decodeHTMLEntities(tr.translatedText);
-        info.element.innerText = translatedText;
+        // Si es un botón con icono → traducir solo el texto, no los hijos
+/*if (info.element.tagName === 'BUTTON' && info.element.querySelector('i, svg')) {
+    const textNodes = Array.from(info.element.childNodes)
+      .filter(node => node.nodeType === Node.TEXT_NODE);
+
+    let textNode = textNodes[textNodes.length - 1];
+
+    if (!textNode) {
+      // Si no existe nodo de texto, lo creamos (ej. botones con solo iconos)
+      textNode = document.createTextNode('');
+      info.element.appendChild(textNode);
+    }
+
+    textNode.textContent = ' ' + translatedText;
+} else {*/
+    // Elementos normales
+    info.element.innerText = translatedText;
+//}
+
       });
     }
 
