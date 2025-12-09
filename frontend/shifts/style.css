@@ -797,3 +797,8 @@ body.dark .turno-item:hover {
   background: #111827;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
+body.dark .turno-actual-box {
+    background: radial-gradient(circle at top left, #fb923c #da752c 70%);
+    border-color: #fb923c;
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.9);
+}
