@@ -636,7 +636,8 @@ if (confirmBtn && orderList) {
         name,
         quantity: qty,
         price,
-        comments
+        comments,           // campo principal
+        comment: comments   // alias por si el backend usa "comment"
       };
     });
 
@@ -684,8 +685,6 @@ if (confirmBtn && orderList) {
     }
   });
 }
-
-
 /* ============ MODAL DETALLES DE PRODUCTO (se mantiene) ============ */
 const modal      = document.getElementById("productModal");
 const modalImg   = document.getElementById("modalImg");

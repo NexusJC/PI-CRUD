@@ -1,5 +1,6 @@
 import { pool } from "../db.js";
 
+// Crear pedido
 export const createOrder = async (req, res) => {
   try {
     const { customerName, items, total } = req.body;
@@ -12,26 +13,31 @@ export const createOrder = async (req, res) => {
     );
 
     if (cajas.length === 0) {
-      return res.status(400).json({ message: "No hay cajas activas disponibles" });
+      return res
+        .status(400)
+        .json({ message: "No hay cajas activas disponibles" });
     }
 
     // Recuperar la última caja usada
-    const [cfg] = await pool.query("SELECT last_caja_id FROM config WHERE id = 1");
+    const [cfg] = await pool.query(
+      "SELECT last_caja_id FROM config WHERE id = 1"
+    );
     let lastCaja = cfg[0].last_caja_id;
 
     // Encontrar la siguiente caja en secuencia
     let nextIndex = 0;
 
     if (lastCaja !== null) {
-      const pos = cajas.findIndex(c => c.id === lastCaja);
+      const pos = cajas.findIndex((c) => c.id === lastCaja);
       nextIndex = (pos + 1) % cajas.length;
     }
 
     const cajaAsignada = cajas[nextIndex].id;
 
-// Guardar la nueva última caja
-await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignada]);
-
+    // Guardar la nueva última caja
+    await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [
+      cajaAsignada,
+    ]);
 
     // 🔥 3. Obtener último número de orden
     const [last] = await pool.query(
@@ -41,12 +47,11 @@ await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignad
     const nextOrder = last.length ? last[0].order_number + 1 : 1;
 
     // 🔥 4. Crear encabezado de la orden **YA CON caja_id**
-     const [orderResult] = await pool.query(
-        `INSERT INTO orders (order_number, customer_name, total, user_id, caja_id)
-      VALUES (?, ?, ?, ?, ?)`,
-      [nextOrder, customerName || "Cliente", total, userId, cajaAsignada] // ✔ CORRECTO
+    const [orderResult] = await pool.query(
+      `INSERT INTO orders (order_number, customer_name, total, user_id, caja_id)
+       VALUES (?, ?, ?, ?, ?)`,
+      [nextOrder, customerName || "Cliente", total, userId, cajaAsignada]
     );
-
 
     const orderId = orderResult.insertId;
 
@@ -67,19 +72,18 @@ await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignad
     res.json({
       success: true,
       orderNumber: nextOrder,
-      message: "Pedido guardado correctamente"
+      message: "Pedido guardado correctamente",
     });
-
   } catch (error) {
     console.log("ERROR createOrder:", error);
     res.status(500).json({
       success: false,
-      error: "Error al guardar el pedido"
+      error: "Error al guardar el pedido",
     });
   }
 };
 
-//ordenes pendientes y en proceso
+// Ordenes pendientes y en proceso
 export const getOrders = async (req, res) => {
   try {
     const caja_id = req.query.caja_id;
@@ -124,8 +128,7 @@ export const getOrders = async (req, res) => {
   }
 };
 
-
-//detalles del pedido
+// Detalles del pedido (para carrusel + ticket)
 export const getOrderDetails = async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -135,17 +138,27 @@ export const getOrderDetails = async (req, res) => {
       [orderId]
     );
 
+    // 🔥 Aquí ya devolvemos name y comment además de comments
     const [items] = await pool.query(
-      "SELECT dish_name, quantity, price, comments FROM order_details WHERE order_id = ?",
+      `SELECT 
+         dish_name AS name,
+         quantity,
+         price,
+         comments,
+         comments AS comment
+       FROM order_details
+       WHERE order_id = ?`,
       [orderId]
     );
 
     res.json({ order, items });
   } catch (error) {
+    console.log("ERROR getOrderDetails:", error);
     res.status(500).json({ error: "Error obteniendo detalles" });
   }
 };
-//entregar pedido
+
+// Entregar pedido
 export const deliverOrder = async (req, res) => {
   try {
     const { id } = req.params;
@@ -159,16 +172,15 @@ export const deliverOrder = async (req, res) => {
     if (current.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Solo se pueden entregar pedidos en proceso"
+        message: "Solo se pueden entregar pedidos en proceso",
       });
     }
 
     const cajaId = current[0].caja_id;
 
-    await pool.query(
-      "UPDATE orders SET status = 'entregado' WHERE id = ?",
-      [id]
-    );
+    await pool.query("UPDATE orders SET status = 'entregado' WHERE id = ?", [
+      id,
+    ]);
 
     // 2. Buscar el siguiente, PERO SOLO DE ESTA CAJA
     const [next] = await pool.query(
@@ -190,7 +202,7 @@ export const deliverOrder = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Pedido entregado y turno avanzado"
+      message: "Pedido entregado y turno avanzado",
     });
   } catch (error) {
     console.log("ERROR deliverOrder:", error);
@@ -198,17 +210,15 @@ export const deliverOrder = async (req, res) => {
   }
 };
 
-
-//cancelar pedido
+// Cancelar pedido
 export const cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
     // 1) Cancelar el pedido
-    await pool.query(
-      "UPDATE orders SET status = 'cancelado' WHERE id = ?",
-      [id]
-    );
+    await pool.query("UPDATE orders SET status = 'cancelado' WHERE id = ?", [
+      id,
+    ]);
 
     // 2) Ver si todavía hay un pedido en_proceso
     const [procesos] = await pool.query(
@@ -236,9 +246,7 @@ export const cancelOrder = async (req, res) => {
   }
 };
 
-
-//editar pedido
-// editar pedido
+// Editar pedido
 export const updateOrder = async (req, res) => {
   const { id } = req.params;
   const { items } = req.body;
@@ -255,10 +263,8 @@ export const updateOrder = async (req, res) => {
     // 2. Insertar nuevos detalles
     for (const item of items) {
       const name = item.nombre ?? item.name;
-      const quantity =
-        item.cantidad ?? item.quantity ?? item.qty ?? 1;
-      const price =
-        item.precio ?? item.price ?? item.unit ?? 0;
+      const quantity = item.cantidad ?? item.quantity ?? item.qty ?? 1;
+      const price = item.precio ?? item.price ?? item.unit ?? 0;
       const comments =
         item.comments ?? item.comentario ?? item.comment ?? "";
 
@@ -271,28 +277,25 @@ export const updateOrder = async (req, res) => {
 
     // 3. Calcular y actualizar total
     const total = items.reduce((acc, it) => {
-      const quantity =
-        it.cantidad ?? it.quantity ?? it.qty ?? 1;
-      const price =
-        it.precio ?? it.price ?? it.unit ?? 0;
+      const quantity = it.cantidad ?? it.quantity ?? it.qty ?? 1;
+      const price = it.precio ?? it.price ?? it.unit ?? 0;
       return acc + quantity * price;
     }, 0);
 
-    await pool.query(
-      "UPDATE orders SET total = ? WHERE id = ?",
-      [total, id]
-    );
+    await pool.query("UPDATE orders SET total = ? WHERE id = ?", [total, id]);
 
     res.json({
       success: true,
       message: "Pedido actualizado",
-      total
+      total,
     });
   } catch (error) {
     console.log("ERROR updateOrder:", error);
     res.status(500).json({ error: "Error actualizando el pedido" });
   }
 };
+
+// Obtener todos los pedidos
 export const getAllOrders = async (req, res) => {
   try {
     const [rows] = await pool.query(
