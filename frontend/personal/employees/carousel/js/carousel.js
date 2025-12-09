@@ -277,12 +277,16 @@ async function crearPedidoDesdeModal() {
   }
 
   // Construir items como los espera el backend (orders.controller.js)
-  const items = nuevoPedidoItems.map((it) => ({
-    name: it.name,
-    quantity: it.qty,
-    price: it.unit,
-    comments: it.comment || ""
-  }));
+  const items = nuevoPedidoItems.map((it) => {
+    const commentText = it.comment || "";
+    return {
+      name: it.name,
+      quantity: it.qty,
+      price: it.unit,
+      comments: commentText,   // principal
+      comment: commentText     // alias para compatibilidad
+    };
+  });
 
   const total = nuevoPedidoItems.reduce(
     (sum, it) => sum + it.unit * it.qty,
@@ -339,11 +343,12 @@ async function cargarDetallesDeCadaPedido() {
       const res = await fetch(`/api/orders/${idReal}/details`);
       const data = await res.json();
 
-      pedidosData[num].ordenes = data.items.map((i) => ({
+      pedidosData[num].ordenes = (data.items || []).map((i) => ({
         nombre: i.dish_name,
         cantidad: Number(i.quantity),
         precio: Number(i.price),
-        comentario: i.comments || ""
+        // aceptamos "comments" o "comment" desde el backend
+        comentario: i.comments || i.comment || ""
       }));
     } catch (err) {
       console.error("Error cargando detalles de pedido", num, err);
@@ -843,7 +848,7 @@ function manejarEntregar() {
       nombre: it.nombre,
       cantidad: it.cantidad,
       precio: it.precio,
-      comentario: it.comentario || ""
+      comentario: it.comentario || it.comments || ""
     }))
   };
 
@@ -1003,13 +1008,17 @@ async function guardarCambiosEdicion() {
     return;
   }
 
-  const nuevosItems = editItems.map((it) => ({
-    nombre: it.nombre,
-    cantidad: Number(it.cantidad),
-    precio: Number(it.precio),
-    // Seguimos enviando el comentario aunque ya no se edite aquí
-    comments: it.comentario || ""
-  }));
+  const nuevosItems = editItems.map((it) => {
+    const commentText = it.comentario || "";
+    return {
+      nombre: it.nombre,
+      cantidad: Number(it.cantidad),
+      precio: Number(it.precio),
+      // seguimos mandando comentario en ambos campos
+      comments: commentText,
+      comment: commentText
+    };
+  });
 
   const nuevoTotal = nuevosItems.reduce(
     (acc, it) => acc + it.cantidad * it.precio,
@@ -1030,7 +1039,7 @@ async function guardarCambiosEdicion() {
       nombre: it.nombre,
       cantidad: it.cantidad,
       precio: it.precio,
-      comentario: it.comments || ""
+      comentario: it.comments || it.comment || ""
     }));
     pedidosData[pedidoActivo].total = nuevoTotal;
 
@@ -1289,7 +1298,7 @@ function imprimirTicketPedido(pedidoSnapshot) {
     name: it.nombre || "",
     qty: Number(it.cantidad) || 0,
     unit: Number(it.precio) || 0,
-    comment: it.comentario || ""
+    comment: it.comentario || it.comments || ""
   }));
 
   const IVA_RATE = 0.08; // 8%
