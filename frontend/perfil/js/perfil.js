@@ -40,10 +40,20 @@ async function uploadToCloudinary(file) {
 ==================================*/
 const token = localStorage.getItem("token");
 
+// 🔒 Si no hay token y entran directo, se manda al login
 if (!token) {
   alert("No estás autenticado. Inicia sesión de nuevo.");
   window.location.href = "../login/login.html";
 }
+
+// 🧠 Al regresar con el botón ATRÁS, volvemos a checar el token
+// Si ya se cerró sesión, forzamos ir al login aunque la página venga de la caché
+window.addEventListener("pageshow", (event) => {
+  const currentToken = localStorage.getItem("token");
+  if (!currentToken) {
+    window.location.replace("../login/login.html");
+  }
+});
 
 const inputNombre = document.getElementById("perfilNombreText");
 const inputNumero = document.getElementById("perfilNumeroText");
@@ -122,10 +132,6 @@ const getProfileData = async () => {
     // Sidebar avatar
     const sidebarAvatar = document.getElementById("sidebarAvatar");
     if (sidebarAvatar) sidebarAvatar.src = finalImg;
-
-
-
-
 
   } catch (error) {
     console.error("Error al obtener datos del perfil", error);
@@ -277,6 +283,20 @@ function showConfirmCustom(message, onYes, onNo) {
   });
 }
 
+/* ===============================
+   LOGOUT PERFIL (CORREGIDO)
+==================================*/
+
+// Helper para cerrar sesión y evitar volver con "atrás"
+function handleLogoutRedirect() {
+  localStorage.clear();
+  if (typeof sessionStorage !== "undefined") {
+    sessionStorage.clear();
+  }
+  // replace quita esta página del historial, así que "Atrás" ya no vuelve aquí
+  window.location.replace("../login/login.html");
+}
+
 const btnLogoutPerfil = document.getElementById("btn-logout");
 
 if (btnLogoutPerfil) {
@@ -286,8 +306,7 @@ if (btnLogoutPerfil) {
     showConfirmCustom(
       "¿Seguro que quieres cerrar sesión?",
       () => {
-        localStorage.clear();
-        window.location.href = "../login/login.html";
+        handleLogoutRedirect();
       }
     );
   });
