@@ -219,6 +219,32 @@ async function cargarTurnos() {
     console.warn("Error cargando turnos:", err);
   }
 }
+  /* === SESIÓN (SOLO ROL "usuario") === */
+  const token = localStorage.getItem("token");
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem("user"));
+  } catch (e) {
+    user = null;
+  }
+
+  // Solo pueden entrar las personas con rol "usuario"
+  if (!token || !user) {
+    // Sin sesión -> manda al login
+    window.location.href = "../login/login.html";
+    return;
+  }
+
+  if (user.role !== "usuario") {
+    // Si es admin, empleado u otro rol -> lo mandamos al menú
+    alert("Solo los usuarios pueden ver sus turnos.");
+    window.location.href = "/menu/index.html";
+    return;
+  }
+
+  // Aquí ya sabemos que es un usuario con sesión
+  btnLogin.style.display = "none";
+  btnLogout.style.display = "block";
 
 /*************************************************
  *   PANEL DERECHO — TURNO ACTUAL GRANDE
