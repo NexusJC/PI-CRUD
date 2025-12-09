@@ -777,13 +777,13 @@ body * {
   color: #f9fafb;
 
 
-  border: 2px solid #e36842;
+  border: 2px solid #ef9174;
 
 
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
 }
 body.dark .turno-actual-box {
-  background: radial-gradient(circle at top left, #ff9e43, #f48f30);
+  background: radial-gradient(circle at top left, #020617, #020617 70%);
   border-color: #fb923c;
   box-shadow: 0 20px 42px rgba(0, 0, 0, 0.9);
 }
