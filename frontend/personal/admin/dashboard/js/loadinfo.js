@@ -19,9 +19,14 @@ async function loadDashboard() {
       if (el) el.textContent = value ?? "0";
     };
 
+    // ✅ Aquí el cambio:
+    // El backend manda empleadosTotales, pero dejamos fallback a empleadosActivos
+    const empleadosFromApi =
+      data.empleadosTotales ?? data.empleadosActivos ?? 0;
+
     setText("platillosTotales", data.platillosTotales);
     setText("usuariosRegistrados", data.usuariosRegistrados);
-    setText("empleadosActivos", data.empleadosActivos);
+    setText("empleadosActivos", empleadosFromApi);
     setText("adminsTotales", data.adminsTotales);
 
     initRolesChart(data);
@@ -34,7 +39,7 @@ async function loadDashboard() {
  * Crea / actualiza la gráfica de distribución de roles.
  * Usa los datos que ya tienes en /api/dashboard/stats:
  *  - usuariosRegistrados
- *  - empleadosActivos
+ *  - empleadosTotales / empleadosActivos
  *  - adminsTotales
  */
 function initRolesChart(data) {
@@ -43,7 +48,11 @@ function initRolesChart(data) {
 
   const ctx = canvas.getContext("2d");
 
-  const empleados = Number(data.empleadosActivos || 0);
+  // ✅ Aquí el otro cambio:
+  // Usar empleadosTotales, con respaldo en empleadosActivos
+  const empleados = Number(
+    (data.empleadosTotales ?? data.empleadosActivos) || 0
+  );
   const admins = Number(data.adminsTotales || 0);
   const totalUsers = Number(data.usuariosRegistrados || 0);
 
