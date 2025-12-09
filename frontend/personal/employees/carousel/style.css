@@ -2765,3 +2765,117 @@ color: #f9fafb;
 .kitchen-header {
     position: relative;
 }
+/* =========================================================
+   MODAL CONFIRMACIÓN COCINA (ENTREGA / TICKET)
+========================================================= */
+.kitchen-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  backdrop-filter: blur(4px);
+}
+
+.kitchen-confirm-box {
+  background: #fffaf4;
+  border-radius: 18px;
+  padding: 18px 20px 16px;
+  max-width: 420px;
+  width: 90vw;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  border: 1px solid rgba(227, 104, 66, 0.35);
+  transform: translateY(6px);
+  opacity: 0;
+  animation: kc-pop 0.18s ease-out forwards;
+}
+
+.kitchen-confirm-box h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3b2d25;
+}
+
+.kitchen-confirm-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.kc-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.kc-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.02);
+}
+
+.kc-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.kc-accept {
+  background: #e36842;
+  color: #ffffff;
+}
+
+.kitchen-confirm-overlay.closing .kitchen-confirm-box {
+  animation: kc-pop-out 0.14s ease-in forwards;
+}
+
+@keyframes kc-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes kc-pop-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+/* MODO OSCURO DEL PANEL DE COCINA (usa .admin-dark) */
+body.admin-dark .kitchen-confirm-box {
+  background: #020617;
+  border: 1px solid #1f2937;
+  color: #f9fafb;
+}
+
+body.admin-dark .kitchen-confirm-box h3 {
+  color: #f9fafb;
+}
+
+body.admin-dark .kc-cancel {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.admin-dark .kc-accept {
+  background: #fb923c;
+  color: #111827;
+}

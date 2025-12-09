@@ -755,7 +755,7 @@ function eliminarPedido(pedidoId) {
 ============================================================ */
 async function entregarPedidoBackend(pedidoId) {
   const pedido = pedidosData[pedidoId];
-  if (!pedido) return;
+  if (!pedido) return false;
 
   try {
     const res = await fetch(`/api/orders/${pedido.id}/deliver`, {
@@ -765,11 +765,10 @@ async function entregarPedidoBackend(pedidoId) {
 
     if (!res.ok) throw new Error("Error en la respuesta");
 
-    alert(`Pedido #${pedidoId} marcado como ENTREGADO.`);
-    await cargarPedidos();
+    return true;
   } catch (err) {
     console.error(err);
-    alert("No se pudo marcar el pedido como entregado.");
+    return false;
   }
 }
 
@@ -819,7 +818,56 @@ function manejarCancelar() {
 
 function manejarEntregar() {
   if (!pedidoActivo) return;
-  entregarPedidoBackend(pedidoActivo);
+
+  const numero = pedidoActivo;
+  const pedidoActual = pedidosData[numero];
+
+  if (!pedidoActual) return;
+
+  // Snapshot antes de marcar como entregado (se usa para el ticket)
+  const snapshot = {
+    numero,
+    cliente: pedidoActual.cliente,
+    createdAt: pedidoActual.createdAt,
+    ordenes: (pedidoActual.ordenes || []).map((it) => ({
+      nombre: it.nombre,
+      cantidad: it.cantidad,
+      precio: it.precio,
+      comentario: it.comentario || ""
+    }))
+  };
+
+  // 1) Confirmar si realmente desea marcar la entrega
+  showKitchenConfirm(
+    `¿Seguro que quieres confirmar la entrega del pedido #${numero}?`,
+    () => {
+      (async () => {
+        try {
+          const ok = await entregarPedidoBackend(numero);
+          if (!ok) {
+            alert("No se pudo marcar el pedido como entregado.");
+            return;
+          }
+
+          // Refrescamos pedidos en cocina
+          await cargarPedidos();
+
+          // 2) Preguntar si desea imprimir el ticket
+          showKitchenConfirm(
+            "El pedido ha sido confirmado. ¿Deseas imprimir el ticket?",
+            () => {
+              imprimirTicketPedido(snapshot);
+            },
+            { acceptText: "Sí, imprimir" }
+          );
+        } catch (err) {
+          console.error(err);
+          alert("No se pudo marcar el pedido como entregado.");
+        }
+      })();
+    },
+    { acceptText: "Sí, confirmar" }
+  );
 }
 
 /* ============================================================
@@ -1154,4 +1202,314 @@ if (logoutBtn) {
             }, 500);
         };
     });
+}
+
+/* ============================================================
+   🪟 MODAL CONFIRMACIÓN COCINA (ENTREGA / TICKET)
+============================================================ */
+function showKitchenConfirm(message, onYes, options = {}) {
+  const { acceptText = "Aceptar", hideCancel = false } = options;
+
+  const overlay = document.createElement("div");
+  overlay.className = "kitchen-confirm-overlay";
+
+  overlay.innerHTML = `
+    <div class="kitchen-confirm-box">
+      <h3>${message}</h3>
+      <div class="kitchen-confirm-actions">
+        ${
+          hideCancel
+            ? ""
+            : '<button class="kc-btn kc-cancel" type="button">Cancelar</button>'
+        }
+        <button class="kc-btn kc-accept" type="button">${acceptText}</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const btnAccept = overlay.querySelector(".kc-accept");
+  const btnCancel = overlay.querySelector(".kc-cancel");
+
+  const close = () => {
+    overlay.classList.add("closing");
+    setTimeout(() => overlay.remove(), 150);
+  };
+
+  if (btnCancel) {
+    btnCancel.addEventListener("click", () => {
+      close();
+    });
+  }
+
+  btnAccept.addEventListener("click", () => {
+    close();
+    if (typeof onYes === "function") {
+      onYes();
+    }
+  });
+
+  // Cerrar si se hace click fuera de la caja
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      close();
+    }
+  });
+}
+
+/* ============================================================
+   🧾 IMPRIMIR TICKET DEL PEDIDO (COCINA)
+============================================================ */
+function imprimirTicketPedido(pedidoSnapshot) {
+  if (!pedidoSnapshot || !Array.isArray(pedidoSnapshot.ordenes) || !pedidoSnapshot.ordenes.length) {
+    alert("No hay información de productos para imprimir este ticket.");
+    return;
+  }
+
+  const items = pedidoSnapshot.ordenes.map((it) => ({
+    name: it.nombre || "",
+    qty: Number(it.cantidad) || 0,
+    unit: Number(it.precio) || 0,
+    comment: it.comentario || ""
+  }));
+
+  const IVA_RATE = 0.08; // 8%
+
+  let subtotalCalc = 0;
+  let ivaCalc = 0;
+  let totalGeneral = 0;
+
+  items.forEach((i) => {
+    const lineTotal = i.unit * i.qty;         // total con IVA
+    const ivaProd = lineTotal * IVA_RATE;     // parte de IVA
+    const baseProd = lineTotal - ivaProd;     // base sin IVA
+
+    subtotalCalc += baseProd;
+    ivaCalc += ivaProd;
+    totalGeneral += lineTotal;
+  });
+
+  const baseDate = pedidoSnapshot.createdAt
+    ? new Date(pedidoSnapshot.createdAt)
+    : new Date();
+
+  const fechaStr = baseDate.toLocaleDateString("es-MX");
+  const horaStr = baseDate.toLocaleTimeString("es-MX", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  const folio = `#${String(pedidoSnapshot.numero || "").padStart(4, "0")}`;
+  const cliente = pedidoSnapshot.cliente || "Cliente de mostrador";
+
+  const logoSrc = `${window.location.origin}/img/logo_1.png`;
+
+  const ticketHTML = `
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Ticket de consumo</title>
+      <style>
+        * { box-sizing: border-box; }
+
+        body {
+          font-family: Arial, sans-serif;
+          padding: 20px;
+          margin: 0;
+          background: #ffffff;
+        }
+
+        .ticket {
+          max-width: 360px;
+          margin: 0 auto;
+          border: 1px solid #ddd;
+          border-radius: 12px;
+          background: #fafafa;
+          padding: 16px 14px;
+        }
+
+        .ticket-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          margin-bottom: 8px;
+        }
+
+        .logo-wrapper {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 2px solid #f97316;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 4px;
+        }
+
+        .logo-wrapper img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .ticket-title {
+          font-size: 16px;
+          font-weight: 700;
+        }
+
+        .ticket-subtitle {
+          font-size: 12px;
+          color: #555;
+        }
+
+        .meta {
+          font-size: 12px;
+          margin-top: 8px;
+          display: flex;
+          justify-content: space-between;
+          gap: 8px;
+        }
+
+        .meta strong {
+          font-weight: 600;
+        }
+
+        hr {
+          border: none;
+          border-top: 1px dashed #ccc;
+          margin: 10px 0;
+        }
+
+        .items-header,
+        .item-row {
+          font-size: 12px;
+          display: grid;
+          grid-template-columns: 15% 55% 30%;
+          gap: 4px;
+          align-items: baseline;
+        }
+
+        .items-header {
+          font-weight: 700;
+        }
+
+        .item-comment {
+          font-size: 11px;
+          color: #555;
+          margin-top: 2px;
+          margin-bottom: 4px;
+          padding-left: 12%;
+        }
+
+        .totals {
+          font-size: 12px;
+          margin-top: 8px;
+        }
+
+        .totals div {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 2px;
+        }
+
+        .total-final span:last-child {
+          font-weight: 700;
+        }
+
+        .footer-text {
+          font-size: 11px;
+          text-align: center;
+          margin-top: 10px;
+          color: #666;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="ticket">
+        <div class="ticket-header">
+          <div class="logo-wrapper">
+            <img src="${logoSrc}" alt="La Parrilla Azteca" />
+          </div>
+          <div class="ticket-title">La Parrilla Azteca</div>
+          <div class="ticket-subtitle">Ticket de consumo · Caja</div>
+        </div>
+
+        <div class="meta">
+          <div>
+            <div><strong>Fecha:</strong> ${fechaStr}</div>
+            <div><strong>Hora:</strong> ${horaStr}</div>
+          </div>
+          <div style="text-align:right;">
+            <div><strong>Orden:</strong> ${folio}</div>
+            <div><strong>Cliente:</strong> ${cliente}</div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="items-header">
+          <span>Cant</span>
+          <span>Descripción</span>
+          <span>Importe</span>
+        </div>
+
+        <hr />
+
+        ${items
+          .map(
+            (i) => `
+          <div class="item-row">
+            <span>${i.qty}</span>
+            <span>${i.name}</span>
+            <span>$${(i.qty * i.unit).toFixed(2)}</span>
+          </div>
+          ${
+            i.comment
+              ? `<div class="item-comment">${i.comment}</div>`
+              : ""
+          }
+        `
+          )
+          .join("")}
+
+        <hr />
+
+        <div class="totals">
+          <div>
+            <span>Subtotal (sin IVA):</span>
+            <span>$${subtotalCalc.toFixed(2)}</span>
+          </div>
+          <div>
+            <span>IVA 8% (incluido):</span>
+            <span>$${ivaCalc.toFixed(2)}</span>
+          </div>
+          <div class="total-final">
+            <span>Total a pagar:</span>
+            <span>$${totalGeneral.toFixed(2)}</span>
+          </div>
+        </div>
+
+        <div class="footer-text">
+          ¡Gracias por tu visita!<br />
+          Vuelve pronto a La Parrilla Azteca.
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const printWindow = window.open("", "_blank", "width=600,height=800");
+  if (!printWindow) {
+    alert("No se pudo abrir la ventana de impresión. Revisa si el navegador bloquea ventanas emergentes.");
+    return;
+  }
+
+  printWindow.document.write(ticketHTML);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
 }
