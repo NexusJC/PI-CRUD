@@ -94,6 +94,7 @@ export const getTopDishes = async (req, res) => {
       FROM order_details
       WHERE dish_name IS NOT NULL AND dish_name <> ''
       GROUP BY dish_name
+      HAVING vendidos IS NOT NULL
       ORDER BY vendidos DESC
       LIMIT 5
     `);
