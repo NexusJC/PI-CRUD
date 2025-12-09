@@ -92,6 +92,7 @@ export const getTopDishes = async (req, res) => {
         dish_name AS nombre,
         SUM(quantity) AS vendidos
       FROM order_details
+      WHERE dish_name IS NOT NULL AND dish_name <> ''
       GROUP BY dish_name
       ORDER BY vendidos DESC
       LIMIT 5
@@ -99,10 +100,11 @@ export const getTopDishes = async (req, res) => {
 
     res.json(rows);
   } catch (error) {
-    console.error("Error cargando top dishes:", error);
+    console.error("Error en top dishes:", error);
     res.status(500).json({ error: "Error en servidor" });
   }
 };
+
 
 //datos ingresos totales
 export const getIngresosTotales = async (req, res) => {
