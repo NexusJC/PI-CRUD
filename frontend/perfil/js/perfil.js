@@ -276,3 +276,19 @@ function showConfirmCustom(message, onYes, onNo) {
     onYes();
   });
 }
+
+const btnLogoutPerfil = document.getElementById("btn-logout");
+
+if (btnLogoutPerfil) {
+  btnLogoutPerfil.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    showConfirmCustom(
+      "¿Seguro que quieres cerrar sesión?",
+      () => {
+        localStorage.clear();
+        window.location.href = "../login/login.html";
+      }
+    );
+  });
+}
