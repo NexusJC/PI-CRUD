@@ -311,20 +311,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ----- MODO OSCURO ----- */
  
-// ========== CERRAR SIDEBAR AL HACER CLICK FUERA ==========
-document.addEventListener("click", (e) => {
-  const sidebar    = document.getElementById("sidebar");
-  const menuToggle = document.getElementById("menuToggle");
+  /* ----- MODO OSCURO ----- */
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+      updateThemeButton(true);
+    }
 
-  if (!sidebar || !menuToggle) return;
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      updateThemeButton(isDark);
+    });
 
-  if (sidebar.classList.contains("active")) {
-    const clickInsideSidebar = sidebar.contains(e.target);
-    const clickOnToggle      = menuToggle.contains(e.target);
-    if (!clickInsideSidebar && !clickOnToggle) {
-      sidebar.classList.remove("active");
-      menuToggle.textContent = "☰";
+    function updateThemeButton(isDark) {
+      const icon = themeToggle.querySelector("i");
+      const text = themeToggle.querySelector("span");
+      if (!icon || !text) return;
+
+      if (isDark) {
+        icon.classList.replace("fa-moon", "fa-sun");
+        text.textContent = "Modo claro";
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+        text.textContent = "Modo oscuro";
+      }
     }
   }
-});
 });

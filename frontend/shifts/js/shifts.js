@@ -1,4 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // LOGOUT MENÚ / USUARIO
+  const btnLogout = document.getElementById("btn-logout");
+  
+  if (btnLogout) {
+    const isPerfilPage = window.location.pathname.includes("/perfil/");
+    
+    if (!isPerfilPage) {
+      btnLogout.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Mostrar la confirmación de logout
+        showLogoutConfirmMenu(() => {
+          try {
+            // Limpiar los datos almacenados
+            localStorage.clear();
+            if (window.sessionStorage) {
+              window.sessionStorage.clear();
+            }
+          } catch (err) {
+            console.warn("Error limpiando storage en logout:", err);
+          }
+
+          // Redirigir a la página de login
+          window.location.href = "../login/login.html";
+        });
+      });
+    }
+  }
 
   // Función para cargar los turnos
   async function cargarTurnos() {
@@ -14,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         p => p.status === "pendiente" || p.status === "en_proceso"
       );
 
-      renderTurnoActual(enProceso);
-      renderListaTurnos(visibles);
+      renderTurnoActual(enProceso);  
+      renderListaTurnos(visibles);   
 
     } catch (err) {
       console.warn("Error cargando turnos:", err);
@@ -25,8 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Función para renderizar el turno actual
   function renderTurnoActual(lista) {
     const cont = document.getElementById("turnosActuales");
-
-    cont.innerHTML = ""; // Limpiamos el contenido del contenedor
+    cont.innerHTML = ""; 
 
     if (lista.length === 0) {
       cont.innerHTML = `<p style="text-align:center; color:#777; font-weight:600;">No hay pedidos en proceso</p>`;
@@ -61,8 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cargar turnos al inicio
+  // Cargar turnos al inicio y actualizarlos cada 5 segundos
   cargarTurnos();
-  // Actualizar los turnos cada 5 segundos
   setInterval(cargarTurnos, 5000);
 });
