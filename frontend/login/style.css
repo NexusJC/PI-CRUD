@@ -558,6 +558,112 @@ footer p {
   }
 }
 
+/*===========================================================
+  ==================Pagina Password==========================
+  =========================================================*/   
+
+   .password-section {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background-image: url("https://res.cloudinary.com/dxstw1q2t/image/upload/v1765509221/fondo_password_real_vrwdmm.png");
+      background-size: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+.password-box {
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+      padding: 32px 40px;
+      max-width: 380px;
+      width: 100%;
+      align-content: center;
+      position: relative;
+    }
+
+    .password-box h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .password-box p.description {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    .password-box label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    .password-box input[type="email"] {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: #111827;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      margin-bottom: 20px;
+    }
+
+    .password-box input[type="email"]::placeholder {
+      color: #9ca3af;
+    }
+
+    .password-box input[type="email"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+    }
+
+    .submit-button {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      background: #e36842;
+      color: #ffffff;
+      transition: 0.15s, transform 0.05s;
+    }
+
+    .submit-button button:hover {
+      background: #1d4ed8;
+    }
+
+    .submit-button:active {
+      transform: translateY(1px);
+    }
+
+    .password-exit {
+       top: 10px;
+       left: 10px;
+       background: transparent;
+       border: none;
+       font-size: 15px;
+       color: #000;
+       cursor: pointer;
+       transition: 0.2s;
+       position: absolute;
+    }
+    .password-exit {
+       transform: scale(1.2);
+      color: #000;
+    }
 /* ==========================================================
    AJUSTE FINO FINAL: BOTÓN VOLVER (MÁS ABAJO Y MÁS A LA IZQUIERDA)
 ========================================================== */
