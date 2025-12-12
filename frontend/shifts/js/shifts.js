@@ -1,7 +1,22 @@
 /*************************************************
  *  SISTEMA DE VISUALIZACIÓN DE ÓRDENES
- *  Solo visualización y cancelación
+ *  Conectado a API real
  *************************************************/
+
+// Configuración de la API
+const API_BASE_URL = 'https://tu-dominio.com/api'; // Cambia esto por tu URL real
+const API_ENDPOINTS = {
+  orders: `${API_BASE_URL}/orders/list`,
+  myOrders: `${API_BASE_URL}/orders/my-orders`,
+  cancel: `${API_BASE_URL}/orders/:id/cancel`,
+  details: `${API_BASE_URL}/orders/:id/details`
+};
+
+// Verificar si estamos en desarrollo local
+const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+// URL base para desarrollo
+const LOCAL_API_BASE = IS_LOCAL ? 'http://localhost:3000/api' : API_BASE_URL;
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("🔄 Inicializando sistema de órdenes...");
@@ -43,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let currentOrders = [];
     let myOrder = null;
     let orderToCancel = null;
+    let cajaId = null; // ID de la caja del usuario
     
     /*************************************************
      *  SIDEBAR - FUNCIONALIDAD
@@ -209,8 +225,160 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     /*************************************************
+     *  CONEXIÓN A API - ÓRDENES
+     *************************************************/
+    
+    async function fetchOrders() {
+        try {
+            const token = localStorage.getItem("token");
+            
+            // Obtener caja_id del usuario si está disponible
+            // Esto dependerá de tu lógica de negocio
+            if (!cajaId) {
+                cajaId = await getUserCajaId();
+            }
+            
+            // Fetch de órdenes de la caja
+            const response = await fetch(`${LOCAL_API_BASE}/orders/list?caja_id=${cajaId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+            
+            const orders = await response.json();
+            return orders;
+            
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            
+            // Si hay error, cargar datos de ejemplo
+            if (currentOrders.length === 0) {
+                loadExampleOrders();
+            }
+            
+            return currentOrders;
+        }
+    }
+    
+    async function fetchMyOrders() {
+        try {
+            const token = localStorage.getItem("token");
+            const user = JSON.parse(localStorage.getItem("user") || "null");
+            
+            if (!token || !user) return null;
+            
+            // Obtener órdenes del usuario actual
+            // Necesitarías implementar este endpoint en tu backend
+            const response = await fetch(`${LOCAL_API_BASE}/orders/my-orders?user_id=${user.id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+            
+            const myOrders = await response.json();
+            return myOrders;
+            
+        } catch (error) {
+            console.error('Error fetching my orders:', error);
+            return null;
+        }
+    }
+    
+    async function cancelOrderAPI(orderId) {
+        try {
+            const token = localStorage.getItem("token");
+            
+            const response = await fetch(`${LOCAL_API_BASE}/orders/${orderId}/cancel`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            return result;
+            
+        } catch (error) {
+            console.error('Error canceling order:', error);
+            throw error;
+        }
+    }
+    
+    async function getOrderDetailsAPI(orderId) {
+        try {
+            const token = localStorage.getItem("token");
+            
+            const response = await fetch(`${LOCAL_API_BASE}/orders/${orderId}/details`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+            
+            const details = await response.json();
+            return details;
+            
+        } catch (error) {
+            console.error('Error fetching order details:', error);
+            return null;
+        }
+    }
+    
+    /*************************************************
      *  GESTIÓN DE ÓRDENES
      *************************************************/
+    
+    async function loadAndDisplayOrders() {
+        // Cargar órdenes de la API
+        const orders = await fetchOrders();
+        currentOrders = orders;
+        
+        // Cargar mi orden (si estoy logueado)
+        const token = localStorage.getItem("token");
+        if (token) {
+            const myOrders = await fetchMyOrders();
+            if (myOrders && myOrders.length > 0) {
+                // Buscar la orden más reciente del usuario
+                myOrder = myOrders[0];
+                
+                // Obtener detalles completos de la orden
+                if (myOrder.id) {
+                    const details = await getOrderDetailsAPI(myOrder.id);
+                    if (details) {
+                        myOrder.items = details.items;
+                    }
+                }
+            }
+        }
+        
+        // Actualizar la interfaz
+        updateMyOrderCard();
+        updateProcessingOrdersList();
+        updateCounters();
+        updateCurrentOrderDisplay();
+        
+        // Guardar en localStorage para offline
+        saveOrdersToStorage();
+    }
     
     function updateMyOrderCard() {
         if (!myOrder) {
@@ -222,10 +390,22 @@ document.addEventListener("DOMContentLoaded", function() {
             myOrderCard.style.display = "block";
             
             // Actualizar información básica
-            document.getElementById("myOrderNumber").textContent = `#${myOrder.id}`;
+            document.getElementById("myOrderNumber").textContent = `#${myOrder.order_number || myOrder.id}`;
             document.getElementById("myOrderStatus").textContent = getStatusText(myOrder.status);
-            document.getElementById("myPosition").textContent = `#${myOrder.position}`;
-            document.getElementById("myEstimatedTime").textContent = `${myOrder.estimatedTime} min`;
+            
+            // Calcular posición
+            if (myOrder.position) {
+                document.getElementById("myPosition").textContent = `#${myOrder.position}`;
+            } else {
+                // Calcular posición basada en órdenes en proceso
+                const processingOrders = currentOrders.filter(o => o.status === 'en_proceso' || o.status === 'pendiente');
+                const position = processingOrders.findIndex(o => o.id === myOrder.id) + 1;
+                document.getElementById("myPosition").textContent = position > 0 ? `#${position}` : '--';
+            }
+            
+            // Tiempo estimado
+            const estimatedTime = calculateEstimatedTime(myOrder);
+            document.getElementById("myEstimatedTime").textContent = `${estimatedTime} min`;
             
             // Actualizar estado
             const statusBadge = myOrderCard.querySelector(".status-badge");
@@ -241,10 +421,14 @@ document.addEventListener("DOMContentLoaded", function() {
             if (itemsList && myOrder.items) {
                 let itemsHtml = '';
                 myOrder.items.forEach(item => {
+                    const name = item.dish_name || item.name || 'Producto';
+                    const quantity = item.quantity || 1;
+                    const price = item.price || 0;
+                    
                     itemsHtml += `
                         <li>
-                            <span class="item-name">${item.name} x${item.quantity}</span>
-                            <span class="item-price">$${item.price.toFixed(2)}</span>
+                            <span class="item-name">${name} x${quantity}</span>
+                            <span class="item-price">$${parseFloat(price).toFixed(2)}</span>
                         </li>
                     `;
                 });
@@ -252,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             
             if (orderTotal && myOrder.total) {
-                orderTotal.textContent = myOrder.total.toFixed(2);
+                orderTotal.textContent = parseFloat(myOrder.total).toFixed(2);
             }
         }
     }
@@ -260,7 +444,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateProcessingOrdersList() {
         const processingList = document.getElementById("processingOrdersList");
         const emptyState = processingList.querySelector(".empty-state");
-        const processingOrders = currentOrders.filter(o => o.status === 'processing');
+        const processingOrders = currentOrders.filter(o => 
+            o.status === 'en_proceso' || o.status === 'pendiente'
+        );
         
         if (processingOrders.length === 0) {
             if (emptyState) emptyState.style.display = "block";
@@ -270,19 +456,24 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if (emptyState) emptyState.style.display = "none";
         
-        // Ordenar por tiempo de creación
-        processingOrders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        // Ordenar por order_number o created_at
+        processingOrders.sort((a, b) => {
+            if (a.order_number && b.order_number) return a.order_number - b.order_number;
+            return new Date(a.created_at) - new Date(b.created_at);
+        });
         
         let html = '';
         processingOrders.forEach(order => {
-            const timeAgo = getTimeAgo(order.createdAt);
+            const timeAgo = getTimeAgo(order.created_at);
+            const statusText = getStatusText(order.status);
             
             html += `
                 <div class="order-item ${order.status}">
                     <div class="order-info">
-                        <div class="order-number">#${order.id}</div>
-                        <div class="order-customer">${order.customerName}</div>
-                        <div class="order-details">${order.itemsCount} items • $${order.total.toFixed(2)}</div>
+                        <div class="order-number">#${order.order_number || order.id}</div>
+                        <div class="order-customer">${order.customer_name || 'Cliente'}</div>
+                        <div class="order-details">${order.items_count || '?'} items • $${parseFloat(order.total || 0).toFixed(2)}</div>
+                        <div class="order-status-indicator">${statusText}</div>
                         <div class="order-time">
                             <i class="fas fa-clock"></i> Hace ${timeAgo}
                         </div>
@@ -294,9 +485,27 @@ document.addEventListener("DOMContentLoaded", function() {
         processingList.innerHTML = html;
     }
     
+    function updateCurrentOrderDisplay() {
+        // Encontrar la orden actualmente en proceso
+        const currentOrder = currentOrders.find(o => o.status === 'en_proceso');
+        
+        if (currentOrder) {
+            document.getElementById("currentOrderNumber").textContent = `#${currentOrder.order_number}`;
+            document.getElementById("currentCustomer").textContent = currentOrder.customer_name || 'Cliente';
+            
+            // Actualizar timer si es necesario
+            startCurrentOrderTimer(currentOrder.created_at);
+        } else {
+            document.getElementById("currentOrderNumber").textContent = "#--";
+            document.getElementById("currentCustomer").textContent = "Esperando...";
+        }
+    }
+    
     function updateCounters() {
         const processingCount = document.getElementById("processingCount");
-        const processingOrders = currentOrders.filter(o => o.status === 'processing');
+        const processingOrders = currentOrders.filter(o => 
+            o.status === 'en_proceso' || o.status === 'pendiente'
+        );
         
         if (processingCount) {
             processingCount.textContent = processingOrders.length;
@@ -309,9 +518,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function getStatusText(status) {
         const statusMap = {
-            'waiting': 'En espera',
+            'pendiente': 'En espera',
+            'en_proceso': 'En preparación',
+            'entregado': 'Entregado',
+            'cancelado': 'Cancelado',
             'processing': 'En preparación',
-            'ready': 'Listo para recoger',
+            'waiting': 'En espera',
             'completed': 'Completado',
             'cancelled': 'Cancelado'
         };
@@ -319,6 +531,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     function getTimeAgo(dateString) {
+        if (!dateString) return '--';
+        
         const date = new Date(dateString);
         const now = new Date();
         const diffMs = now - date;
@@ -333,13 +547,56 @@ document.addEventListener("DOMContentLoaded", function() {
         return `${diffHours} horas`;
     }
     
+    function calculateEstimatedTime(order) {
+        // Estimación simple basada en posición
+        const processingOrders = currentOrders.filter(o => 
+            o.status === 'en_proceso' || o.status === 'pendiente'
+        );
+        
+        // Ordenar para encontrar posición
+        processingOrders.sort((a, b) => {
+            if (a.order_number && b.order_number) return a.order_number - b.order_number;
+            return new Date(a.created_at) - new Date(b.created_at);
+        });
+        
+        const position = processingOrders.findIndex(o => o.id === order.id) + 1;
+        
+        // Estimación: 15 minutos por posición
+        return position * 15;
+    }
+    
+    function startCurrentOrderTimer(startTime) {
+        if (!startTime) return;
+        
+        const start = new Date(startTime);
+        const timerElement = document.getElementById("currentTimer");
+        const timeElapsedElement = document.getElementById("currentTimeElapsed");
+        
+        function updateTimer() {
+            const now = new Date();
+            const diffMs = now - start;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffSecs = Math.floor((diffMs % 60000) / 1000);
+            
+            // Formato MM:SS
+            const timerString = `${diffMins.toString().padStart(2, '0')}:${diffSecs.toString().padStart(2, '0')}`;
+            
+            if (timerElement) timerElement.textContent = timerString;
+            if (timeElapsedElement) timeElapsedElement.textContent = `${diffMins} min`;
+        }
+        
+        // Actualizar inmediatamente y cada segundo
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    }
+    
     /*************************************************
      *  CANCELACIÓN DE ORDEN
      *************************************************/
     
     function openCancelModal(order) {
         orderToCancel = order;
-        cancelOrderNumber.textContent = `#${order.id}`;
+        cancelOrderNumber.textContent = `#${order.order_number || order.id}`;
         cancelModal.style.display = "flex";
         document.body.style.overflow = "hidden";
     }
@@ -350,32 +607,46 @@ document.addEventListener("DOMContentLoaded", function() {
         orderToCancel = null;
     }
     
-    function cancelOrder() {
+    async function cancelOrder() {
         if (!orderToCancel) return;
         
-        // Cambiar estado de la orden
-        const orderIndex = currentOrders.findIndex(o => o.id === orderToCancel.id);
-        if (orderIndex !== -1) {
-            currentOrders[orderIndex].status = 'cancelled';
+        try {
+            // Llamar a la API para cancelar
+            const result = await cancelOrderAPI(orderToCancel.id);
             
-            // Si es mi orden, actualizar
-            if (myOrder && myOrder.id === orderToCancel.id) {
-                myOrder.status = 'cancelled';
-                updateMyOrderCard();
+            if (result.success) {
+                // Actualizar estado localmente
+                const orderIndex = currentOrders.findIndex(o => o.id === orderToCancel.id);
+                if (orderIndex !== -1) {
+                    currentOrders[orderIndex].status = 'cancelado';
+                }
+                
+                // Si es mi orden, actualizar
+                if (myOrder && myOrder.id === orderToCancel.id) {
+                    myOrder.status = 'cancelado';
+                    updateMyOrderCard();
+                }
+                
+                // Actualizar listas
+                updateProcessingOrdersList();
+                updateCounters();
+                updateCurrentOrderDisplay();
+                
+                // Guardar cambios
+                saveOrdersToStorage();
+                
+                // Mostrar mensaje
+                showNotification(`❌ Orden #${orderToCancel.order_number || orderToCancel.id} cancelada exitosamente`, 'danger');
+                
+                // Cerrar modal
+                closeCancelModal();
+            } else {
+                throw new Error(result.message || 'Error al cancelar');
             }
             
-            // Actualizar listas
-            updateProcessingOrdersList();
-            updateCounters();
-            
-            // Guardar cambios
-            saveOrdersToStorage();
-            
-            // Mostrar mensaje
-            showNotification(`❌ Orden #${orderToCancel.id} cancelada exitosamente`, 'danger');
-            
-            // Cerrar modal
-            closeCancelModal();
+        } catch (error) {
+            console.error('Error canceling order:', error);
+            showNotification('❌ Error al cancelar la orden', 'danger');
         }
     }
     
@@ -417,64 +688,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     /*************************************************
-     *  SIMULACIÓN DE ORDEN ACTUAL EN PREPARACIÓN
-     *************************************************/
-    
-    function simulateCurrentOrder() {
-        // Órdenes de ejemplo
-        const exampleOrders = [
-            { 
-                id: 1001, 
-                customer: "Juan Pérez",
-                items: ["Hamburguesa Especial", "Papas Fritas", "Refresco"],
-                time: "12 min"
-            },
-            { 
-                id: 1002, 
-                customer: "María García",
-                items: ["Tacos al Pastor", "Orden de Guacamole"],
-                time: "8 min"
-            },
-            { 
-                id: 1003, 
-                customer: "Carlos López",
-                items: ["Enchiladas Verdes", "Sopa Tortilla"],
-                time: "15 min"
-            }
-        ];
-        
-        let currentIndex = 0;
-        
-        function updateCurrentOrder() {
-            const order = exampleOrders[currentIndex % exampleOrders.length];
-            
-            document.getElementById("currentOrderNumber").textContent = `#${order.id}`;
-            document.getElementById("currentCustomer").textContent = order.customer;
-            
-            currentIndex++;
-        }
-        
-        // Actualizar cada 45 segundos
-        updateCurrentOrder();
-        setInterval(updateCurrentOrder, 45000);
-        
-        // Simular timer
-        let seconds = 0;
-        function updateTimer() {
-            seconds++;
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            const timerString = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-            
-            document.getElementById("currentTimer").textContent = timerString;
-            document.getElementById("currentTimeElapsed").textContent = `${minutes} min`;
-        }
-        
-        setInterval(updateTimer, 1000);
-    }
-    
-    /*************************************************
-     *  ALMACENAMIENTO LOCAL
+     *  ALMACENAMIENTO LOCAL Y EJEMPLOS
      *************************************************/
     
     function loadOrdersFromStorage() {
@@ -488,15 +702,58 @@ document.addEventListener("DOMContentLoaded", function() {
         if (savedMyOrder) {
             myOrder = JSON.parse(savedMyOrder);
         }
-        
-        updateMyOrderCard();
-        updateProcessingOrdersList();
-        updateCounters();
     }
     
     function saveOrdersToStorage() {
         localStorage.setItem('currentOrders', JSON.stringify(currentOrders));
-        localStorage.setItem('myOrder', JSON.stringify(myOrder));
+        if (myOrder) {
+            localStorage.setItem('myOrder', JSON.stringify(myOrder));
+        }
+    }
+    
+    function loadExampleOrders() {
+        // Datos de ejemplo cuando no hay conexión
+        const exampleOrders = [
+            {
+                id: 1001,
+                order_number: 1001,
+                customer_name: "Cliente Ejemplo 1",
+                total: 125.50,
+                status: 'en_proceso',
+                created_at: new Date(Date.now() - 15 * 60000).toISOString(),
+                caja_id: 1,
+                items_count: 3
+            },
+            {
+                id: 1002,
+                order_number: 1002,
+                customer_name: "Cliente Ejemplo 2",
+                total: 110.00,
+                status: 'pendiente',
+                created_at: new Date(Date.now() - 8 * 60000).toISOString(),
+                caja_id: 1,
+                items_count: 2
+            }
+        ];
+        
+        currentOrders = exampleOrders;
+        
+        // Datos de ejemplo para mi orden si estoy logueado
+        const token = localStorage.getItem("token");
+        if (token) {
+            myOrder = {
+                id: 1002,
+                order_number: 1002,
+                customer_name: "Tú (Cliente Ejemplo)",
+                total: 110.00,
+                status: 'pendiente',
+                created_at: new Date(Date.now() - 8 * 60000).toISOString(),
+                items: [
+                    { dish_name: "Tacos al Pastor", quantity: 3, price: 25.00 },
+                    { dish_name: "Orden de Guacamole", quantity: 1, price: 35.00 }
+                ]
+            };
+        }
     }
     
     /*************************************************
@@ -537,7 +794,7 @@ document.addEventListener("DOMContentLoaded", function() {
      *  INICIALIZACIÓN
      *************************************************/
     
-    function init() {
+    async function init() {
         console.log("✅ Sistema de órdenes inicializado");
         
         // Inicializar tema
@@ -546,80 +803,38 @@ document.addEventListener("DOMContentLoaded", function() {
         // Inicializar autenticación
         updateSidebarAuth();
         
-        // Cargar órdenes desde almacenamiento
+        // Cargar órdenes desde almacenamiento (offline)
         loadOrdersFromStorage();
         
-        // Iniciar simulación de orden actual
-        simulateCurrentOrder();
+        // Intentar cargar órdenes desde API
+        await loadAndDisplayOrders();
         
-        // Añadir órdenes de ejemplo si no hay ninguna
-        if (currentOrders.length === 0) {
-            setTimeout(() => {
-                const exampleOrders = [
-                    {
-                        id: 1001,
-                        customerName: "Cliente Ejemplo 1",
-                        items: [
-                            { name: "Hamburguesa Especial", quantity: 1, price: 85.50 },
-                            { name: "Papas Fritas", quantity: 1, price: 25.00 },
-                            { name: "Refresco", quantity: 1, price: 15.00 }
-                        ],
-                        total: 125.50,
-                        itemsCount: 3,
-                        status: 'processing',
-                        createdAt: new Date(Date.now() - 15 * 60000).toISOString(), // 15 mins ago
-                        position: 1,
-                        estimatedTime: 20
-                    },
-                    {
-                        id: 1002,
-                        customerName: "Cliente Ejemplo 2",
-                        items: [
-                            { name: "Tacos al Pastor", quantity: 3, price: 75.00 },
-                            { name: "Orden de Guacamole", quantity: 1, price: 35.00 }
-                        ],
-                        total: 110.00,
-                        itemsCount: 2,
-                        status: 'processing',
-                        createdAt: new Date(Date.now() - 8 * 60000).toISOString(), // 8 mins ago
-                        position: 2,
-                        estimatedTime: 15
-                    },
-                    {
-                        id: 1003,
-                        customerName: "Cliente Ejemplo 3",
-                        items: [
-                            { name: "Enchiladas Verdes", quantity: 1, price: 65.00 },
-                            { name: "Sopa Tortilla", quantity: 1, price: 45.00 }
-                        ],
-                        total: 110.00,
-                        itemsCount: 2,
-                        status: 'waiting',
-                        createdAt: new Date(Date.now() - 5 * 60000).toISOString(), // 5 mins ago
-                        position: 3,
-                        estimatedTime: 25
-                    }
-                ];
-                
-                currentOrders = exampleOrders;
-                
-                // Asignar una orden al usuario actual si está logueado
-                const token = localStorage.getItem("token");
-                if (token) {
-                    myOrder = exampleOrders[2]; // Asignar la orden en espera
-                }
-                
-                updateMyOrderCard();
-                updateProcessingOrdersList();
-                updateCounters();
-                saveOrdersToStorage();
-            }, 1000);
-        }
+        // Configurar actualización periódica
+        setInterval(async () => {
+            await loadAndDisplayOrders();
+        }, 30000); // Actualizar cada 30 segundos
+        
+        // Actualizar autenticación al cambiar de página
+        window.addEventListener("pageshow", updateSidebarAuth);
+    }
+    
+    // Helper para obtener caja_id del usuario
+    async function getUserCajaId() {
+        // Esta función dependerá de tu lógica de negocio
+        // Puedes obtenerlo del token, del usuario, o de otra API
+        
+        // Opción 1: De localStorage si ya lo tienes
+        const savedCajaId = localStorage.getItem('caja_id');
+        if (savedCajaId) return parseInt(savedCajaId);
+        
+        // Opción 2: De los datos del usuario
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        if (user && user.caja_id) return user.caja_id;
+        
+        // Opción 3: Default a 1 (para pruebas)
+        return 1;
     }
     
     // Inicializar cuando el DOM esté listo
     init();
-    
-    // Actualizar autenticación al cambiar de página
-    window.addEventListener("pageshow", updateSidebarAuth);
 });
