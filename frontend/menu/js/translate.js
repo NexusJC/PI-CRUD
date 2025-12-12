@@ -6,7 +6,7 @@ let currentLanguage = 'es'; // Idioma original del sitio: español
 // Etiquetas HTML que intentaremos traducir de forma genérica
 const translatableElements = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-  'p', 'a', 'span', 'li', 'strong', 'button'
+  'p', 'a', 'span', 'li', 'strong', 'button','div'
 ];
 
 // =====================================================================
