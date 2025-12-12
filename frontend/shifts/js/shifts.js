@@ -857,4 +857,80 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Inicializar cuando el DOM esté listo
     init();
+
+
+    async function cargarTurnos() {
+        try {
+            const res = await fetch(`${API_BASE_URL}/orders/all`);
+            const pedidos = await res.json();
+
+            if (!Array.isArray(pedidos)) return;
+
+            const enProceso = pedidos.filter(p => p.status === "en_proceso");
+            const visibles = pedidos.filter(
+                p => p.status === "pendiente" || p.status === "en_proceso"
+            );
+
+            renderTurnoActual(enProceso);  // Para mostrar el turno actual
+            renderListaTurnos(visibles);    // Para mostrar la lista de turnos
+
+        } catch (err) {
+            console.warn("Error cargando turnos:", err);
+        }
+    }
+
+    /*************************************************
+     *   PANEL DERECHO — TURNO ACTUAL GRANDE
+     *************************************************/
+    function renderTurnoActual(lista) {
+        const cont = document.getElementById("turnosActuales");
+        const nombre = document.getElementById("nombreUsuarioActual");
+
+        cont.innerHTML = "";
+        nombre.textContent = "—";
+
+        if (lista.length === 0) {
+            cont.innerHTML = `
+                <p style="text-align:center; color:#777; font-weight:600;">
+                    No hay pedidos en proceso
+                </p>`;
+            return;
+        }
+
+        const t = lista[0];
+
+        cont.innerHTML = `
+            <span>${t.order_number}</span>
+            <span>${t.caja_id ?? "—"}</span>
+        `;
+        nombre.textContent = t.customer_name || "Cliente";
+    }
+
+    /*************************************************
+     *   PANEL IZQUIERDO — LISTA DE TURNOS
+     *************************************************/
+    function renderListaTurnos(turnos) {
+        const contenedor = document.getElementById("listaTurnos");
+
+        contenedor.innerHTML = ''; // Limpiar la lista
+
+        if (turnos.length === 0) {
+            contenedor.innerHTML = `<p>No hay turnos pendientes o en proceso.</p>`;
+            return;
+        }
+
+        turnos.forEach(turno => {
+            contenedor.innerHTML += `
+                <div class="turno">
+                    <span>Orden #${turno.order_number}</span>
+                    <span>${turno.customer_name}</span>
+                    <span>${turno.status}</span>
+                </div>
+            `;
+        });
+    }
+
+    // Llamada inicial a la función para cargar los turnos
+    cargarTurnos();
+
 });
