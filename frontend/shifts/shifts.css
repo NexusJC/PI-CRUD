@@ -1083,7 +1083,7 @@ body.dark {
   color: var(--text);
 }
 
-/* Topbar y sidebar */
+/* Sidebar y topbar en modo oscuro */
 body.dark .topbar {
   background: #252a32;
 }
@@ -1099,11 +1099,13 @@ body.dark .sidebar-profile {
 }
 
 body.dark .sidebar ul li a {
-  color: #d9d9d9;
+  color: #d9d9d9; /* Ajustamos el color del texto en el sidebar */
 }
 
-/* Cuadros de contenido (tarjetas) */
-body.dark .order-details {
+/* Cuadros (tarjetas) */
+body.dark .order-details, 
+body.dark .od-item, 
+body.dark .od-summary {
   background: #0b0f14;
   border: 1px solid #1a2129;
 }
@@ -1117,7 +1119,7 @@ body.dark .od-summary {
   background: #0b0f14;
 }
 
-/* Botones y elementos interactivos */
+/* Botones y botones interactivos */
 body.dark .add-btn,
 body.dark .od-confirm,
 body.dark .od-print,
@@ -1126,6 +1128,7 @@ body.dark .open-btn {
   color: #fff !important;
 }
 
+/* Elementos del menú (tarjetas) */
 body.dark .menu-shell {
   background: linear-gradient(135deg, #0f172a, #020617);
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(15, 23, 42, 0.9) inset;
@@ -1134,57 +1137,6 @@ body.dark .menu-shell {
 body.dark .menu-inner {
   background: #020617;
   border-color: #111827;
-}
-
-body.dark .hero-title {
-  color: #f9fafb;
-}
-
-body.dark .hero-subtitle {
-  color: #9ca3af;
-}
-
-body.dark .hero-highlight {
-  background: radial-gradient(circle at top left, #111827 0, #020617 55%, #020617 100%);
-}
-
-body.dark .hero-highlight-text {
-  color: #e5e7eb;
-}
-
-body.dark .hero-highlight-meta span {
-  background: #0b1120;
-  color: #e5e7eb;
-}
-
-/* Estilos de menú y filtros */
-body.dark .category-section {
-  border-top-color: #1f2937;
-}
-
-body.dark .category-btn {
-  background: #020617;
-  border-color: #1f2937;
-  color: #e5e7eb;
-}
-
-body.dark .category-btn:hover {
-  background: #111827;
-  border-color: var(--accent);
-}
-
-body.dark .category-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-body.dark .menu-caption {
-  color: #6b7280;
-}
-
-body.dark .menu-pill {
-  background: #020617;
-  color: #e5e7eb;
 }
 
 body.dark .menu-card {
@@ -1202,22 +1154,49 @@ body.dark .menu-card-meta {
   color: #fed7aa;
 }
 
-body.dark .menu-card .details-badge {
-  background: rgba(15, 23, 42, 0.9);
+/* Filtros y botones del menú */
+body.dark .category-btn {
+  background: #020617;
+  border-color: #1f2937;
+  color: #e5e7eb;
 }
 
-/* Estilos de footer */
-body.dark .site-footer {
-  background: radial-gradient(circle at top left, #020617 0, #020617 100%);
+body.dark .category-btn:hover {
+  background: #111827;
+  border-color: var(--accent);
 }
 
-/* Tema del botón de cambio de modo */
-body.dark #themeToggle {
+body.dark .category-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Mejoras de legibilidad en el sidebar */
+body.dark .sidebar-user-info, 
+body.dark .sidebar-footer {
+  color: #e5e7eb;
+}
+
+body.dark .sidebar-footer {
+  background: #1e293b;
+}
+
+body.dark .theme-toggle-btn {
   background: #333;
   color: #ffffff;
   border: 1px solid #1a2129;
 }
 
-body.dark #themeToggle:hover {
+body.dark .theme-toggle-btn:hover {
   background: #1a2129;
+}
+
+/* Pie de página */
+body.dark .site-footer {
+  background: radial-gradient(circle at top left, #020617 0, #020617 100%);
+}
+
+/* Ajustes de visibilidad para el pie de página */
+body.dark .footer-text {
+  color: #f9fafb;
 }
