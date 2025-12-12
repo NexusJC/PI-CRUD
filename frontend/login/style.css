@@ -568,8 +568,11 @@ footer p {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f1f3f6;
       padding: 20px;
+      background-image: url("https://res.cloudinary.com/dxstw1q2t/image/upload/v1765509221/fondo_password_real_vrwdmm.png");
+      background-size: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 .password-box {
       background: #ffffff;
