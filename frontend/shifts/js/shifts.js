@@ -4,7 +4,7 @@
  *************************************************/
 
 // Configuración de la API
-const API_BASE_URL = 'https://tu-dominio.com/api'; // Cambia esto por tu URL real
+const API_BASE_URL = 'https://www.laparrilaazteca.online/'; // Cambia esto por tu URL real
 const API_ENDPOINTS = {
   orders: `${API_BASE_URL}/orders/list`,
   myOrders: `${API_BASE_URL}/orders/my-orders`,
