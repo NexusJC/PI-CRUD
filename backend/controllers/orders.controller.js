@@ -307,25 +307,3 @@ export const getAllOrders = async (req, res) => {
     res.status(500).json({ error: "Error obteniendo todos los pedidos" });
   }
 };
-
-// Obtener mis pedidos (usuario autenticado)
-export const getMyOrders = async (req, res) => {
-  try {
-    const userId = req.user.id; // Obtener del middleware authRequired
-    
-    const [rows] = await pool.query(
-      `SELECT id, order_number, customer_name, total, status, caja_id, created_at
-       FROM orders
-       WHERE user_id = ?
-         AND status IN ('pendiente', 'en_proceso')
-       ORDER BY created_at DESC
-       LIMIT 5`, // Solo las últimas 5 órdenes activas
-      [userId]
-    );
-
-    res.json(rows);
-  } catch (error) {
-    console.log("ERROR getMyOrders:", error);
-    res.status(500).json({ error: "Error obteniendo tus pedidos" });
-  }
-};

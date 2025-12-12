@@ -3,8 +3,8 @@ import {createOrder,getOrders,getOrderDetails,deliverOrder,cancelOrder,updateOrd
 import { authRequired } from "../middlewares/authRequired.js";
 const router = express.Router();
 
-// Crear pedido (con autenticación)
-router.post("/create", authRequired, createOrder);
+// Crear pedido
+router.post("/create", createOrder);
 
 // Obtener lista de pedidos
 router.get("/list", getOrders);
@@ -21,10 +21,8 @@ router.put("/:id/cancel", cancelOrder);
 // EDITAR pedido
 router.put("/:id/edit", updateOrder);
 
-// Obtener mis pedidos (USUARIO AUTENTICADO)
-router.get("/my-orders", authRequired, getMyOrders);
+router.post("/create", authRequired, createOrder);
 
-// Obtener TODOS los pedidos (ADMIN)
 router.get("/all", getAllOrders);
 
 export default router;
