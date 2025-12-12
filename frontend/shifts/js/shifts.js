@@ -167,3 +167,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  // Función para manejar el modo oscuro
+  const themeToggle = document.getElementById("themeToggle");
+
+  if (themeToggle) {
+    const savedTheme = localStorage.getItem("theme");
+    
+    // Si hay una preferencia guardada, aplicarla
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+      updateThemeButton(true);
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      updateThemeButton(isDark);
+    });
+
+    // Función para actualizar el botón del tema
+    function updateThemeButton(isDark) {
+      const icon = themeToggle.querySelector("i");
+      const text = themeToggle.querySelector("span");
+      if (!icon || !text) return;
+
+      if (isDark) {
+        icon.classList.replace("fa-moon", "fa-sun");
+        text.textContent = "Modo claro";
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+        text.textContent = "Modo oscuro";
+      }
+    }
+  }
+});

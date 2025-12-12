@@ -1068,3 +1068,161 @@ body.dark-mode .sidebar-overlay {
   transform: translateY(-1px);
   filter: brightness(1.03);
 }
+/* Modo oscuro */
+body.dark {
+  --topbar: #161d26;
+  --bg: #131920;
+  --panel: #131920;
+  --text: #ffffff;
+  --card: #0b0f14;
+  --border: #1a2129;
+  --accent: #ff7a45;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Topbar y sidebar en oscuro */
+body.dark .topbar {
+  background: #252a32;
+}
+
+body.dark .sidebar {
+  background: #0f1419;
+  border-right: 1px solid #1a2129;
+}
+
+body.dark .sidebar-profile {
+  background: #131920 !important;
+  border-bottom: 1px solid #1a2129;
+}
+
+body.dark .sidebar ul li a {
+  color: #d9d9d9;
+}
+
+/* Panel de orden en oscuro */
+body.dark .order-details {
+  background: #0b0f14;
+  border: 1px solid #1a2129;
+}
+
+body.dark .od-item {
+  background: #161d26;
+  border: 1px solid #1a2129;
+}
+
+body.dark .od-summary {
+  background: #0b0f14;
+}
+
+/* Botones principales en acento */
+body.dark .add-btn,
+body.dark .od-confirm,
+body.dark .od-print,
+body.dark .open-btn {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* Main / menú oscuro */
+body.dark .menu-shell {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+}
+
+body.dark .menu-inner {
+  background: #020617;
+  border-color: #111827;
+}
+
+body.dark .hero-title {
+  color: #f9fafb;
+}
+
+body.dark .hero-subtitle {
+  color: #9ca3af;
+}
+
+body.dark .hero-highlight {
+  background: radial-gradient(
+    circle at top left,
+    #111827 0,
+    #020617 55%,
+    #020617 100%
+  );
+}
+
+body.dark .hero-highlight-text {
+  color: #e5e7eb;
+}
+
+body.dark .hero-highlight-meta span {
+  background: #0b1120;
+  color: #e5e7eb;
+}
+
+body.dark .category-section {
+  border-top-color: #1f2937;
+}
+
+body.dark .category-btn {
+  background: #020617;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark .category-btn:hover {
+  background: #111827;
+  border-color: var(--accent);
+}
+
+body.dark .category-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+body.dark .menu-caption {
+  color: #6b7280;
+}
+
+body.dark .menu-pill {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+body.dark .menu-card {
+  background: #020617;
+  border-color: #111827;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.8);
+}
+
+body.dark .menu-card-title {
+  color: #f9fafb;
+}
+
+body.dark .menu-card-meta {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fed7aa;
+}
+
+body.dark .menu-card .details-badge {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+/* Footer oscuro ya combina con el tema general */
+body.dark .site-footer {
+  background: radial-gradient(circle at top left, #020617 0, #020617 100%);
+}
+
+body.dark #themeToggle {
+  background: #333;
+  color: #ffffff;
+  border: 1px solid #1a2129;
+}
+
+body.dark #themeToggle:hover {
+  background: #1a2129;
+}
