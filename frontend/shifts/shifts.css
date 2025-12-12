@@ -936,6 +936,42 @@ body.dark-mode .sidebar-overlay {
   gap: 10px;
 }
 
+/* Notificaciones */
+.notification {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.notification.show {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.notification .notification-content {
+  display: flex;
+  align-items: center;
+}
+
+.notification i {
+  margin-right: 10px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {
