@@ -582,6 +582,7 @@ footer p {
       max-width: 380px;
       width: 100%;
       align-content: center;
+      position: relative;
     }
 
     .password-box h1 {
@@ -627,7 +628,7 @@ footer p {
       box-shadow: 0 0 0 1px #2563eb33;
     }
 
-    .password-box button {
+    .submit-button {
       width: 100%;
       border: none;
       border-radius: 8px;
@@ -635,19 +636,34 @@ footer p {
       font-size: 15px;
       font-weight: 500;
       cursor: pointer;
-      background: #2563eb; /* azul del botón */
+      background: #e36842;
       color: #ffffff;
       transition: 0.15s, transform 0.05s;
     }
 
-    .password-box button:hover {
+    .submit-button button:hover {
       background: #1d4ed8;
     }
 
-    .password-box button:active {
+    .submit-button:active {
       transform: translateY(1px);
     }
 
+    .password-exit {
+       top: 10px;
+       left: 10px;
+       background: transparent;
+       border: none;
+       font-size: 15px;
+       color: #000;
+       cursor: pointer;
+       transition: 0.2s;
+       position: absolute;
+    }
+    .password-exit {
+       transform: scale(1.2);
+      color: #000;
+    }
 /* ==========================================================
    AJUSTE FINO FINAL: BOTÓN VOLVER (MÁS ABAJO Y MÁS A LA IZQUIERDA)
 ========================================================== */
