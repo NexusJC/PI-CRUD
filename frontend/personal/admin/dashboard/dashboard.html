@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Administración</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="sidebar" id="sidebar">
+
+    <!-- HEADER -->
+    <div class="sidebar-header">
+      <h2>La Parrilla
+        <hr> 
+        Azteca</h2>
+      <span id="toggleSidebar" class="toggle-btn">☰</span>
+    </div>
+
+    <!-- MENÚ DEL SIDEBAR -->
+    <ul class="sidebar-menu">
+
+  <!-- DASHBOARD -->
+  <li class="active" onclick="location.href='dashboard.html'">
+    <i class="fa-solid fa-chart-pie icon"></i>
+    <span class="label">Dashboard</span>
+  </li>
+
+  <!-- GESTIÓN EMPLEADOS -->
+  <li onclick="location.href='../employee-management/employee.html'">
+    <i class="fa-solid fa-user-tie icon"></i>
+    <span class="label">Gestión Empleados</span>
+  </li>
+
+  <!-- GESTIÓN CAJAS -->
+  <li onclick="location.href='../gestioncajas/gestioncajas.html'">
+    <i class="fas fa-cash-register icon"></i>
+    <span class="label">Gestión Cajas</span>
+  </li>
+
+  <!-- AÑADIR PLATILLO -->
+  <li onclick="location.href='../add-dishes/add_dishes.html'">
+    <i class="fas fa-utensils icon"></i>
+    <span class="label">Añadir Platillo</span>
+  </li>
+
+</ul>
+
+
+    <!-- BOTÓN DE MODO OSCURO AL FINAL DEL SIDEBAR -->
+    <div class="theme-toggle" id="themeToggle">
+      <i class="fa-solid fa-moon"></i>
+      <span class="label">Modo oscuro</span>
+    </div>
+
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main">
+    <header class="topbar">
+      <h1>Dashboard General</h1>
+    </header>
+
+    <!-- ====================================
+          CARDS PRINCIPALES + NUEVAS CARDS
+         ==================================== -->
+    <section class="cards cards-extended">
+
+  <div class="card">
+    <h3>Platillo más vendido</h3>
+    <p class="number" id="topDish">Cargando...</p>
+  </div>
+
+  <div class="card">
+    <h3>Usuarios Registrados</h3>
+    <p class="number" id="totalUsers">Cargando...</p>
+  </div>
+
+  <div class="card">
+    <h3>Total de empleados</h3>
+    <p class="number" id="totalEmployees">Cargando...</p>
+  </div>
+
+  <div class="card">
+    <h3>Admins Activos</h3>
+    <p class="number" id="totalAdmins">Cargando...</p>
+  </div>
+
+  <div class="card">
+    <h3>Total de platillos</h3>
+    <p class="number" id="totalDishes">Cargando...</p>
+  </div>
+
+</section>
+
+
+    <!-- ====================================
+                GRÁFICAS NUEVAS
+         ==================================== -->
+    <section class="graphs graphs-extended">
+
+  <div class="graph">
+    <canvas id="salesChart"></canvas>
+  </div>
+
+  <div class="graph">
+    <canvas id="topDishesChart"></canvas>
+  </div>
+
+</section>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>     
+  <script src="../dashboard/js/dashboard.js"></script>
+</body>
+</html>
