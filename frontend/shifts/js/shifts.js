@@ -4,19 +4,13 @@
  *************************************************/
 
 // Configuración de la API
-const API_BASE_URL = 'https://www.laparrilaazteca.online/'; // Cambia esto por tu URL real
-const API_ENDPOINTS = {
-  orders: `${API_BASE_URL}/orders/list`,
-  myOrders: `${API_BASE_URL}/orders/my-orders`,
-  cancel: `${API_BASE_URL}/orders/:id/cancel`,
-  details: `${API_BASE_URL}/orders/:id/details`
-};
+const IS_LOCAL = window.location.hostname === 'localhost' || 
+                 window.location.hostname === '127.0.0.1' ||
+                 window.location.port === '5500' || // Live Server
+                 window.location.port === '3000';
 
-// Verificar si estamos en desarrollo local
-const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-// URL base para desarrollo
-const LOCAL_API_BASE = IS_LOCAL ? 'http://localhost:3000/api' : API_BASE_URL;
+// Usa esta URL base
+const API_BASE_URL = IS_LOCAL ? 'http://localhost:3000/api' : 'https://tu-dominio.com/api';
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("🔄 Inicializando sistema de órdenes...");
@@ -27,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Sidebar
     const menuToggle = document.getElementById("menuToggle");
     const sidebar = document.getElementById("sidebar");
-    const closeSidebar = document.getElementById("closeSidebar");
     const sidebarOverlay = document.querySelector(".sidebar-overlay");
     const themeToggle = document.getElementById("themeToggle");
     
@@ -90,10 +83,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Event listeners del sidebar
     if (menuToggle) {
         menuToggle.addEventListener("click", openSidebar);
-    }
-    
-    if (closeSidebar) {
-        closeSidebar.addEventListener("click", closeSidebarFunc);
     }
     
     if (sidebarOverlay) {
@@ -232,18 +221,21 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             const token = localStorage.getItem("token");
             
-            // Obtener caja_id del usuario si está disponible
-            // Esto dependerá de tu lógica de negocio
             if (!cajaId) {
                 cajaId = await getUserCajaId();
             }
             
-            // Fetch de órdenes de la caja
-            const response = await fetch(`${LOCAL_API_BASE}/orders/list?caja_id=${cajaId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
+            // Añadir token a la petición
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            const response = await fetch(`${API_BASE_URL}/orders/list?caja_id=${cajaId}`, {
+                headers: headers
             });
             
             if (!response.ok) {
@@ -272,9 +264,8 @@ document.addEventListener("DOMContentLoaded", function() {
             
             if (!token || !user) return null;
             
-            // Obtener órdenes del usuario actual
-            // Necesitarías implementar este endpoint en tu backend
-            const response = await fetch(`${LOCAL_API_BASE}/orders/my-orders?user_id=${user.id}`, {
+            // Usa el endpoint correcto
+            const response = await fetch(`${API_BASE_URL}/orders/my-orders`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -282,6 +273,12 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             
             if (!response.ok) {
+                if (response.status === 401) {
+                    // Token expirado, cerrar sesión
+                    localStorage.clear();
+                    updateSidebarAuth();
+                    return null;
+                }
                 throw new Error(`Error HTTP: ${response.status}`);
             }
             
@@ -298,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             const token = localStorage.getItem("token");
             
-            const response = await fetch(`${LOCAL_API_BASE}/orders/${orderId}/cancel`, {
+            const response = await fetch(`${API_BASE_URL}/orders/${orderId}/cancel`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -323,9 +320,9 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             const token = localStorage.getItem("token");
             
-            const response = await fetch(`${LOCAL_API_BASE}/orders/${orderId}/details`, {
+            const response = await fetch(`${API_BASE_URL}/orders/${orderId}/details`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': token ? `Bearer ${token}` : '',
                     'Content-Type': 'application/json'
                 }
             });
@@ -348,36 +345,45 @@ document.addEventListener("DOMContentLoaded", function() {
      *************************************************/
     
     async function loadAndDisplayOrders() {
-        // Cargar órdenes de la API
-        const orders = await fetchOrders();
-        currentOrders = orders;
-        
-        // Cargar mi orden (si estoy logueado)
-        const token = localStorage.getItem("token");
-        if (token) {
-            const myOrders = await fetchMyOrders();
-            if (myOrders && myOrders.length > 0) {
-                // Buscar la orden más reciente del usuario
-                myOrder = myOrders[0];
-                
-                // Obtener detalles completos de la orden
-                if (myOrder.id) {
-                    const details = await getOrderDetailsAPI(myOrder.id);
-                    if (details) {
-                        myOrder.items = details.items;
+        try {
+            // Cargar órdenes de la API
+            const orders = await fetchOrders();
+            currentOrders = Array.isArray(orders) ? orders : [];
+            
+            // Cargar mi orden (si estoy logueado)
+            const token = localStorage.getItem("token");
+            if (token) {
+                const myOrders = await fetchMyOrders();
+                if (myOrders && Array.isArray(myOrders) && myOrders.length > 0) {
+                    // Buscar la orden más reciente del usuario
+                    myOrder = myOrders[0];
+                    
+                    // Obtener detalles completos de la orden
+                    if (myOrder.id) {
+                        const details = await getOrderDetailsAPI(myOrder.id);
+                        if (details && details.items) {
+                            myOrder.items = details.items;
+                        }
                     }
+                } else {
+                    myOrder = null;
                 }
+            } else {
+                myOrder = null;
             }
+            
+            // Actualizar la interfaz
+            updateMyOrderCard();
+            updateProcessingOrdersList();
+            updateCounters();
+            updateCurrentOrderDisplay();
+            
+            // Guardar en localStorage para offline
+            saveOrdersToStorage();
+            
+        } catch (error) {
+            console.error('Error loading orders:', error);
         }
-        
-        // Actualizar la interfaz
-        updateMyOrderCard();
-        updateProcessingOrdersList();
-        updateCounters();
-        updateCurrentOrderDisplay();
-        
-        // Guardar en localStorage para offline
-        saveOrdersToStorage();
     }
     
     function updateMyOrderCard() {
@@ -820,18 +826,32 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Helper para obtener caja_id del usuario
     async function getUserCajaId() {
-        // Esta función dependerá de tu lógica de negocio
-        // Puedes obtenerlo del token, del usuario, o de otra API
+        // Primero intenta obtener del usuario
+        const user = JSON.parse(localStorage.getItem("user") || "null");
         
-        // Opción 1: De localStorage si ya lo tienes
+        if (user && user.caja_id) {
+            localStorage.setItem('caja_id', user.caja_id);
+            return user.caja_id;
+        }
+        
+        // Si no, intenta obtener del localStorage
         const savedCajaId = localStorage.getItem('caja_id');
         if (savedCajaId) return parseInt(savedCajaId);
         
-        // Opción 2: De los datos del usuario
-        const user = JSON.parse(localStorage.getItem("user") || "null");
-        if (user && user.caja_id) return user.caja_id;
+        // Si eres administrador, usa caja_id = 1 por defecto
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                // Opcional: hacer una petición para obtener la caja asignada
+                // Por ahora, usa 1 por defecto
+                return 1;
+            } catch (error) {
+                console.error('Error getting caja_id:', error);
+                return 1;
+            }
+        }
         
-        // Opción 3: Default a 1 (para pruebas)
+        // Para visitantes, usa caja_id = 1 (general)
         return 1;
     }
     
