@@ -1069,6 +1069,7 @@ body.dark-mode .sidebar-overlay {
   filter: brightness(1.03);
 }
 /* Modo oscuro */
+/* Modo oscuro */
 body.dark {
   --topbar: #161d26;
   --bg: #131920;
@@ -1082,7 +1083,7 @@ body.dark {
   color: var(--text);
 }
 
-/* Topbar y sidebar en oscuro */
+/* Topbar y sidebar */
 body.dark .topbar {
   background: #252a32;
 }
@@ -1101,7 +1102,7 @@ body.dark .sidebar ul li a {
   color: #d9d9d9;
 }
 
-/* Panel de orden en oscuro */
+/* Cuadros de contenido (tarjetas) */
 body.dark .order-details {
   background: #0b0f14;
   border: 1px solid #1a2129;
@@ -1116,7 +1117,7 @@ body.dark .od-summary {
   background: #0b0f14;
 }
 
-/* Botones principales en acento */
+/* Botones y elementos interactivos */
 body.dark .add-btn,
 body.dark .od-confirm,
 body.dark .od-print,
@@ -1125,12 +1126,9 @@ body.dark .open-btn {
   color: #fff !important;
 }
 
-/* Main / menú oscuro */
 body.dark .menu-shell {
   background: linear-gradient(135deg, #0f172a, #020617);
-  box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(15, 23, 42, 0.9) inset;
 }
 
 body.dark .menu-inner {
@@ -1147,12 +1145,7 @@ body.dark .hero-subtitle {
 }
 
 body.dark .hero-highlight {
-  background: radial-gradient(
-    circle at top left,
-    #111827 0,
-    #020617 55%,
-    #020617 100%
-  );
+  background: radial-gradient(circle at top left, #111827 0, #020617 55%, #020617 100%);
 }
 
 body.dark .hero-highlight-text {
@@ -1164,6 +1157,7 @@ body.dark .hero-highlight-meta span {
   color: #e5e7eb;
 }
 
+/* Estilos de menú y filtros */
 body.dark .category-section {
   border-top-color: #1f2937;
 }
@@ -1212,11 +1206,12 @@ body.dark .menu-card .details-badge {
   background: rgba(15, 23, 42, 0.9);
 }
 
-/* Footer oscuro ya combina con el tema general */
+/* Estilos de footer */
 body.dark .site-footer {
   background: radial-gradient(circle at top left, #020617 0, #020617 100%);
 }
 
+/* Tema del botón de cambio de modo */
 body.dark #themeToggle {
   background: #333;
   color: #ffffff;
