@@ -1,6 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Función para verificar si el usuario está logueado
+  function checkUserLoggedIn() {
+    const token = localStorage.getItem("token");
+    const user = getStoredUser();
+
+    if (!token || !user) {
+      // Si no hay token o usuario, redirigir al login
+      window.location.href = "../login/login.html";
+    }
+  }
+
+  // Función para obtener el usuario almacenado en localStorage
+  function getStoredUser() {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
+  }
+
+  // =============================== 
   // LOGOUT MENÚ / USUARIO
-  const btnLogout = document.getElementById("btn-logout");
+  // ===============================
+  const btnLogout = document.getElementById("btn-logout"); // Asegúrate de tener el botón de logout en el DOM
   
   if (btnLogout) {
     const isPerfilPage = window.location.pathname.includes("/perfil/");
@@ -28,7 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ===============================
   // Función para cargar los turnos
+  // ===============================
   async function cargarTurnos() {
     try {
       // Realizamos la petición a la API
@@ -42,18 +66,20 @@ document.addEventListener("DOMContentLoaded", () => {
         p => p.status === "pendiente" || p.status === "en_proceso"
       );
 
-      renderTurnoActual(enProceso);  
-      renderListaTurnos(visibles);   
+      renderTurnoActual(enProceso);  // Mostrar el turno actual
+      renderListaTurnos(visibles);   // Mostrar los turnos pendientes
 
     } catch (err) {
       console.warn("Error cargando turnos:", err);
     }
   }
 
+  // ===============================
   // Función para renderizar el turno actual
+  // ===============================
   function renderTurnoActual(lista) {
     const cont = document.getElementById("turnosActuales");
-    cont.innerHTML = ""; 
+    cont.innerHTML = ""; // Limpiamos el contenido del contenedor
 
     if (lista.length === 0) {
       cont.innerHTML = `<p style="text-align:center; color:#777; font-weight:600;">No hay pedidos en proceso</p>`;
@@ -68,7 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  // ===============================
   // Función para renderizar la lista de turnos
+  // ===============================
   function renderListaTurnos(lista) {
     const cont = document.getElementById("listaTurnos");
     cont.innerHTML = ""; // Limpiamos el contenido del contenedor
@@ -88,31 +116,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ===============================
   // Cargar turnos al inicio y actualizarlos cada 5 segundos
-  cargarTurnos();
+  // ===============================
   setInterval(cargarTurnos, 5000);
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Función para verificar si el usuario está logueado
-  function checkUserLoggedIn() {
-    const token = localStorage.getItem("token");
-    const user = getStoredUser();
-
-    if (!token || !user) {
-      // Si no hay token o usuario, redirigir al login
-      window.location.href = "../login/login.html";
-    }
-  }
-
-  // Función para obtener el usuario almacenado en localStorage
-  function getStoredUser() {
-    try {
-      return JSON.parse(localStorage.getItem("user") || "null");
-    } catch {
-      return null;
-    }
-  }
 
   // Verificación inicial al cargar la página
   checkUserLoggedIn();
