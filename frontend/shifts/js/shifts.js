@@ -92,8 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarTurnos();
   setInterval(cargarTurnos, 5000);
 });
+
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Verificar si el usuario está logueado
+  // =============================== 
+  // Función para verificar si el usuario está logueado
+  // ===============================
   function checkUserLoggedIn() {
     const token = localStorage.getItem("token");
     const user = getStoredUser();
@@ -222,4 +226,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Verificar si el usuario está logueado antes de cargar la página
   checkUserLoggedIn();
+
+  // ===============================
+  // Verificación cuando el usuario navega hacia atrás
+  // ===============================
+  window.addEventListener("pageshow", () => {
+    // Verificar el estado del usuario cuando regrese a la página
+    checkUserLoggedIn();
+  });
 });
