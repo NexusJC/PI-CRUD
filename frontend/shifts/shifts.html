@@ -80,28 +80,34 @@
 <main class="screen-orders">
   
   <!-- PANEL IZQUIERDO — ÓRDENES EN PREPARACIÓN -->
-  <section class="panel-izquierdo">
-    <div class="panel-header">
-      <h3><i class="fas fa-clock"></i> Órdenes en Preparación</h3>
-      <span class="badge" id="processingCount">0</span>
+  <!-- PANEL DERECHO — TURNO ACTUAL GRANDE -->
+<section class="panel-derecho">
+  <div class="current-order-card">
+    <div class="card-header">
+      <h3><i class="fas fa-fire"></i> Turno Actual</h3>
     </div>
     
-    <div class="panel-body">
-      <div class="orders-list" id="processingOrdersList">
-        <div class="empty-state">
-          <i class="fas fa-clock"></i>
-          <p>No hay órdenes en preparación</p>
-        </div>
+    <div class="card-body">
+      <div class="order-display" id="turnosActuales">
+        <!-- Aquí se mostrará el turno actual -->
       </div>
     </div>
-    
-    <div class="panel-footer">
-      <small><i class="fas fa-info-circle"></i> Las órdenes se actualizan automáticamente</small>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PANEL DERECHO — MI ORDEN Y ESTADO ACTUAL -->
-  <section class="panel-derecho">
+<!-- PANEL IZQUIERDO — LISTA DE TURNOS -->
+<section class="panel-izquierdo">
+  <div class="panel-header">
+    <h3><i class="fas fa-clock"></i> Lista de Turnos</h3>
+  </div>
+
+  <div class="panel-body">
+    <div class="orders-list" id="listaTurnos">
+      <!-- Aquí se listarán todos los turnos -->
+    </div>
+  </div>
+</section>
+
     
     <!-- ORDEN ACTUAL EN PREPARACIÓN -->
     <div class="current-order-card">
