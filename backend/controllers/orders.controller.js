@@ -1,12 +1,12 @@
 import { pool } from "../db.js";
 
+// Crear una orden
 export const createOrder = async (req, res) => {
   try {
     const { customerName, items, total } = req.body;
     const userId = req.user?.id || null;
 
     // 🔥 1. Obtener cajas ACTIVAS
-    // Obtener todas las cajas activas
     const [cajas] = await pool.query(
       "SELECT id FROM cajas WHERE estado = 'activa' ORDER BY id ASC"
     );
@@ -29,9 +29,8 @@ export const createOrder = async (req, res) => {
 
     const cajaAsignada = cajas[nextIndex].id;
 
-// Guardar la nueva última caja
-await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignada]);
-
+    // Guardar la nueva última caja
+    await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignada]);
 
     // 🔥 3. Obtener último número de orden
     const [last] = await pool.query(
@@ -41,12 +40,11 @@ await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignad
     const nextOrder = last.length ? last[0].order_number + 1 : 1;
 
     // 🔥 4. Crear encabezado de la orden **YA CON caja_id**
-     const [orderResult] = await pool.query(
-        `INSERT INTO orders (order_number, customer_name, total, user_id, caja_id)
+    const [orderResult] = await pool.query(
+      `INSERT INTO orders (order_number, customer_name, total, user_id, caja_id)
       VALUES (?, ?, ?, ?, ?)`,
       [nextOrder, customerName || "Cliente", total, userId, cajaAsignada] // ✔ CORRECTO
     );
-
 
     const orderId = orderResult.insertId;
 
@@ -79,7 +77,7 @@ await pool.query("UPDATE config SET last_caja_id = ? WHERE id = 1", [cajaAsignad
   }
 };
 
-//ordenes pendientes y en proceso
+// Obtener órdenes en pendiente y en proceso por caja
 export const getOrders = async (req, res) => {
   try {
     const caja_id = req.query.caja_id;
@@ -90,10 +88,13 @@ export const getOrders = async (req, res) => {
 
     // Obtener órdenes de ESTA caja
     const [rows] = await pool.query(
-      `SELECT id, order_number, customer_name, total, status, created_at
-       FROM orders
-       WHERE caja_id = ?
-         AND status IN ('pendiente','en_proceso')
+      `SELECT id, order_number, customer_name, total, status, created_at,
+        COUNT(od.id) AS items_count
+       FROM orders o
+       LEFT JOIN order_details od ON od.order_id = o.id
+       WHERE o.caja_id = ?
+         AND o.status IN ('pendiente','en_proceso')
+       GROUP BY o.id
        ORDER BY order_number ASC`,
       [caja_id]
     );
@@ -124,8 +125,7 @@ export const getOrders = async (req, res) => {
   }
 };
 
-
-//detalles del pedido
+// Obtener detalles del pedido
 export const getOrderDetails = async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -145,7 +145,8 @@ export const getOrderDetails = async (req, res) => {
     res.status(500).json({ error: "Error obteniendo detalles" });
   }
 };
-//entregar pedido
+
+// Entregar pedido
 export const deliverOrder = async (req, res) => {
   try {
     const { id } = req.params;
@@ -198,8 +199,7 @@ export const deliverOrder = async (req, res) => {
   }
 };
 
-
-//cancelar pedido
+// Cancelar pedido
 export const cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
@@ -236,9 +236,7 @@ export const cancelOrder = async (req, res) => {
   }
 };
 
-
-//editar pedido
-// editar pedido
+// Editar pedido
 export const updateOrder = async (req, res) => {
   const { id } = req.params;
   const { items } = req.body;
@@ -293,6 +291,8 @@ export const updateOrder = async (req, res) => {
     res.status(500).json({ error: "Error actualizando el pedido" });
   }
 };
+
+// Obtener todos los pedidos
 export const getAllOrders = async (req, res) => {
   try {
     const [rows] = await pool.query(

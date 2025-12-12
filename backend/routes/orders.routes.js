@@ -1,10 +1,10 @@
 import express from "express";
-import {createOrder,getOrders,getOrderDetails,deliverOrder,cancelOrder,updateOrder, getAllOrders } from "../controllers/orders.controller.js";
+import { createOrder,getOrders,getOrderDetails,deliverOrder,cancelOrder,updateOrder,getAllOrders } from "../controllers/orders.controller.js";
 import { authRequired } from "../middlewares/authRequired.js";
 const router = express.Router();
 
 // Crear pedido
-router.post("/create", createOrder);
+router.post("/create", authRequired, createOrder);
 
 // Obtener lista de pedidos
 router.get("/list", getOrders);
@@ -21,8 +21,7 @@ router.put("/:id/cancel", cancelOrder);
 // EDITAR pedido
 router.put("/:id/edit", updateOrder);
 
-router.post("/create", authRequired, createOrder);
-
+// Obtener todos los pedidos
 router.get("/all", getAllOrders);
 
 export default router;
