@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // =============================== 
   // Función para verificar si el usuario está logueado
+  // ===============================
   function checkUserLoggedIn() {
     const token = localStorage.getItem("token");
     const user = getStoredUser();
@@ -128,9 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("pageshow", () => {
     checkUserLoggedIn();
   });
-});
-document.addEventListener("DOMContentLoaded", () => {
+
+  // ===============================
   // Función para manejar el modo oscuro
+  // ===============================
   const themeToggle = document.getElementById("themeToggle");
   
   if (themeToggle) {
