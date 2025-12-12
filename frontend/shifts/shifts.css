@@ -200,7 +200,7 @@ body {
 .sidebar-profile p {
   margin: 0;
   font-size: 0.85rem;
-  color: #444;
+  color: #ffffff;
 }
 
 .sidebar hr {
@@ -1071,10 +1071,10 @@ body.dark-mode .sidebar-overlay {
 /* Modo oscuro */
 /* Modo oscuro */
 body.dark {
-  --topbar: #161d26;
+  --topbar: #ffffff;
   --bg: #131920;
   --panel: #131920;
-  --text: #ffffff;
+  --text: #000000;
   --card: #0b0f14;
   --border: #1a2129;
   --accent: #ff7a45;
