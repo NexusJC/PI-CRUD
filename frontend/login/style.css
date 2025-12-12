@@ -590,6 +590,7 @@ footer p {
       font-weight: 600;
       margin-bottom: 8px;
       color: #111827;
+      text-align: center;
     }
 
     .password-box p.description {
@@ -641,8 +642,8 @@ footer p {
       transition: 0.15s, transform 0.05s;
     }
 
-    .submit-button button:hover {
-      background: #1d4ed8;
+    .submit-button:hover {
+      background: #ca5e33;
     }
 
     .submit-button:active {
@@ -651,7 +652,7 @@ footer p {
 
     .password-exit {
        top: 10px;
-       left: 10px;
+       right: 10px;
        background: transparent;
        border: none;
        font-size: 15px;
@@ -664,6 +665,17 @@ footer p {
        transform: scale(1.2);
       color: #000;
     }
+
+     .login-logo-password{
+       position: absolute;
+       top: 8px;
+       left: 10px;
+       width: 25px;
+       height: auto;
+       object-fit: contain;
+       pointer-events: none;
+       background: transparent;
+}
 /* ==========================================================
    AJUSTE FINO FINAL: BOTÓN VOLVER (MÁS ABAJO Y MÁS A LA IZQUIERDA)
 ========================================================== */
