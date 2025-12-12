@@ -1,0 +1,335 @@
+/* ===============================
+      GLOBAL
+   =============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  display: flex;
+  background: #F4F4F6;
+  color: #2E2E2E;
+}
+
+/* ===============================
+      SIDEBAR
+   =============================== */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100vh;
+  background: #FFFFFF;
+  position: fixed;
+  padding: 20px 15px;
+  transition: width 0.25s ease-in-out;
+  overflow: hidden;
+  border-right: 1px solid #D8D8DD;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.sidebar-header h2 {
+  color: #E36842;
+}
+
+/* Sidebar Menu */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sidebar-menu li {
+  list-style: none;
+  padding: 12px 14px;
+  background: #F2F2F5;
+  border-radius: 12px;
+  color: #2E2E2E;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* Hover dinámico */
+.sidebar-menu li.hover-active {
+  background: #E36842;
+  color: white;
+}
+
+/* Active permanente */
+.sidebar-menu li.active {
+  background: #E36842;
+  color: white;
+}
+
+/* Iconos */
+.sidebar-menu .icon {
+  font-size: 22px;
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  color: inherit;
+}
+
+/* Sidebar colapsado */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed .label {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-menu li {
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar.collapsed .sidebar-header h2 {
+  display: none;
+}
+
+/* ===============================
+      MAIN
+   =============================== */
+.main {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  padding: 30px;
+  transition: margin-left 0.3s ease;
+}
+
+.main.collapsed {
+  margin-left: 70px;
+  width: calc(100% - 70px);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.topbar h1 {
+  font-size: 28px;
+  color: #E36842;
+}
+
+/* ===============================
+      CARDS
+   =============================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.card {
+  background: #FFFFFF;
+  padding: 25px;
+  border-radius: 14px;
+  border: 1px solid #D8D8DD;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  background: #FAFAFB;
+}
+
+.card h3 {
+  color: #E36842;
+}
+
+.number {
+  font-size: 28px;
+  margin-top: 10px;
+  color: #2E2E2E;
+}
+
+/* ===============================
+      GRAPHS
+   =============================== */
+.graphs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.graph {
+  background: #FFFFFF;
+  height: 250px;
+  border-radius: 14px;
+  border: 1px solid #D8D8DD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 18px;
+}
+
+/* ===============================
+      BOTÓN HAMBURGUESA
+   =============================== */
+.toggle-btn {
+  cursor: pointer;
+  font-size: 22px;
+  color: #2E2E2E;
+  transition: 0.2s;
+}
+
+.toggle-btn:hover {
+  opacity: 0.7;
+}
+
+/* ===============================
+      BOTÓN MODO OSCURO
+   =============================== */
+.theme-toggle {
+  margin-top: auto;
+  padding: 12px 14px;
+  background: #F2F2F5;
+  border-radius: 12px;
+  color: #2E2E2E;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid transparent;
+}
+
+.theme-toggle:hover {
+  background: #E36842;
+  color: white;
+}
+
+.sidebar.collapsed .theme-toggle .label {
+  display: none;
+}
+
+.sidebar.collapsed .theme-toggle {
+  justify-content: center;
+}
+
+/* ===============================
+      MODO OSCURO
+   =============================== */
+body.dark-mode {
+  background: #1E1E1F;
+  color: #E6E6E6;
+}
+
+body.dark-mode .sidebar {
+  background: #141416;
+  border-right: 1px solid #2C2C2E;
+}
+
+body.dark-mode .sidebar-menu li {
+  background: #1F1F22;
+  color: #E6E6E6;
+}
+
+body.dark-mode .sidebar-menu li:hover,
+body.dark-mode .sidebar-menu .active,
+body.dark-mode .sidebar-menu li.hover-active {
+  background: #E36842;
+  color: white;
+}
+
+body.dark-mode .theme-toggle {
+  background: #1F1F22;
+  color: #E6E6E6;
+}
+
+body.dark-mode .theme-toggle:hover {
+  background: #E36842;
+  color: white;
+}
+
+body.dark-mode .main {
+  background: #1E1E1F;
+}
+
+body.dark-mode .card {
+  background: #242428;
+  border-color: #2E2E31;
+  color: #E6E6E6;
+}
+
+body.dark-mode .card:hover {
+  background: #303033;
+}
+
+body.dark-mode .number {
+  color: white;
+}
+
+body.dark-mode .graph {
+  background: #242428;
+  color: #AAA;
+  border-color: #2E2E31;
+}
+
+/* ===============================
+      NUEVAS CARDS EXTENDIDAS
+   =============================== */
+.cards-extended {
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 150px;
+}
+
+/* ===============================
+      BOTÓN LOGOUT
+   =============================== */
+.logout-btn {
+  margin-top: 15px;
+  padding: 12px 14px;
+  background: #F2F2F5;
+  border-radius: 12px;
+  color: #E36842;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #E36842;
+  color: white;
+}
+
+body.dark-mode .logout-btn {
+  background: #1F1F22;
+  color: #ffb6a3;
+}
+
+body.dark-mode .logout-btn:hover {
+  background: #E36842;
+  color: white;
+}
+
+.sidebar.collapsed .logout-btn .label {
+  display: none;
+}
+
+.sidebar.collapsed .logout-btn {
+  justify-content: center;
+}

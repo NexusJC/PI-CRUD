@@ -47,8 +47,8 @@
       <span class="menu-label">TURNO ACTUAL</span>
 
       <!-- Única sección, la que estás viendo -->
-      <a class="enlace active" href="#">
-        <i class="bx bx-time-five"></i>
+      <a class="enlace active" href="#" data-no-translate>
+        <i class="bx bx-time-five"data-no-translate></i>
         <span>Panel de cocina</span>
       </a>
     </nav>
@@ -57,18 +57,18 @@
       <!-- Botón modo oscuro -->
       <button id="kitchenThemeToggle" class="sidebar-theme-toggle">
         <i class="bx bx-moon"></i>
-        <span>Modo oscuro</span>
+        <span data-translate>Modo oscuro</span>
       </button>
 
       <!-- Botón de idioma: click = alterna ES / EN -->
       <button id="translateToggle" class="sidebar-theme-toggle" aria-label="Cambiar idioma">
-        <i class="bx bx-globe"></i>
+        <i class="bx bx-globe"data-no-translate></i>
         <span>Traducir</span>
       </button>
 
       <!-- Cerrar sesión -->
-      <button id="logoutBtn" class="logout-btn">
-        <i class="bx bx-log-out"></i>
+      <button id="logoutBtn" class="logout-btn" data-no-translate>
+        <i class="bx bx-log-out"data-no-translate></i>
         <span>Cerrar sesión</span>
       </button>
     </div>
@@ -100,22 +100,22 @@
       <!-- Panel de acciones -->
       <div class="acciones-panel">
         <button class="btn btn-cancelar" id="btnCancelar">
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark"data-no-translate></i>
           <span data-i18n="btnCancel">Cancelar pedido</span>
         </button>
 
-        <button class="btn btn-editar" id="btnEditar">
-          <i class="fa-solid fa-pen-to-square"></i>
+        <button class="btn btn-editar" id="btnEditar" data-no-translate>
+          <i class="fa-solid fa-pen-to-square"data-no-translate></i>
           <span data-i18n="btnEditOrder">Editar pedido</span>
         </button>
 
-        <button class="btn btn-entregar activo" id="btnEntregar">
-          <i class="fa-solid fa-check-circle"></i>
+        <button class="btn btn-entregar activo" id="btnEntregar" data-no-translate>
+          <i class="fa-solid fa-check-circle"data-no-translate></i>
           <span data-i18n="btnDeliver">Confirmar entrega</span>
         </button>
 
         <button class="btn btn-agregar" id="btnAgregarPedido">
-          <i class="fa-solid fa-plus-circle"></i>
+          <i class="fa-solid fa-plus-circle"data-no-translate></i>
           <span data-i18n="btnAddOrder">Agregar pedido</span>
         </button>
       </div>
@@ -196,8 +196,8 @@
           </div>
 
           <div class="np-row np-actions">
-            <button class="btn btn-secundario" id="npAgregarItem" type="button">
-              <i class="fa-solid fa-plus"></i>
+            <button class="btn btn-secundario" id="npAgregarItem" type="button"data-no-translate>
+              <i class="fa-solid fa-plus"data-no-translate></i>
               <span data-i18n="npAddItem">Agregar a la lista</span>
             </button>
           </div>
@@ -214,10 +214,10 @@
       </div>
 
       <div class="acciones modal-actions">
-        <button class="btn btn-cancelar" id="npCancelar" type="button">
+        <button class="btn btn-cancelar" id="npCancelar" type="button"data-no-translate>
           <span data-i18n="npCancel">Cancelar</span>
         </button>
-        <button class="btn btn-guardar" id="npCrear" type="button">
+        <button class="btn btn-guardar" id="npCrear" type="button"data-no-translate>
           <span data-i18n="npCreate">Crear pedido</span>
         </button>
       </div>
@@ -229,5 +229,6 @@
 
   <!-- JS principal del carrusel / pedidos -->
   <script src="js/carousel.js"></script>
+  <script src="../../../menu/js/translate.js" defer></script>
 </body>
 </html>
