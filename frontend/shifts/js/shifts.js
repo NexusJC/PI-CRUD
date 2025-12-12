@@ -9,11 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarUserName = document.getElementById("sidebarUserName");
   const sidebarUserInfo = document.getElementById("sidebarUserInfo");
 
-  /*************************************************
-   * PROTECCIÓN: SOLO ROL "usuario" PUEDE ENTRAR
-   *************************************************/
   let token = null;
   let user = null;
+
   try {
     token = localStorage.getItem("token");
     user = JSON.parse(localStorage.getItem("user"));
@@ -34,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // LOGOUT desde shifts
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
       showConfirmCustomLogout(
@@ -60,15 +57,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
       const pedidos = await res.json();
 
+      console.log("Pedidos recibidos:", pedidos);  // Verifica lo que devuelve la API
+
       if (!Array.isArray(pedidos)) return;
 
       const enProceso = pedidos.filter(p => p.status === "en_proceso");
-      const visibles = pedidos.filter(
-        p => p.status === "pendiente" || p.status === "en_proceso"
-      );
+      const visibles = pedidos.filter(p => p.status === "pendiente" || p.status === "en_proceso");
 
-      renderTurnoActual(enProceso);  // Para mostrar el turno actual
-      renderListaTurnos(visibles);    // Para mostrar la lista de turnos
+      renderTurnoActual(enProceso);
+      renderListaTurnos(visibles);
 
     } catch (err) {
       console.warn("Error cargando turnos:", err);
@@ -165,4 +162,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
