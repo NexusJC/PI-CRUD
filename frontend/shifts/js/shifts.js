@@ -51,75 +51,72 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* === Cargar turnos desde API === */
   async function cargarTurnos() {
-    try {
-      const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
-      const pedidos = await res.json();
+  try {
+    const res = await fetch("https://www.laparrilaazteca.online/api/orders/all");
+    const pedidos = await res.json();
 
-      console.log("Pedidos recibidos:", pedidos);  // Verifica lo que devuelve la API
+    if (!Array.isArray(pedidos)) return;
 
-      if (!Array.isArray(pedidos)) return;
+    const enProceso = pedidos.filter(p => p.status === "en_proceso");
+    const visibles = pedidos.filter(p => p.status === "pendiente" || p.status === "en_proceso");
 
-      const enProceso = pedidos.filter(p => p.status === "en_proceso");
-      const visibles = pedidos.filter(p => p.status === "pendiente" || p.status === "en_proceso");
+    renderTurnoActual(enProceso);
+    renderListaTurnos(visibles);
 
-      renderTurnoActual(enProceso);
-      renderListaTurnos(visibles);
-
-    } catch (err) {
-      console.warn("Error cargando turnos:", err);
-    }
+  } catch (err) {
+    console.warn("Error cargando turnos:", err);
   }
+}
 
-  /*************************************************
-   *   PANEL DERECHO — TURNO ACTUAL GRANDE
-   *************************************************/
-  function renderTurnoActual(lista) {
-    const cont = document.getElementById("turnosActuales");
-    const nombre = document.getElementById("nombreUsuarioActual");
+/*************************************************
+ *   PANEL DERECHO — TURNO ACTUAL GRANDE
+ *************************************************/
+function renderTurnoActual(lista) {
+  const cont = document.getElementById("turnosActuales");
+  const nombre = document.getElementById("nombreUsuarioActual");
 
-    cont.innerHTML = "";
-    nombre.textContent = "—";
+  cont.innerHTML = "";
+  nombre.textContent = "—";
 
-    if (lista.length === 0) {
-      cont.innerHTML = `
-        <p style="text-align:center; color:#777; font-weight:600;">
-          No hay pedidos en proceso
-        </p>`;
-      return;
-    }
-
-    const turno = lista[0];
-
+  if (lista.length === 0) {
     cont.innerHTML = `
-      <span>${turno.order_number}</span>
-      <span>${turno.caja_id ?? "—"}</span>
+      <p style="text-align:center; color:#777; font-weight:600;">
+        No hay pedidos en proceso
+      </p>`;
+    return;
+  }
+
+  const turno = lista[0];
+
+  cont.innerHTML = `
+    <span>${turno.order_number}</span>
+    <span>${turno.caja_id ?? "—"}</span>
+  `;
+  nombre.textContent = turno.customer_name || "Cliente";
+}
+
+/*************************************************
+ *   PANEL IZQUIERDO — LISTA DE TURNOS
+ *************************************************/
+function renderListaTurnos(lista) {
+  const cont = document.getElementById("listaTurnos");
+  cont.innerHTML = "";
+
+  lista.forEach(t => {
+    cont.innerHTML += `
+      <div class="turno-item">
+        <span>${t.order_number}</span>
+        <span>${t.caja_id ?? "—"}</span>
+        <span class="nombre">${t.customer_name || "Cliente"}</span>
+      </div>
     `;
-    nombre.textContent = turno.customer_name || "Cliente";
-  }
+  });
+}
 
-  /*************************************************
-   *   PANEL IZQUIERDO — LISTA DE TURNOS
-   *************************************************/
-  function renderListaTurnos(lista) {
-    const cont = document.getElementById("listaTurnos");
-    cont.innerHTML = "";
-
-    lista.forEach(t => {
-      cont.innerHTML += `
-        <div class="turno-item">
-          <span>${t.order_number}</span>
-          <span>${t.caja_id ?? "—"}</span>
-          <span class="nombre">${t.customer_name || "Cliente"}</span>
-        </div>
-      `;
-    });
-  }
-
-  /* Auto-refresh */
-  cargarTurnos();
-  setInterval(cargarTurnos, 5000); // Actualizar cada 5 segundos
+/* Auto-refresh */
+cargarTurnos();
+setInterval(cargarTurnos, 5000); // Actualizar cada 5 segundos
 
   // Inicial
   renderSidebarState();

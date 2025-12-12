@@ -38,40 +38,40 @@
 </header>
 
 <!-- SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <img src="../img/logo_1.png" alt="Logo">
-    </div>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="../img/logo_1.png" alt="Logo">
+  </div>
 
-    <div class="sidebar-profile">
-      <img id="sidebarAvatar" src="../img/user.deflt.png" alt="Avatar">
-      <h4 id="sidebarUserName">Te Damos La Bienvenida</h4>
-      <p id="sidebarUserInfo">¡Explora el menú!</p>
-      <div class="sidebar-login-btn">
-        <a href="../login/login.html" class="btn-login" id="btn-login">
-          Iniciar sesión
-        </a>
-        <button class="btn-logout" id="btn-logout" style="display: none;">
-          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-        </button>
-      </div>
-    </div>
-
-    <hr>
-
-    <ul id="menuList"data-no-translate>
-      <!-- El contenido del menú cambiará según el rol -->
-    </ul>
-
-    <hr>
-    <div class="sidebar-footer">
-      <button id="themeToggle" class="theme-toggle-btn" data-no-translate>
-        <i class="fas fa-moon"></i>
-        <span>Modo oscuro</span>
+  <div class="sidebar-profile">
+    <img id="sidebarAvatar" src="../img/user.deflt.png" alt="Avatar">
+    <h4 id="sidebarUserName">Te Damos La Bienvenida</h4>
+    <p id="sidebarUserInfo">¡Explora el menú!</p>
+    <div class="sidebar-login-btn">
+      <a href="../login/login.html" class="btn-login" id="btn-login">
+        Iniciar sesión
+      </a>
+      <button class="btn-logout" id="btn-logout" style="display: none;">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
       </button>
-      <p>© 2025 <span>Innovatech</span><br>Versión 3.0.4</p>
     </div>
-  </nav>
+  </div>
+
+  <hr>
+
+  <ul id="menuList" data-no-translate>
+    <!-- El contenido del menú cambiará según el rol -->
+  </ul>
+
+  <hr>
+  <div class="sidebar-footer">
+    <button id="themeToggle" class="theme-toggle-btn" data-no-translate>
+      <i class="fas fa-moon"></i>
+      <span>Modo oscuro</span>
+    </button>
+    <p>© 2025 <span>Innovatech</span><br>Versión 3.0.4</p>
+  </div>
+</nav>
 
 <!-- Overlay para cerrar sidebar -->
 <div class="sidebar-overlay"></div>
@@ -80,129 +80,55 @@
 <main class="screen-orders">
   
   <!-- PANEL IZQUIERDO — ÓRDENES EN PREPARACIÓN -->
-  <!-- PANEL DERECHO — TURNO ACTUAL GRANDE -->
-<section class="panel-derecho">
-  <div class="current-order-card">
-    <div class="card-header">
-      <h3><i class="fas fa-fire"></i> Turno Actual</h3>
+  <section class="panel-izquierdo">
+    <div class="panel-header">
+      <h3><i class="fas fa-clock"></i> Órdenes en Preparación</h3>
+      <span class="badge" id="processingCount">0</span>
     </div>
     
-    <div class="card-body">
-      <div class="order-display" id="turnosActuales">
-        <!-- Aquí se mostrará el turno actual -->
+    <div class="panel-body">
+      <div class="orders-list" id="processingOrdersList">
+        <div class="empty-state">
+          <i class="fas fa-clock"></i>
+          <p>No hay órdenes en preparación</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PANEL IZQUIERDO — LISTA DE TURNOS -->
-<section class="panel-izquierdo">
-  <div class="panel-header">
-    <h3><i class="fas fa-clock"></i> Lista de Turnos</h3>
-  </div>
-
-  <div class="panel-body">
-    <div class="orders-list" id="listaTurnos">
-      <!-- Aquí se listarán todos los turnos -->
-    </div>
-  </div>
-</section>
-
     
-    <!-- ORDEN ACTUAL EN PREPARACIÓN -->
+    <div class="panel-footer">
+      <small><i class="fas fa-info-circle"></i> Las órdenes se actualizan automáticamente</small>
+    </div>
+  </section>
+
+  <!-- PANEL DERECHO — TURNO ACTUAL Y LISTA DE TURNOS -->
+  <section class="panel-derecho">
+    
+    <!-- TURNO ACTUAL EN PREPARACIÓN -->
     <div class="current-order-card">
       <div class="card-header">
-        <h3><i class="fas fa-fire"></i> Orden en Preparación</h3>
-        <div class="timer" id="currentTimer">--:--</div>
+        <h3><i class="fas fa-fire"></i> Turno Actual</h3>
       </div>
       
       <div class="card-body">
-        <div class="order-display">
-          <div class="order-number" id="currentOrderNumber">#--</div>
-          <div class="order-status" id="currentOrderStatus">En cocina</div>
-        </div>
-        
-        <div class="order-info">
-          <div class="info-item">
-            <i class="fas fa-user"></i>
-            <div>
-              <small>Cliente</small>
-              <span id="currentCustomer">Esperando...</span>
-            </div>
-          </div>
-          
-          <div class="info-item">
-            <i class="fas fa-hourglass-half"></i>
-            <div>
-              <small>Tiempo transcurrido</small>
-              <span id="currentTimeElapsed">-- min</span>
-            </div>
-          </div>
+        <div class="order-display" id="turnosActuales">
+          <!-- Aquí se mostrará el turno actual -->
         </div>
       </div>
     </div>
 
-    <!-- MI ORDEN (si tengo una activa) -->
-    <div class="my-order-card" id="myOrderCard" style="display: none;">
+    <!-- LISTA DE TURNOS -->
+    <div class="turnos-list-card">
       <div class="card-header">
-        <h3><i class="fas fa-user-check"></i> Mi Orden</h3>
-        <span class="status-badge processing">En preparación</span>
+        <h3><i class="fas fa-list"></i> Lista de Turnos</h3>
       </div>
-      
+
       <div class="card-body">
-        <div class="order-display">
-          <div class="order-number" id="myOrderNumber">#--</div>
-          <div class="order-status" id="myOrderStatus">--</div>
+        <div class="orders-list" id="listaTurnos">
+          <!-- Aquí se listarán todos los turnos -->
         </div>
-        
-        <div class="order-details">
-          <div class="info-item">
-            <i class="fas fa-sort-numeric-up"></i>
-            <div>
-              <small>Posición en cola</small>
-              <span id="myPosition">--</span>
-            </div>
-          </div>
-          
-          <div class="info-item">
-            <i class="fas fa-clock"></i>
-            <div>
-              <small>Tiempo estimado</small>
-              <span id="myEstimatedTime">-- min</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Detalles de la orden -->
-        <div class="order-items" id="myOrderItems">
-          <h4><i class="fas fa-list"></i> Items de la orden:</h4>
-          <ul class="items-list" id="itemsList">
-            <!-- Se llena dinámicamente -->
-          </ul>
-          <div class="order-total">
-            <strong>Total:</strong> $<span id="myOrderTotal">0.00</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="card-footer">
-        <button class="btn-cancel" id="cancelMyOrderBtn">
-          <i class="fas fa-times"></i> Cancelar mi orden
-        </button>
       </div>
     </div>
 
-    <!-- INFORMACIÓN -->
-    <div class="info-card">
-      <h3><i class="fas fa-info-circle"></i> Información</h3>
-      <p>Aquí puedes ver el estado de tu pedido y las órdenes en preparación.</p>
-      
-      <div class="instructions">
-        <p><i class="fas fa-utensils"></i> <strong>Para hacer un pedido:</strong> Ve a la sección <a href="/menu/index.html">Menú</a></p>
-        <p><i class="fas fa-clock"></i> <strong>Tiempos estimados:</strong> 15-25 minutos por orden</p>
-        <p><i class="fas fa-exclamation-triangle"></i> <strong>Cancelaciones:</strong> Solo posibles antes de empezar la preparación</p>
-      </div>
-    </div>
   </section>
 </main>
 
@@ -229,7 +155,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="js/shifts.js"defer></script>
-<script src="../menu/js/sidebar.js"defer></script>
+<script src="js/shifts.js" defer></script>
+<script src="../menu/js/sidebar.js" defer></script>
 </body>
 </html>
