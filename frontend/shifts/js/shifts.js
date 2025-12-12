@@ -1,6 +1,60 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // =============================== 
+  // Función para verificar si el usuario está logueado
+  // ===============================
+  function checkUserLoggedIn() {
+    const token = localStorage.getItem("token");
+    const user = getStoredUser();
 
+    if (!token || !user) {
+      // Si no hay token o usuario, redirigir al login
+      window.location.href = "../login/login.html";
+    }
+  }
+
+  // Función para obtener el usuario almacenado en localStorage
+  function getStoredUser() {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
+  }
+
+  // =============================== 
+  // LOGOUT MENÚ / USUARIO
+  // ===============================
+  const btnLogout = document.getElementById("btn-logout"); // Asegúrate de tener el botón de logout en el DOM
+  
+  if (btnLogout) {
+    const isPerfilPage = window.location.pathname.includes("/perfil/");
+    
+    if (!isPerfilPage) {
+      btnLogout.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Mostrar la confirmación de logout
+        showLogoutConfirmMenu(() => {
+          try {
+            // Limpiar los datos almacenados
+            localStorage.clear();
+            if (window.sessionStorage) {
+              window.sessionStorage.clear();
+            }
+          } catch (err) {
+            console.warn("Error limpiando storage en logout:", err);
+          }
+
+          // Redirigir a la página de login
+          window.location.href = "../login/login.html";
+        });
+      });
+    }
+  }
+
+  // ===============================
   // Función para cargar los turnos
+  // ===============================
   async function cargarTurnos() {
     try {
       // Realizamos la petición a la API
@@ -14,18 +68,19 @@ document.addEventListener("DOMContentLoaded", () => {
         p => p.status === "pendiente" || p.status === "en_proceso"
       );
 
-      renderTurnoActual(enProceso);
-      renderListaTurnos(visibles);
+      renderTurnoActual(enProceso);  // Mostrar el turno actual
+      renderListaTurnos(visibles);   // Mostrar los turnos pendientes
 
     } catch (err) {
       console.warn("Error cargando turnos:", err);
     }
   }
 
+  // ===============================
   // Función para renderizar el turno actual
+  // ===============================
   function renderTurnoActual(lista) {
     const cont = document.getElementById("turnosActuales");
-
     cont.innerHTML = ""; // Limpiamos el contenido del contenedor
 
     if (lista.length === 0) {
@@ -41,7 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  // ===============================
   // Función para renderizar la lista de turnos
+  // ===============================
   function renderListaTurnos(lista) {
     const cont = document.getElementById("listaTurnos");
     cont.innerHTML = ""; // Limpiamos el contenido del contenedor
@@ -61,8 +118,87 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cargar turnos al inicio
-  cargarTurnos();
-  // Actualizar los turnos cada 5 segundos
+  // ===============================
+  // Cargar turnos al inicio y actualizarlos cada 5 segundos
+  // ===============================
   setInterval(cargarTurnos, 5000);
+
+  // Verificación inicial al cargar la página
+  checkUserLoggedIn();
+
+  // Verificación cuando el usuario navega hacia atrás (al usar la flecha de atrás)
+  window.addEventListener("pageshow", () => {
+    checkUserLoggedIn();
+  });
+
+  // ===============================
+  // Función para manejar el modo oscuro
+  // ===============================
+  const themeToggle = document.getElementById("themeToggle");
+  
+  if (themeToggle) {
+    const savedTheme = localStorage.getItem("theme");
+    
+    // Si hay una preferencia guardada, aplicarla
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+      updateThemeButton(true);
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      updateThemeButton(isDark);
+    });
+
+    // Función para actualizar el botón del tema
+    function updateThemeButton(isDark) {
+      const icon = themeToggle.querySelector("i");
+      const text = themeToggle.querySelector("span");
+      if (!icon || !text) return;
+
+      if (isDark) {
+        icon.classList.replace("fa-moon", "fa-sun");
+        text.textContent = "Modo claro";
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+        text.textContent = "Modo oscuro";
+      }
+    }
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  // Función para manejar el modo oscuro
+  const themeToggle = document.getElementById("themeToggle");
+
+  if (themeToggle) {
+    const savedTheme = localStorage.getItem("theme");
+    
+    // Si hay una preferencia guardada, aplicarla
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+      updateThemeButton(true);
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      updateThemeButton(isDark);
+    });
+
+    // Función para actualizar el botón del tema
+    function updateThemeButton(isDark) {
+      const icon = themeToggle.querySelector("i");
+      const text = themeToggle.querySelector("span");
+      if (!icon || !text) return;
+
+      if (isDark) {
+        icon.classList.replace("fa-moon", "fa-sun");
+        text.textContent = "Modo claro";
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+        text.textContent = "Modo oscuro";
+      }
+    }
+  }
 });
