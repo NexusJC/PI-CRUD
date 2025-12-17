@@ -14,7 +14,6 @@ router.post("/login", login);
 router.post("/register", register);
 
 // ruta para el reestablecimiento de contraseña
-// solicitar restablecimiento de contraseña (envía correo)
 router.post("/reset-password/request", requestPasswordReset);
 
 // validar token desde el correo y redirigir al formulario
@@ -29,7 +28,6 @@ router.get("/verify", async (req, res) => {
   const { token } = req.query;
 
   try {
-    // Buscar el token en la BD
     const [rows] = await pool.query(
       "SELECT * FROM users WHERE verification_token = ?",
       [token]
@@ -45,7 +43,7 @@ router.get("/verify", async (req, res) => {
 //papoi?
     const user = rows[0];
 
-    // Marcar como verificado
+    // Marca como verificado
     await pool.query(
       "UPDATE users SET email_verified = 1, verification_token = NULL WHERE id = ?",
       [user.id]
