@@ -14,7 +14,6 @@ Sistema web tipo CRUD turnomatico para la gestión completa de un restaurante me
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Node.js + Express
 - **Base de datos**: MySQL (Railway)
-- **Middleware**: Multer (para subida de imágenes)
 - **Despliegue**: Railway
 - **Control de versiones**: Git + GitHub
 
