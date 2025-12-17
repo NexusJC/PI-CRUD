@@ -1,6 +1,6 @@
 #  La Parrilla Azteca · PI-CRUD
 
-Sistema web tipo CRUD para la gestión completa de un restaurante mexicano: turnos, órdenes, platillos, empleados, cajas y usuarios.
+Sistema web tipo CRUD turnomatico para la gestión completa de un restaurante mexicano: turnos, órdenes, platillos, empleados, cajas y usuarios.
 
 ---
 ##  Descripción
