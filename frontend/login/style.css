@@ -1,0 +1,612 @@
+*{ 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  width: auto; 
+  height: 100vh; 
+  background-size:cover;
+  background-position: center; 
+  background-repeat: no-repeat;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.barra{
+  margin-top: 25px;
+  margin-left: 35px;
+}
+
+.flecha-regreso {
+  padding: 15px;
+  background: linear-gradient(#e36842,rgb(194, 93, 63));
+  border: none;
+  border-radius: 15px;
+  color: rgb(255, 250, 244);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: 150px;
+  font-size: 15px;
+  position: fixed;
+}
+
+.flecha-regreso:hover {
+  transform: scale(1.05);
+}
+
+.flecha-regreso i{
+  font-size: 15px;
+  padding-right: 10px;
+}
+
+h2 { 
+  color:#442719;
+  font-size: 30px;
+}
+
+.contenedor{ 
+  margin: 28px auto; 
+  margin-top: 10px;
+  width: 94%;
+  border-radius: 10px;
+  padding: 20px 18px;
+  padding-top: 90px;
+  display: grid;
+  place-items: center;
+}
+
+.contenedor-registro{ 
+  margin: 28px auto; 
+  margin-top: 15px;
+  width: 94%;
+  border-radius: 10px;
+  padding: 20px 18px;
+  padding-top: 90px;
+  display: grid;
+  place-items: center;
+}
+
+.login{
+  width:420px; 
+  height:450px; 
+  background:rgb(255, 255, 255, 0.8); 
+  border-radius: 35px; 
+  border: 2px solid rgba(74,43,22,.45); 
+  padding: 24px 20px 22px;
+  text-align: center;   
+  align-items: center;
+}
+
+.login-registro{
+  width:420px; 
+  height:450px; 
+  background:rgb(255, 255, 255, 0.8); 
+  border-radius: 35px; 
+  border: 2px solid rgba(74,43,22,.45); 
+  padding: 50px 20px 22px;
+  text-align: center;
+}
+
+.logo{
+  display:block; 
+  width: 50%; 
+  height: auto; 
+  margin: 4px auto 8px; 
+  object-fit: contain;
+  background: transparent;
+}
+
+.user-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient( rgb(101, 101, 100), rgb(53, 53, 53));
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 37.5%;
+}
+
+.user-icon::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+}
+
+.user-icon::after {
+  content: "";
+  position: absolute;
+  bottom: 20px;
+  width: 60px;
+  height: 35px;
+  background: white;
+  border-radius: 50% / 60%;
+}
+
+.form{ 
+  margin-bottom:10px; 
+  display: grid; gap: 10px; 
+  background: transparent;
+}
+
+.datos {
+  margin-top: 10px; 
+  position: relative; 
+  display: block;
+}
+
+.datos input{width: 80%; 
+  box-sizing: border-box; 
+  padding: 12px 14px; 
+  padding-left: 40px; 
+  border-radius: 10px; 
+  border: 2px solid rgba(74,43,22,.45);
+  font-size: 14.5px;
+  outline: none;
+}
+
+.datos i{
+  color: #967f74; 
+  background: transparent; 
+  position: absolute; 
+  padding-left: 45px;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+ul {
+  padding-right: 35px;
+  background: transparent; 
+  color: gray; font-weight: 100;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.boton_ingresar{
+  margin-top: 6px;
+  margin-left: 16.4%;
+  width: 70%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #e36741;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.boton_ingresar:hover{
+  background: #ca5e33;
+}
+
+.boton-registro{
+  margin-top: 13px;
+  width: 70%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #e36741;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.boton-registro:hover{
+  background:#ca5e33;
+}
+
+.olvidaste-contraseña{
+  margin: auto; 
+  height: auto; 
+  padding-right: 35%; 
+  justify-self: left;
+}
+
+.ayuda:hover{
+  text-decoration: underline;
+}
+
+.ayuda {
+  background: transparent; 
+  text-decoration: none; 
+  color: rgb(42, 100, 136);
+}
+
+
+.sinregistrar{
+  background: transparent; 
+  color: black; 
+  text-decoration: none;
+}
+
+.registrarse{
+  color: brown; 
+  text-decoration:underline;
+}
+
+.aceptar-condiciones{
+  margin-top: 10px; 
+  padding-right: 5%;
+  position: relative; 
+  color: black; 
+  background: transparent;
+}
+
+.aceptar-condiciones a{ 
+  color: black; 
+  background-color: transparent; 
+
+}
+.aceptar-condiciones a:hover{
+  color: #967f74;
+}
+
+.con-cuenta{
+  margin-top: 10px; 
+  background: transparent; 
+  color:black; 
+  text-decoration: none; 
+}
+
+.ingresar{
+  color: brown; 
+  text-decoration:underline;
+}
+
+/*politicas de privacidad y condiciones*/
+.flecha-regreso-politicas {
+  margin-top: 50px;  
+  background-color: transparent; 
+  margin-left: 40px;  
+  padding: 8px 16px; 
+  width: 12.5%; 
+  height: 30px;  
+  border-style: none; 
+  border-radius: 15px; color:rgb(252, 252, 252, 0.8);  
+  font-size: 24px; 
+}
+
+.flecha-regreso-politicas button{
+  border-radius: 8px;
+  background-color: #442719;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  box-shadow:  0 4px 10px rgba(10, 10, 10, 10);
+}
+
+.policies-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #da6c35;
+  box-shadow: 0 4px 10px rgba(10, 10, 10, 10);
+  font-size: 14px;
+  border-radius: 8px; 
+}
+
+.policies-container h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #fff; 
+  font-size: 20px;
+  background-color: transparent;
+}
+
+.policies-container h2 {
+  margin-top: 10px;
+  color: #fff; 
+  font-size: 16px;
+  background-color: transparent;
+
+}
+
+.policies-container p {
+  margin: 5px 0;
+  text-align: justify;
+  background-color: transparent;
+  color: #411c0b;
+}
+
+
+
+footer {
+  justify-items: center;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #888;
+  background-color: transparent;
+}
+
+footer p {
+  margin: 10px 0;
+}
+
+
+.idiomaToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.idioma-btn {        /* más pequeño */
+  height: 40px;
+  border-radius: 25px;
+  background: #ffffff;
+  border: 2px solid #000;
+  cursor: pointer;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  transition: all 0.15s ease-in-out;
+  box-shadow: none !important;
+}
+
+.idioma-btn:hover {
+  transform: scale(1.03);
+}
+
+#banderaImg {
+  display: none !important;
+}
+
+.bandera-container::before {
+  content: "\f0ac";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 16px;
+  color: #000;
+  padding-left: 5px;
+}
+
+.bandera-container::after {
+  content: attr(data-idioma-text);
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.idioma-btn::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 12px;
+  color: #000;
+  margin-right: 3px;
+}
+
+.bandera-container {
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+}
+/* --------------------------- */
+/* TOAST DE NOTIFICACIONES    */
+/* --------------------------- */
+.toast {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  background: #e36842; /* naranja Parrilla */
+  color: white;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  z-index: 9999;
+  transition: all .35s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.success {
+  background: #3cb371; /* Verde éxito */
+}
+
+.toast.error {
+  background: #ee0202; /* Rojo elegante */
+}
+
+/* ==========================================================
+   RESPONSIVE LIMPIO FINAL – LOGIN / REGISTRO / POLÍTICAS
+========================================================== */
+@media (max-width: 768px) {
+
+  body {
+    height: auto;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Botón "Volver al Inicio" – izquierda y más abajo */
+  .barra {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 18px;
+    margin-top: 70px;
+  }
+
+  .flecha-regreso {
+    position: static;
+    width: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 20px;
+  }
+
+  /* Contenedores */
+  .contenedor,
+  .contenedor-registro {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto 40px;
+    padding: 20px 10px 30px;
+    padding-top: 70px;
+    box-sizing: border-box;
+  }
+
+  /* Tarjetas */
+  .login,
+  .login-registro {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  /* Icono de usuario */
+  .user-icon {
+    margin: 0 auto 14px;
+  }
+
+  /* Inputs */
+  .datos input {
+    width: 80%;
+    padding-left: 38px;   /* TEXTO más a la izquierda */
+    box-sizing: border-box;
+  }
+
+  /* Íconos dentro del input */
+  .datos i {
+    left: 12px;
+    padding-left: 34px;
+    font-size: 16px;
+  }
+
+  /* Ojo contraseña */
+  ul.fas.fa-eye {
+    right: 18px;
+  }
+
+  /* Enlace */
+  .olvidaste-contraseña {
+    width: 100%;
+    text-align: center;
+    padding-right: 0;
+    margin-top: 6px;
+  }
+
+  /* Botones */
+  .boton_ingresar,
+  .boton-registro {
+    width: 80%;
+    margin: 14px auto 0;
+    display: block;
+    padding: 12px 14px;
+  }
+
+  /* Textos inferiores */
+  .sinregistrar,
+  .con-cuenta {
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  /* Políticas */
+  .policies-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 90px auto 40px;
+    padding: 18px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    box-sizing: border-box;
+  }
+
+  .policies-container h1 {
+    font-size: 20px;
+  }
+
+  .policies-container h2 {
+    font-size: 16px;
+  }
+
+  /* Toast */
+  .toast {
+    width: calc(100% - 40px);
+    left: 20px;
+    right: 20px;
+    text-align: center;
+  }
+}
+
+/* ==========================================================
+   AJUSTE FINO FINAL: BOTÓN VOLVER (MÁS ABAJO Y MÁS A LA IZQUIERDA)
+========================================================== */
+@media (max-width: 768px) {
+
+  .barra {
+    justify-content: flex-start;
+    padding-left: 4px;     /* MÁS a la izquierda */
+    margin-top: 68px;     /* MÁS abajo */
+  }
+
+  .flecha-regreso {
+    padding: 8px 16px;    
+    font-size: 13px;      
+    border-radius: 15px; 
+  }
+
+}
+.login{
+  width:420px; 
+  height:450px; 
+  background:rgb(255, 255, 255, 0.8); 
+  border-radius: 35px; 
+  border: 2px solid rgba(74,43,22,.45); 
+  padding: 24px 20px 22px;
+  text-align: center;   
+  align-items: center;
+  position: relative; /* para colocar el logo en la esquina */
+}
+
+.login-registro{
+  width:420px; 
+  height:450px; 
+  background:rgb(255, 255, 255, 0.8); 
+  border-radius: 35px; 
+  border: 2px solid rgba(74,43,22,.45); 
+  padding: 50px 20px 22px;
+  text-align: center;
+  position: relative; /* para colocar el logo en la esquina */
+}
+
+/* Logo pequeño en esquina dentro de las tarjetas de login/registro */
+.login-logo-corner{
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 48px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  background: transparent;
+}

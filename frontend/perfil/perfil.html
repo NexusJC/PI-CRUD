@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="Restaurante, Mexicano, Comida, Turnos, Reservaciones, La Parrilla Azteca" />
+  <meta name="description" content="Bienvenido a La Parrilla Azteca, tu restaurante mexicano favorito. Toma tu turno y disfruta de nuestra deliciosa comida." />
+  <title>La Parrilla Azteca · Inicio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="../img/logo_1.png" type="image/png">
+
+  <!-- CSS del menú -->
+  <link rel="stylesheet" href="../menu/style.css">
+  <!-- CSS propio del perfil -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+    <a href="/menu/index.html" class="brand">
+      <img class="logo" src="../img/logo_1.png" alt="La Parrilla Azteca" />
+      <span class="brand-text">LA PARRILLA AZTECA</span>
+    </a>
+  </div>
+
+  <div class="topbar-right">
+    <!-- BOTÓN DE IDIOMA -->
+    <div class="idiomaToggle">
+      <button id="banderaIdioma" class="idioma-btn" onclick="alternarIdioma()">
+        <div class="bandera-container"></div>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="../img/logo_1.png" alt="Logo">
+  </div>
+
+  <div class="sidebar-profile">
+    <img id="sidebarAvatar" src="../img/user.deflt.png" alt="Avatar">
+    <h4 id="sidebarUserName">Te Damos La Bienvenida</h4>
+    <p id="sidebarUserInfo">¡Explora el menú!</p>
+
+    <div class="sidebar-login-btn">
+      <a href="../login/login.html" class="btn-login" id="btn-login">Iniciar sesión</a>
+      <button class="btn-logout" id="btn-logout" style="display: none;">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </button>
+    </div>
+  </div>
+
+  <hr>
+
+  <ul id="menuList"></ul>
+
+  <hr>
+
+  <div class="sidebar-footer">
+    <button id="themeToggle" class="theme-toggle-btn">
+      <i class="fas fa-moon"></i>
+      <span>Modo oscuro</span>
+    </button>
+    <p>© 2025 <span>Innovatech</span><br>Versión 1.0.1</p>
+  </div>
+</nav>
+
+<!-- CONTENIDO DEL PERFIL -->
+<div id="alertBox" class="alert hidden">
+  <span id="alertMessage"></span>
+</div>
+
+<div class="perfil-content">
+  <section id="view-perfil">
+    <div class="perfil-card">
+      <div class="avatar-section">
+        <div class="avatar-edit">
+          <img id="perfilImg" src="../img/default.png" alt="Imagen de Perfil">
+          <button type="button" class="edit-btn" id="btnEditarImg" title="Cambiar imagen">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+            </svg>
+          </button>
+          <input type="file" id="inputImg" name="profile" accept="image/*" hidden />
+        </div>
+      </div>
+
+      <!-- Información -->
+      <div class="info-section">
+        <h2>Mi perfil</h2>
+        <p>Gestiona tu cuenta para La Parrilla Azteca.</p>
+        
+        <div class="field">
+          <label>Nombre</label>
+          <div class="input-edit">
+            <input type="text" id="perfilNombreText" class="input-dinamico" readonly>
+            <button type="button" class="edit-btn" id="btnEditarNombre" title="Editar nombre">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label>Número</label>
+          <div class="input-edit">
+            <input type="text" id="perfilNumeroText" class="input-dinamico" readonly maxlength="10">
+            <button type="button" class="edit-btn" id="btnEditarNumero" title="Editar número">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="var(--cta)" d="M3 17.25v4.5h4.5l11.49-11.49-4.5-4.5L3 17.25zM22 7.25l-4.5-4.5c-.2-.2-.5-.2-.7 0L15.25 4.5l4.5 4.5L22 7.25z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label>Email</label>
+          <div class="input-edit">
+            <span id="perfilEmail" class="valor-estatico"></span>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label>Género</label>
+          <div class="gender-select">
+            <label class="gender-option">
+              <input type="radio" name="genero" value="masculino"  id="masculino">
+              <span>Masculino</span>
+            </label>
+            <label class="gender-option">
+              <input type="radio" name="genero" value="femenino" id="femenino">
+              <span>Femenino</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="actions">
+          <button class="boton-restablecer" id="btnRestablecer">Restablecer contraseña</button>
+          <button class="btn-sec" id="guardarCambios">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="../menu/js/sidebar.js" defer></script>
+<script src="./js/perfil.js" defer></script>
+<script src="../login/js/translate.js" defer></script>
+</body>
+</html>

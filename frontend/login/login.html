@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>La Parrilla Azteca</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio Sesion</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="../img/logo_1.png" type="image/png">
+</head>
+<body background="../img/fondo34.png">
+  <header>
+    <div class="barra">
+      <a class="flecha-regreso" href="../menu/index.html">
+        <i class="fas fa-reply"></i>
+        Volver al Inicio
+      </a>
+    </div>
+  </header>
+
+  <!-- Formulario de inicio de sesión -->
+  <div class="contenedor" id="loginForm">
+    <section class="login">
+      <!-- Logo pequeño en esquina -->
+      <img src="../img/logo_1.png" alt="La Parrilla Azteca" class="login-logo-corner">
+
+      <div class="user-icon"></div>
+      <h2>Iniciar sesión</h2>
+      <!-- inicio de sesion -->
+      <form class="form" id="loginForm">
+        <div class="datos">
+          <input type="email" name="email" placeholder="Correo electrónico" autocomplete="email" required>
+          <i class="fas fa-envelope"></i>
+        </div>
+
+        <div class="datos">
+          <input type="password" name="password" id="contraseña" placeholder="Contraseña" autocomplete="current-password" required>
+          <i class="fas fa-lock"></i>
+          <ul class="fas fa-eye" id="togglePassword-login"></ul>
+        </div>
+
+        <!-- ayudaaaa causaaas -->
+        <div class="olvidaste-contraseña">
+          <a class="ayuda" href="../login/reset_password/send_email.html">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button class="boton_ingresar" type="submit">Iniciar sesión</button>
+
+        <div class="sinregistrar">¿Aún no tienes una cuenta?
+          <a class="registrarse" href="#" id="goToRegister">Registrate aquí</a>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Formulario de registro -->
+  <div class="contenedor-registro" id="registerFormContainer" style="display:none;">
+    <section class="login-registro">
+      <!-- Logo pequeño en esquina -->
+      <img src="../img/logo_1.png" alt="La Parrilla Azteca" class="login-logo-corner">
+
+      <h2>Registrarse</h2>
+
+      <form id="registerForm">
+        <div class="datos">
+          <input type="text" name="name" placeholder="Usuario" autocomplete="usuario" required>
+          <i class="fas fa-user"></i>
+        </div>
+
+        <div class="datos">
+          <input type="email" name="email" placeholder="Correo electrónico" autocomplete="email" required>
+          <i class="fas fa-envelope"></i>
+        </div>
+
+        <div class="datos">
+          <input type="password" name="password" id="contraseña2" placeholder="Contraseña" autocomplete="current-password" required>
+          <i class="fas fa-lock"></i>
+          <ul class="fas fa-eye" id="togglePassword-register"></ul>
+        </div>
+
+        <div class="datos">
+          <input type="password" name="password2" id="contraseña3" placeholder="Confirmar Contraseña" required>
+          <i class="fas fa-lock"></i>
+          <ul class="fas fa-eye" id="togglePassword-register2"></ul>
+        </div>
+
+        <div class="aceptar-condiciones">
+          <input type="checkbox" class="checkbox-aceptar" required> Acepta nuestras
+          <a href="politicas.html">Políticas y Condiciones</a>
+        </div>
+
+        <div class="con-cuenta">¿Ya tienes cuenta?
+          <a class="ingresar" href="" id="goToLogin"> Ingrese aquí</a>
+        </div>
+
+        <button class="boton-registro" type="submit">Registrarme</button>
+      </form>
+    </section>
+  </div>
+  <script>
+    // Bloquear acceso al login si ya hay sesión activa
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (token && user) {
+      
+      // Empleado → al carrusel
+      if (user.role === "empleado") {
+        window.location.href = "/personal/employees/carousel/carousel.html";
+      }
+
+      // Usuario normal → al menú
+      else {
+        window.location.href = "/menu/index.html";
+      }
+    }
+  </script>
+  <script src="./js/register.js"></script>
+  <script src="./js/login.js"></script>
+  <div id="toast" class="toast"></div>
+</body>
+</html>

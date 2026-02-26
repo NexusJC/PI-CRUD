@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="pageTitle">Panel de Cocina · La Parrilla Azteca</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/img/logo_1.png" type="image/png">
+
+  <!-- Fuentes e iconos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
+
+  <!-- 🔸 Tema del admin (sidebar + modo oscuro) -->
+  <link rel="stylesheet" href="/personal/admin/add-dishes/styles.css">
+
+  <!-- Estilos específicos del panel de cocina -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="admin-body">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="menu-dashboard open" id="kitchenSidebar">
+    <div class="top-menu">
+      <div class="logo">
+        <img src="/img/logo_1.png" alt="Logo">
+        <span>Carrusel Turno</span>
+      </div>
+
+      <button class="toggle" id="kitchenSidebarToggle" aria-label="Contraer menú">
+        <i class="bx bx-menu"></i>
+      </button>
+    </div>
+
+    <div class="user-box">
+      <img id="sidebarUserImg" class="user-photo" src="/img/userplaceholder.png" alt="Usuario">
+      <div class="user-info">
+        <span id="sidebarUserName">Empleado</span>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <span class="menu-label">TURNO ACTUAL</span>
+
+      <!-- Única sección, la que estás viendo -->
+      <a class="enlace active" href="#">
+        <i class="bx bx-time-five"></i>
+        <span>Panel de cocina</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <!-- Botón modo oscuro -->
+      <button id="kitchenThemeToggle" class="sidebar-theme-toggle">
+        <i class="bx bx-moon"></i>
+        <span>Modo oscuro</span>
+      </button>
+
+      <!-- Botón de idioma: click = alterna ES / EN -->
+      <button id="translateToggle" class="sidebar-theme-toggle" aria-label="Cambiar idioma">
+        <i class="bx bx-globe"></i>
+        <span>Traducir</span>
+      </button>
+
+      <!-- Cerrar sesión -->
+      <button id="logoutBtn" class="logout-btn">
+        <i class="bx bx-log-out"></i>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= CONTENIDO PRINCIPAL ================= -->
+  <main class="kitchen-main">
+    <!-- Carrusel superior de turnos -->
+    <section class="carrusel-section">
+      <div class="kitchen-header">
+        <h1 data-i18n="headerTitle">Pedidos en cocina</h1>
+        <p data-i18n="headerSubtitle">
+          Selecciona un pedido del carrusel para ver sus detalles.
+        </p>
+            <div class="top-info-caja">
+        <span id="infoCajaEmpleado">Caja: ...</span>
+    </div>
+
+      </div>
+
+      <div class="turnos-carousel" id="turnosCarousel"></div>
+    </section>
+
+    <!-- Panel inferior: detalles + acciones -->
+    <section class="panel-inferior">
+      <!-- Panel de detalles del pedido -->
+      <div class="detalles-panel" id="detallesPanel"></div>
+
+      <!-- Panel de acciones -->
+      <div class="acciones-panel">
+        <button class="btn btn-cancelar" id="btnCancelar">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <span data-i18n="btnCancel">Cancelar pedido</span>
+        </button>
+
+        <button class="btn btn-editar" id="btnEditar">
+          <i class="fa-solid fa-pen-to-square"></i>
+          <span data-i18n="btnEditOrder">Editar pedido</span>
+        </button>
+
+        <button class="btn btn-entregar activo" id="btnEntregar">
+          <i class="fa-solid fa-check-circle"></i>
+          <span data-i18n="btnDeliver">Confirmar entrega</span>
+        </button>
+
+        <button class="btn btn-agregar" id="btnAgregarPedido">
+          <i class="fa-solid fa-plus-circle"></i>
+          <span data-i18n="btnAddOrder">Agregar pedido</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== MODAL EDICIÓN DEL PEDIDO ========== -->
+  <div class="modal" id="editarModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span data-i18n="modalTitle">Editar detalles del pedido</span>
+          &nbsp;#<span id="modalPedidoId">0</span>
+        </h3>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+
+      <div id="modalBody">
+        <!-- Contenido dinámico de edición de productos (se rellena desde JS) -->
+      </div>
+
+      <div class="acciones modal-actions">
+        <button class="btn btn-cancelar" id="cancelarEdicion">
+          <span data-i18n="modalCancel">Cerrar</span>
+        </button>
+        <button class="btn btn-guardar" id="guardarCambios">
+          <span data-i18n="modalSave">Guardar cambios</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL NUEVO PEDIDO ========== -->
+  <div class="modal modal-nuevo-pedido" id="nuevoPedidoModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span data-i18n="newOrderTitle">Agregar nuevo pedido</span>
+        </h3>
+        <button class="modal-close" id="nuevoPedidoClose">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="np-form">
+          <div class="np-row">
+            <label for="npCliente" data-i18n="npClientLabel">Nombre del cliente</label>
+            <input
+              id="npCliente"
+              type="text"
+              placeholder="Cliente de mostrador"
+            />
+          </div>
+
+          <div class="np-row np-row-grid">
+            <div>
+              <label for="npCategoria" data-i18n="npCategoryLabel">Categoría</label>
+              <select id="npCategoria"></select>
+            </div>
+            <div>
+              <label for="npPlatillo" data-i18n="npDishLabel">Platillo</label>
+              <select id="npPlatillo"></select>
+            </div>
+            <div>
+              <label for="npCantidad" data-i18n="npQtyLabel">Cant.</label>
+              <input id="npCantidad" type="number" min="1" max="99" value="1" />
+            </div>
+          </div>
+
+          <div class="np-row">
+            <label for="npComentario" data-i18n="npCommentLabel">
+              Comentario del platillo
+            </label>
+            <textarea
+              id="npComentario"
+              rows="2"
+              placeholder="Sin comentarios"
+            ></textarea>
+          </div>
+
+          <div class="np-row np-actions">
+            <button class="btn btn-secundario" id="npAgregarItem" type="button">
+              <i class="fa-solid fa-plus"></i>
+              <span data-i18n="npAddItem">Agregar a la lista</span>
+            </button>
+          </div>
+
+          <div class="np-list" id="npLista">
+            <!-- Items del nuevo pedido -->
+          </div>
+
+          <div class="np-resumen">
+            <span data-i18n="npTotalLabel">Total estimado:</span>
+            <strong id="npTotal">$0.00</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="acciones modal-actions">
+        <button class="btn btn-cancelar" id="npCancelar" type="button">
+          <span data-i18n="npCancel">Cancelar</span>
+        </button>
+        <button class="btn btn-guardar" id="npCrear" type="button">
+          <span data-i18n="npCreate">Crear pedido</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS del sidebar + modo oscuro específico del panel -->
+  <script src="js/kitchen_theme.js"></script>
+
+  <!-- JS principal del carrusel / pedidos -->
+  <script src="js/carousel.js"></script>
+</body>
+</html>

@@ -1,0 +1,561 @@
+/* ==========================================================
+   PERFIL · ESTILOS ESPECÍFICOS
+   (Topbar + Sidebar vienen del CSS del menú)
+========================================================== */
+
+/* Dejamos que el menú controle colores globales;
+   sólo ajustamos la zona del perfil. */
+body {
+  padding-top: 72px;          /* para que no tape el topbar */
+  overflow-x: hidden;
+}
+
+/* ===== CONTENEDOR GENERAL ===== */
+
+.perfil-content {
+  min-height: calc(100vh - 72px);
+  padding: 32px 24px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: radial-gradient(circle at top left, #fdf9f3 0%, #f3f4f6 50%, #e5e7eb 100%);
+}
+
+/* En dark mode usamos el mismo mood del menú */
+body.dark .perfil-content {
+  background: radial-gradient(circle at top left, #020617 0%, #020617 45%, #020617 100%);
+}
+
+/* ===== TARJETA PRINCIPAL ===== */
+
+.perfil-card {
+  width: 100%;
+  max-width: 980px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 32px 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+  gap: 32px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.10);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* Dark mode de la tarjeta */
+body.dark .perfil-card {
+  background: #020617;
+  border-color: #1f2937;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.75);
+}
+
+/* ===== COLUMNA IZQUIERDA: AVATAR ===== */
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.avatar-edit {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 3px solid rgba(148, 163, 184, 0.5);
+  background: radial-gradient(circle at top, #ffffff 0%, #e5e7eb 70%);
+}
+
+.avatar-edit img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* icono de editar imagen */
+.avatar-edit .edit-btn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: #020617cc;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.avatar-edit .edit-btn svg path {
+  fill: var(--cta, #e36842);
+}
+
+.avatar-edit .edit-btn:hover {
+  transform: translateY(-1px) scale(1.03);
+  background: #020617;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.5);
+}
+
+/* Dark mode avatar */
+body.dark .avatar-edit {
+  border-color: #1f2937;
+  background: radial-gradient(circle at top, #111827 0%, #020617 70%);
+}
+
+body.dark .avatar-edit img {
+  filter: brightness(0.96);
+}
+
+/* ===== COLUMNA DERECHA: FORMULARIO ===== */
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.info-section h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.info-section p {
+  margin: 4px 0 20px;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* Dark textos */
+body.dark .info-section h2 {
+  color: #f9fafb;
+}
+body.dark .info-section p {
+  color: #9ca3af;
+}
+
+/* ===== CAMPOS ===== */
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* Dark label */
+body.dark .field label {
+  color: #e5e7eb;
+}
+
+/* input + icono editar */
+.input-edit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-dinamico {
+  flex: 1;
+  padding: 11px 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: #f9fafb;
+  font: inherit;
+  font-size: 0.98rem;
+  color: #0f172a;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+/* readonly */
+.input-dinamico:read-only {
+  background: #f3f4f6;
+  cursor: default;
+}
+
+/* focus / edición */
+.input-dinamico:not([readonly]):focus {
+  outline: none;
+  border-color: var(--cta, #e36842);
+  box-shadow: 0 0 0 1px rgba(227, 104, 66, 0.4);
+  background: #ffffff;
+}
+
+/* Dark inputs */
+body.dark .input-dinamico {
+  background: #020617;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark .input-dinamico:read-only {
+  background: #020617;
+  border-color: #1f2937;
+  opacity: 0.96;
+}
+
+body.dark .input-dinamico:not([readonly]):focus {
+  border-color: var(--cta, #e36842);
+  box-shadow: 0 0 0 1px rgba(227, 104, 66, 0.6);
+}
+
+/* valor estático (email) */
+.valor-estatico {
+  display: inline-block;
+  padding: 10px 0;
+  font-size: 0.96rem;
+  color: #111827;
+}
+
+body.dark .valor-estatico {
+  color: #e5e7eb;
+}
+
+/* botón lápiz */
+.edit-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.edit-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.edit-btn svg path {
+  fill: var(--cta, #e36842);
+}
+
+.edit-btn:hover {
+  background: rgba(148, 163, 184, 0.18);
+  transform: translateY(-1px);
+}
+
+body.dark .edit-btn:hover {
+  background: rgba(31, 41, 55, 0.9);
+}
+
+/* ===== GÉNERO ===== */
+
+.gender-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.gender-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: #f9fafb;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.gender-option span {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* radio */
+.gender-option input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--cta, #e36842);
+}
+
+/* Dark */
+body.dark .gender-option {
+  background: #020617;
+  border-color: #1f2937;
+}
+
+body.dark .gender-option span {
+  color: #e5e7eb;
+}
+
+/* ===== ACCIONES ===== */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* enlace restablecer */
+.boton-restablecer {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cta, #e36842);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s ease, text-decoration 0.15s ease;
+}
+
+.boton-restablecer:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* botón guardar */
+.btn-sec {
+  border: none;
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--cta, #e36842);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 12px 24px rgba(227, 104, 66, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn-sec:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow: 0 18px 38px rgba(227, 104, 66, 0.35);
+}
+
+body.dark .btn-sec {
+  background: var(--cta, #e36842);
+  color: #020617;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+}
+
+/* ==========================================================
+   ALERTAS (showAlert)
+========================================================== */
+
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 4000;
+}
+
+.alert.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alert.success {
+  background: #16a34a;
+}
+
+.alert.error {
+  background: #dc2626;
+}
+
+.alert.hidden {
+  display: none;
+}
+
+.alert.success::before {
+  content: "✔";
+  font-weight: 700;
+}
+
+.alert.error::before {
+  content: "✖";
+  font-weight: 700;
+}
+
+/* ==========================================================
+   CONFIRMACIÓN PERSONALIZADA (showConfirmCustom)
+========================================================== */
+
+.custom-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  backdrop-filter: blur(4px);
+}
+
+.custom-confirm-box {
+  background: #ffffff;
+  padding: 22px 22px 18px;
+  border-radius: 20px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.35);
+}
+
+.custom-confirm-box h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.custom-confirm-box p {
+  margin: 0 0 18px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.confirm-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirm-btn {
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.confirm-no {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.confirm-yes {
+  background: var(--cta, #e36842);
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(227, 104, 66, 0.5);
+}
+
+.confirm-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+/* Dark para confirm */
+body.dark .custom-confirm-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+body.dark .custom-confirm-box {
+  background: #020617;
+  border: 1px solid #1f2937;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.9);
+}
+
+body.dark .custom-confirm-box h3 {
+  color: #f9fafb;
+}
+
+body.dark .custom-confirm-box p {
+  color: #9ca3af;
+}
+
+body.dark .confirm-no {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.dark .confirm-yes {
+  background: var(--cta, #e36842);
+  color: #020617;
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@media (max-width: 960px) {
+  .perfil-card {
+    grid-template-columns: minmax(0, 1fr);
+    text-align: center;
+    padding: 28px 22px 24px;
+  }
+
+  .avatar-section {
+    align-items: center;
+  }
+
+  .info-section {
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding-top: 64px;
+  }
+
+  .perfil-content {
+    padding: 24px 14px 32px;
+  }
+
+  .perfil-card {
+    padding: 24px 18px 22px;
+    border-radius: 18px;
+  }
+
+  .avatar-edit {
+    width: 140px;
+    height: 140px;
+  }
+
+  .info-section h2 {
+    font-size: 1.35rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-sec {
+    width: 100%;
+    justify-content: center;
+  }
+}
